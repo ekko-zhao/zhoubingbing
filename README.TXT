@@ -7,3 +7,7 @@ git remote add origin https://github.com/zhoubbmls/zhoubingbing.git
 
 git config user.name "zhoubbmls"
 git config user.email "zhoubbmls@sina.com"
+
+
+
+:w!强制存盘
