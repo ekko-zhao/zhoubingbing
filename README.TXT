@@ -10,4 +10,8 @@ git config user.email "zhoubbmls@sina.com"
 
 
 
+git pull origin master
+git push -u origin master
+
+
 :w!强制存盘 
