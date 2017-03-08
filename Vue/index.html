@@ -6,66 +6,45 @@
 </head>
 
 <body>
-<div id="app-7">
-  <ol>
-    <todo-item v-for="(item,$index) in groceryList" v-bind:index="$index" v-bind:todo="item" v-bind:title="'asasas'"></todo-item>
-  </ol>
+<div id="app">
+	<div v-if="Math.random() > 0.5">
+          Sorry
+        </div>
+        <div v-else>
+          Not sorry
+        </div>
 </div>
-        
+
 <script src="./js/vue.min.js"></script>
 <script>
-var a = Vue.component('todo-item', {
-  props: ['todo','index'],
-  template: '<li >{{index}}</li>',
- /*data:{
-	name:'zhou'
-	},*/
-  methods:{
-	  reverseMessage: function (e) {
-		  console.log(e)
+	var instance = new Vue({
+		el:'#app',
+		data: {
+		  ok:true,
+		  isActive: true,
+		  error: null
+		},
+		computed: {
+		  classObject: function () {
+			console.log(11)
+			return {
+				
+			  active: this.isActive && !this.error,
+			  'text-danger': this.error && this.error.type === 'fatal',
+			}
+		  },
+		  classObjec2: function () {
+			  console.log(22)
+			  //var a = this.isActive;
+			 
+		 	}
 		}
-	}
-})
-
-var a = Vue.component('todo-items', {
-	props: ['todo','index'],
-  template: '<p >{{todo.text}} ,{{index}}</p>',
-  
-})
-/**/
-
-/*var b =new a();
-b.name = 'dddddddddd';
-console.log(b)*/
-
-
-var app7 = new Vue({
-  el: '#app-7',
-  data: {
-	name:'zhoubingbing',
-    groceryList: [
-      { text: 'Vegetables' },
-      { text: 'Cheeses33' },
-      { text: 'Whatever else humans are supposed to eat' }
-    ],
-	groceryList3: [
-      { text: 'Vegetable222222s' },
-      { text: 'Cheeses33' },
-    ]
-  },
-  methods:{
-	  reverseMessage: function () {
-		  alert(0)
-		}
-	}
-})
-
-/*app7.groceryList=[
-      { text: 'Vegetables' },
-      { text: 'Cheeses33' },
-      { text: 'Whatever else humans are supposed to eat' }
-    ]*/
-
+	})
+	setTimeout(function(){
+		instance.isActive= null;	
+	},2000)
+	
+	
 </script>
 </body>
 </html>
