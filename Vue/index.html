@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue</title>
+</head>
+
+<body>
+<div id="app-7">
+  <ol>
+    <todo-item v-for="(item,$index) in groceryList" v-bind:index="$index" v-bind:todo="item" v-bind:title="'asasas'"></todo-item>
+  </ol>
+</div>
+        
+<script src="./js/vue.min.js"></script>
+<script>
+var a = Vue.component('todo-item', {
+  props: ['todo','index'],
+  template: '<li >{{index}}</li>',
+ /*data:{
+	name:'zhou'
+	},*/
+  methods:{
+	  reverseMessage: function (e) {
+		  console.log(e)
+		}
+	}
+})
+
+var a = Vue.component('todo-items', {
+	props: ['todo','index'],
+  template: '<p >{{todo.text}} ,{{index}}</p>',
+  
+})
+/**/
+
+/*var b =new a();
+b.name = 'dddddddddd';
+console.log(b)*/
+
+
+var app7 = new Vue({
+  el: '#app-7',
+  data: {
+	name:'zhoubingbing',
+    groceryList: [
+      { text: 'Vegetables' },
+      { text: 'Cheeses33' },
+      { text: 'Whatever else humans are supposed to eat' }
+    ],
+	groceryList3: [
+      { text: 'Vegetable222222s' },
+      { text: 'Cheeses33' },
+    ]
+  },
+  methods:{
+	  reverseMessage: function () {
+		  alert(0)
+		}
+	}
+})
+
+/*app7.groceryList=[
+      { text: 'Vegetables' },
+      { text: 'Cheeses33' },
+      { text: 'Whatever else humans are supposed to eat' }
+    ]*/
+
+</script>
+</body>
+</html>
