@@ -3,48 +3,81 @@
 <head>
 <meta charset="utf-8">
 <title>Vue</title>
+<style>
+	
+</style>
 </head>
 
 <body>
+
 <div id="app">
-	<div v-if="Math.random() > 0.5">
-          Sorry
-        </div>
-        <div v-else>
-          Not sorry
-        </div>
+	<p v-text="names"></p>
+	<div v-demo v-bind:a="names"></div>
 </div>
 
+<script src="../../favorite/js/jb51.net/jquery1.9/jquery-1.9.0.min.js"></script>
 <script src="./js/vue.min.js"></script>
+
 <script>
-	var instance = new Vue({
-		el:'#app',
-		data: {
-		  ok:true,
-		  isActive: true,
-		  error: null
-		},
-		computed: {
-		  classObject: function () {
-			console.log(11)
-			return {
+
+
+var vues = new Vue({
+  el: '#app',
+  //template:'<div class="app"><input v-model.trim="name" v-model:value="name" v-on:input=""></div>',
+  data: {
+	   name:'222333',
+  },
+  computed: {
+  	 names:function(){
+		 console.log(this)
+		 return this.name + 'ass';
+	  }
+  },
+  methods:{
+	
+  },
+  watch:{
+	  
+  },
+	directives:{
+		demo:{
+			
+			params:['a'],
+			paramsWatchers:{
+				a:function(){
+					alert(1)	
+				}
+			},
+			bind:function(){
 				
-			  active: this.isActive && !this.error,
-			  'text-danger': this.error && this.error.type === 'fatal',
-			}
-		  },
-		  classObjec2: function () {
-			  console.log(22)
-			  //var a = this.isActive;
-			 
-		 	}
+				console.log(this)	
+			}	
 		}
-	})
-	setTimeout(function(){
-		instance.isActive= null;	
-	},2000)
-	
-	
+		
+	}
+  	
+  //render (h) { return h(this.ViewComponent) }
+})
+
+
+
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>
