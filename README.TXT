@@ -15,3 +15,6 @@ git push -u origin master
 
 
 :w!强制存盘 
+
+[credential] helper = store
+git config --global credential.helper store
