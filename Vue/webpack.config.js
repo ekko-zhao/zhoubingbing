@@ -35,14 +35,14 @@ module.exports = {
         /*new CommonsChunkPlugin("./src/build/js/admin-commons.js", ["./src/assets/js/ap1", "./src/assets/js/ap2"]),*/
         //new CommonsChunkPlugin("commons.js", ["p1", "p2", "admin-commons.js"]),
 		
-		new webpack.optimize.UglifyJsPlugin({
+		/*new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false,
             },
             output: {
                 comments: false,
             }
-        }),
+        }),*/
 		
     ],
 	//entry: '',
@@ -109,7 +109,8 @@ module.exports = {
 	
 	resolve: {
 		alias: {
-            'vue': 'vue/dist/vue.js'
+            'vue': 'vue/dist/vue.min.js',
+			'vueRouter' :'vue-router/dist/vue-router.min.js'
         }
 	}
 	
