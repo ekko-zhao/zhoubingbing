@@ -2,9 +2,11 @@
 
 import Vue from 'vue';
 import VueRouter from 'vueRouter';
+import vueResource from 'vueResource';
 //import jquery from 'jquery';
 var parent = require('../components/parent.vue');
 Vue.use(VueRouter);
+Vue.use(vueResource);
 
 var app = document.createElement('div');
 app.id = "app";
@@ -57,6 +59,7 @@ const routes = [{
 	//router.push({ name: 'user', params: { userId: 123 }})
 	//router.go(n)
 	//router.replace(...)
+
 
 const router = new VueRouter({
 	routes: routes,
@@ -152,7 +155,7 @@ var vm = new Vue({
 
 	})
 	//vm.$mount('#app')
-
+ 	
 /*
 	<input v-on:keyup.enter="submit">
 	
@@ -161,3 +164,50 @@ var vm = new Vue({
 
 
 */
+
+//console.log(vm.$resource)
+/*
+	var res = this.$resource('url/{/id}');
+	res.get({}).then();
+	res.save({},data).then()
+*/
+
+
+//window.Vue = Vue;
+
+Vue.http.interceptors.push( (request, next) => {
+	console.log(request);
+	//next();
+	/*next(function(response){
+		console.log(response)
+		//response.body = {name:'zhangsan'}
+	})*/
+	
+	//不发送后台 直接返回
+	/*next(request.respondWith({name:'zhoubb'},{
+		status:403,
+		statusText:''
+	}
+	));*/
+	
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

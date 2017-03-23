@@ -12,7 +12,7 @@ module.exports = {
 	 plugins: [
 		// Extract to styles.css file
 		//extractCSS,
-		/*new HtmlWebpackPlugin({
+		new HtmlWebpackPlugin({
 		  title: 'Vue test',
 		  //hash: true, // css js path?[hash]
 		  //filename: '/index.html',
@@ -22,7 +22,7 @@ module.exports = {
 		  //minify: {...} | false Pass a html-minifier options object to minify the output.
 		  //cache
 		  //chunks:['main','user','common.js']   // 这个模板对应上面那个节点
-		}),*/
+		}),
 		
 		/*new webpack.DefinePlugin({
 			'process.env.NODE.ENV':"development"
@@ -110,7 +110,8 @@ module.exports = {
 	resolve: {
 		alias: {
             'vue': 'vue/dist/vue.min.js',
-			'vueRouter' :'vue-router/dist/vue-router.min.js'
+			'vueRouter' :'vue-router/dist/vue-router.min.js',
+			'vueResource' :'vue-resource/dist/vue-resource.min.js'
         }
 	}
 	
