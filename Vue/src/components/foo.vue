@@ -8,6 +8,9 @@
 	
 </template>
 
+<style>
+	p{ color:yellow}
+</style>
 
 <script>
 	module.exports={
