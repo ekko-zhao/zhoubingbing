@@ -4,7 +4,6 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import VueRouter from 'vueRouter';
 import vueResource from 'vueResource';
-
 //import jquery from 'jquery';
 var parent = require('../components/parent.vue');
 Vue.use(Vuex);
@@ -195,19 +194,11 @@ Vue.http.interceptors.push( (request, next) => {
 	
 })
 
-import store from './stroe.js';
-import App from './../components/App.vue';
-//var App = require('./../components/App.vue');
 
 var vm = new Vue({
-	store: store,
-	el: '#app',
-	//template:'<p>asdas</p>'
-	template: '<my-component/>',
-	components:{ 
-		'my-component': App
-	},
+		
 })
+
 
 
 

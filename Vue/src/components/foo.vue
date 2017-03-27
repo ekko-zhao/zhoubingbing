@@ -8,7 +8,7 @@
 	
 </template>
 
-<style>
+<style scoped>
 	p{ color:yellow}
 </style>
 
