@@ -1,0 +1,50 @@
+
+
+zhoubingbing
+zhoubbmls@sina.com
+zhoubbmls
+
+https://www.npmjs.com/~zhoubbmls
+
+
+commonjs规范
+在编译过程中，Node对获取的JavaScript文件 进行头尾包装。{\n js文本 \n};
+(functin(require, exports, nmodule, __filename, __firname){
+	exports.add = { }
+})
+
+
+AMD -----------------------------------------
+define(id?, dependencies?, factory)
+
+define(id?, [ 'dep1', 'dep2' ], function( dep1, dep2 ){
+	return obj;
+})
+
+
+CMD -----------------------------------------
+define(function(require, exports, module){
+	//do something
+})
+
+
+
+核心模块-将那些油纯C/C++编写的部分统一统称为内建模块 buffer crypto evals fs os 等
+
+本地安装包 指定packjson.json文件夹
+npm install <tarball file>
+npm install <tarball rul>
+npm install <folder>
+
+从非官方安装
+npm install underscore --registory="http://registory.url"
+
+指定默认源
+npm config set registory http://registory.url
+
+npm config set registry http://registry.npmjs.org
+
+
+
+
+
