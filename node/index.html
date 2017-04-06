@@ -7,10 +7,13 @@
 
 <body>
 <script>
-	var a = (function(){
-		alert(1)	
+	var points = [40, 100, 1, 5, 25, 10]
+	
+	var a = points.sort(function(a,b){
+		return a-b;
 	});
-	a()
+	console.log(a) 
+	
 </script>
 </body>
 </html>

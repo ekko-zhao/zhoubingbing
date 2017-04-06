@@ -40,9 +40,17 @@ npm install <folder>
 npm install underscore --registory="http://registory.url"
 
 指定默认源
-npm config set registory http://registory.url
 
 npm config set registry http://registry.npmjs.org
+
+
+setTimeout() 和 setInterver() 与浏览器API是一致的
+ 
+process.nextTick(); 执行优先 setImmediate(); 
+
+setImmediate(); 进入下一轮循环
+
+
 
 
 
