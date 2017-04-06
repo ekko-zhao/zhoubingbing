@@ -51,6 +51,47 @@ process.nextTick(); 执行优先 setImmediate();
 setImmediate(); 进入下一轮循环
 
 
+events -------------------------------------------------
+
+var events = require('events');
+var emitter = new events.EventEmitter();
+
+emitter.on('newListener',function(eventname, listener){ }); 当添加新的监听器时，'newListener' 事件会触发
+emitter.on('removeListener',function(eventname, listener){ }); 当监听器被移除时,'removeListener' 事件被触发
+
+emitter.emit('error');
+
+emitter.on('some_event',function(){})
+emitter.addListener(event, listener) 为指定事件添加一个监听器到监听器数组的尾部
+emitter.emit('some_event');
+
+emitter.setMaxListener(n); 设置n上限， 0则取消限制
+
+once(event, listener)
+removeListener(event, listener)
+removeAllListeners([event])
+listeners(event) 返回指定事件的监听器数组。
+
+require('events').EventEmitter.listenerCount(emitter,event)
+
+emit(event, [arg1], [arg2], [...])
+
+
+EventProxy -------------------------------------------------
+var eventproxy = require('EventProxy');
+
+var proxy = new eventproxy.EventProxy();
+
+proxy.all('tempate', 'data', 'resources', function(tempate, data, resources){ })
+proxy.tail('tempate', 'data', 'resources', function(tempate, data, resources){ }) //只能执行一次 
+proxy.emit('tempate');
+
+proxy.after('data', 10, function(){ }) //执行10次 data 后会执行侦听器
+
+
+
+
+
 
 
 

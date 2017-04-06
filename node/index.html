@@ -7,12 +7,12 @@
 
 <body>
 <script>
-	var points = [40, 100, 1, 5, 25, 10]
-	
-	var a = points.sort(function(a,b){
-		return a-b;
-	});
-	console.log(a) 
+	var a = JSON.parse('{"p": 5,"sp": 5}', function(k, v) {
+		if (k === '') { return v; };
+		console.log(v);
+		return v * 2;               
+	});  
+	console.log(a)
 	
 </script>
 </body>
