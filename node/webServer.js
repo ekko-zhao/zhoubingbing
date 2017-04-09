@@ -34,14 +34,25 @@ var events = require('events');
 var connect = require('connect');
 
 var step = require('step');
+
 step(
-	function readFile1(){
-		fs.readFile('./src/txt/file1.txt','utf8', this.parallel());	
-		fs.readFile('./src/txt/file2.txt','utf8', this.parallel());
+	function readDir(){
+		fs.readdir(__dirname+"\\src\\txt",this);
 	},
-	function done(err, content1, content2){
-		console.log(content1)
-		console.log(content2)
+	function readFile1(err,results){
+		if (err) throw err;
+		var group = this.group();
+		results.forEach(function(filename){
+			
+			if(/\.txt$/.test(filename)){
+				console.log(__dirname+"\\src\\txt"+"\\"+filename)
+				fs.readFile(__dirname+"\\src\\txt"+"\\"+filename, group())
+			}
+		})
+	},
+	function showAll(err, files){
+		if (err) throw err;
+		console.log(files)
 	}
 )
 
