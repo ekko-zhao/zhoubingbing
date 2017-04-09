@@ -14,7 +14,7 @@ commonjs规范
 })
 
 
-AMD -----------------------------------------
+AMD -----------------------------------------------------------------------
 define(id?, dependencies?, factory)
 
 define(id?, [ 'dep1', 'dep2' ], function( dep1, dep2 ){
@@ -22,7 +22,7 @@ define(id?, [ 'dep1', 'dep2' ], function( dep1, dep2 ){
 })
 
 
-CMD -----------------------------------------
+CMD -----------------------------------------------------------------------
 define(function(require, exports, module){
 	//do something
 })
@@ -51,7 +51,7 @@ process.nextTick(); 执行优先 setImmediate();
 setImmediate(); 进入下一轮循环
 
 
-events -------------------------------------------------
+events ----------------------------------------------------------------
 
 var events = require('events');
 var emitter = new events.EventEmitter();
@@ -77,17 +77,187 @@ require('events').EventEmitter.listenerCount(emitter,event)
 emit(event, [arg1], [arg2], [...])
 
 
-EventProxy -------------------------------------------------
+EventProxy ----------------------------------------------------------------
 var eventproxy = require('EventProxy');
 
 var proxy = new eventproxy.EventProxy();
 
 proxy.all('tempate', 'data', 'resources', function(tempate, data, resources){ })
-proxy.tail('tempate', 'data', 'resources', function(tempate, data, resources){ }) //只能执行一次 
+proxy.tail('tempate', 'data', 'resources', function(tempate, data, resources){ }) //只能执行一次
 proxy.emit('tempate');
 
 proxy.after('data', 10, function(){ }) //执行10次 data 后会执行侦听器
 
+//处理异常
+exports.getContent = function (callback) {
+	var ep = new EventProxy();
+	ep.all('tempate', 'data', 'resources', function(tempate, data, resources){ })
+	ep.fail(callback);
+	fs.readFile('template.tpl', 'utf-8', ep.done('tempate'));
+	db.get('some sql', ep.done('data'));
+}
+
+
+fs ------------------------------------------------------------------------
+fs.readFile('./path', 'utf8', function(err, content){
+	if(err){
+		return;
+	}
+	//do something
+})
+
+Q -------------------------------------------------------------------------
+var Q = require('q');
+
+var readFile = function (file, encoding) {
+	var deferred = Q.defer();
+	fs.readFile(file, encoding, deferred.makeNodeResolver());
+	return deferred.promise;
+};
+
+readFile("foo.txt", "utf-8").then(function (data) {
+	// Success case
+}, function (err) {
+	// Failed case
+});
+
+var promise1 = readFile("file1","utf8")
+var promise2 = readFile("file2","utf8")
+
+Q.defer.prototype.all = function(promises){
+	var count = promises.length;
+	var that = this;
+	var results = [];
+	promises.forEach(function(promise,i){
+		promise.then(function(data){
+			count --;
+			results[i] = data;
+			
+			if(count === 0 ){
+				that.resolve(results)
+			}
+			
+		},function(err){
+			that.reject(err)
+		})
+	})
+	return this.promise;
+}
+var deferred = Q.defer();
+deferred.all([promise1，promise2]).then(functin(results){
+
+},functin(err){
+
+}) 
+
+memeda ---------------------------------------------------------------------
+
+var failing = require('memeda').failing;
+fs.readFile('./notebook.txt', 'utf8', failing(function(err){
+	console.log(err);
+}).passing(function(content){
+	console.log(content);
+}) )
+
+
+Connect ---------------------------------------------------------------------
+var connect = require('connect');
+var app = connect();
+
+async ---------------------------------------------------------------------
+var async = require('async');
+
+//异步串行
+async.series([
+	function(callback){
+		fs.readFile('./src/txt/file1.txt','utf8',callback)
+	},
+	function(callback){
+		fs.readFile('./src/txt/file2.txt','utf8',callback)
+	}
+],function(err, results){
+	console.log(results)
+})
+
+//异步串行 无依赖
+async.series([
+	function(callback){
+		fs.readFile('./src/txt/file1.txt','utf8',callback)
+	},
+	function(callback){
+	
+		fs.readFile('./src/txt/file2.txt','utf8',callback)
+	}
+],function(err, results){
+	console.log(results)
+})
+//异步并行
+async.series
+
+
+//异步串行 依赖
+async.waterfall([
+	function(callback){
+		fs.readFile('./src/txt/file1.txt','utf8',function(err,content){
+			callback(err,content)
+		})
+	},
+	function(arg1, callback){
+		fs.readFile('./src/txt/file2.txt','utf8',function(err,content){
+			callback(err,content)	
+		})
+	}
+],function(err, results){
+	console.log(results)
+})
+
+//异步串行 自动处理依赖
+var deps = {
+	readFile2: ['readFile1', function(obj, callback){
+		callback(null,{name:'zhoubingbing'});
+	}],
+	readFile1: function(callback){
+		var that = this;
+		fs.readFile('./src/txt/file1.txt','utf8',function(err,content){
+			return callback(err,content);
+		})
+		
+	},
+	startup:['readFile1','readFile2',function(file1){
+		console.log(file1) -> {
+			readFile1: content,
+			readFile2: {name:'zhoubingbing'}
+		}
+	}]
+}
+async.auto(deps)
+
+
+step ---------------------------------------------------------------------
+
+var step = require('step');
+//异步串行 依赖
+step(
+	function readFile1(){
+		fs.readFile('./src/txt/file1.txt','utf8',this);	
+	},
+	function readFile2(err, content){
+		fs.readFile('./src/txt/file2.txt','utf8',this);	
+	},
+	function done(err, content){
+		console.log(content)
+	}
+)
+
+step(
+	function readFile1(){
+		fs.readFile('./src/txt/file1.txt','utf8', this.parallel());	
+		fs.readFile('./src/txt/file2.txt','utf8', this.parallel());
+	},
+	function done(err, content1, content2){
+		
+	}
+)
 
 
 
@@ -97,3 +267,8 @@ proxy.after('data', 10, function(){ }) //执行10次 data 后会执行侦听器
 
 
 
+
+
+
+
+ 

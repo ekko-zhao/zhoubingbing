@@ -26,16 +26,32 @@ var http = require('http');
 }).listen(7070);
 console.log('服务已启动!')*/
 
-var EventProxy = require('EventProxy');
 
-var proxy = new EventProxy.EventProxy();
+var Q = require('q');
+var fs = require('fs');
+var eq = require('EventProxy');
+var events = require('events');
+var connect = require('connect');
 
-/*proxy.all('a','b',function(){
-	console.log('ab')	
-})*/
+var step = require('step');
+step(
+	function readFile1(){
+		fs.readFile('./src/txt/file1.txt','utf8', this.parallel());	
+		fs.readFile('./src/txt/file2.txt','utf8', this.parallel());
+	},
+	function done(err, content1, content2){
+		console.log(content1)
+		console.log(content2)
+	}
+)
 
 
-console.log(EventProxy)	
+	
+
+
+
+
+
 
 
 
