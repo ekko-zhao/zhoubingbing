@@ -6,6 +6,19 @@ var webpack = require('webpack');
 var ETP = require("extract-text-webpack-plugin");
 var extractCSS = new ETP('./build/css/style/style.css');
 
+//npm install autoprefixer --save-dev
+/*a {
+    display: flex;
+}*/
+/*compiles to:*/
+/*a {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex
+}*/
+
+
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -15,7 +28,7 @@ module.exports = {
 		new HtmlWebpackPlugin({
 		  title: 'My App',
 		  //hash: true, // css js path?[hash]
-		  //filename: 'build/index.html',
+		  filename: 'index.html',
 		  //template:__dirname+'/src/tpl/login.html',
 		  //inject: true | 'head' | 'body' |false ,//当传递true或“body”时，所有javascript资源将放置在body元素的底部。 'head'将脚本放置在head元素中
 		  //favicon: path,
@@ -35,14 +48,14 @@ module.exports = {
         /*new CommonsChunkPlugin("./src/build/js/admin-commons.js", ["./src/assets/js/ap1", "./src/assets/js/ap2"]),*/
         //new CommonsChunkPlugin("commons.js", ["p1", "p2", "admin-commons.js"]),
 		
-		/*new webpack.optimize.UglifyJsPlugin({
+		new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false,
             },
             output: {
                 comments: false,
             }
-        }),*/
+        })
 		
     ],
 	//entry: '',
@@ -62,8 +75,8 @@ module.exports = {
 	entry:['./src/js/entry.js'],
 	output: {
 		path: __dirname,
-		filename: 'build/js/bundle.js',
-		publicPath: "./"
+		filename: './build/js/bundle.js',
+		//publicPath: "./"
 	},
 	//“path”仅仅告诉Webpack结果存储在哪里，然而“publicPath”项则被许多Webpack的插件用于在生产模式下更新内嵌到css、html文件里的url值。
  	devServer: {
@@ -87,7 +100,6 @@ module.exports = {
 			exclude：字符串或者数组，指排除的文件夹
 			"-loader"其实是可以省略不写的，多个loader之间用“!”连接起来
 			*/
-		
 		
 			{ test: /\.css$/, loader: extractCSS.extract( { fallback: 'style-loader', use: 'css-loader' } ) },
 			{ test: /\.less$/, loader: extractCSS.extract( { fallback: 'style-loader', use: 'css-loader!less-loader' } ) },
