@@ -248,7 +248,7 @@ step(
 		console.log(content)
 	}
 )
-
+//异步并行
 step(
 	function readFile1(){
 		fs.readFile('./src/txt/file1.txt','utf8', this.parallel());	
@@ -265,11 +265,11 @@ step(
 	},
 	function readFile1(err,results){
 		if (err) throw err;
-		var group = this.group();
+		var group = this.group(); //并行
 		results.forEach(function(filename){
 			
 			if(/\.txt$/.test(filename)){
-				fs.readFile(__dirname+"\\"+filename, group())
+				fs.readFile(__dirname+"\\"+filename, group()) //生成回调函数
 			}
 		})
 	},
