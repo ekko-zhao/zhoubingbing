@@ -1,11 +1,14 @@
 // 启用 --strictNullChecks
-function add(value) {
-    switch (typeof value) {
-        case "string":
-            return "my name is " + value + "."; //这里的(`)是键盘esc键下面的那个（`）并非单引号
-        case "number":
-            return "my age is " + value + ".";
-        case "boolean":
-            return "i am " + value;
+var Car = (function () {
+    //engine: string;
+    function Car(engine) {
+        //this.engine = engine;
     }
-}
+    Car.prototype.drive = function (distanceInMeters) {
+        if (distanceInMeters === void 0) { distanceInMeters = 0; }
+        console.log("A car run " + distanceInMeters + "m power by " + this.engine);
+    };
+    return Car;
+}());
+/*var Acar  = new Car('beichi');
+console.log(Acar);*/ 
