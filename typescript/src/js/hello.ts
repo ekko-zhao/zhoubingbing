@@ -11,5 +11,4 @@ class Car{
 	}
 }
 
-/*var Acar  = new Car('beichi');
-console.log(Acar);*/
+export default Car ;
