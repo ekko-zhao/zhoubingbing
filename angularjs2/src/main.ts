@@ -6,5 +6,3 @@ import { AppModule } from './app.module';
 
 platformBrowserDynamic().bootstrapModule(AppModule)
 	.catch( err => console.log(err) )
-
-//console.log('start111')

@@ -8,6 +8,14 @@ module.exports = {
 			filename: "index.html",
 			template: __dirname + "/src/tpl/index.html"
 		}),
+		new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false,
+            },
+            output: {
+                comments: false,
+            }
+        })
 	],
 	entry: ['./src/main.ts'],
 	output: {
