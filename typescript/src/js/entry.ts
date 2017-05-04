@@ -1,11 +1,6 @@
 
 //import * as c from'./hello.ts';
 
-
-
-
-
-
 @Component({
 	seletor: 'person',
 	template: 'person.html'

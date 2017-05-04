@@ -109,11 +109,11 @@ module.exports = { 
 
 
 			//babal-loader使用”presets“配置项来标识如何将ES6语法转成ES5以及如何转换React的JSX成js文件。 //.babelrc file
-			{
+			/*{
 				test: /\.jsx?$/,
 				exclude: /(node_modules|bower_components)/,
 				loader: 'babel-loader'
-			}
+			}*/
 			/*
 				query: {  presets: ['react', 'es2015']  } //或者添加 query 
 			*/
