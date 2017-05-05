@@ -1,21 +1,26 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
+// 获取所有的.css文件，合并它们的内容然后提取css内容到一个独立的”styles.css“里
+var ETP = require("extract-text-webpack-plugin");
+var extractCSS = new ETP('./build/css/style.css?v=[chunkhash:8]');
+
 module.exports = {
 	plugins: [
+		extractCSS,
 		new HtmlWebpackPlugin({
 			title: "angular2",
 			filename: "index.html",
 			template: __dirname + "/src/tpl/index.html"
 		}),
-		new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false,
-            },
-            output: {
-                comments: false,
-            }
-        })
+		/*new webpack.optimize.UglifyJsPlugin({
+			compress: {
+				warnings: false,
+			},
+			output: {
+				comments: false,
+			}
+		})*/
 	],
 	entry: ['./src/main.ts'],
 	output: {
@@ -29,9 +34,24 @@ module.exports = {
 	},
 	module: {
 		loaders: [{
+			test: /\.css$/,
+			loader: extractCSS.extract({
+				fallback: 'style-loader',
+				use: 'css-loader'
+			})
+		}, {
+			test: /\.less$/,
+			loader: extractCSS.extract({
+				fallback: 'style-loader',
+				use: 'css-loader!less-loader'
+			})
+		}, {
 			test: /\.tsx?$/,
 			loader: 'ts-loader',
 			exclude: '/node_modules/'
+		}, {
+			test: /\.html$/,
+			loader: 'html-loader'
 		}]
 	},
 	resolve: {

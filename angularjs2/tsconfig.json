@@ -9,6 +9,10 @@
 		"removeComments": false,
 		"noImplicitAny": true,
 		"suppressImplicitAnyIndexErrors": true,
+		"types": [
+			"node",
+			"core-js"
+		],
 		"typeRoots": [
 			"./node_modules/@types"
 		]
@@ -16,6 +20,7 @@
 	"compileOnSave": true,
 	"exclude": [
 		"node_modules"
-	]
+	],
+	"watch": true
 	
 }

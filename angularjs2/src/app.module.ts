@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
+import { ContactItem } from './component/contactItem.component';
 
 @NgModule({
-	declarations: [AppComponent],
+	declarations: [ContactItem],
 	imports: [BrowserModule],
-	bootstrap: [AppComponent]
+	bootstrap: [ContactItem]
 })
 export class AppModule{
 	
