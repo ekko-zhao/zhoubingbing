@@ -16,7 +16,7 @@ require('../css/style.less')
 			p:last-child{color:#000;}
 		`
 	],
-	styleUrls: [ 'src/css/style.less' ]
+	//styleUrls: [ 'src/css/style.less' ]
 	
 })
 export class ContactItem{

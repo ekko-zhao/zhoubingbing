@@ -10,8 +10,8 @@
 		"noImplicitAny": true,
 		"suppressImplicitAnyIndexErrors": true,
 		"types": [
-			"node",
-			"core-js"
+			"core-js",
+			"node"
 		],
 		"typeRoots": [
 			"./node_modules/@types"
