@@ -14,6 +14,10 @@ git pull origin master
 git push -u origin master
 
 
+npm config set registry https://registry.npm.taobao.org 
+npm config set registry https://registry.npmjs.org
+
+
 :w!强制存盘 
 
 [credential] helper = store

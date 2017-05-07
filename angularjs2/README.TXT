@@ -24,6 +24,8 @@ import { Component } from '@angular/core';
 
 (click)="fn()"  *ngIf=""
 
+<input type="text"  [value]="name" (input)="name=$event.target.value" />
+
 
 
 

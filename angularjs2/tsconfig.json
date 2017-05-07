@@ -9,6 +9,10 @@
 		"removeComments": false,
 		"noImplicitAny": true,
 		"suppressImplicitAnyIndexErrors": true,
+		"lib": [
+		  "es6",
+		  "dom"
+		],
 		"types": [
 			"core-js",
 			"node"
@@ -20,7 +24,6 @@
 	"compileOnSave": true,
 	"exclude": [
 		"node_modules"
-	],
-	"watch": true
+	]
 	
 }
