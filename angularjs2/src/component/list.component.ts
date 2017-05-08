@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+//import { ListComponent } from './component/item.component';
+import { ListItemComponent } from './item.component';
 
 @Component({
 	selector: 'list',
@@ -6,7 +8,7 @@ import { Component } from '@angular/core';
 		<p (click)="editContact()">click-change</p>
 		<ul>
 			<li *ngFor="let contact of contacts">
-				<list-item [contact]="contact" (click)="collect.listen()" #collect></list-item>
+				<list-item [contact]="contact" (click)="listen()" ></list-item>
 			</li>
 		</ul>
 	`,
@@ -22,5 +24,10 @@ export class ListComponent {
 		this.contacts[0] = {"name":"zhou","telNum":"13212121212"}
 	}
 	
+	@ViewChild(ListItemComponent) listItemComponent :ListItemComponent;
 	
+	listen(){
+		this.listItemComponent.listen();
+		//this.listItemComponent.contact.name="test"
+	}
 }

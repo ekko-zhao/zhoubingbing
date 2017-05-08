@@ -35,19 +35,10 @@ export class ListItemComponent implements OnInit{
 	}
 	@Input() contact:any = {}
 	
-	changes:string[] = [];
-	ngOnChanges( changes:{ [proKey:string]: SimpleChanges } ){
-		let log: string[] = [];
-		
-		for(let proName in changes){
-			let changeProp = changes[proName];
-			console.log (changeProp.previousValue);
-			console.log (changeProp.currentValue);
-		}
-		
-	}
 	listen(){
-		console.log(this.name);
+		//this.contact.name = 'test';
+		console.log(this)
+		//console.log(this.name);
 	}
 
 }
