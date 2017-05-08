@@ -1,11 +1,17 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ContactItem } from './component/contactItem.component';
+import { AppComponent } from './component/app.component';
+import { HeaderComponent } from './component/header.component';
+import { ListComponent } from './component/list.component';
+//import { ContactModule } from './module/contact.module';
+import { FooterComponent } from './component/footer.component';
+
+import { ListItemComponent } from './component/item.component';
 
 @NgModule({
-	declarations: [ContactItem],
+	declarations: [AppComponent, HeaderComponent, ListComponent, ListItemComponent, FooterComponent],
 	imports: [BrowserModule],
-	bootstrap: [ContactItem]
+	bootstrap: [AppComponent]
 })
 export class AppModule{
 	

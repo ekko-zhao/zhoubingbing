@@ -1,34 +1,25 @@
 import { Component } from '@angular/core';
-//declare var require: any
-require('../css/style.less')
-//let styles = require('../css/style.less')
 
 @Component({
 	selector: 'contact-item',
 	template: `
-		<form name="forms">
-			<div>
-				<input type="text" (ngModel)="name" (ngModelChange)="name=$event.target.value" />
-				<p (click)="ck()">{{name}}</p>
-				<p>{{mobile}}</p>
-			</div>
-		</form>
+		<ul>
+			<li>
+				<p (click)=setName() >{{name}}</p>
+				<p>13820000000</p>
+			</li>
+		</ul>
 	`,
-	//styles: [ require('../css/style.less') ]
-	/*styles:[
-		`
-			p{color:blue}
-			p:last-child{color:#000;}
-		`
-	],*/
-	//styles: [ require('../css/style.css') ]
-	
+	styles: [
+		`ul{ margin:30px 0; list-style:none}`,
+		`li{margin-bottom:10px; border-bottom:1px #999 solid}`
+		
+	]
 })
-export class ContactItem{
-	name: string = "lisi";
-	mobile: string = '13820000000'
-	ck(){
-		//alert(1);
-		//console.log(require)
+export class ContactItemComponent{
+	name: string= 'lisi';
+	setName(){
+		this.name = 'bingbing';
 	}
+		
 }
