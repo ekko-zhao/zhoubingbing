@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, SimpleChanges, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, SimpleChanges, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 
 //var emitter = new events.EventEmitter();
@@ -25,22 +25,26 @@ export class ListItemComponent implements OnInit{
 		<div>
 			<label>{{contact.name}}</label>
 			<span>{{contact.telNum}}</span>
+			<ng-content select=".ngcontent"></ng-content>
 		</div>
-	`
+	`,
+	changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ListItemComponent implements OnInit{
-	name: string = 'bingbing'
+	name: string = 'bingbing';
 	ngOnInit(){
-		//console.log( JSON.stringify(this.contact) );
+		console.log( 'ngOnInit' );
 	}
 	@Input() contact:any = {}
 	
 	listen(){
-		//this.contact.name = 'test';
-		console.log(this)
+		this.name = 'test';
+		//console.log(this)
 		//console.log(this.name);
 	}
-
+	ngOnChanges( changes:{ [proKey:string]: SimpleChanges } ){
+		console.log('ngOnChanges')
+	}
 }
 
 

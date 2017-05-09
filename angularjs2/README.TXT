@@ -1,3 +1,6 @@
+TypeScript 2.x-----------------------
+npm install @types/node --save-dev
+
 
 //启动根模块--------------------------------------------------------------------
 import { NgModule } from '@angular/core';
@@ -31,7 +34,7 @@ import { ContactItemComponent } from '../component/contactItem.component';
 export class ContactModule{}
 
 
-//组件-------------------------------------------------------------------------
+//组件-------------------------------------------------------------------------------------------------------------
 import { Component } from '@angular/core';
 @Component({
 	selector: 'contact-item',
@@ -44,13 +47,6 @@ import { Component } from '@angular/core';
 
 
 组件的所有子组件均默认继承父组件的注入器对象
-
- *ngFor="let item of items"
-
-(click)="fn()"  *ngIf=""
-<input type="text"  [value]="name" (input)="name=$event.target.value" />
-
-
 
 组件传递数据
 parent-component
@@ -166,8 +162,220 @@ export class ListItemComponent{
 
 
 
+ngOnInit
+ngOnChanges
+ngDoCheck
+ngAfterContentInit
+ngAfterContentChecked
+ngAfterViewInit
+ngAfterViewChecked
 
 
 
-TypeScript 2.x-----------------------
-npm install @types/node --save-dev
+//变化监测类---------------
+constructor(private cd:ChangeDetectorRef){
+	cd.detach();//断开
+	cd.reatdach();//链接
+	cd.detachChanges();//手动监测
+}
+
+
+//queries 视图查询----------------------------
+<input #theInput type="text">
+
+@ViewChild('theInput') input :ElementRef
+constructor(private renderer: Renderer){}
+ngAfterViewInit(){
+	this.renderer.invokeElementMethod(this.input.nativeElement, 'focus')
+}
+or
+<input #theInput type="text">
+queries: {
+	input:new ViewChild('theInput')
+}
+input :ElementRef = null;
+constructor(private renderer: Renderer){}
+ngAfterViewInit(){
+	this.renderer.invokeElementMethod(this.input.nativeElement, 'focus')
+}
+
+ng-content 内容查询----------------------------
+
+<my-list>
+	<li *ngFor="#item of items">{{item}}</li>
+<my-list>
+
+@Directive({
+	selector:'li'
+})
+export class ListItem{}
+
+@Component({
+	selector:'my-list',
+	template:`
+		<ul>
+			<ng-content></ng-content>
+		</ul>
+	`
+})
+export class MyListComponent implements AfterContentInit(){
+	@ContentChildren(ListItem) items: QueryList<ListItem>;
+	ngAfterContentInit()}{
+		//do something...
+	}
+}
+or
+queries: {
+	input:new ContentChildren(ListItem)
+}
+items: QueryList<ListItem>
+
+
+
+//元数据
+@Component({
+	queries
+	encapsulation: ViewEncapsulation.None // ViewEncapsulation.Native // ViewEncapsulation.Emulated
+})
+
+
+//模板-------------------------------------------------------------------------------------------------------------
+
+[title]="title"
+[attr.colspan]="{{1+2}}"
+
+
+
+[class.className]="isBoolean"
+
+[style.style-property]="isBoolean? : "
+[style.font-size.px]="isBoolean? 30 : 18 "
+
+事件绑定()
+(click)="fn()"
+
+//表单双向绑定
+<input type="text" [value]="name" (input)="name=$event.target.value" />
+<input type="text" name="username" [(ngModel)]="user.name" (ngModelChange)="user.name=$event" >
+
+<input type="text" [(ngModel)]="name" [ngModelOptions]="{standalone:true}">//没有name属性
+<input type="text" name="name" [(ngModel)]="name">
+
+import { FormsModule } from '@angular/forms';
+@NgModule({
+	declarations: [],
+	imports: [FormsModule],
+	bootstrap: []
+})
+export class AppModule{ }
+
+
+[ngClass]="fn()" \ ="{class:isBoolean}"
+[ngStyle]
+<ul [ngSwitch]="property">
+	<li *ngSwitchCase=""></li>
+	<li *ngSwitchCase=""></li>
+	<li *ngSwitchDefault></li>
+</ul>
+
+//单选框----------------
+<input type="radio" name="six" [(ngModel)]="property" value="female">
+<input type="radio" name="six" [(ngModel)]="property" value="male">
+
+//单选框----------------
+<input type="checkbox" name="six" [(ngModel)]="property">
+property:true\false
+
+//单选下拉框----------------
+interests:any[] =[
+	{value:'', text:''},
+	{value:'', text:''}
+]
+
+<select name="interestValue" [(ngModel)]="">
+	<option *ngFor="let interest of interests" value="interest.value or interest">{{ interest.text }}</option>
+</select>
+
+多选时 select 的值为 数组
+
+//DOM 元素局部变量----------------
+<input type="text" name="thinput" #thinput [(ngModel)]="thinput2">
+<p>{{thinput.value}}</p>
+
+thinput2:string = '111'
+
+//NgForm 表单局部变量----------------
+<form #editform="ngForm"></form>
+追踪表单的验证状态 editform.valid
+
+@ViewChild('editform') editform :ElementRef
+console.log( this.editform )
+editform.value 为表单对象的值
+
+//NgModule 控件局部变量----------------
+<input type="text" name="thinput" [(ngModel)]="" #thinput="ngModel">
+追踪input的验证状态 thinput.valid
+
+
+表单状态-------------
+pristine
+dirty
+valid
+invalid
+touched
+untouched
+
+
+//指令-------------------------------------------------------------------------------------------------------------
+<li *ngFor="let item of items; let i = index;"></li>
+<li *ngFor="let item of items; trackBy: trackByfn"></li>
+trackByfn(){
+	return contact.id;
+}
+
+*ngIf=""
+
+
+
+UNMET PEER
+
+DEPENDENCY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
