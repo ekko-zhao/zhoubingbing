@@ -127,13 +127,13 @@ export class ListItemComponent implements OnInit{
 parent-component
 <list-item (click)="collect.listen()" #collect></list-item>
 
-child-component
-export class ListItemComponent{
-	name:string = 'lisi'
-	listen(){
-		console.log(this.name);
-	}
+//父及组件通过@ViewChild获取子组件的引用
+<list-item  (click)="listen(contact)" ></list-item>
+@ViewChild(ListItemComponent) listItemComponent :ListItemComponent;
+listen(c:any){
+	this.listItemComponent.listen();
 }
+
 
 
 //getter  setter
@@ -159,8 +159,14 @@ export class ListItemComponent{
 	}
 	
 }
+//ng-content------------------
+父组件
+<header></header>
 
-
+子组件
+<ng-content select="header"> </ng-content>
+<ng-content select=".className"> </ng-content>
+<ng-content select="[name=attr]"> </ng-content>
 
 ngOnInit
 ngOnChanges
@@ -315,6 +321,21 @@ editform.value 为表单对象的值
 //NgModule 控件局部变量----------------
 <input type="text" name="thinput" [(ngModel)]="" #thinput="ngModel">
 追踪input的验证状态 thinput.valid
+
+
+//NgModelGroup指令----------------
+<fieldset ngModelGroup="nameGroup" #nameGroup="ngModelGroup=">
+	性：<input type="text" name="firstname" [(ngModel)]="firstname" >
+	名：<input type="text" name="lastname" [(ngModel)]="lastname" >
+</fieldset>
+ngForm.value = {
+	nameGroup:{
+		firstname:''
+		lastname:''
+	}
+}
+
+
 
 
 表单状态-------------
