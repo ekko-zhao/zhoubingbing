@@ -8,11 +8,13 @@ import { FooterComponent } from './component/footer.component';
 import { ListItemComponent } from './component/item.component';
 
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SexReform } from './pipe/sexreform.pipe';
+
 
 @NgModule({
-	declarations: [AppComponent, HeaderComponent, ListComponent, ListItemComponent, FooterComponent],
-	imports: [BrowserModule, FormsModule],
+	declarations: [AppComponent, HeaderComponent, ListComponent, ListItemComponent, FooterComponent, SexReform],
+	imports: [BrowserModule, FormsModule, ReactiveFormsModule],
 	bootstrap: [AppComponent]
 })
 export class AppModule{

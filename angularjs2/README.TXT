@@ -1,5 +1,12 @@
-TypeScript 2.x-----------------------
+﻿TypeScript 2.x-----------------------
 npm install @types/node --save-dev
+
+//angular2 --------------------------------------------------------------------
+
+?.安全操作符
+{{detail?.name}}
+
+
 
 
 //启动根模块--------------------------------------------------------------------
@@ -247,10 +254,10 @@ items: QueryList<ListItem>
 
 //模板-------------------------------------------------------------------------------------------------------------
 
+[innerHtml]
+{{}}
 [title]="title"
 [attr.colspan]="{{1+2}}"
-
-
 
 [class.className]="isBoolean"
 
@@ -260,7 +267,8 @@ items: QueryList<ListItem>
 事件绑定()
 (click)="fn()"
 
-//表单双向绑定
+
+//表单双向绑定----------------
 <input type="text" [value]="name" (input)="name=$event.target.value" />
 <input type="text" name="username" [(ngModel)]="user.name" (ngModelChange)="user.name=$event" >
 
@@ -336,8 +344,6 @@ ngForm.value = {
 }
 
 
-
-
 表单状态-------------
 pristine
 dirty
@@ -345,6 +351,160 @@ valid
 invalid
 touched
 untouched
+
+表单验证-------------
+required
+minlength
+maxlength
+pattern
+
+
+//模型驱动方式构建表单
+import { ReactiveFormsModule } from '@angular/forms';
+@NgModule({
+	imports: [ReactiveFormsModule]
+})
+
+
+const EMAIL_REGEXP = new RegExp("[a-z0-9]+@[a-x0-9].com");
+const TEL_REGEXP = new RegExp("1[0-9]{10}");
+function validateFirstName(c: FormControl) {
+	return ( EMAIL_REGEXP.test(c.value) || TEL_REGEXP.test(c.value) ) ? null : {
+		firstName:{
+			valid:false,
+			errorMsg:'用户名必须是手机号或者邮箱地址'
+		}
+	}
+}
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+@Component({
+	selector: 'list',
+	template: `
+		<form [formGroup]="editform">
+			姓：<input type="text" formControlName="firstName" required/>
+			<!-- <input type="text" formControlName="firstName" pattern="[0-9]{10}" required/> -->
+			<p>{{editform.controls.firstName.errors?.firstName.errorMsg}}</p>
+			<p *ngIf="editform.controls.firstName.errors?.minlength">minLength(4)</p>
+			<button type="button" (click)="submit(editform)">button</button>
+		</form>
+	`
+})
+export class ListComponent {
+	editform: any;
+	constructor(){
+		//console.log(Validators.pattern)
+		this.editform = new FormGroup({
+			firstName: new FormControl('', [Validators.minLength(4) ,Validators.pattern([a-z0-9]+@[a-x0-9].com)  ])
+			
+			//正则表达式 不加 / /
+		})
+	}
+	
+}
+
+//管道------------------------
+
+date 
+yyyy	2013
+yy		13
+y		2013
+
+MMMM	August
+MMM		Aug
+MM		08
+M		8
+
+EEEE	Thursday
+EEE		Thu
+dd		09
+d		9
+
+//24hours
+HH		23
+H		8
+//12hours
+hh		11
+h		8
+
+mm      09
+m		9
+
+ss		02
+s		2
+.sss	.995
+
+a		AM
+jj      04 AM
+j		4 AM
+
+四位时区标识
+Z		0700
+z
+
+
+{{ expression | pipeName1 | pipeName2 }}
+
+data
+json 非纯管道
+uppercase
+lowercase
+
+slice 非纯管道
+
+
+//decimal minIntegerDigits.minFactionDigits-maxFactionDigits
+整数 小数最小保留数 小数最大保留数
+number : 1.0-2
+
+currency : 'USD' : false
+USD23.23
+currency : 'USD' : true : '1.2-2'
+$23.23
+CNY 人民币
+EUR 欧元
+
+percent 将小数转化为 百分比
+
+{{number : percent[:1.0-2] }}
+
+{{slice : start[:end] }}
+
+
+
+自定义管道
+import { SexReform } from './pipe/sexreform.pipe';
+@NgModule({ 
+	declarations: [SexReform]
+})
+
+import { Pipe, PipeTransform } from '@angular/core';
+@Pipe({ name: 'sexReform'})
+export class SexReform implements PipeTransform{
+	transform(val:string): string{
+		switch(val){
+			case 'male': return '男';
+			case 'female': return '女';
+			default: return '未知性别';
+		}
+	}
+	//{{val | sexReform }}
+	
+	/*
+		transform 可以接受多个参数
+		transform(val1:string, val2:string){}
+		{{val1 | sexReform : val2 }}
+	*/
+}
+
+默认情况下为纯管道 pure:boolean default true
+@Pipe({
+	name: 'sexReform',
+	pure: false//非纯管道
+})
+
+
+
+
 
 
 //指令-------------------------------------------------------------------------------------------------------------
@@ -358,9 +518,6 @@ trackByfn(){
 
 
 
-UNMET PEER
-
-DEPENDENCY
 
 
 
