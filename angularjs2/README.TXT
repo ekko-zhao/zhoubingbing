@@ -332,7 +332,7 @@ editform.value 为表单对象的值
 
 
 //NgModelGroup指令----------------
-<fieldset ngModelGroup="nameGroup" #nameGroup="ngModelGroup=">
+<fieldset ngModelGroup="nameGroup" #nameGroup="ngModelGroup">
 	性：<input type="text" name="firstname" [(ngModel)]="firstname" >
 	名：<input type="text" name="lastname" [(ngModel)]="lastname" >
 </fieldset>
