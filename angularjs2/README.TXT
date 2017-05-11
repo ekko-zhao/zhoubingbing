@@ -365,7 +365,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 	imports: [ReactiveFormsModule]
 })
 
-
 const EMAIL_REGEXP = new RegExp("[a-z0-9]+@[a-x0-9].com");
 const TEL_REGEXP = new RegExp("1[0-9]{10}");
 function validateFirstName(c: FormControl) {
@@ -376,6 +375,7 @@ function validateFirstName(c: FormControl) {
 		}
 	}
 }
+
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 @Component({
 	selector: 'list',
@@ -402,8 +402,12 @@ export class ListComponent {
 	
 }
 
-//管道------------------------
+//formControl-----------
+<input type="text" [formControl]="firstname2">
+<p>{{firstname2.value}}</p>
+firstname2: FormControl = new FormControl();
 
+//管道------------------------
 date 
 yyyy	2013
 yy		13
