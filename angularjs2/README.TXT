@@ -292,6 +292,29 @@ export class AppModule{ }
 	<li *ngSwitchDefault></li>
 </ul>
 
+
+NgPlural NgPluralCase--------------------------
+class MyLocalization extends NgLocalization{
+	getPluralCategory(value:any){
+		if(value<5) return 'few'
+	}
+}
+
+@Component({
+	selector:'',
+	template:`
+		<div [ngPlural]="value">
+			<template ngPluralCase="0">0</template>
+			<template ngPluralCase="1">1</template>
+			<template ngPluralCase="few">few</template>
+			<template ngPluralCase="other">other</template>
+		</div>
+	`,
+	directives: [NgPlural, NgPluralCase],
+	providers: [provide(NgLocalization,{useClass: MyLocalization})]
+})
+
+
 //单选框----------------
 <input type="radio" name="six" [(ngModel)]="property" value="female">
 <input type="radio" name="six" [(ngModel)]="property" value="male">
@@ -520,24 +543,110 @@ trackByfn(){
 
 *ngIf=""
 
+//自定义指令------------------
+import { Directive, ElementRef} from '@angular/core';
+@Directive({
+	selector:'[myBeautifulBackground]'
+})
+export class BeautifulBackgroundDirective{
+	constructor(el: ElementRef){
+		el.nativeElement.style.backgroundColor='yellow'
+	}	
+}
+<p myBeautifulBackground>background</p>
+
+
+//为指令绑定输入
+import { Directive, ElementRef, Input } from '@angular/core';
+@Directive({
+	selector:'[myBeautifulBackground]'
+})
+export class BeautifulBackgroundDirective{
+	private _defaultColor = 'yellow'
+	private el:HTMLElement;
+	
+	@Input('myBeautifulBackground') set backgroundColor(colorName:string){
+		this.setStyle(colorName)
+	}
+	
+	constructor(el: ElementRef){
+		this.el = el.nativeElement;
+		this.setStyle(this._defaultColor);
+	}
+	
+	private setStyle(color:string){
+		this.el.style.backgroundColor = color
+	}
+}
+
+<p [myBeautifulBackground]="color">background</p>
+color:string = "red";
+
+//响应用户操作
+import { Directive, ElementRef, Input, HostListener } from '@angular/core';
+@Directive({
+	selector:'[myBeautifulBackground]'
+})
+export class BeautifulBackgroundDirective{
+	private _defaultColor = 'yellow'
+	private el:HTMLElement;
+	
+	@Input('myBeautifulBackground') backgroundColor:string;
+	
+	constructor(el: ElementRef){
+		this.el = el.nativeElement;
+		this.setStyle(this._defaultColor);
+	}
+	
+	@HostListener('click') onClick(){
+		this.setStyle(this.backgroundColor || this._defaultColor);
+	}
+
+
+	private setStyle(color:string){
+		this.el.style.backgroundColor = color
+	}
+}
+
+<p [myBeautifulBackground]="'red'">background</p>
+
+//自定义指令结构
+import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+@Directive({
+	selector:'[myBeautifulBackground]'
+})
+export class BeautifulBackgroundDirective{
+	
+	@Input('myBeautifulBackground') 
+	set condition(newCondition:boolean){
+		console.log(newCondition)
+		if(!newCondition){
+			this.viewContainer.createEmbeddedView(this.templateRef);
+		}else{
+			this.viewContainer.clear()
+		}
+	}
+	constructor(private templateRef:TemplateRef <any>, private viewContainer: ViewContainerRef ){
+		console.log(this.templateRef);
+		
+	}
+	
+}
+
+<p *myBeautifulBackground="b" >asas</p>
+b:boolean = false / true
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// FormArrayName----------------------
+@Component({
+	selector:'',
+	template:`
+		<div>
+			
+		</div>
+	`,
+})
 
 
 
