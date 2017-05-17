@@ -14,20 +14,20 @@ export class ListComponent {
 	contacts:any;
 	errorMessage:any;
 	constructor(private _contactService: ContactService){
-		//console.log(this._contactService.getContacts());
 		
 	}
 	getContacts(){
-		//console.log(this._contactService.getContacts())
 		return this._contactService.getContacts(CONTACT_URL).subscribe(
 			contacts => this.contacts = contacts,
 			error => this.errorMessage = <any>error
 		)
+		/*return this._contactService.addContact({'name':'zhoubingbing'},CONTACT_URL).subscribe(
+			contacts => this.contacts = contacts,
+			error => this.errorMessage = <any>error
+		)*/
 	}
 	JSON(){
 		var a = this.getContacts()
-		//console.log(this.contacts)
-		//console.log(this.errorMessage)
 		
 		setTimeout( () => { console.log(this.contacts) } ,200)
 		setTimeout( () => { console.log(this.errorMessage) } ,200)
