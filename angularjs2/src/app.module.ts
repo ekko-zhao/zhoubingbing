@@ -13,10 +13,12 @@ import { BeautifulBackgroundDirective } from './directive/beautifulBackground.di
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SexReform } from './pipe/sexreform.pipe';
 
+import { HttpModule } from '@angular/http';
+
 
 @NgModule({
 	declarations: [AppComponent, HeaderComponent, ListComponent, ListItemComponent, FooterComponent, SexReform, BeautifulBackgroundDirective],
-	imports: [BrowserModule, FormsModule, ReactiveFormsModule],
+	imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule],
 	bootstrap: [AppComponent]
 })
 export class AppModule{

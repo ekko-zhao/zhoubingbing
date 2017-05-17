@@ -649,7 +649,70 @@ b:boolean = false / true
 })
 
 
+//共享服务示例----------------------
+/*
+	自组建可以用 父级组件的providers
+*/
 
+import { Injectable } from '@angular/core';
+@Injectable()
+export class SharedService{
+	list: string[] = [];
+	append(str: string){
+		this.list.push(str)
+	}
+}
+
+//parent-component
+import { Component} from '@angular/core';
+import { SharedService } from '../services/shared.service';
+
+@Component({
+	selector: 'list',
+	template: `\
+		<ul *ngFor="let item of list">
+			<li>{{item}}</li>
+		</ul>
+		<list-item></list-item>
+	`,
+	styles: [ ],
+	providers:[SharedService]
+})
+export class ListComponent {
+	list: string[]=[];
+	constructor(private _sharedService: SharedService){
+		var $t = this
+		setTimeout(function(){
+			console.log($t._sharedService)
+		},2000)
+	}
+	ngOnInit(): any{
+		this.list = this._sharedService.list;
+	}
+}
+
+//child-component  
+//注意子组件不能加 providers:[SharedService]，否则他们将会分别创建自己的实例对象
+import { Component} from '@angular/core';
+import { SharedService } from '../services/shared.service';
+@Component ({
+	selector: "list-item",
+	template: `
+		<input type="text" [(ngModel)]="inputText">
+		<button (click)="add()">button</button>
+	`
+	
+})
+export class ListItemComponent{
+	inputText:string = 'Testing data'
+	constructor(private _sharedService: SharedService){
+		
+	}
+	add(){
+		this._sharedService.append(this.inputText);
+		console.log(this._sharedService)
+	}
+}
 
 
 

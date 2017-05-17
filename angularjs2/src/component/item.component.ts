@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, SimpleChanges, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-
+import { SharedService } from '../services/shared.service';
 
 //var emitter = new events.EventEmitter();
 
@@ -22,29 +22,24 @@ export class ListItemComponent implements OnInit{
 @Component ({
 	selector: "list-item",
 	template: `
-		<div>
-			<label>{{contact.name}}</label>
-			<span>{{contact.telNum}}</span>
-			<ng-content select=".ngcontent"></ng-content>
-		</div>
+		<input type="text" [(ngModel)]="inputText">
+		<button (click)="add()">button</button>
 	`,
-	changeDetection: ChangeDetectionStrategy.Default,
-})
-export class ListItemComponent implements OnInit{
-	name: string = 'bingbing';
-	ngOnInit(){
-		console.log( 'ngOnInit' );
-	}
-	@Input() contact:any = {}
+	//changeDetection: ChangeDetectionStrategy.Default,
 	
-	listen(){
-		this.name = 'test';
-		//console.log(this)
-		//console.log(this.name);
+})
+export class ListItemComponent{
+	
+	inputText:string = 'Testing data';
+
+	constructor(private _sharedService: SharedService ){
+		
 	}
-	ngOnChanges( changes:{ [proKey:string]: SimpleChanges } ){
-		console.log('ngOnChanges')
+	add(){
+		this._sharedService.append(this.inputText);
+		console.log(this._sharedService)
 	}
+	
 }
 
 

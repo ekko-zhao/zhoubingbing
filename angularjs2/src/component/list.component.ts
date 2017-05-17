@@ -1,38 +1,36 @@
-import { Component, ViewChild , ElementRef} from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component} from '@angular/core';
+import { SharedService } from '../services/shared.service';
+import { ContactService } from '../services/contact.service';
 
-//import { ListComponent } from './component/item.component';
-//import { ListItemComponent } from './item.component';
-
-import { BeautifulBackgroundDirective } from '../directive/beautifulBackground.directive';
+const CONTACT_URL = './src/json/contact.json';
 
 @Component({
 	selector: 'list',
-	template: `
-		<form [formGroup]="editform">
-			<input type="text" formGroupName="firstname" [formControl]="firstname2">
-			<p *myBeautifulBackground="b" >asas</p>
-			<button type="button" (click)="submit(editform); color='blue'">button</button>
-		</form>
-	`,
-	//directives: [ BeautifulBackgroundDirective ],
-	styles: [
-		`ul{ margin:30px 0; list-style:none}`,
-		`li{margin-bottom:10px; border-bottom:1px #999 solid}`
-	]
+	template: `<p>{{contacts?.name}}</p><button (click)="JSON()">button</button>`,
+	styles: [ ],
+	providers:[SharedService, ContactService]
 })
 export class ListComponent {
-	editform: FormGroup ;
-	constructor(){
-		this.editform = new FormGroup({
-			firstname: new FormControl('')
-		})
+	contacts:any;
+	errorMessage:any;
+	constructor(private _contactService: ContactService){
+		//console.log(this._contactService.getContacts());
+		
 	}
-	firstname2: FormControl = new FormControl();
-	
-	color:string = "red";
-	submit(c:object){
-		console.log(c)
+	getContacts(){
+		//console.log(this._contactService.getContacts())
+		return this._contactService.getContacts(CONTACT_URL).subscribe(
+			contacts => this.contacts = contacts,
+			error => this.errorMessage = <any>error
+		)
 	}
-	b:boolean = false
+	JSON(){
+		var a = this.getContacts()
+		//console.log(this.contacts)
+		//console.log(this.errorMessage)
+		
+		setTimeout( () => { console.log(this.contacts) } ,200)
+		setTimeout( () => { console.log(this.errorMessage) } ,200)
+		//JSON.stringify(this.getContacts())
+	}
 }
