@@ -2,7 +2,9 @@ import { Component} from '@angular/core';
 import { SharedService } from '../services/shared.service';
 import { ContactService } from '../services/contact.service';
 
-const CONTACT_URL = './src/json/contact.json';
+const CONTACT_URL = '../src/json/contact.json';
+
+//import { httpFactory } from '../services/http-factory';
 
 @Component({
 	selector: 'list',
@@ -27,6 +29,10 @@ export class ListComponent {
 		)*/
 	}
 	JSON(){
+		//var http = httpFactory()//.get('CONTACT_URL')
+		
+		//console.log(http)
+		
 		var a = this.getContacts()
 		
 		setTimeout( () => { console.log(this.contacts) } ,200)

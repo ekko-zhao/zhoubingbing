@@ -16,10 +16,22 @@ import { SexReform } from './pipe/sexreform.pipe';
 import { HttpModule } from '@angular/http';
 
 
+import { RequestOptions, Http } from '@angular/http';
+import { HttpInterceptor } from './services/http-interceptor';
+import { HttpInterceptorBackend } from './services/http-interceptor-backend';
+import { httpFactory } from './services/http-factory';
+
 @NgModule({
 	declarations: [AppComponent, HeaderComponent, ListComponent, ListItemComponent, FooterComponent, SexReform, BeautifulBackgroundDirective],
 	imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule],
-	bootstrap: [AppComponent]
+	bootstrap: [AppComponent],
+	
+	providers:[
+		HttpInterceptor, HttpInterceptorBackend,{
+			provide: Http,useFactory:httpFactory ,deps:[HttpInterceptorBackend, RequestOptions]
+		}
+		
+	]
 })
 export class AppModule{
 	
