@@ -889,13 +889,37 @@ export function httpFactory(httpInterceptorBackend: HttpInterceptorBackend,
 
 
 
+//依赖注入----------------------------------------------------------------------------------------------------------------------
+
+@Injectable() 当该服务依赖其他服务时 必须 加@Injectable()； 否则可选； angular官方推荐无论是否有其他依赖都需要 @Injectable()；
+
+//在组件中注入服务-------------
+@Component({
+	providers:[ serviceName ]
+})
+export class className{
+	constructor(public serviceproperty :serviceName){ }
+}
+
+//在服务中注入服务-------------
+@Injectable()
+export class serviceName{
+	constructor(public serviceproperty :serviceName){}
+	
+}
+
+//在模块中注入服务-------------
+
+@NgModule({
+	providers:[serviceName]
+})
 
 
-
-
-
-
-
+//serviceName1 , serviceName2 中依赖相同服务时 serviceName2会覆盖serviceName1中的service
+@NgModule({
+	import:[serviceName1,serviceName2],
+	exports:[moduleName]
+})
 
 
 

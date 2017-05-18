@@ -45,7 +45,7 @@ class Robot{
 	providers:[Robot]
 })
 export class ListComponent {
-	constructor(public robot: Robot){
+	constructor(){
 		//let injector = new Injector()
 	}
 	
