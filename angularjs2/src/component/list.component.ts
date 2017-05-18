@@ -35,8 +35,8 @@ export class ListComponent {
 		
 		var a = this.getContacts()
 		
-		setTimeout( () => { console.log(this.contacts) } ,200)
-		setTimeout( () => { console.log(this.errorMessage) } ,200)
+		setTimeout( () => { console.log(this.contacts) } ,500)
+		setTimeout( () => { console.log(this.errorMessage) } ,500)
 		//JSON.stringify(this.getContacts())
 	}
 }

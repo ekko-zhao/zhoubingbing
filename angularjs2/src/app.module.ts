@@ -25,10 +25,11 @@ import { httpFactory } from './services/http-factory';
 	declarations: [AppComponent, HeaderComponent, ListComponent, ListItemComponent, FooterComponent, SexReform, BeautifulBackgroundDirective],
 	imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule],
 	bootstrap: [AppComponent],
-	
-	providers:[
-		HttpInterceptor, HttpInterceptorBackend,{
-			provide: Http,useFactory:httpFactory ,deps:[HttpInterceptorBackend, RequestOptions]
+	providers:[HttpInterceptor, HttpInterceptorBackend,
+		{
+			provide: Http,
+		 	useFactory: httpFactory, 
+			deps: [HttpInterceptorBackend, RequestOptions]
 		}
 		
 	]
