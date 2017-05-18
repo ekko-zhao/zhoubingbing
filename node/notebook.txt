@@ -1,11 +1,12 @@
 
-
 zhoubingbing
 zhoubbmls@sina.com
 zhoubbmls
 
 https://www.npmjs.com/~zhoubbmls
 
+npm config set registry https://registry.npm.taobao.org 
+npm config set registry https://registry.npmjs.org
 
 commonjs规范
 在编译过程中，Node对获取的JavaScript文件 进行头尾包装。{\n js文本 \n};

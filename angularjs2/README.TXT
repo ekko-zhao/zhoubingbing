@@ -788,7 +788,6 @@ export class ContactService{
 	
 }
 
-
 import { Component} from '@angular/core';
 import { SharedService } from '../services/shared.service';
 const CONTACT_URL = './src/json/contact.json';
@@ -810,6 +809,111 @@ export class ListComponent {
 		)
 	}
 }
+
+
+//拦截器 interceptor-----------------------------
+
+import { RequestOptions, Http, HttpModule } from '@angular/http';
+import { HttpInterceptor } from './http-interceptor';
+import { HttpInterceptorBackend } from './http-interceptor-backend';
+import { httpFactory } from './http-factory';
+
+@NgModule({
+	imports: [HttpModule],
+	providers:[HttpInterceptor, HttpInterceptorBackend,
+		{
+			provide: Http,
+		 	useFactory: httpFactory, 
+			deps: [HttpInterceptorBackend, RequestOptions]
+		}
+		
+	]
+})
+
+
+http-interceptor.ts---------
+
+import { Injectable } from '@angular/core';
+import { Request, Response } from '@angular/http';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class HttpInterceptor{
+	beforeRequest(request:Request):Request{
+		//请求发出前的处理逻辑
+		console.log(request);
+		return request;
+	}
+	
+	afterResponse(res: Observable<Response>): Observable<any>{
+		//请求响应的处理逻辑
+		res.subscribe( (data) =>{
+			console.log(data);
+		});
+		return res;
+	}
+}
+
+
+http-interceptor-backend.ts-------------
+
+import { Injectable } from '@angular/core';
+import { ConnectionBackend, XHRConnection, XHRBackend, Request } from '@angular/http';
+import { HttpInterceptor } from './http-interceptor';
+
+@Injectable()
+export class HttpInterceptorBackend implements ConnectionBackend {
+	constructor(private _httpInterceptor: HttpInterceptor, private _xhrBackend: XHRBackend){}
+	createConnection(request: Request): XHRConnection{
+		let interceptor = this._httpInterceptor;
+		
+		let req = interceptor.beforeRequest ? interceptor.beforeRequest(request) : request;
+		let result = this._xhrBackend.createConnection(req);
+		result.response = interceptor.afterResponse ? interceptor.afterResponse(result.response) : result.response;
+		
+		return result;
+	}
+	
+}
+
+
+http-factory.ts---------
+
+import { RequestOptions, Http } from '@angular/http';
+import { HttpInterceptorBackend } from './http-interceptor-backend';
+
+export function httpFactory(httpInterceptorBackend: HttpInterceptorBackend,
+	requestOptions: RequestOptions): Http{
+	return new Http(httpInterceptorBackend, requestOptions);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

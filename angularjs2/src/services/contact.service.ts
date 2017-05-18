@@ -4,7 +4,12 @@ import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class ContactService{
-	constructor(private _http: Http){}
+	constructor(private _http: Http){
+		var o = new Observable();
+		//var o = {}
+		//o.name = 'as'
+		console.log(Object.keys(o))
+	}
 	
 	getContacts(url:string): Observable<any[]>{
 		return this._http.get(url)

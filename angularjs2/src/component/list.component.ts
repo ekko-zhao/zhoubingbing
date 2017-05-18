@@ -1,42 +1,56 @@
-import { Component} from '@angular/core';
-import { SharedService } from '../services/shared.service';
-import { ContactService } from '../services/contact.service';
+import { Component, Injectable, Injector, ReflectiveInjector} from '@angular/core';
 
-const CONTACT_URL = '../src/json/contact.json';
 
-//import { httpFactory } from '../services/http-factory';
+
+
+class Hair {
+	name: string = 'Hair'
+}
+
+class Head{
+	name: string = 'header';
+	//size: string;
+	//, size: string
+	/*constructor(public hair:Hair){
+		//this.size = size;
+	}*/
+}
+
+@Injectable()
+class Robot{
+	constructor(public head:Head){ }
+}
+
+//let robot = new Robot( new Head( new Hair(), '30m' ) )
+
+//let injector = new Injector(...);
+//let robot = injector.get(Robot);
+
+//console.log(robot)
+//console.log(ReflectiveInjector)
+
+
+/*var injector =  ReflectiveInjector.resolveAndCreate([
+	Robot,
+	Head
+])*/
+//var a = new injector();
+//console.log(injector)
+
 
 @Component({
 	selector: 'list',
-	template: `<p>{{contacts?.name}}</p><button (click)="JSON()">button</button>`,
+	template: `<p><button (click)="JSON()">button</button>`,
 	styles: [ ],
-	providers:[SharedService, ContactService]
+	providers:[Robot]
 })
 export class ListComponent {
-	contacts:any;
-	errorMessage:any;
-	constructor(private _contactService: ContactService){
-		
+	constructor(public robot: Robot){
+		//let injector = new Injector()
 	}
-	getContacts(){
-		return this._contactService.getContacts(CONTACT_URL).subscribe(
-			contacts => this.contacts = contacts,
-			error => this.errorMessage = <any>error
-		)
-		/*return this._contactService.addContact({'name':'zhoubingbing'},CONTACT_URL).subscribe(
-			contacts => this.contacts = contacts,
-			error => this.errorMessage = <any>error
-		)*/
-	}
+	
 	JSON(){
-		//var http = httpFactory()//.get('CONTACT_URL')
-		
-		//console.log(http)
-		
-		var a = this.getContacts()
-		
-		setTimeout( () => { console.log(this.contacts) } ,500)
-		setTimeout( () => { console.log(this.errorMessage) } ,500)
-		//JSON.stringify(this.getContacts())
+		//return '123'
 	}
 }
+

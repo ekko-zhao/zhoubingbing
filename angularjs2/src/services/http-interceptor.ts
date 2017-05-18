@@ -13,10 +13,8 @@ export class HttpInterceptor{
 	afterResponse(res: Observable<Response>): Observable<any>{
 		//请求响应的处理逻辑
 		res.subscribe( (data) =>{
-			console.log(data)
+			console.log(data);
 		});
-		console.log(res)
 		return res;
 	}
-	
 }
