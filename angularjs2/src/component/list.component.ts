@@ -1,56 +1,27 @@
-import { Component, Injectable, Injector, ReflectiveInjector} from '@angular/core';
+import { Component, Injectable, Injector, ReflectiveInjector, OnInit, Optional, Host} from '@angular/core';
 
+import { TestService } from '../services/test-service';
 
-
-
-class Hair {
-	name: string = 'Hair'
+class ContactAppComponent{
+	constructor(){
+		
+	}
+	name:string ="bingbing"
 }
-
-class Head{
-	name: string = 'header';
-	//size: string;
-	//, size: string
-	/*constructor(public hair:Hair){
-		//this.size = size;
-	}*/
-}
-
-@Injectable()
-class Robot{
-	constructor(public head:Head){ }
-}
-
-//let robot = new Robot( new Head( new Hair(), '30m' ) )
-
-//let injector = new Injector(...);
-//let robot = injector.get(Robot);
-
-//console.log(robot)
-//console.log(ReflectiveInjector)
-
-
-/*var injector =  ReflectiveInjector.resolveAndCreate([
-	Robot,
-	Head
-])*/
-//var a = new injector();
-//console.log(injector)
-
 
 @Component({
 	selector: 'list',
 	template: `<p><button (click)="JSON()">button</button>`,
 	styles: [ ],
-	providers:[Robot]
+	providers:[ContactAppComponent]
 })
-export class ListComponent {
-	constructor(){
-		//let injector = new Injector()
+export class ListComponent{
+	constructor( @Optional() @Host()  protected a : TestService){
+		console.log(this.a)
 	}
 	
 	JSON(){
-		//return '123'
+		
 	}
 }
 

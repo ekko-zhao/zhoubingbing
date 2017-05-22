@@ -418,6 +418,7 @@ export class ListComponent {
 		//console.log(Validators.pattern)
 		this.editform = new FormGroup({
 			firstName: new FormControl('', [Validators.minLength(4) ,Validators.pattern([a-z0-9]+@[a-x0-9].com)  ])
+			//firstName: new FormControl('', validateFirstName)
 			
 			//正则表达式 不加 / /
 		})
@@ -920,6 +921,86 @@ export class serviceName{
 	import:[serviceName1,serviceName2],
 	exports:[moduleName]
 })
+
+
+//依赖查找的规则是按照注入器从当前组件向父级查找 找不到就会报错
+
+//@Host 限定在当前组件查找  找不到就会报错
+constructor( @Host propertyName: serviceName ){}
+
+//@Optional 可以兼容依赖不存在的情况 提高系统的健壮性 找不到不会报错
+constructor( @Optional propertyName: serviceName ){}
+
+
+
+
+
+//provider 注册方式
+
+·类 Provider
+var injector = Injector.resolveAndCreate({
+	{provide:Render, useClass:DomRender},
+	{provide:Render, useClass:CanvasRender},
+	{provide:Render, useClass:ServiceRender}
+})
+
+
+·值globalSetting
+let globalSetting ={}
+
+
+@Component({
+	provides:[
+		{provide:'provideName1', useValue:'aass'},
+		{provide:'provideName2', useValue:globalSetting}
+	]
+})
+
+
+
+·别名 globalSetting  实现多个依赖共享一个对象实例 
+@Component({
+	provides:[
+		{provide:NewLoggerService, useClass:NewLoggerService},
+		{provide:OldLoggerService, useExisting:NewLoggerService},
+	]
+})
+
+
+·工厂 Provider
+@Component({
+	provides:[
+		{provide:ContactService, useFactory:contactServiceFactory, deps:[ Service1, Service2  ]}
+	]
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

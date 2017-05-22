@@ -21,11 +21,14 @@ import { HttpInterceptor } from './services/http-interceptor';
 import { HttpInterceptorBackend } from './services/http-interceptor-backend';
 import { httpFactory } from './services/http-factory';
 
+import { TestService } from './services/test-service';
+
+
 @NgModule({
 	declarations: [AppComponent, HeaderComponent, ListComponent, ListItemComponent, FooterComponent, SexReform, BeautifulBackgroundDirective],
 	imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule],
 	bootstrap: [AppComponent],
-	providers:[HttpInterceptor, HttpInterceptorBackend,
+	providers:[HttpInterceptor, HttpInterceptorBackend, TestService,
 		{
 			provide: Http,
 		 	useFactory: httpFactory, 
