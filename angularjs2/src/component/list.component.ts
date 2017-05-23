@@ -11,17 +11,22 @@ class ContactAppComponent{
 
 @Component({
 	selector: 'list',
-	template: `<p><button (click)="JSON()">button</button>`,
+	template: `
+		<list-item></list-item>
+		<p><button (click)="JSON()">button</button>
+		`,
 	styles: [ ],
 	providers:[ContactAppComponent]
 })
 export class ListComponent{
+	name:string = 'bingbing';
 	constructor( @Optional() @Host()  protected a : TestService){
-		console.log(this.a)
+		
 	}
 	
 	JSON(){
-		
+		this.name="zhoubb";
+		console.log(1)
 	}
 }
 
