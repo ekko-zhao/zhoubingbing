@@ -1,40 +1,29 @@
-import { NgModule } from '@angular/core';
+import { enableProdMode, NgModule, ModuleWithProviders } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './component/app.component';
-import { HeaderComponent } from './component/header.component';
-import { ListComponent } from './component/list.component';
-//import { ContactModule } from './module/contact.module';
-import { FooterComponent } from './component/footer.component';
-import { ListItemComponent } from './component/item.component';
-
-
-import { BeautifulBackgroundDirective } from './directive/beautifulBackground.directive';
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SexReform } from './pipe/sexreform.pipe';
-
 import { HttpModule } from '@angular/http';
 
 
-import { RequestOptions, Http } from '@angular/http';
-import { HttpInterceptor } from './services/http-interceptor';
-import { HttpInterceptorBackend } from './services/http-interceptor-backend';
-import { httpFactory } from './services/http-factory';
+import { AppComponent } from './component/app.component';
+import { HeaderComponent } from './component/header.component';
+import { FooterComponent } from './component/footer.component';
 
-import { TestService } from './services/test-service';
+import { rootRouterConfig } from './router-config/app.routers';
 
+let rootRouterModule: ModuleWithProviders = RouterModule.forRoot(rootRouterConfig, {useHash: true});
+
+import { APP_BASE_HREF } from '@angular/common';
+
+
+enableProdMode();
 
 @NgModule({
-	declarations: [AppComponent, HeaderComponent, ListComponent, ListItemComponent, FooterComponent, SexReform, BeautifulBackgroundDirective],
-	imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule],
+	declarations: [AppComponent, HeaderComponent, FooterComponent],
+	imports: [BrowserModule, rootRouterModule],
 	bootstrap: [AppComponent],
-	providers:[HttpInterceptor, HttpInterceptorBackend, TestService,
-		{
-			provide: Http,
-		 	useFactory: httpFactory, 
-			deps: [HttpInterceptorBackend, RequestOptions]
-		}
-		
+	providers:[
+		{provide:APP_BASE_HREF, useValue:'/'}
 	]
 })
 export class AppModule{

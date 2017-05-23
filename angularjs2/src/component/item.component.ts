@@ -2,12 +2,12 @@ import { Component, OnInit, Input, Output, SimpleChanges, EventEmitter, ChangeDe
 import { SharedService } from '../services/shared.service';
 
 import { ListComponent } from './list.component';
-
+import { Parent } from './parent';
 
 @Component ({
 	selector: "list-item",
 	template: `
-		<p>{{_listComponent.name}}</p>
+		<p>{{_parent.name}}</p>
 		<input type="text" [(ngModel)]="inputText">
 		<button (click)="add()">button</button>
 	`,
@@ -15,11 +15,11 @@ import { ListComponent } from './list.component';
 	
 })
 export class ListItemComponent{
-	name:string = this._listComponent.name
-	constructor(private _listComponent:ListComponent){
+	
+	constructor(public _parent:Parent ){
 		setTimeout(function(){
 			
-			console.log(_listComponent)
+			console.log(_parent)
 		},3000)
 	}
 	add(){

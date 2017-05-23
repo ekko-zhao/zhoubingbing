@@ -7,9 +7,25 @@ npm install @types/node --save-dev
 {{detail?.name}}
 
 
+//生产环境
+import { enableProdMode } from '@angular/core';
+enableProdMode();
 
+
+// 入口 main.js------------------------------------------------------------------------
+import 'reflect-metadata';
+import 'zone.js';
+
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+//import { platformBrowser } from '@angular/platform-browser';
+import { AppModule } from './app.module';
+
+platformBrowserDynamic().bootstrapModule(AppModule)
+	.catch( err => console.log(err) )
 
 //启动根模块--------------------------------------------------------------------
+//app.module.ts
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -57,7 +73,6 @@ import { Component } from '@angular/core';
 
 组件传递数据
 parent-component
-
 import { Component } from '@angular/core';
 @Component({
 	selector: 'list',
@@ -975,35 +990,122 @@ let globalSetting ={}
 })
 
 
+//在子组件中获取父级组件的引用
+@Component({
+	selector:'child-component'
+})
+export class className{
+	constructor(private _parentComponent:ParentComponent){
+		console.log(_parentComponent)
+	}
+}
 
 
 
+//在子组件中获取父级组件的实例对象
+export abstract class Parent{
+	name:string
+}
+
+//parent-component
+import { Parent } from './parent';
+@Component({
+	providers:[
+		{provide:Parent, useClass: ListComponent}
+	]
+})
+export class ListComponent implements Parent{
+	name:string = 'bingbing';
+	constructor(){
+		console.log(1)
+	}
+}
+
+//child-component
+import { Parent } from './parent';
+export class ListItemComponent{
+	constructor(public _parent:Parent ){
+		
+	}
+	
+}
 
 
 
+//路由配置
+//app.router.ts---------------------------------------
+import { Routes } from '@angular/router';
+import { HeaderComponent } from '../component/header.component';
+import { FooterComponent } from '../component/footer.component';
+
+export const rootRouterConfig: Routes =[
+	{path: '', redirectTo: 'header', pathMatch: "full" },
+	{path:'header', component: HeaderComponent},
+	{path:'footer', component: FooterComponent}
+]
+
+//footer.component.ts----------------------------------
+@Component({
+	//selector: '',
+	template: `<h3>footer</h3>`,
+})
+export class FooterComponent{ }
 
 
 
+//app.component.ts--------------------------------------
+@Component({
+	selector: 'app-component',
+	template: `
+		<main>
+			<router-outlet></router-outlet>
+			<a routerLink="header" routerLinkActive="className">header</a>
+			<a routerLink="footer" routerLinkActive="className">footer</a>
+			
+			<!--
+				or
+				<a [routerLink]="['/header']">header</a>
+				<a [routerLink]="['/footer']">footer</a>
+			-->
+			
+		</main>
+	`
+})
+export class AppComponent{ }
 
 
+//app.module.ts
+@NgModule({
+	declarations: [AppComponent, HeaderComponent, FooterComponent],
+	imports: [BrowserModule, rootRouterModule],
+	bootstrap: [AppComponent],
+	//providers:[]
+})
+export class AppModule{ }
 
 
+//设置base-------------------------------
+import { APP_BASE_HREF } from '@angular/common';
+@NgModule({
+	providers:[
+		{provide:APP_BASE_HREF, useValue:'/app'}
+	]
+})
+export class AppModule{ }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//代码跳转页面
+import { Router } from '@angular/router';
+export class AppComponent{
+	constructor(public _router:Router){
+		setTimeout(function(){
+			//_router.navigate(['/footer']);
+			console.log(_router)
+			//字符串 or urlTree	实例
+			_router.navigateByUrl('/footer');
+		},2000)
+	}
+}
 
 
 
