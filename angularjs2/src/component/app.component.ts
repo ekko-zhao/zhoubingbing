@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
 	selector: 'app-component',
@@ -9,22 +9,26 @@ import { Router } from '@angular/router';
 		<footer></footer>-->
 		<main>
 			<router-outlet></router-outlet>
-			<p>122</p>
 			<!--<a routerLink="header">header</a>
 			<a routerLink="footer">footer</a>-->
-			<a [routerLink]="['/header']" routerLinkActive="className">header</a>
+			<a [routerLink]="['/header',122]" [queryParams]="{limit:5}" routerLinkActive="className">header</a>
 			<a [routerLink]="['/footer']" routerLinkActive="className">footer</a>
-			<p>122</p>
-			
+			<p>----------------------------------------------------------------------------</p>
+			<a [routerLink]="['/header',123]">header</a>
 		</main>
 	`
 })
 export class AppComponent{
-	constructor(public _router:Router){
+	constructor(public _router:Router, private _activatedRoute:ActivatedRoute){
 		setTimeout(function(){
-			//_router.navigate(['/footer']);
-			console.log(_router)
+			//_router.navigate(['/header/233',{s:'2017-05-24'},'child2',{s:'2017-05-24'}]);
+			//_router.navigate(['/header', '233', 'child2', {s:'2017-05-24'} ], {queryParams:{limit:5}});
+			
+			//, {outlets:{aux:['view']}}
 			//_router.navigateByUrl('/footer');
 		},2000)
+	}
+	ngOnInit(){
+		console.log('AppComponent ngOnInit');
 	}
 }

@@ -79,7 +79,7 @@ import { Component } from '@angular/core';
 	template: `
 		<ul>
 			<li *ngFor="let contact of contacts">
-				<list-item [contactName]="contact" (onListen)="listen($event)"></list-item>
+				<list-item [ ]="contact" (onListen)="listen($event)"></list-item>
 			</li>
 		</ul>
 	`,
@@ -198,6 +198,15 @@ ngAfterContentChecked
 ngAfterViewInit
 ngAfterViewChecked
 
+
+//组件初始化 插入DOM中
+ngOnInit(){
+	
+}
+//组件销毁
+ngOnDestroy(){
+	
+}
 
 
 //变化监测类---------------
@@ -1040,7 +1049,15 @@ import { FooterComponent } from '../component/footer.component';
 
 export const rootRouterConfig: Routes =[
 	{path: '', redirectTo: 'header', pathMatch: "full" },
-	{path:'header', component: HeaderComponent},
+	{path:'header/:id', component: HeaderComponent},
+	{path:'footer', component: FooterComponent}
+]
+//嵌套路由
+export const rootRouterConfig: Routes =[
+	{path: '', redirectTo: 'header', pathMatch: "full" },
+	{path:'header/:id', component: HeaderComponent,children:[
+		{path:'path', component: componentName }
+	]},
 	{path:'footer', component: FooterComponent}
 ]
 
@@ -1059,13 +1076,17 @@ export class FooterComponent{ }
 	template: `
 		<main>
 			<router-outlet></router-outlet>
-			<a routerLink="header" routerLinkActive="className">header</a>
-			<a routerLink="footer" routerLinkActive="className">footer</a>
-			
+			//path:'header/:id' 自动拼接
+			<a [routerLink]="['/header',12]" [queryParams]="{limit:5}" routerLinkActive="className">header</a>
+			<a [routerLink]="['/footer']" routerLinkActive="className">footer</a>
 			<!--
 				or
-				<a [routerLink]="['/header']">header</a>
+				<a [routerLink]="['/header',12]">header</a>
 				<a [routerLink]="['/footer']">footer</a>
+				
+				//向子页面添加 Matrix参数
+				<a [routerLink]="['/header',12,{start:'2017-5-12'，end:'2017-5-20'}]">header</a>
+				
 			-->
 			
 		</main>
@@ -1103,20 +1124,200 @@ export class AppComponent{
 			console.log(_router)
 			//字符串 or urlTree	实例
 			_router.navigateByUrl('/footer');
+			
+			/*
+				//不改变url 跳转页面
+				_router.navigate(['/footer'，23], {skipLocationChange:true});
+				
+			*/
+			
+			/*
+				_router.navigate(['/footer'，23]);
+				_router.navigateByUrl('/header/23');
+				
+			*/
+			
+			
 		},2000)
 	}
 }
 
 
+//获取 url参数 id
+
+import { ActivatedRoute } from '@angular/router';
+
+constructor(private _activatedRoute: ActivatedRoute){
+	console.log(_activatedRoute.snapshot.params['id'])
+	_activatedRoute.snapshot.url[0]) === 'header'
+	_activatedRoute.snapshot.url[1]) === 23 === id
+}
 
 
 
+//同一页面内跳转参数订阅 
+export class className implements OnInit, OnDestroy{
+	private sub: any;
+	id: string
+	constructor( private _activatedRoute:ActivatedRoute){
+		this.sub = _activatedRoute.params.subscribe(parames =>{
+			this.id = parames.id
+			console.log(this.id)
+		})
+	}
+	
+	ngOnInit(){
+	}
+	ngOnDestroy(){
+		//避免内存泄漏
+		this.sub.unsubscribe()
+	}
+}
+
+//同一页面内跳查询转参数订阅 
+export class className implements OnInit, OnDestroy{
+	private sub: any;
+	limit: string
+	constructor( private _activatedRoute:ActivatedRoute){
+		this.sub = _activatedRoute.queryParams.subscribe(parames =>{
+			this.limit = parames.limit
+			console.log(this.limit)
+		})
+	}
+	
+	ngOnInit(){
+	}
+	ngOnDestroy(){
+		//避免内存泄漏
+		this.sub.unsubscribe()
+	}
+}
+
+//路由嵌套-------------------------------
+//parent-router
+<router-outlet></router-outlet>
+
+//child-router
+<router-outlet></router-outlet>
+<router-outlet name="aux"></router-outlet>
+
+
+//路由配置
+export const rootRouterConfig: Routes =[
+	{path: '', redirectTo: 'main', pathMatch: "full" },
+	{path:'main/:id', component: componentName,
+		children:[
+			path: '', component: componentName,
+			path: 'child', component: componentName,
+			{path: 'view', component: componentName, outlet:'aux'}
+		]
+	},
+]
+
+//路由跳转---------------------------------
+_router.navigate(['/header','233', {s:'2017-05-24'}, {outlets:{primary: ['child'], aux:['view']}}]);
+or
+_router.navigate(['/header','233', {s:'2017-05-24'}, 'child', {outlets:{aux:['view']}}]);
 
 
 
+//路由拦截---------------------------------
+
+CanActivate 开始进入路由时
+CanActivateChild 路由子路由控制
+CanDeactivate 开始离开路由时
 
 
+//can.activate.guard.ts
+import { Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
+@Injectable()
+export class CanActivateGuard implements CanActivate{
+	canActivate(  route:ActivatedRouteSnapshot, state:RouterStateSnapshot ){
+		//route 表示要激活的目标配置项
+		//state 表示当前所处的路由状态  包含了（要激活的目标配置项）
+	
+		if(/* 登陆 */){
+			return true;
+		}else{
+			return false;
+		}
+		
+		/*
+			//异步执行
+			return new Observable<boolean>( observer => {
+				setTimeout(function(){
+					observer.next(true);
+					//observer.next(false);
+					observer.complete();
+				},2000)
+			
+			})
+		*/
+	}
+}
+
+//模块注入
+@NgModule({ 
+	providers:[ CanActivateGuard ]
+})
+
+//路由配置注入
+import { CanActivateGuard } from '../services/can.activate.guard';
+export const rootRouterConfig: Routes =[
+	{path: 'child', component: componentName, canActivate:[CanActivateGuard]},
+]
+
+//CanActivateChild 与 CanActivate类似 用于控制子路由配置项-------------------------------
+@Injectable()
+export class CanActivateChildGuard implements CanActivate{
+	canActivateChild(){
+		return true;
+	}
+}
+//路由配置注入
+import { CanActivateGuard } from '../services/can.activate.guard';
+export const rootRouterConfig: Routes =[
+	{path: 'child', component: componentName, canActivateChild:[CanActivateChildGuard],children:[
+		{},
+		{}
+	]},
+]
+
+
+//反激活路由(离开路由时) CanDeactivate----------------
+@Injectable()
+export class CanDeactivateGuard implements CanDeactivate{
+	CanDeactivate(component:any, route:ActivatedRouteSnapshot, state:RouterStateSnapshot){
+		//比较component实例数据是否发生变化 
+		
+		//异步执行
+			return new Observable<boolean>( observer => {
+				confirm({
+					done:function{
+						observer.next(true);
+						observer.complete();
+					}
+				})
+			})
+		
+		return true;
+	}
+}
+
+import { CanDeactivateGuard } from '../services/can.deactivate.guard';
+export const rootRouterConfig: Routes =[
+	{path: 'child', component: componentName, canDeactivate:[CanDeactivateGuard],children:[
+		{},
+		{}
+	]},
+]
+
+//模块注入
+@NgModule({ 
+	providers:[ CanDeactivate ]
+})
 
 
 
