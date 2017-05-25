@@ -22,6 +22,7 @@ import { ResolveGuard } from './services/resolve.guard';
 
 
 let rootRouterModule: ModuleWithProviders = RouterModule.forRoot(rootRouterConfig, {useHash: true});
+//let rootRouterModule: ModuleWithProviders = RouterModule.forChild(rootRouterConfig, {useHash: true});
 
 import { APP_BASE_HREF } from '@angular/common';
 

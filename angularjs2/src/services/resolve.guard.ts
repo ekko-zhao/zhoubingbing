@@ -10,19 +10,8 @@ export class ResolveGuard implements  Resolve<any>{
 		
 	}
 	
-	/*addContact(contact:object,url:string) : Observable<any>{
-		let body = JSON.stringify(contact);
-		let headers = new Headers({'Content-type':'application/json'})
-		let options = new RequestOptions({'headers': headers});
-		
-		return this._http.post(url, body, options)
-		.map(this.extractData)
-		.catch(this.handleError)
-	}*/
-	
-	
 	resolve(){
-		//return {}
+		
 		return this._http.get('./src/json/contact.json')
 		.map(this.extractData)
 		.catch(this.handleError)

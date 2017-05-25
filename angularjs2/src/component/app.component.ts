@@ -11,8 +11,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 			<router-outlet></router-outlet>
 			<!--<a routerLink="header">header</a>
 			<a routerLink="footer">footer</a>-->
-			<a [routerLink]="['/header',122]" [queryParams]="{limit:5}" routerLinkActive="className">header</a>
-			<a [routerLink]="['/footer']" routerLinkActive="className">footer</a>
+			<a [routerLink]="['/header',122]" [queryParams]="{limit:5}">header</a>
+			<a [routerLink]="['/footer']" >footer</a>
+			<a [routerLink]="['/delay']" >delay</a>
+
+
 			<p>----------------------------------------------------------------------------</p>
 			<a [routerLink]="['/header',123]">header</a>
 		</main>

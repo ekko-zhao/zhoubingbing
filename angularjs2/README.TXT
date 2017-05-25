@@ -1320,11 +1320,151 @@ export const rootRouterConfig: Routes =[
 })
 
 
+//数据预加载拦截-----------------------------------------
+//resolve.guard.ts
+import { Injectable } from '@angular/core';
+import { Resolve } from '@angular/router';
+import { Observable } from 'rxjs';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+
+@Injectable()
+export class ResolveGuard implements  Resolve<any>{
+	constructor(private _http: Http){ }
+	
+	resolve(){
+		return this._http.get('./src/json/contact.json')
+		.map(this.extractData)
+		.catch(this.handleError)
+		/*
+			return new Observable<boolean>( observer => {
+				setTimeout(function(){
+					observer.next(true);
+					observer.complete();
+				},2000)
+			})
+		
+		*/
+		//拦截服务返回的数据 放置在ActivatedRoute 的data属性中
+	}
+	
+	private extractData(res: Response){
+		let body = res.json();
+		return body.data|| {}
+		
+	}
+	
+	private handleError(error: any){
+		let errMsg = (error.massage) ? error.massage:
+			error.status? `${error.status} - ${error.statusText}` : 'Server error';
+		return Observable.throw(errMsg);
+	}
+}
+//路由
+import { ResolveGuard } from '../services/resolve.guard';
+export const rootRouterConfig: Routes =[
+	{path: 'child', component: componentName, 
+		resolve:{
+			contact: ResolveGuard
+		},
+		children:[
+		{},
+		{}
+	]},
+]
+
+//模块注入
+@NgModule({ 
+	providers:[ ResolveGuard ]
+})
+
+//延迟加载模块实现------------------------------------------
+npm install angular-router-loader --save-dev
+npm install awesome-typescript-loader --save-dev
+
+//webpack.config.js
+module: {
+	loaders: [{
+		test: /\.tsx?$/,
+		loader: 'awesome-typescript-loader!angular-router-loader',
+		//or 
+		// loaders: ['awesome-typescript-loader','angular-router-loader'],
+		exclude: '/node_modules/'
+	}]
+}
+
+//delaying-component
+import { Component } from '@angular/core';
+@Component({
+	template: `
+		<p>delaying.component-ok<p>
+	`
+})
+export class DelayingComponent{
+	constructor(){}
+}
+
+//delaying-module
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { DelayingComponent } from './delaying.component';
+
+const delayingRortes: Routes = [
+	{path:'', component: OtherComponent}
+	{path:'id', component: DelayingComponent}
+]
+
+@NgModule({
+	imports: [ RouterModule.forChild(delayingRortes)],
+	declarations: [DelayingComponent],
+	
+})
+export class DelayingModule{}
+
+//app.routers.ts
+
+export const rootRouterConfig: Routes =[
+	//{path:'delay/id', component:DelayingModule}
+	{path:'delay', loadChildren:'../delaying.module/delaying.module.ts#DelayingModule'}
+	/*
+		//?sync=true 为同步加载
+		{path:'delay', loadChildren:'../delaying.module/delaying.module.ts#DelayingModule?sync=true'}
+	*/
+]
+
+
+//CanLoad模块加载拦截 ------------------------------------
+//用法和CanActivate相似
+
+//can.load.guard.ts
+
+@injector()
+export class CanLoadGuard implements CanLoad {
+	canLoad(route:Route){
+		if(/* 允许加载 */){
+			return true;
+		}else{
+			return false;
+		}
+		//异步加载同上
+		
+	}
+}
+
+//app.routers.ts
+export const rootRouterConfig: Routes =[
+	//{path:'delay/id', component:DelayingModule}
+	{path:'delay', loadChildren:'../delaying.module/delaying.module.ts#DelayingModule'，canLoad:[CanLoadGuard]}
+	
+]
 
 
 
+//测试----------------------------------------------------------------------------
+jasmine [ˈdʒæzmɪn]
+Karma [ˈkɑ:mə]
 
-
+//端到端的测试
+Protractor
 
 
 

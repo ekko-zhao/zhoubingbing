@@ -34,37 +34,43 @@ module.exports = {
 	},
 	module: {
 		loaders: [{
-			test: /\.css$/,
-			loader: 'style-loader!css-loader',
-		},
-		/*loaders: [{
-			test: /\.css$/,
-			loader: extractCSS.extract({
-				fallback: 'style-loader',
-				use: 'css-loader'
-			})
-		},*/ /*{
+				test: /\.css$/,
+				loader: 'style-loader!css-loader',
+			},
+			/*loaders: [{
+				test: /\.css$/,
+				loader: extractCSS.extract({
+					fallback: 'style-loader',
+					use: 'css-loader'
+				})
+			},*/
+			/*{
 			test: /\.less$/,
 			loader: extractCSS.extract({
 				fallback: 'style-loader',
 				use: 'css-loader!less-loader'
 			})
 		},*/
-		{
-			test: /\.less$/,
-			loader: extractCSS.extract({
-				fallback: 'to-string-loader',
-				use: 'css-loader!less-loader'
-			})
-		},
 			{
-			test: /\.tsx?$/,
-			loader: 'ts-loader',
-			exclude: '/node_modules/'
-		}, {
-			test: /\.html$/,
-			loader: 'html-loader'
-		}]
+				test: /\.less$/,
+				loader: extractCSS.extract({
+					fallback: 'to-string-loader',
+					use: 'css-loader!less-loader'
+				})
+			}, /*{
+				test: /\.tsx?$/,
+				loader: 'ts-loader',
+				exclude: '/node_modules/'
+			},*/{
+				test: /\.tsx?$/,
+				loader: 'awesome-typescript-loader!angular-router-loader?debug=true',
+				//loaders: ['awesome-typescript-loader','angular-router-loader'],
+				exclude: '/node_modules/'
+			}, {
+				test: /\.html$/,
+				loader: 'html-loader'
+			}
+		]
 	},
 	resolve: {
 		extensions: ['.ts', '.tsx', '.js', '.jsx']
