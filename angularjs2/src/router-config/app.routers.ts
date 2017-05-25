@@ -7,6 +7,8 @@ import { RouterCCViewComponent } from '../component/router.cc.view';
 import { CanActivateGuard } from '../services/can.activate.guard';
 import { CanActivateChildGuard } from '../services/can.activate.child.guard';
 import { CanDeactivateGuard } from '../services/can.deactivate.guard';
+import { ResolveGuard } from '../services/resolve.guard';
+
 
 export const rootRouterConfig: Routes =[
 	{path: '', redirectTo: 'footer', pathMatch: "full" },
@@ -20,7 +22,11 @@ export const rootRouterConfig: Routes =[
 		{path: 'child2', component: RouterChild2Component, canActivate:[CanActivateGuard]},
 		{path: 'view', component: RouterCCViewComponent, outlet:'aux'}
 	]},
-	{path:'footer', component: FooterComponent, canDeactivate:[CanDeactivateGuard]}
+	{path:'footer', component: FooterComponent, resolve:{
+		contact: ResolveGuard
+		
+	}}
+	//{path:'footer', component: FooterComponent, canDeactivate:[CanDeactivateGuard]}
 ]
 
 /*children:[

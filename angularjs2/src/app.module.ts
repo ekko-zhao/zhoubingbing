@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 
+
+
 import { AppComponent } from './component/app.component';
 import { HeaderComponent } from './component/header.component';
 import { FooterComponent } from './component/footer.component';
@@ -16,6 +18,7 @@ import { rootRouterConfig } from './router-config/app.routers';
 import { CanActivateGuard } from './services/can.activate.guard';
 import { CanActivateChildGuard } from './services/can.activate.child.guard';
 import { CanDeactivateGuard } from './services/can.deactivate.guard';
+import { ResolveGuard } from './services/resolve.guard';
 
 
 let rootRouterModule: ModuleWithProviders = RouterModule.forRoot(rootRouterConfig, {useHash: true});
@@ -27,10 +30,10 @@ enableProdMode();
 
 @NgModule({
 	declarations: [AppComponent, HeaderComponent, FooterComponent, RouterChildComponent, RouterChild2Component,  RouterCCViewComponent],
-	imports: [BrowserModule, rootRouterModule],
+	imports: [BrowserModule, rootRouterModule, HttpModule],
 	bootstrap: [AppComponent],
 	providers:[
-		CanActivateGuard, CanActivateChildGuard, CanDeactivateGuard,
+		CanActivateGuard, CanActivateChildGuard, CanDeactivateGuard, ResolveGuard,
 		{provide:APP_BASE_HREF, useValue:'/'}
 	]
 })

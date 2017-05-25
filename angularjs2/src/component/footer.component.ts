@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
 	//selector: 'footer',
@@ -10,4 +11,10 @@ import { Component } from '@angular/core';
 })
 export class FooterComponent{
 	name:string = 'zhoubingbing'
+	constructor( private _activatedRoute:ActivatedRoute){
+		console.log(1)
+		console.log(_activatedRoute)
+		console.log(2)
+	}
+
 }
