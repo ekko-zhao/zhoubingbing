@@ -1,0 +1,332 @@
+
+npm install --save-dev karma-webpack
+
+//angualr2 测试工具---------------------------------------------------------------------
+
+//webpack.test.js-----------
+
+module.exports = {
+
+	devtool: 'cheap-module-eval-soruce-map',
+
+	resolve: {
+		extensions: ['.ts', '.tsx', '.js', '.jsx']
+	},
+
+	module: {
+		loaders: [{
+			test: /\.tsx?$/,
+			loader: 'awesome-typescript-loader'
+		}, {
+			test: /\.html$/,
+			loader: 'html-loader'
+		}, {
+			test: /\.(png|jpe?g|fig|svg|woff|woff2|ttf|eot|ico)$/,
+			loader: 'null'
+		}, {
+			test: /\.css$/,
+			loader: 'null'
+		}]
+	}
+
+}
+
+//karma.shim.js----------------------
+
+Error.stackTraceLimit = Infinity;
+
+//引入编译时所需的文件库
+require('reflect-metadata');
+require('zone.js/dist/zone');
+require('zone.js/dist/proxy');
+require('zone.js/dist/sync-test');
+require('zone.js/dist/jasmine-patch');
+require('zone.js/dist/async-test');
+require('zone.js/dist/fake-async-test');
+
+//打包文件名后缀为 spec.ts 的测试代码
+var appContext = require.context('./src', true, /\.spec\.ts/ );
+appContext.keys().forEach(appContext)
+
+var testing = require('@angular/core/testing');
+var testingBrowser = require('@angular/platform-browser-dynamic/testing');
+testing.TestBed.initTestEnvironment(testingBrowser.BrowserDynamicTestingModule, testingBrowser.platformBrowserDynamicTesting())
+
+//karma.conf.js-------------------------------------
+var webpackConfig = require('./webpack.test');
+module.exports = function (config) {
+	config.set({
+
+		// base path that will be used to resolve all patterns (eg. files, exclude)
+		basePath: '',
+
+
+		// frameworks to use
+		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+		frameworks: ['jasmine'],
+
+
+		// list of files / patterns to load in the browser
+		files: [{
+			pattern: './karma.shim.js',
+			watched: false
+		}],
+
+
+		// list of files to exclude
+		exclude: [
+			//'node_modules/**'
+		],
+
+
+		// preprocess matching files before serving them to the browser
+		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+		preprocessors: {
+			'./karma.shim.js': ['webpack']
+		},
+
+
+		// test results reporter to use
+		// possible values: 'dots', 'progress'
+		// available reporters: https://npmjs.org/browse/keyword/karma-reporter
+		reporters: ['progress'],
+
+
+		// web server port
+		port: 9876,
+
+
+		// enable / disable colors in the output (reporters and logs)
+		colors: true,
+
+
+		// level of logging
+		// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+		logLevel: config.LOG_INFO,
+
+
+		// enable / disable watching file and executing tests whenever any file changes
+		autoWatch: true,
+
+
+		// start these browsers
+		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+		browsers: ['Chrome'],
+
+
+		// Continuous Integration mode
+		// if true, Karma captures browsers, runs the tests and exits
+		singleRun: false,
+
+		// Concurrency level
+		// how many browser should be started simultaneous
+		concurrency: Infinity,
+		
+		webpack: webpackConfig,
+		
+		plugins: [
+			'karma-jasmine',
+			'karma-chrome-launcher',
+			require('karma-webpack')
+		],
+		
+		proxies: {
+			"/src/": "http://localhost:3000/src/"
+		}
+
+	})
+}
+
+
+
+//组件的测试----------------------
+
+import { ComponentName } from "componentSrc"
+
+descirbe('ComponentName', () =>{
+	beforeEach( ()=>{
+		this.component = new ComponentName()
+	})
+	
+	it('test simple compoent', ()=>{
+		this.component.getById(1);
+		expect('').toBe('')
+	})
+})
+
+//管道的测试----------------------
+
+同上
+
+//服务的测试-------------------
+
+import { ServiceName } from "serviceSrc"
+import { inject, TestBed } from '@angular/core/testing'
+
+descirbe('ServiceName', ()=>{
+	beforeEach( ()=>{
+		TestBed.configureTestingModule({
+			providers:[ServiceName]
+			/*
+				如果服务依赖其他服务
+				providers:[ServiceName,OtherServiceName]
+			*/
+		})
+	})
+	
+	it('test', inject([ServiceName],(service)=>{
+		expect(service.name).toBe('zhoubb')
+	}) )
+})
+
+
+/*
+	组件的测试也可用注入的方式
+*/
+
+
+//组件DOM 交互测试-------------------------------------------
+import (DetailComponent ) from './detail.component'
+import { inject, TestBed, ComponentFixture, async } from '@angular/core/testing'
+
+descirbe('DetailComponent', ()=>{
+	
+	beforeEach(()=>{
+		TestBed.configureTestingModule({
+			providers:[DetailComponent]
+		})
+	})
+	
+	beforeEach(()=>{
+		TestBed.compoleComponent();
+	})
+	
+	it('test simple compoent with TestComponentBuilder', async(()=>{
+		
+		var fixture = TestBed.createComponent(DetailComponent);
+		var compild = fixture.debugElement.nativeElement;
+		
+		fixture.componentInstance.getById();
+		fixture.detectChanges();
+		
+		//获取并检查 DOM 元素的内容
+		
+		expect( compild.querySelector('.detail-info>li:first-child>p:nth-child(2)').textContent ).toBe('zhoubb')
+		
+	}))
+	
+	/*
+		TestBed.createComponent(DetailComponent) 用于初始化被测试组件， 并创建ComponentFixture对象， 这个对象可认为是被测试组件的上下文环境， 通过它可以获取已经完成初始化组件实例以及DOM 元素等
+		
+		fixture.debugElement.nativeElement 用于获取组件对应的原生DOM 元素， 之后可以通过querySelector()等DOM元素原生的API 做进一步处理
+		
+		fixture.componentInstance获取组件对应的 对象实例； 之后可以内部的变量
+		
+		fixture.detectChanges() 方法用于当js 变量及模板内容变更时触发变化监测。 组件初始化·DOM元素或js 值变化时， 都需要调用这个方法， 以便触发Angular的变化监测机制
+		
+		
+	*/
+	
+	
+})
+
+
+//通过Mock 的方式测试
+
+class MockCotactService extends ContactService{
+	getContactBiId(){
+		return {
+			"name": "张三"
+		}
+	}
+}
+
+beforeEach(()=>{
+	TestBed.configureTestingModule({
+		providers:[
+			provide(ContactService, { useClass:MockContactService }),
+			DetailComponent
+		]
+	})
+})
+
+//通过 async 函数测试异步请求
+getContactBiId(){
+	return new Promise((resolve, reject)=>{
+		setTimeout(()=>{
+			resolve({
+				"name": "张三"
+			})
+		},1000)
+	})
+}
+
+it('async test', async(inject([ContactService],(service)=>{
+	service.getContactBiId().then( 
+		(result)=>{},
+		(reject)=>{}
+	)
+} )) , 3000)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

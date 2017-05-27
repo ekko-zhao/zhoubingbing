@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+//import { Promise } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
+const crypto = require('crypto')
 
 @Component({
 	//selector: 'footer',
@@ -12,9 +14,17 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class FooterComponent{
 	name:string = 'zhoubingbing'
 	constructor( private _activatedRoute:ActivatedRoute){
-		console.log(1)
+		
+		var md5 = (str:string)=>{
+			return crypto.createHash('md5')
+			.update(str.toString())
+			.digest('hex')
+		}
+		
+		//console.log(md5('32232sdf'))
+		/*console.log(1)
 		console.log(_activatedRoute)
-		console.log(2)
+		console.log(2)*/
 	}
 
 }

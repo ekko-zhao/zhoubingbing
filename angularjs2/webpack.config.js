@@ -63,7 +63,7 @@ module.exports = {
 				exclude: '/node_modules/'
 			},*/{
 				test: /\.tsx?$/,
-				loader: 'awesome-typescript-loader!angular-router-loader?debug=true',
+				loader: 'awesome-typescript-loader!angular-router-loader',
 				//loaders: ['awesome-typescript-loader','angular-router-loader'],
 				exclude: '/node_modules/'
 			}, {

@@ -79,7 +79,7 @@ import { Component } from '@angular/core';
 	template: `
 		<ul>
 			<li *ngFor="let contact of contacts">
-				<list-item [ ]="contact" (onListen)="listen($event)"></list-item>
+				<list-item [ contactName ]="contact" (onListen)="listen($event)"></list-item>
 			</li>
 		</ul>
 	`,
@@ -626,7 +626,6 @@ export class BeautifulBackgroundDirective{
 	@HostListener('click') onClick(){
 		this.setStyle(this.backgroundColor || this._defaultColor);
 	}
-
 
 	private setStyle(color:string){
 		this.el.style.backgroundColor = color
@@ -1466,7 +1465,14 @@ Karma [ˈkɑ:mə]
 //端到端的测试
 Protractor
 
-
+//md5加密--------------------------------------------------
+npm install --save-dev crypto;
+const crypto =  required('crypto');
+var md5 = (str:string)=>{
+		return crypto.createHash('md5')
+		.update(str.toString())
+		.digest('hex')
+	}
 
 
 
