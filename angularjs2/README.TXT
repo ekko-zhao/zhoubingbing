@@ -53,18 +53,6 @@ export class AppModule{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 //导出模块--------------------------------------------------------------------
 import { NgModule } from '@angular/core';
 import { ContactItemComponent } from '../component/contactItem.component';

@@ -1,0 +1,237 @@
+
+npm install --save ngx-bootstrp 
+npm install --save bootstrp 
+
+.angular-cli.json
+{
+	"apps": [
+		"styles": [
+			"../node_modules/bootstrap/dist/css/bootstrap.min.css"
+		],
+	]
+}
+
+
+//风琴手-----------------------------------------
+import { AccordionModule } from 'ngx-bootstrap';
+@NgModule({
+  imports: [AccordionModule.forRoot(),...]
+})
+export class AppModule(){}
+
+
+<accordion>
+    <accordion-group heading="Static Header, initially expanded"> This <strong>content</strong> is straight in the template. </accordion-group>
+    <accordion-group #group>
+        <div accordion-heading> I can have markup, too! <i class="pull-right float-xs-right glyphicon"
+         [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i> </div>
+        This is just some content to illustrate fancy headings. </accordion-group>
+    <accordion-group heading="Content 1">
+        <p>Content 1</p>
+    </accordion-group>
+    <accordion-group heading="Content 2">
+        <p>Content 2</p>
+    </accordion-group>
+</accordion>
+
+
+//只允许打卡一个 折叠面板
+
+oneAtATime: boolean = true;
+<accordion [closeOthers]="oneAtATime">
+
+</accordion>
+
+
+
+
+/*
+	<accordion-group 
+		heading="Static Header, initially expanded"
+		//是否展开
+	    [isOpen]="boolean"
+		// Disabled
+	    [isDisabled]="boolean">
+		//添加类 panelClass:string = 'panelClass'
+		[panelClass]="customClass"
+		
+		
+		This content is straight in the template.
+	</accordion-group>
+	
+	//动态添加
+	<accordion-group *ngFor="let group of groups" [heading]="group.title">
+		{{ group?.content }}
+	</accordion-group>
+	
+*/
+
+//Alerts--------------------------------------------------------------------------------
+import { AlertModule } from 'ngx-bootstrap';
+@NgModule({
+  imports: [AlertModule.forRoot(),...]
+})
+export class AppModule(){}
+
+
+<alert type="success">
+  <strong>Well done!</strong> You successfully read this important alert message.
+</alert>
+<alert type="info">
+  <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+</alert>
+<alert type="warning">
+  <strong>Warning!</strong> Better check yourself, you're not looking too good.
+</alert>
+<alert type="danger">
+  <strong>Oh snap!</strong> Change a few things up and try submitting again.
+</alert>
+
+
+/*
+	class="alert-link"
+	
+	//是否可关闭
+	dismissible="true"
+	
+	//5s后关闭
+	dismissOnTimeout="5000"
+*/
+
+//Dynamic html--------------
+<div *ngFor="let alert of alerts">
+  <alert [type]="alert.type"><span [innerHtml]="alert.msg"></span></alert>
+</div>
+
+import { Component, SecurityContext } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+ 
+@Component({
+  selector: 'demo-alert-dynamic-html',
+  templateUrl: './dynamic-html.html'
+})
+export class DemoAlertDynamicHtmlComponent {
+  public alerts: any = [
+	{
+	  type: 'success',
+	  msg: `<strong>Well done!</strong> You successfully read this important alert message.`
+	},
+	{
+	  type: 'info',
+	  msg: `<strong>Heads up!</strong> This alert needs your attention, but it's not super important.`
+	},
+	{
+	  type: 'danger',
+	  msg: `<strong>Warning!</strong> Better check yourself, you're not looking too good.`
+	}
+  ];
+ 
+  public constructor(sanitizer: DomSanitizer) {
+	this.alerts = this.alerts.map((alert:any) => ({
+	  type: alert.type,
+	  msg: sanitizer.sanitize(SecurityContext.HTML, alert.msg)
+	}));
+  }
+}
+
+//自定义样式
+<style>
+  .alert-md-color {
+    background-color: #7B1FA2;
+    border-color: #4A148C;
+    color: #fff;
+  }
+</style>
+<alert type="md-color">
+  <strong>Well done!</strong> You successfully read this important alert message.
+</alert>
+
+//Configuring defaults-----------------------
+默认配置
+import { Component } from '@angular/core';
+import { AlertConfig } from 'ngx-bootstrap/alert';
+ 
+// such override allows to keep some initial values
+ 
+export function getAlertConfig(): AlertConfig {
+  return Object.assign(new AlertConfig(), {type: 'success'});
+}
+ 
+@Component({
+  selector: 'demo-alert-config',
+  templateUrl: './config.html',
+  providers: [{provide: AlertConfig, useFactory: getAlertConfig}]
+})
+export class DemoAlertConfigComponent {
+}
+
+//Buttons -----------------------------------------------------------------------
+
+import { ButtonsModule } from 'ngx-bootstrap';
+@NgModule({
+  imports: [ButtonsModule.forRoot(),...]
+})
+export class AppModule(){}
+
+
+
+<button type="button" class="btn btn-primary"
+        [(ngModel)]="singleModel" btnCheckbox
+        btnCheckboxTrue="1" btnCheckboxFalse="0">
+  Single Toggle
+</button>
+
+
+/*
+	
+	btnCheckbox
+	btnCheckboxTrue="1" btnCheckboxFalse="0"
+	
+	
+	[(ngModel)]="checkModel.middle"
+	export class DemoButtonsCheckboxComponent {
+		public checkModel:any = {left: false, middle: true, right: false};
+	}
+	
+
+	//单选
+	 <label class="btn btn-success" [(ngModel)]="radioModel" btnRadio="Left" uncheckable>Left</label>
+	
+	
+	//单选按钮可以取消选中
+	uncheckable
+*/
+
+
+//图片轮播
+<carousel [interval]="myInterval" [noWrap]="noWrapSlides" [(activeSlide)]="activeSlideIndex">
+	
+</carousel>
+
+
+
+/*
+	//Index of currently displayed slide(started for 0)
+	activeSlide
+	
+	//项目循环延迟（以毫秒为单位）。 如果为假，转盘不会自动循环。
+	interval
+	
+	//If true — will disable pausing on carousel mouse hover
+	noPause
+	
+	//如果真的 - 传送带不会连续循环，并且会停止（防止循环）
+	noWrap
+	
+*/
+
+
+
+
+
+
+
+
+
+
+
