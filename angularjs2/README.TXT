@@ -45,6 +45,25 @@ export class AppModule{
 	
 }
 
+//知识点记载---------------------------------------------------------------
+(keyup)
+按键事件过滤(keyup.enter)
+失去焦点事件 (blur)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //导出模块--------------------------------------------------------------------
 import { NgModule } from '@angular/core';
@@ -974,8 +993,8 @@ let globalSetting ={}
 
 @Component({
 	provides:[
-		{provide:'provideName1', useValue:'aass'},
-		{provide:'provideName2', useValue:globalSetting}
+		{provide:provideName1, useValue:'aass'},
+		{provide:provideName2, useValue:globalSetting}
 	]
 })
 
@@ -1375,6 +1394,105 @@ export const rootRouterConfig: Routes =[
 @NgModule({ 
 	providers:[ ResolveGuard ]
 })
+
+
+//动画---------------------------------------------------------------------------------
+npm install --save @angular/animations
+
+//myAnimation.component.ts
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { trigger, state, style, animate, transition} from '@angular/animations';
+@Component({
+	selector: 'my-animation',
+	template: `
+		<button type="button" [@heroState]="state" (click)="toggleState()">button-animate</button>
+	`,
+	animations: [
+		trigger('heroState', [
+			state('inactive', style({
+				backgroundColor: '#eee',
+				transform: 'scale(1)'
+			})),
+			state('active',   style({
+				backgroundColor: '#cfd8dc',
+				transform: 'scale(1.1)'
+			})),
+			transition('inactive => active', animate('100ms ease-in')),
+			transition('active => inactive', animate('100ms ease-out')),
+			
+			/*
+				//延迟0.2s 第一个参数
+				animate('0.2s 0.1s ease-out')
+			
+				transition('inactive => active', [
+					style({transform: 'translateX(-100%) scale(1)'}),
+					animate('100ms')
+				]),
+				
+				//进场
+				//transition(':enter', [ ... ]); // void => *
+				transition('void => *', animate('100ms ease-out')),
+				
+				//离场
+				transition('* => void', animate('100ms ease-out'))
+				//transition(':leave', [ ... ]); // * => void
+				
+				
+				//0%, 70%, 100%
+				transition('* => void', [
+				  animate(300, keyframes([
+					style({opacity: 1, transform: 'translateX(0)',     offset: 0}),
+					style({opacity: 1, transform: 'translateX(-15px)', offset: 0.7}),
+					style({opacity: 0, transform: 'translateX(100%)',  offset: 1.0})
+				  ]))
+				])
+				
+				//并行动画组
+				transition('void => *', [
+				  style({width: 10, transform: 'translateX(50px)', opacity: 0}),
+				  group([
+					animate('0.3s 0.1s ease', style({
+					  transform: 'translateX(0)',
+					  width: 120
+					})),
+					animate('0.3s ease', style({
+					  opacity: 1
+					}))
+				  ])
+				]),
+				
+			*/
+			
+		])
+	]
+})
+export class MyAnimation{
+	state:string = 'active';
+	toggleState(){
+		if(this.state == "inactive" ){
+			this.state = "active" 
+		}else{
+			this.state = "inactive"
+		}
+		
+	}
+}
+
+//动画回调----------------------
+template: `
+  <ul>
+    <li *ngFor="let hero of heroes"
+        (@heroState.start)="animationStarted($event)"
+        (@heroState.done)="animationDone($event)"
+        [@heroState]="state">
+      {{hero.name}}
+    </li>
+  </ul>
+`,
+
+
+
+
 
 //延迟加载模块实现------------------------------------------
 npm install angular-router-loader --save-dev

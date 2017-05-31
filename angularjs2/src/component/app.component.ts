@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 		<!--<header></header>
 		<list></list>
 		<footer></footer>-->
+		<my-animation></my-animation>
 		<main>
 			<router-outlet></router-outlet>
 			<!--<a routerLink="header">header</a>

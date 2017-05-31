@@ -1,6 +1,7 @@
 import { enableProdMode, NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
@@ -13,6 +14,8 @@ import { FooterComponent } from './component/footer.component';
 import { RouterChildComponent } from './component/router.child';
 import { RouterChild2Component } from './component/router.child2';
 import { RouterCCViewComponent } from './component/router.cc.view';
+
+import { MyAnimation } from './animations/myAnimation.component';
 
 import { rootRouterConfig } from './router-config/app.routers';
 import { CanActivateGuard } from './services/can.activate.guard';
@@ -30,8 +33,8 @@ import { APP_BASE_HREF } from '@angular/common';
 enableProdMode();
 
 @NgModule({
-	declarations: [AppComponent, HeaderComponent, FooterComponent, RouterChildComponent, RouterChild2Component,  RouterCCViewComponent],
-	imports: [BrowserModule, rootRouterModule, HttpModule],
+	declarations: [AppComponent, HeaderComponent, FooterComponent, RouterChildComponent, RouterChild2Component,  RouterCCViewComponent, MyAnimation],
+	imports: [BrowserModule, rootRouterModule, HttpModule, BrowserAnimationsModule],
 	bootstrap: [AppComponent],
 	providers:[
 		CanActivateGuard, CanActivateChildGuard, CanDeactivateGuard, ResolveGuard,
