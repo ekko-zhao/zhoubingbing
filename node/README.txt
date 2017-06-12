@@ -30,7 +30,7 @@ define(function(require, exports, module){
 
 
 
-核心模块-将那些油纯C/C++编写的部分统一统称为内建模块 buffer crypto evals fs os 等
+核心模块-将那些由纯C/C++编写的部分统一统称为内建模块 buffer crypto evals fs os 等
 
 本地安装包 指定packjson.json文件夹
 npm install <tarball file>
@@ -168,19 +168,7 @@ var app = connect();
 async ---------------------------------------------------------------------
 var async = require('async');
 
-//异步串行
-async.series([
-	function(callback){
-		fs.readFile('./src/txt/file1.txt','utf8',callback)
-	},
-	function(callback){
-		fs.readFile('./src/txt/file2.txt','utf8',callback)
-	}
-],function(err, results){
-	console.log(results)
-})
-
-//异步串行 无依赖
+//异步并行 无依赖
 async.series([
 	function(callback){
 		fs.readFile('./src/txt/file1.txt','utf8',callback)
@@ -192,9 +180,6 @@ async.series([
 ],function(err, results){
 	console.log(results)
 })
-//异步并行
-async.series
-
 
 //异步串行 依赖
 async.waterfall([

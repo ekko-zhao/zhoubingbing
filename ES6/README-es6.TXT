@@ -255,6 +255,124 @@ var o = {
 }
 
 
+//Promise——————————————————————————————
+#Promise构造函数接受一个函数作为参数 该函数接受俩个参数 resolve 和 reject , resolve 和 reject 有JavaScript引擎提供，不用用户自己部署
+var promise = new Promise((resolve,reject)=>{
+	 if(false){
+		 resolve('ok')
+	 }else{
+		 reject('cansle')
+	 }
+ })
+promise.then(function(data){
+	 console.log(data)
+ },function(data){
+	 console.log(data)
+ })
+
+
+＃resolve 可以接受一个 Promise实例对象以更改 该Promise状态
+#resolve(promise1)
+
+var promise1 = new Promise((resolve, reject) => {
+	setTimeout(function () {
+		if (false) {
+			resolve('ok')
+		} else {
+			reject('cansle')
+		}
+	}, 3000)
+})
+
+var promise2 = new Promise((resolve, reject) => {
+	setTimeout(function () {
+		resolve(promise1)
+	}, 1000)
+})
+promise2.then(function (data) {
+	console.log(data)
+}, function (data) {
+	console.log(data)
+})
+//  输出 cansle
+
+
+//Promise.prototype.then()———————
+#Promise实例的then方法返回一个 新的 Promise实例（new Promise()） ,因此可以链式调用
+
+promise.then(function(data){
+		return promise3;
+	}, function(error){
+	
+	})
+#等待promise3状态改变（pending to resolved or rejected） 在执行下面代码
+.then(function(data){}, function(error){})
+
+
+//Promise.prototype.catch()———————
+#在promise状态改变之前发生的异常捕获，若果在 promise状态改变之后发生 将在函数体外抛出异常
+var promise = new Promise((resolve,reject)=>{
+	throw new Error('test');
+	resolve('ok');
+ })
+
+promise.then()
+.catch(function(e){ console.log(e)})
+
+//or
+＃捕获2个promise 抛出的异常
+promise.then()
+.then()
+.catch(function(e){ console.log(e)})
+
+//or
+＃捕获3个promise 抛出的异常
+promise.then(function(){ return  promise})
+.then()
+.catch(function(e){ console.log(e)})
+
+//Promise.all()———————
+Promise.all() 的参数不一定是数组， 但必须有iterator 接口
+var pall = Promise.all( [ p1, p2, p3, p4 ] )
+
+pall.then(
+	function(resolve){},
+	//p1, p2, p3, p4 只要有一个 rejected， pall的状态都会变成 rejected
+	function(reject){},
+)
+.catch(function(e){ console.log(e)})
+
+//Promise.race()———————
+#p1, p2, p3, p4 只要有一个状态 改变fulfilled， race的状态都会改变
+var race = Promise.race( [ p1, p2, p3, p4 ] )
+
+//Promise.reject()———————
+
+Promise.reject() 返回一个 Promise实例 状态为 rejected,
+
+Promise.reject(‘reject’)
+同等于
+new Promise(
+	function(resolve, reject){  reject(‘reject’) }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

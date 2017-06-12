@@ -20,8 +20,36 @@ $ npm install --save-dev babel-preset-stage-1
 $ npm install --save-dev babel-preset-stage-2
 $ npm install --save-dev babel-preset-stage-3
 
-.babelrc
+＃设置环境变量 
+#defaults to "development"
 
+unix
+BABEL_ENV=production
+
+windows
+SET BABEL_ENV=production
+
+//es3 
+foo.catch
+out
+foo["catch"]
+npm install babel-plugin-transform-es3-member-expression-literals —-save-dev
+"plugins": ["transform-es3-member-expression-literals"]
+
+
+var foo = {
+  catch: function () {}
+};
+Out
+var foo = {
+  "catch": function () {}
+};
+
+npm install babel-plugin-transform-es3-property-literals
+"plugins": ["transform-es3-property-literals"]
+
+
+.babelrc配置文件-----------------------------------------------
 {
 	"presets": [
 		'es2015'
@@ -34,15 +62,32 @@ $ npm install --save-dev babel-preset-stage-3
 			"plugins": []
 		}
 	},
-	comments:false
+	comments:false,
+	retainLines:false //是否保留行
 }
-
-
 
 
 #对于新的新的API：Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise等全局对象 #需要安装
 $ npm install --save babel-polyfill
 
+1.
+npm install babel-plugin-transform-runtime --save-dev
+plugins:["transform-runtime”]
+
+2.
 import 'babel-polyfill';
 // 或者
 require('babel-polyfill');
+
+
+为了兼容像 IE8 这样的老版本浏览器，我们引入 es5-shim 作为 polyfill
+同样的问题还包括 Object.create，上述问题可以再引入 es5-sham 解决.
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+
+
+
+
+
+

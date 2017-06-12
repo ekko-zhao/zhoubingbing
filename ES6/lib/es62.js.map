@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/es62.js"],"names":["o","delete","name"],"mappings":";;;AAGA,IAAIA,IAAI;AACPC,SAAO,mBAAU,CAAE,CADZ;AAEPC,OAAK,UAFE,EAAR","file":"es62.js","sourcesContent":["/*\n\tbingbing\n*/\nlet o = {\n\tdelete:function(){},\n\tname:'bingbing'\n}"]}
