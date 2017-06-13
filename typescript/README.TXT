@@ -1,4 +1,4 @@
-﻿
+
 //方法装饰器--------------------------------------------------------------------------------------------
 function log(target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<any>){
 	let origin = descriptor.value;

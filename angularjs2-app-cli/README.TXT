@@ -1,4 +1,97 @@
 
+tsconfig.json
+
+"files"指定一个包含相对或绝对文件路径的列表。
+* 匹配0或多个字符（不包括目录分隔符）
+? 匹配一个任意字符（不包括目录分隔符）
+**/ 递归匹配任意子目录
+
+如果一个glob模式里的某部分只包含*或.*，那么仅有支持的文件扩展名类型被包含在内（比如默认.ts，.tsx，和.d.ts， 如果allowJs设置能true还包含.js和.jsx）。
+
+如果"files"和"include"都没有被指定，编译器默认包含当前目录和子目录下所有的TypeScript文件（.ts,.d.ts 和 .tsx），排除在"exclude"里指定的文件。JS文件（.js和.jsx）也被包含进来如果allowJs被设置成true。 如果指定了 "files"或"include"，编译器会将它们结合一并包含进来。 使用 "outDir"指定的目录下的文件永远会被编译器排除，除非你明确地使用"files"将其包含进来（这时就算用exclude指定也没用）。
+
+使用"include"引入的文件可以使用"exclude"属性过滤。 然而，通过 "files"属性明确指定的文件却总是会被包含在内，不管"exclude"如何设置。 如果没有特殊指定， "exclude"默认情况下会排除node_modules，bower_components，和jspm_packages目录。
+
+任何被"files"或"include"指定的文件所引用的文件也会被包含进来。A.ts引用了B.ts，因此B.ts不能被排除，除非引用它的A.ts在"exclude"`列表中。
+
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+	--allowJs: true // boolean true #允许编译javascript文件
+	--allowSyntheticDefaultImports   // boolean  module === "system" 允许从没有设置默认导出的模块中默认导入。这并不影响代码的显示，仅为了类型检查。
+	--allowUnreachableCode // boolean false 不报告执行不到的代码错误。
+	--allowUnusedLabels // boolean false 不报告未使用的标签错误
+	--baseUrl // string 解析非相对模块名的基准目录
+	--charset // string "utf8" 输入文件的字符集。
+	--declaration  // boolean false 生成相应的'.d.ts'文件。
+	--declarationDir //string 生成声明文件的输出路径。
+	--diagnostics	// boolean false 显示诊断信息
+	--disableSizeLimit // boolean false 禁用JavaScript工程体积大小的限制
+	--emitBOM // boolean false 在输出文件的开头加入BOM头（UTF-8 Byte Order Mark）
+	--emitDecoratorMetadata // boolean false 给源码里的装饰器声明加上设计类型元数据。
+	--experimentalDecorators // boolean false 实验性启用ES7装饰器支持。
+	--forceConsistentCasingInFileNames // boolean false 不允许不一致包装引用相同的文件。
+	
+	—inlineSourceMap  // boolean false 生成单个sourcemaps文件，而不是将每sourcemaps生成不同的文件。
+	--inlineSources  // boolean false 将代码与sourcemaps生成到一个文件中，要求同时设置了--inlineSourceMap或--sourceMap属性。
+	--isolatedModules  // boolean false 无条件地给没有解析的文件生成imports。	
+	--jsx	//string  "Preserve" 在'.tsx'文件里支持JSX：'React' 或 'Preserve'。
+	--lib string[] 编译过程中需要引入的库文件的列表。
+		es5 es6 es2015 es7 es2016 （ es2017 dom webworker scripthost ） 
+		es2015.core es2015.collection es2015.generator es2015.iterable es2015.promise es2015.proxy es2015.reflect es2015.symbol
+		es2015.symbol.wellknown es2016.array.include es2017.object es2017.sharedmemory
+		
+		注意：如果--lib没有指定默认库。默认库是 --target ES5: dom,es5,scripthost  --target ES6:  dom,es6,dom.iterable,scripthost
+	
+	--listEmittedFiles  // boolean false 打印出编译后生成文件的名字。
+	--listFiles  // boolean false 编译过程中打印文件名
+	--locale // string 显示错误信息时使用的语言，比如：en-us。
+	--maxNodeModuleJsDepth // number 0 node_modules下的最大依赖深度搜索并加载JavaScript文件。仅适用于使用--allowJs。
+	--module // string 指定生成哪个模块系统代码：'commonjs'，'amd'，'system'，或 'umd'或'es2015'。只有'amd'和'system'能和--outFile一起使用。当目标是ES5或以下的时候不能使用'es2015'。
+	--moduleResolution // string  module === 'amd' | 'system' | 'ES6' ? 'classic' : 'node'
+	--newLine // string 当生成文件时指定行结束符：'CRLF'（dos）或 'LF' （unix）。
+	--noEmit // boolean false 不生成输出文件
+	--noEmitOnError // boolean false 报错时不生成输出文件。
+	--noImplicitAny //boolean false 在表达式和声明上有隐含的'any'类型时报错。
+	--noImplicitReturns	//boolean false 不是函数的所有返回路径都有返回值时报错。
+	—--noImplicitThis //boolean false 当this表达式的值为any类型的时候，生成一个错误。
+	--noImplicitUseStrict //boolean false 模块输出中不包含'use strict'指令。
+	--noLib //boolean false 不包含默认的库文件（lib.d.ts）。
+	--noResolve  //boolean false 不把/// <reference``>或模块导入的文件加到编译文件列表	 
+	--noUnusedLocals //boolean false 若有未使用的局部变量则抛错
+	--noUnusedParameters //boolean false 若有未使用的参数则抛错
+	--outDir //string 重定向输出目录
+	--outFile //string  将输出文件合并为一个文件。合并的顺序是根据传入编译器的文件顺序和///<reference``>和import的文件顺序决定的。查看输出文件顺序文件了解详情。
+	paths //Object 模块名到基于baseUrl的路径映射的列表。
+	--preserveConstEnums  //boolean false 保留const和enum声明。
+	
+	--pretty //boolean false 给错误和消息设置样式，使用颜色和上下文。
+	--reactNamespace //string "React" 当目标为生成'react' JSX时，指定createElement和__spread的调用对象
+	--removeComments //boolean false 删除所有注释，除了以/!*开头的版权信息。
+
+
+	--strictNullChecks //boolean false 在严格的null检查模式下，null和undefined值不包含在任何类型里，只允许用它们自己和any来赋值（有个例外，undefined可以赋值到void）。
+	--suppressImplicitAnyIndexErrors //boolean false 阻止--noImplicitAny对缺少索引签名的索引对象报错
+
+	--target //string "ES5" 指定ECMAScript目标版本'ES3' (默认)，'ES5'，或'ES6'[1]
+	--traceResolution // boolean false 生成模块解析日志信息
+	--types // string[] 要包含的类型声明文件名列表
+	--typeRoots // string[]  要包含的类型声明文件路径列表
+
+	
+	--init 初始化TypeScript项目并创建一个tsconfig.json文件。
+	--help 打印帮助信息。
+	--version
+	--watch 在监视模式下运行编译器。会监视输出文件，在它们改变时重新编译。
+}
+
+
+
+
+
+
+
+
 npm install -g @angular/cli
 
 ng new [name]-----------------------------------------------------------------------------------
