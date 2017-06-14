@@ -227,6 +227,100 @@ export class AppModule(){}
 
 
 
+//TOOlTIP———————————————————————————————————————————————————
+import { TooltipModule } from 'ngx-bootstrap';
+@NgModule({
+  imports: [TooltipModule.forRoot(),...]
+})
+
+<button type="button" class="btn btn-primary"
+        tooltip="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+  Simple demo
+</button>
+
+＃Dynamic Html
+<template #popTemplate>Here we go: <div [innerHtml]="html"></div></template>
+<button type="button" class="btn btn-success"
+        [tooltip]="popTemplate">
+  Show me tooltip with html
+</button>
+
+
+＃Configuring defaults
+import { Component } from '@angular/core';
+import { TooltipConfig } from 'ngx-bootstrap/tooltip';
+export function getAlertConfig(): TooltipConfig {
+  return Object.assign(new TooltipConfig(), {placement: 'right', container: 'body'});
+}
+ 
+@Component({
+  selector: 'demo-tooltip-config',
+  templateUrl: './config.html',
+  providers: [{provide: TooltipConfig, useFactory: getAlertConfig}]
+})
+export class DemoTooltipConfigComponent {
+}
+
+＃config.html
+<button type="button" class="btn btn-primary"
+        tooltip="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+  Preconfigured tooltip
+</button>
+
+
+
+＃点击显示 消失
+<p>
+  <span tooltip="Hello there! I was triggered manually"
+        triggers="" #pop="bs-tooltip">
+  This text has attached tooltip
+  </span>
+</p>
+
+<button type="button" class="btn btn-success" (click)="pop.show()">
+  Show
+</button>
+<button type="button" class="btn btn-warning" (click)="pop.hide()">
+  Hide
+</button>
+
+#更改样式
+styles: [`
+:host >>> .tooltip-inner {
+  background-color: #009688;
+  color: #fff;
+}
+:host >>> .tooltip .tooltip-arrow {
+  border-bottom-color: #009688;
+}
+
+
+
+
+placement="left" // top, right, bottom, and left aligned
+triggers="focus" //点击才显示
+container="body"
+isDisabled //允许禁用工具提示
+isOpen //Returns whether or not the tooltip is currently being shown
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

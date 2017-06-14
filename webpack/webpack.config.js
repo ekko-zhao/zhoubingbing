@@ -49,7 +49,7 @@ module.exports = { 
 
 		/*new webpack.optimize.UglifyJsPlugin({
             compress: {
-                warnings: false,
+                warnings: env.production,
             },
             output: {
                 comments: false,

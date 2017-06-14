@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>rxjs</title>
+	<script src="https://cdn.bootcss.com/rxjs/5.4.0/Rx.min.js"></script>
+	
+</head>
+
+<body>
+	<p>afasdf<p>
+	<script>
+	var button = document.querySelector('body');
+Rx.Observable.fromEvent(button, 'click').throttleTime(1000).scan(function (count) {
+	return count + 1;
+}, 0).subscribe(function (count) {
+	return console.log(count);
+});
+	</script>
+	<!--<script src="./src/rx5.js"></script>-->
+</body>
+</html>

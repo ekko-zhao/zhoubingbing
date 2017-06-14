@@ -3,7 +3,15 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { DatepickerModule } from 'ngx-bootstrap';
+import  * as bootstrap from 'ngx-bootstrap';
+const ngxBootstrap = [
+	bootstrap.PaginationModule.forRoot(),
+	bootstrap.ModalModule.forRoot()
+	
+	
+	
+]
+
 
 import { AppComponent } from './app.component';
 
@@ -15,7 +23,7 @@ import { AppComponent } from './app.component';
     BrowserModule,
     FormsModule,
     HttpModule,
-	DatepickerModule.forRoot()
+	ngxBootstrap
   ],
   providers: [],
   bootstrap: [AppComponent]
