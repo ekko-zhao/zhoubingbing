@@ -1,0 +1,797 @@
+{\rtf1\ansi\ansicpg936\cocoartf1347\cocoasubrtf570
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\froman\fcharset0 Times-Roman;\f2\fnil\fcharset134 STSongti-SC-Regular;
+\f3\fmodern\fcharset0 Courier;\f4\fnil\fcharset134 STHeitiSC-Light;}
+{\colortbl;\red255\green255\blue255;\red148\green6\blue75;\red242\green242\blue242;\red60\green60\blue59;
+\red0\green0\blue0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww17340\viewh10960\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs28 \cf0 \
+\
+\pard\pardeftab720
+
+\f1 \cf0 \expnd0\expndtw0\kerning0
+//\expnd0\expndtw0\kerning0
+observable
+\f2 \'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa
+\f0 \kerning1\expnd0\expndtw0 \
+
+\f1 \expnd0\expndtw0\kerning0
+var observable = Rx.Observable.create(function (observer) \{ \
+	observer.next(1); \
+	observer.next(2);\
+	observer.next(3); \
+	setTimeout(() => \{ observer.next(4); observer.complete(); \}, 1000); \
+\});
+\f0 \kerning1\expnd0\expndtw0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\pard\pardeftab720
+
+\f1 \cf0 \expnd0\expndtw0\kerning0
+observable.subscribe(\{\
+	next: x => console.log('got value ' + x),\
+	error: err => console.error('something wrong occurred: ' + err),\
+	complete: () => console.log('done')\
+\})\
+\
+//
+\f2 \'b4\'a6\'c0\'ed\'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\'b5\'c4\'d6\'b4\'d0\'d0
+\f1 \
+var observable = Rx.Observable.from([10, 20, 30]); \
+var subscription = observable.subscribe(x => console.log(x));\
+// Later:\
+subscription.unsubscribe();\
+
+\f0 \kerning1\expnd0\expndtw0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\pard\pardeftab720
+
+\f1 \cf0 \expnd0\expndtw0\kerning0
+//observer
+\f2 \'b9\'db\'b2\'ec\'d5\'df\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\
+#\'b9\'db\'b2\'ec\'d5\'df\'ca\'c7\'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\'cb\'f9\'b7\'a2\'cb\'cd\'ca\'fd\'be\'dd\'b5\'c4\'cf\'fb\'b7\'d1\'d5\'df\'a3\'ac\'b9\'db\'b2\'ec\'d5\'df\'bc\'f2\'b5\'a5\'b6\'f8\'d1\'d4\'ca\'c7\'d2\'bb\'d7\'e9
+\f1  
+\f2 \'bb\'d8\'b5\'f7\'ba\'af\'ca\'fd
+\f1  
+\f2 \'a3\'ac
+\f1  
+\f2 \'b7\'d6\'b1\'f0\'b6\'d4\'d3\'a6\'d2\'bb\'d6\'d6\'b1\'bb\'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\'b7\'a2\'cb\'cd\'b5\'c4\'cd\'a8\'d6\'aa\'b5\'c4\'c0\'e0\'d0\'cd
+\f1 :next, error
+\f2 \'ba\'cd
+\f1  complete
+\f2 \'a1\'a3\
+\
+
+\f1 var observer=\{ \
+	next:x=>console.log('Observer got a next value: ' + x), \
+	error: err => console.error('Observer got an error: ' + err), \
+	complete: () => console.log('Observer got a complete notificatio n') \
+\}\
+\
+#
+\f2 \'d4\'da
+\f1 observable.subscribe
+\f2 \'c4\'da\'b2\'bf\'a3\'ac\'cb\'fc\'bd\'ab\'ca\'b9\'d3\'c3\'b5\'da\'d2\'bb\'b8\'f6\'bb\'d8\'b5\'f7\'b2\'ce\'ca\'fd\'d7\'f7\'ce\'aa
+\f1 next
+\f2 \'b5\'c4\'b4\'a6\'c0\'ed\'be\'e4\'b1\'fa\'b4\'b4\'bd\'a8\'d2\'bb
+\f1  
+\f2 \'b8\'f6\'b9\'db\'b2\'ec\'d5\'df\'b6\'d4\'cf\'f3\'a1\'a3\'d2\'b2\'bf\'c9\'d2\'d4\'cd\'a8\'b9\'fd\'bd\'ab\'c8\'fd\'b8\'f6\'ba\'af\'ca\'fd\'d7\'f7\'ce\'aa\'b2\'ce\'ca\'fd\'cc\'e1\'b9\'a9\'c8\'fd\'d6\'d6\'bb\'d8\'b5\'f7
+\f1 :\
+#
+\f2 \'b7\'d6\'b1\'f0\'b6\'d4\'d3\'a6 
+\f1 next error
+\f2   
+\f1 complete 
+\f2 \'ba\'af\'ca\'fd
+\f1 \
+observable.subscribe(\
+	 x => console.log('Observer got a next value: ' + x), \
+	err => console.error('Observer got an error: ' + err),\
+	 () => console.log('Observer got a complete notification')\
+);\
+\
+\
+//Subscription
+\f2 \'b6\'a9\'d4\'c4\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\
+
+\f1 var observable = Rx.Observable.interval(1000); \
+var subscription = observable.subscribe(x => console.log(x));\
+subscription.unsubscribe();\
+\
+#add\
+var observable1 = Rx.Observable.interval(400); \
+var observable2 = Rx.Observable.interval(300);\
+
+\f2 \
+
+\f1 var subscription = observable1.subscribe(x => console.log('first : ' + x)); \
+var childSubscription = observable2.subscribe(x => console.log(' second: ' + x));\
+\
+subscription.add(childSubscription);\
+setTimeout(() => \{ \
+	// Unsubscribes BOTH subscription and childSubscription 	\
+	subscription.unsubscribe(); \
+\}, 1000);\
+
+\f2 #\'b6\'a9\'d4\'c4\'d2\'b2\'d3\'d0\'d2\'bb\'b8\'f6
+\f1 remove(otherSubscription)
+\f2 \'b7\'bd\'b7\'a8
+\f1 ,
+\f2 \'d3\'c3\'d3\'da\'bd\'e2\'b3\'fd\'b1\'bb
+\f1 add
+\f2 \'cc\'ed\'bc\'d3\'b5\'c4\'d7\'d3\'b6\'a9\'d4\'c4\'a1\'a3
+\f1 \
+\
+\pard\pardeftab720\sa240
+\cf0 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720
+\cf0 \expnd0\expndtw0\kerning0
+//Subject
+\f2 \'d6\'f7\'cc\'e2 \'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa
+\f1 \
+#Subject
+\f2 \'ca\'c7\'d4\'ca\'d0\'ed\'d6\'b5\'b1\'bb\'b6\'e0\'b2\'a5\'b5\'bd\'b6\'e0\'b8\'f6\'b9\'db\'b2\'ec\'d5\'df\'b5\'c4\'d2\'bb\'d6\'d6\'cc\'d8\'ca\'e2\'b5\'c4
+\f1 Observable
+\f2 \'a1\'a3 \'c8\'bb\'b6\'f8\'b4\'bf\'b4\'e2\'b5\'c4\'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\'ca\'c7\'b5\'a5\'b2\'a5\'b5\'c4
+\f1 (
+\f2 \'c3\'bf\'d2\'bb\'b8\'f6\'b6\'a9\'d4\'c4\'b5\'c4\'b9\'db\'b2\'ec\'d5\'df\'d3\'b5\'d3\'d0\'b5\'a5\'b6\'c0\'b5\'c4\'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\'b5\'c4\'d6\'b4
+\f1  
+\f2 \'d0\'d0
+\f1 )
+\f2 \'a1\'a3
+\f1 \
+\
+var subject = new Rx.Subject();\
+subject.subscribe(\{\
+	next: (v) => console.log('observerA: ' + v)\
+\});\
+subject.subscribe(\{\
+	next: (v) => console.log('observerB: ' + v)\
+\});\
+\
+#
+\f2 \'d4\'da
+\f1 Subject
+\f2 \'b5\'c4\'c4\'da\'b2\'bf\'a3\'ac
+\f1 subscribe
+\f2 \'b2\'a2\'b2\'bb\'b5\'f7\'d3\'c3\'d2\'bb\'b8\'f6\'d0\'c2\'b5\'c4\'b7\'a2\'cb\'cd\'d6\'b5\'b5\'c3\'d6\'b4\'d0\'d0\'a1\'a3\'cb\'fc\'bd\'f6\'bd\'f6\'d4\'da\'b9\'db\'b2\'ec\'d5\'df\'d7\'a2
+\f1  
+\f2 \'b2\'e1\'b1\'ed\'d6\'d0\'d7\'a2\'b2\'e1\'b8\'f8\'b6\'a8\'b5\'c4\'b9\'db\'b2\'ec\'d5\'df\'a3\'ac
+\f1 \
+subject.next(1);\
+subject.next(2);\
+\
+\pard\pardeftab720\sa240
+\cf0 \expnd0\expndtw0\kerning0
+//
+\f2 \expnd0\expndtw0\kerning0
+\'d3\'c9\'d3\'da
+\f1 \expnd0\expndtw0\kerning0
+Subject
+\f2 \expnd0\expndtw0\kerning0
+\'d2\'b2\'ca\'c7\'d2\'bb\'b8\'f6\'b9\'db\'b2\'ec\'d5\'df\'a3\'ac\'d5\'e2\'be\'cd\'d2\'e2\'ce\'b6\'d7\'c5\'c4\'e3\'bf\'c9\'d2\'d4\'cc\'e1\'b9\'a9\'d2\'bb\'b8\'f6
+\f1 \expnd0\expndtw0\kerning0
+Subject
+\f2 \expnd0\expndtw0\kerning0
+\'b5\'b1\'d7\'f6
+\f1 \expnd0\expndtw0\kerning0
+ observable.subscribe()
+\f2 \expnd0\expndtw0\kerning0
+\'b5\'c4\'b2\'ce\'ca\'fd\
+
+\f1 \expnd0\expndtw0\kerning0
+var subject = new Rx.Subject()
+\f2 \expnd0\expndtw0\kerning0
+\
+
+\f1 \expnd0\expndtw0\kerning0
+subject.subscribe(\{ next: (v) => console.log('observerA: ' + v) \}); \
+subject.subscribe(\{ next: (v) => console.log('observerB: ' + v) \});
+\f2 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720
+
+\f1 \cf0 \expnd0\expndtw0\kerning0
+var observable = Rx.Observable.from([1, 2, 3]);
+\f2 \
+
+\f1 observable.subscribe(subject); 
+\f2 \
+\pard\pardeftab720\sa240
+\cf0 \expnd0\expndtw0\kerning0
+\
+#\'b6\'e0\'b2\'a5\'b5\'c4\'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\
+\pard\pardeftab720
+
+\f1 \cf0 \expnd0\expndtw0\kerning0
+#multicast
+\f2 \'b7\'bd\'b7\'a8\'b7\'b5\'bb\'d8\'d2\'bb\'b8\'f6\'bf\'b4\'c6\'f0\'c0\'b4\'ba\'dc\'cf\'f1\'c6\'d5\'cd\'a8\'b5\'c4\'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\'b5\'c4\'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\'a3\'ac\'b5\'ab\'ca\'c7\'d4\'da\'b6\'a9\'d4\'c4\'ca\'b1
+\f1  
+\f2 \'c8\'b4\'d3\'d0\'d7\'c5\'ba\'cd
+\f1 Subject
+\f2 \'d2\'bb\'d1\'f9\'b5\'c4\'d0\'d0\'ce\'aa\'a3\'ac
+\f1 multicast
+\f2 \'b7\'b5\'bb\'d8\'d2\'bb\'b8\'f6
+\f1 ConnectableObservable
+\f2 \'a3\'ac\'cb\'fc\'d6\'bb
+\f1  
+\f2 \'ca\'c7\'d2\'bb\'b8\'f6\'be\'df\'d3\'d0
+\f1 connect
+\f2 \'a3\'a8\'a3\'a9\'b7\'bd\'b7\'a8\'b5\'c4
+\f1 Observable
+\f2 \'a1\'a3\
+
+\f1 \
+var source=Rx.Observable.from([1,2,3]);\
+var subject=new Rx.Subject();\
+var multicasted=source.multicast(subject);\
+multicasted.subscribe(\{ next:(v)=>console.log('observerA:' +v); \});\
+multicasted.subscribe(\{ next: (v) => console.log('observerB: ' + v) \});\
+multicasted.connect();
+\f2 \
+\pard\pardeftab720\sa240
+\cf0 \expnd0\expndtw0\kerning0
+#
+\f1 \expnd0\expndtw0\kerning0
+connect()
+\f2 \expnd0\expndtw0\kerning0
+\'b7\'bd\'b7\'a8\'b6\'d4\'d3\'da\'d4\'da\'be\'f6\'b6\'a8\'ba\'ce\'ca\'b1\'bf\'aa\'ca\'bc\'b7\'d6\'cf\'ed\'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\'b5\'c4\'d6\'b4\'d0\'d0\'ca\'c7\'b7\'c7\'b3\'a3\'d6\'d8\'d2\'aa\'b5\'c4\'a1\'a3 \'b7\'b5\'bb\'d8\'d2\'bb\'b8\'f6
+\f1 \expnd0\expndtw0\kerning0
+ Subscription
+\f2 \expnd0\expndtw0\kerning0
+\'a3\'ac\'c4\'e3\'bf\'c9\'d2\'d4\'c8\'a1\'cf\'fb\'b6\'a9\'d4\'c4\'a3\'ac\'d2\'d4\'c8\'a1\'cf\'fb\'b9\'b2\'cf\'ed\'b5\'c4
+\f1 \expnd0\expndtw0\kerning0
+Observable
+\f2 \expnd0\expndtw0\kerning0
+\'d6\'b4\'d0\'d0\'a1\'a3\
+\
+\pard\pardeftab720
+
+\f3 \cf2 \cb3 \expnd0\expndtw0\kerning0
+#
+\f1 \cf0 \cb1 \expnd0\expndtw0\kerning0
+refCount
+\f2 \'ca\'b9\'b5\'c3\'b6\'e0\'b2\'a5\'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\'d4\'da\'c6\'e4\'b5\'da\'d2\'bb\'b8\'f6\'b9\'db\'b2\'ec\'d5\'df\'bf\'aa\'ca\'bc\'b6\'a9\'d4\'c4\'ca\'b1\'d7\'d4\'b6\'af\'b5\'c4\'bf\'aa\'ca\'bc\'d6\'b4\'d0\'d0\'a3\'ac
+\f1  
+\f2 \'d4\'da\'c6\'e4\'d7\'ee\'ba\'f3\'d2\'bb\'b8\'f6\'b6\'a9\'d4\'c4\'d5\'df\'c8\'a1\'cf\'fb\'b5\'c4\'ca\'b1\'ba\'f2\'d6\'d5\'d6\'b9\'d6\'b4\'d0\'d0
+\f3 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\
+
+\f4 \expnd0\expndtw0\kerning0
+\'a3\'a3\'b2\'bb\'d0\'e8\'d2\'aa\'cf\'d4\'ca\'be\'b5\'c4\'d6\'b4\'d0\'d0 
+\f1 \cf0 \cb1 \expnd0\expndtw0\kerning0
+multicasted.connect(); 
+\f2 \'ba\'cd\'c8\'a1\'cf\'fb\'b6\'a9\'d4\'c4\'c1\'cb
+\f3 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\
+var\cf4 \expnd0\expndtw0\kerning0
+ refCounted = source.multicast(subject).refCount();\
+\pard\pardeftab720
+
+\f2 \cf0 \cb1 \expnd0\expndtw0\kerning0
+\
+\
+\pard\pardeftab720
+
+\f1\b \cf0 \expnd0\expndtw0\kerning0
+BehaviorSubject
+\f2\b0 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720
+
+\f1 \cf0 Subjects
+\f2 \'b5\'c4\'d2\'bb\'b8\'f6\'b1\'e4\'cc\'e5\'ca\'c7
+\f1 BehaviorSubject,
+\f2 \'c6\'e4\'d3\'d0
+\f1 "
+\f2 \'b5\'b1\'c7\'b0\'d6\'b5
+\f1 "
+\f2 \'b5\'c4\'b8\'c5\'c4\'ee\'a1\'a3\'cb\'fc\'b4\'a2\'b4\'e6\'d7\'c5\'d2\'aa\'b7\'a2\'c9\'e4\'b8\'f8\'cf\'fb
+\f1  
+\f2 \'b7\'d1\'d5\'df\'b5\'c4\'d7\'ee\'d0\'c2\'b5\'c4\'d6\'b5\'a1\'a3\'ce\'de\'c2\'db\'ba\'ce\'ca\'b1\'d2\'bb\'b8\'f6\'d0\'c2\'b5\'c4\'b9\'db\'b2\'ec\'d5\'df\'b6\'a9\'d4\'c4\'cb\'fc\'a3\'ac\'b6\'bc\'bb\'e1\'c1\'a2\'bc\'b4\'bd\'d3\'ca\'dc\'b5\'bd\'d5\'e2\'b8\'f6\'c0\'b4\'d7\'d4
+\f1  BehaviorSubject
+\f2 \'b5\'c4
+\f1 "
+\f2 \'b5\'b1\'c7\'b0\'d6\'b5
+\f1 "
+\f2 \'a1\'a3\
+
+\f1 BehaviorSubject
+\f2 \'b6\'d4\'d3\'da\'b1\'ed\'ca\'be
+\f1 "
+\f2 \'cb\'e6\'ca\'b1\'bc\'e4\'b5\'c4\'d6\'b5
+\f1 "
+\f2 \'ca\'c7\'ba\'dc\'d3\'d0\'d3\'c3\'b5\'c4\'a1\'a3\'be\'d9\'b8\'f6\'c0\'fd\'d7\'d3\'a3\'ac\'c8\'cb\'b5\'c4\'c9\'fa\'c8\'d5\'b5\'c4\'ca\'c2
+\f1  
+\f2 \'bc\'fe\'c1\'f7\'ca\'c7\'d2\'bb\'b8\'f6
+\f1 Subject,
+\f2 \'c8\'bb\'b6\'f8\'c8\'cb\'b5\'c4\'c4\'ea\'c1\'e4\'b5\'c4\'c1\'f7\'ca\'c7\'d2\'bb\'b8\'f6
+\f1 BehaviorSubject
+\f2 \'a1\'a3\
+
+\f1 var subject = new Rx.BehaviorSubject(0);  // 0 is the initial val ue\
+\
+subject.subscribe(\{ next: (v) => console.log('observerA: ' + v) \});\
+subject.next(1); subject.next(2);\
+subject.subscribe(\{ next: (v) => console.log('observerB: ' + v) \});\
+subject.next(3);\
+\
+
+\f2 \'ca\'e4\'b3\'f6\'c8\'e7\'cf\'c2
+\f1 :\
+observerA: 0 \
+observerA: 1 \
+observerA: 2 \
+observerB: 2 \
+observerA: 3 \
+observerB: 3\
+\
+\
+#
+\b \expnd0\expndtw0\kerning0
+ReplaySubject\
+
+\f2\b0 \expnd0\expndtw0\kerning0
+\'d2\'bb\'b8\'f6
+\f1 ReplaySubject
+\f2 \'c0\'e0\'cb\'c6\'d3\'da\'d2\'bb\'b8\'f6
+\f1 BehaviorSubject
+\f2 \'a3\'ac\'d2\'f2\'ce\'aa\'cb\'fc\'bf\'c9\'d2\'d4\'b7\'a2\'cb\'cd\'d2\'bb\'b8\'f6\'b9\'fd\'c8\'a5\'b5\'c4\'d6\'b5
+\f1 (old values)
+\f2 \'b8\'f8\'d2\'bb\'b8\'f6\'d0\'c2\'b5\'c4\'b6\'a9\'d4\'c4\'d5\'df\'a3\'ac\'b5\'ab\'ca\'c7\'cb\'fc\'d2\'b2\'bf\'c9\'d2\'d4\'bc\'c7\'c2\'bc\'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\'b5\'c4\'d2\'bb\'b2\'bf\'b7\'d6\'d6\'b4\'d0\'d0\'a1\'a3\
+\'d2\'bb\'b8\'f6
+\f1 ReplaySubject 
+\f2 \'b4\'d3\'d2\'bb\'b8\'f6\'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\'b5\'c4\'d6\'b4\'d0\'d0\'d6\'d0\'bc\'c7\'c2\'bc\'b6\'e0\'b8\'f6\'d6\'b5\'a3\'ac\'b2\'a2\'c7\'d2\'bf\'c9\'d2\'d4\'d6\'d8\'d0\'c2\'b7\'a2
+\f1  
+\f2 \'cb\'cd\'b8\'f8\'d0\'c2\'b5\'c4\'b6\'a9\'d4\'c4\'d5\'df\'a1\'a3
+\f1 \
+\
+var subject = new Rx.ReplaySubject(3); // buffer 3 values for ne w subscribers 
+\f2 \'a3\'ac\'d7\'a2
+\f1 :
+\f2 \'bb\'ba\'b4\'e6\'c1\'cb\'c8\'fd\'b8\'f6\'d6\'b5\'a1\'a3\
+
+\f1 subject.subscribe(\{ next: (v) => console.log('observerA: ' + v) \});\
+\
+subject.next(1);\
+subject.next(2);\
+subject.next(3);\
+subject.next(4);\
+//
+\f2 \'bb\'e1 \'b0\'d1\'bc\'c7\'c2\'bc\'b5\'c43\'b8\'f6\'d6\'b5 
+\f1 .next(2); 3 4 
+\f2 \'b4\'ab\'b8\'f8\'cf\'c2\'c3\'e6\'b5\'c4
+\f1 \
+subject.subscribe(\{\
+next: (v) => console.log('observerB: ' + v)\
+\});\
+subject.next(5);\
+\
+
+\f2 // \'ca\'e4\'b3\'f6\'c8\'e7\'cf\'c2
+\f1 \
+observerA: 1\
+observerA: 2\
+observerA: 3\
+observerA: 4\
+\
+//
+\f2 \'bc\'c7\'c2\'bc\'b6\'e0\'b8\'f6\'d6\'b5
+\f1 \
+observerB: 2\
+observerB: 3\
+observerB: 4\
+//next(5);\
+observerA: 5\
+observerB: 5\
+\
+#
+\f2 \'b3\'fd\'c1\'cb\'bb\'ba\'b4\'e6\'d6\'b5\'b5\'c3\'b8\'f6\'ca\'fd\'d6\'ae\'cd\'e2\'a3\'ac\'c4\'e3\'d2\'b2\'bf\'c9\'d2\'d4\'d6\'b8\'b6\'a8\'d2\'bb\'b8\'f6\'d2\'d4\'ba\'c1\'c3\'eb\'ce\'aa\'b5\'a5\'ce\'bb\'b5\'c4\'ca\'b1\'bc\'e4\'a3\'ac\'c0\'b4\'be\'f6\'b6\'a8\'b9\'fd\'c8\'a5\'b6\'e0\'be\'c3
+\f1  
+\f2 \'b3\'f6\'cf\'d6\'b5\'c4\'d6\'b5\'bf\'c9\'d2\'d4\'b1\'bb\'d6\'d8\'b7\'a2\'a1\'a3\'d4\'da\'cf\'c2\'c3\'e6\'b5\'c4\'c0\'fd\'d7\'d3\'d6\'d0\'d6\'b8\'b6\'a8\'d2\'bb\'b0\'d9\'b8\'f6\'bb\'ba\'b4\'e6\'d6\'b5\'a3\'ac\'b5\'ab\'ca\'c7\'ca\'b1\'bc\'e4\'b2\'ce\'ca\'fd\'bd\'f6\'ce\'aa
+\f1  500ms
+\f2 \'a1\'a3\
+
+\f1 var subject = new Rx.ReplaySubject(100, 500 /* windowTime */);\
+\
+\
+#
+\b \expnd0\expndtw0\kerning0
+AsyncSubject\
+
+\b0 \expnd0\expndtw0\kerning0
+AsyncSubject
+\f2 \'ca\'c7\'c1\'ed\'d2\'bb\'b8\'f6\'b1\'e4\'cc\'e5\'a3\'ac\'cb\'fc\'d6\'bb\'b7\'a2\'cb\'cd\'b8\'f8\'b9\'db\'b2\'ec\'d5\'df\'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\'d6\'b4\'d0\'d0\'b5\'c4\'d7\'ee\'d0\'c2\'d6\'b5\'a3\'ac\'b2\'a2\'c7\'d2\'bd\'f6
+\f1  
+\f2 \'d4\'da\'d6\'b4\'d0\'d0\'bd\'e1\'ca\'f8\'ca\'b1\'a1\'a3\
+\
+var subject = new Rx.AsyncSubject();\
+subject.subscribe(\{\
+	next: (v) => console.log('observerA: ' + v)\
+\});\
+subject.next(1);\
+subject.next(2);\
+subject.next(3);\
+subject.next(4);\
+\
+subject.subscribe(\{\
+next: (v) => console.log('observerB: ' + v)\
+\});\
+\
+subject.next(5);\
+subject.complete();\
+\'ca\'e4\'b3\'f6
+\f1 :\
+observerA: 5\
+observerA: 5
+\f2 \
+\
+\
+
+\f1 #
+\b \expnd0\expndtw0\kerning0
+Scheduler
+\f2\b0 \expnd0\expndtw0\kerning0
+\'b5\'f7\'b6\'c8\'d5\'df\
+\
+#\'ca\'b9\'d3\'c3
+\f1  observeOn
+\f2 \'b2\'d9\'d7\'f7\'b7\'fb\'d6\'b8\'b6\'a8\'d3\'c3\'d3\'da\'b4\'ab\'b5\'dd\'d5\'e2\'d0\'a9\'d6\'b5\'b5\'c4\'d2\'ec\'b2\'bd\'b5\'f7\'b6\'c8\'b3\'cc\'d0\'f2\'a1\'a3\
+var observable = Rx.Observable.create(function (observer) \{\
+	observer.next(1);\
+	observer.next(2);\
+	observer.next(3);\
+	observer.complete();\
+\})\
+.observeOn(Rx.Scheduler.async);\
+\
+\
+#
+\f1\b \expnd0\expndtw0\kerning0
+The basics 
+\f2\b0 \expnd0\expndtw0\kerning0
+\'bb\'f9\'b4\'a1\
+\'d7\'aa\'bb\'bb\'ce\'aa\'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\
+\
+
+\f1 Rx.observable.of('foo','bar');  //
+\f2 \'d2\'bb\'b8\'f6\'bb\'f2\'b6\'e0\'b8\'f6\'d6\'b5
+\f1 ->
+\f2 \'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\
+
+\f1 Rx.Observable.from([1,2,3]);  //
+\f2 \'ca\'fd\'d7\'e9
+\f1 ->
+\f2 \'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\
+
+\f1 Rx.Observable.fromEvent(document.querySelector('button'),'click' );  //
+\f2 \'ca\'c2\'bc\'fe
+\f1 ->
+\f2 \'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\
+
+\f1 Rx.Observable.fromPromise(fetch('/users'))  //promise->
+\f2 \'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\
+\
+//\'bb\'d8\'b5\'f7\'ba\'af\'ca\'fd
+\f1 ->
+\f2 \'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\
+
+\f1 var exists = Rx.Observable.bindCallback(fs.exists); \
+exists('file.txt').subscribe(exists => console.log('Does file ex ist?', exists));
+\f2 \
+\
+#
+\f1\b \expnd0\expndtw0\kerning0
+Creating observables
+\f2 \expnd0\expndtw0\kerning0
+\'b4\'b4\'bd\'a8\'bf\'c9\'b9\'db\'b2\'ec\'b6\'d4\'cf\'f3\
+\
+
+\b0 \expnd0\expndtw0\kerning0
+\'cd\'e2\'b2\'bf\'b2\'fa\'c9\'fa\'d0\'c2\'ca\'c2\'bc\'fe\
+
+\f1 var myObservable = new Rx.Subject(); \
+myObservable.subscribe(value => console.log(value)); myObservable.next('foo');
+\f2 \
+\
+\'c4\'da\'b2\'bf\'b2\'fa\'c9\'fa\'d0\'c2\'ca\'c2\'bc\'fe\
+
+\f1 var myObservable = Rx.Observable.create(observer => \{ observer.next('foo'); setTimeout(() => observer.next('bar'), 1000); \}); myObservable.subscribe(value => console.log(value));
+\f2 \
+\
+#
+\f1\b \expnd0\expndtw0\kerning0
+Controlling the flow
+\b0 \expnd0\expndtw0\kerning0
+ 
+\f2 \'bf\'d8\'d6\'c6\'c1\'f7\
+
+\f1 var input = Rx.Observable.fromEvent(document.querySelector('inpu t'), 'keypress');\
+\
+// Filter out target values less than 3 characters long\
+input.filter(event => event.target.value.length > 2) .subscribe(value => console.log(value)); \
+\
+// Delay the events\
+input.delay(200) .subscribe(value => console.log(value)); \
+\
+// Only let through an event every 200 ms\
+input.throttleTime(200) .subscribe(value => console.log(value));\
+\
+// Let through latest event after 200 ms\
+input.debounceTime(200) .subscribe(value => console.log(value));\
+\
+// Stop the stream of events after 3 events
+\f2 \
+
+\f1 input.take(3) .subscribe(value => console.log(value)); 
+\f2 \
+\
+#
+\f1\b \expnd0\expndtw0\kerning0
+producing values 
+\f2\b0 \expnd0\expndtw0\kerning0
+\'c9\'fa\'b2\'fa\'d6\'b5\
+
+\f1 // typing "hello world" \
+var input = Rx.Observable.fromEvent(document.querySelector('inpu t'), 'keypress');
+\f2 \
+\
+
+\f1 // Pass on a new value\
+input.map(event => event.target.value) .subscribe(value => console.log(value));  // "h"\
+\
+// Pass on a new value by plucking it\
+input.pluck('target', 'value') .subscribe(value => console.log(value)); // "h"\
+\
+// Pass the two previous values\
+input.pluck('target', 'value').pairwise() .subscribe(value => console.log(value)); // ["h", \'93e]\
+\
+// Only pass unique values through\
+input.pluck('target', 'value').distinct() .subscribe(value => console.log(value)); // "helo wrd"\
+\
+// Do not pass repeating values through\
+input.pluck('target', 'value').distinctUntilChanged() .subscribe(value => console.log(value)); // "helo world"
+\f2 \
+\
+#
+\b \expnd0\expndtw0\kerning0
+\'d3\'ef\'b7\'a8\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\'a1\'aa\
+
+\b0 \expnd0\expndtw0\kerning0
+\
+
+\f1 // Suppose we have jQuery.getJSON('/my/url', callback)
+\f2 \
+
+\f1 var getJSONAsObservable = Rx.Observable.bindCallback(jQuery.getJ SON); \
+var result = getJSONAsObservable('/my/url'); \
+result.subscribe(x => console.log(x), e => console.error(e));
+\f2 \
+\
+\pard\pardeftab720
+
+\f1\b \cf0 \expnd0\expndtw0\kerning0
+bindNodeCallback
+\b0 \expnd0\expndtw0\kerning0
+\
+#
+\f2 \'bb\'f9\'b1\'be\'b5\'c8\'cd\'ac\'d3\'da
+\f1 bindCallback,
+\f2 \'b2\'bb\'cd\'ac\'b5\'c4\'ca\'c7\'d7\'f7\'ce\'aa\'ca\'e4\'c8\'eb\'ba\'af\'ca\'fd\'b5\'c4\'b2\'ce\'ca\'fd\'b5\'c4\'bb\'d8\'b5\'f7\'ba\'af\'ca\'fd\'d2\'aa\'d3\'d0
+\f1 error
+\f2 \'b2\'ce
+\f1  
+\f2 \'ca\'fd\'a3\'ba
+\f1 callback(erro,result).
+\f2 \
+\
+\
+
+\f1\b \expnd0\expndtw0\kerning0
+combineLatest\
+#
+\f2\b0 \expnd0\expndtw0\kerning0
+\'d7\'e9\'ba\'cf\'b6\'e0\'b8\'f6
+\f1 Observable
+\f2 \'b2\'fa\'c9\'fa\'d2\'bb\'b8\'f6\'d0\'c2\'b5\'c4
+\f1 Observable
+\f2 \'a3\'ac\'c6\'e4\'b7\'a2\'c9\'e4\'b5\'c4\'d6\'b5\'b8\'f9\'be\'dd\'c6\'e4\'c3\'bf\'b8\'f6\'ca\'e4\'c8\'eb
+\f1  Observable
+\f2 \'b5\'c4\'d7\'ee\'d0\'c2\'d6\'b5\'bc\'c6\'cb\'e3\'a1\'a3\
+\
+\pard\pardeftab720
+
+\f1 \cf0 var weight = Rx.Observable.of(70, 72, 76, 79, 75); \
+var height = Rx.Observable.of(1.76, 1.77, 1.78); \
+var bmi = Rx.Observable.combineLatest(weight, height, (w, h) => w / (h * h)); \
+bmi.subscribe(x => console.log('BMI is ' + x));
+\f2 \
+\
+\pard\pardeftab720
+
+\f1\b \cf0 \expnd0\expndtw0\kerning0
+concat\
+\pard\pardeftab720
+
+\b0 \cf0 \expnd0\expndtw0\kerning0
+var timer = Rx.Observable.interval(1000).take(4); \
+var sequence = Rx.Observable.range(1, 10); \
+var result = Rx.Observable.concat(timer, sequence); result.subscribe(x => console.log(x));
+\f2 \
+\
+\pard\pardeftab720
+
+\f1\b \cf0 \expnd0\expndtw0\kerning0
+create
+\b0 \expnd0\expndtw0\kerning0
+\
+var result = Rx.Observable.create(function (subscriber) \{\
+	subscriber.next(Math.random());\
+	subscriber.next(Math.random());\
+	subscriber.next(Math.random());\
+	subscriber.complete();\
+\});\
+result.subscribe(x => console.log(x));
+\f2 \
+\
+\
+
+\f1\b \expnd0\expndtw0\kerning0
+from\
+\pard\pardeftab720
+
+\f2\b0 \cf0 \expnd0\expndtw0\kerning0
+\'bd\'ab\'d2\'bb\'b8\'f6\'ca\'fd\'d7\'e9\'a1\'a2\'c0\'e0\'ca\'fd\'d7\'e9
+\f1 (
+\f2 \'d7\'d6\'b7\'fb\'b4\'ae\'d2\'b2\'bf\'c9\'d2\'d4
+\f1 )
+\f2 \'a3\'ac
+\f1 Promise
+\f2 \'a1\'a2\'bf\'c9\'b5\'fc\'b4\'fa\'b6\'d4\'cf\'f3\'a3\'ac\'c0\'e0\'bf\'c9\'b9\'db\'b2\'ec
+\f1  
+\f2 \'b6\'d4\'cf\'f3\'a1\'a2\'d7\'aa\'bb\'af\'ce\'aa\'d2\'bb\'b8\'f6
+\f1 Observable\
+var array = [10, 20, 30]; \
+var result = Rx.Observable.from(array); \
+result.subscribe(x => console.log(x));\
+\
+\
+\pard\pardeftab720
+
+\b \cf0 \expnd0\expndtw0\kerning0
+fromEvent\
+\pard\pardeftab720
+
+\f2\b0 \cf0 \expnd0\expndtw0\kerning0
+\'bd\'ab\'d2\'bb\'b8\'f6\'d4\'aa\'cb\'d8\'c9\'cf\'b5\'c4\'ca\'c2\'bc\'fe\'d7\'aa\'bb\'af\'ce\'aa\'d2\'bb\'b8\'f6
+\f1 Observable\
+\pard\pardeftab720
+
+\f2 \cf5 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec5 \'cd\'a8\'b9\'fd\'ca\'b9\'d3\'c3
+\f1 addHandler
+\f2 \'ba\'cd
+\f1 removeHandler
+\f2 \'ba\'af\'ca\'fd\'cc\'ed\'bc\'d3\'ba\'cd\'c9\'be\'b3\'fd\'b4\'a6\'c0\'ed\'b3\'cc\'d0\'f2\'a1\'a3
+\f1  
+\f2 \'b5\'b1\'ca\'e4
+\f1  
+\f2 \'b3\'f6
+\f1 Observable
+\f2 \'b1\'bb\'b6\'a9\'d4\'c4\'ca\'b1\'a3\'ac
+\f1 addHandler
+\f2 \'b1\'bb\'b5\'f7\'d3\'c3\'a3\'ac\'b2\'a2\'c7\'d2\'b5\'b1\'b6\'a9\'d4\'c4\'b1\'bb\'c8\'a1\'cf\'fb\'b6\'a9\'d4\'c4\'ca\'b1\'b5\'f7\'d3\'c3
+\f1  removeHandler
+\f2 \'a1\'a3
+\f1 \cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+\pard\pardeftab720
+\cf0 \
+var clicks = Rx.Observable.fromEvent(document, 'click'); \
+clicks.subscribe(x => console.log(x));\
+\
+\pard\pardeftab720
+\cf5 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec5 fromEventPattern\cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+\pard\pardeftab720
+\cf0 \
+function addClickHandler(handler) \{\
+	document.addEventListener('click', handler);\
+\}\
+\
+function removeClickHandler(handler) \{\
+	document.removeEventListener('click', handler);\
+\}\
+var clicks = Rx.Observable.fromEventPattern(\
+	addClickHandler,\
+	removeClickHandler\
+);\
+clicks.subscribe(x => console.log(x));\
+\
+\pard\pardeftab720
+
+\b \cf5 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec5 interval
+\b0 \
+
+\f2 \'b7\'b5\'bb\'d8\'d2\'bb\'b8\'f6\'d2\'d4\'d6\'dc\'c6\'da\'d0\'d4\'b5\'c4\'a1\'a2\'b5\'dd\'d4\'f6\'b5\'c4\'b7\'bd\'ca\'bd\'b7\'a2\'c9\'e4\'d6\'b5\'b5\'c4
+\f1 Observable\
+var numbers = Rx.Observable.interval(1000); numbers.subscribe(x => console.log(x));\cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+\pard\pardeftab720
+\cf0 \
+\pard\pardeftab720
+
+\b \cf5 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec5 merge
+\b0 \
+
+\f2 \'b4\'b4\'bd\'a8\'d2\'bb\'b8\'f6\'b7\'a2\'c9\'e4\'cb\'f9\'d3\'d0\'b1\'bb\'ba\'cf\'b2\'a2\'b5\'c4
+\f1 observable
+\f2 \'cb\'f9\'b7\'a2\'c9\'e4\'b5\'c4\'d6\'b5\'a1\'a3
+\f1 \cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+\pard\pardeftab720
+\cf0 var clicks = Rx.Observable.fromEvent(document, 'click');\
+var timer = Rx.Observable.interval(1000);\
+var clicksOrTimer = Rx.Observable.merge(clicks, timer);\
+clicksOrTimer.subscribe(x => console.log(x));\
+\
+\pard\pardeftab720
+
+\b \cf5 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec5 of\
+
+\f2\b0 \'b4\'b4\'bd\'a8\'d2\'bb\'b8\'f6
+\f1 Observable
+\f2 \'a3\'ac\'b7\'a2\'c9\'e4\'d6\'b8\'b6\'a8\'b2\'ce\'ca\'fd\'b5\'c4\'d6\'b5\'a3\'ac\'d2\'bb\'b8\'f6\'bd\'d3\'d2\'bb\'b8\'f6\'a3\'ac\'d7\'ee\'ba\'f3\'b7\'a2\'b3\'f6
+\f1  complate
+\f2 \'a1\'a3\
+
+\f1 var numbers = Rx.Observable.of(1, 2, 3);\cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+\pard\pardeftab720
+\cf0 \
+\
+\pard\pardeftab720
+
+\b \cf5 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec5 range\
+
+\f2\b0 \'b4\'b4\'bd\'a8\'b7\'a2\'c9\'e4\'d2\'bb\'b8\'f6\'ca\'fd\'d7\'d6\'d0\'f2\'c1\'d0\'b5\'c4
+\f1 observable\
+var numbers = Rx.Observable.range(1, 10); numbers.subscribe(x => console.log(x));\cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+\pard\pardeftab720
+\cf0 \
+\
+\
+\pard\pardeftab720
+
+\b \cf5 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec5 timer
+\b0 \
+
+\f2 \'c0\'e0\'cb\'c6\'d3\'da
+\f1 interval,
+\f2 \'b5\'ab\'ca\'c7\'b5\'da\'d2\'bb\'b8\'f6\'b2\'ce\'ca\'fd\'d3\'c3\'c0\'b4\'c9\'e8\'d6\'c3\'b7\'a2\'c9\'e4\'b5\'da\'d2\'bb\'b8\'f6\'d6\'b5\'b5\'c3\'d1\'d3\'b3\'d9\'ca\'b1\'bc\'e4
+\f1 \
+\
+var numbers = Rx.Observable.timer(3000, 1000); \
+numbers.subscribe(x => console.log(x));\cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+\pard\pardeftab720
+\cf0 \
+\
+\
+\
+\
+\
+\
+\
+\
+}

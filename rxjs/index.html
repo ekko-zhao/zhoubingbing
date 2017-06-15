@@ -9,14 +9,11 @@
 
 <body>
 	<p>afasdf<p>
+	<button>button</button>
 	<script>
-	var button = document.querySelector('body');
-Rx.Observable.fromEvent(button, 'click').throttleTime(1000).scan(function (count) {
-	return count + 1;
-}, 0).subscribe(function (count) {
-	return console.log(count);
-});
+		var Rx2 = Rx;
+		var require = function(){}
 	</script>
-	<!--<script src="./src/rx5.js"></script>-->
+	<script src="./src/rx5.js"></script>
 </body>
 </html>
