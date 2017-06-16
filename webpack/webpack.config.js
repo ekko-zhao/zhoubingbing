@@ -162,7 +162,7 @@ module.exports = { 
 	resolve: {
 		//查找module的话从这里开始查找
 		//root: __dirname, //绝对路径
-
+		//alias: {} 别名
 		//自动扩展文件后缀名，意味着我们require模块可以省略不写后缀名
 		//extensions: ['', '.js', '.json', '.scss'],
 

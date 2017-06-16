@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Vue test</title>
+</head>
+<body>
+
+<script src="js/vue.min.js"></script>
+<script>
+	var app = document.createElement('div');
+	app.id="app";
+	document.body.appendChild(app);
+	
+	app.innerHTML = '<my-component/>';
+	
+	Vue.extend({
+		template: '<div style="border: 1px solid #ccc;width:200px; background:#fff">Parent<child-b></child-b>父模版内部</div>'
+	})
+	
+	Vue.component('my-component', {
+		template: 	'<div style="border: 1px solid #ccc;width:200px; background:#fff">Parent父模版内部</div>'
+	});
+	
+	var vm = new Vue({
+		el: '#app'
+	})
+</script>
+</body>
+</html>
