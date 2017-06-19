@@ -129,14 +129,62 @@ Vue 提供了 transition 的封装组件，在下列情形中，可以给任何�
 		transform:translateX(20px);
 	}
 
+#多个组件的过渡	
+	<transition name="component-fade" mode="out-in">
+		<component v-bind:is="view"></component>
+	</transition>
+	new Vue({
+	  el: '#transition-components-demo',
+	  data: {
+		view: 'v-a'
+	  },
+	  components: {
+		'v-a': {
+		  template: '<div>Component A</div>'
+		},
+		'v-b': {
+		  template: '<div>Component B</div>'
+		}
+	  }
+	})
+	
+	
+#列表过渡
+	.不同于 <transition>， 它会以一个真实元素呈现：默认为一个 <span>。你也可以通过 tag 特性更换为其他元素。
+	.内部元素 总是需要 提供唯一的 key 属性值
+	
+	<transition-group name="list" tag="p">
+		<span v-for="item in items" v-bind:key="item" class="list-item">
+			{{ item }}
+		</span>
+	</transition-group>
 
 
-
-
-
-
-
-
+	
+#列表的位移过渡
+	<transition-group name="flip-list" tag="ul">
+		<li v-for="item in items" v-bind:key="item">
+		  {{ item }}
+		</li>
+	</transition-group>
+	
+	new Vue({
+	  el: '#flip-list-demo',
+	  data: {
+		items: [1,2,3,4,5,6,7,8,9]
+	  },
+	  methods: {
+		shuffle: function () {
+		  this.items = _.shuffle(this.items)
+		}
+	  }
+	})
+	
+	
+	style:
+	.flip-list-move {
+	  transition: transform 1s;
+	}
 
 
 
