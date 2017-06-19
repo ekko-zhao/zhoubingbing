@@ -86,9 +86,9 @@ module.exports = {
 			/*{ test: /\.css$/, loader: extractCSS.extract( { fallback: 'style-loader', use: 'css-loader' } ) },
 			{ test: /\.less$/, loader: extractCSS.extract( { fallback: 'style-loader', use: 'css-loader!less-loader' } ) },*/
 			
-			{test: /\.css$/, loader: 'style-loader!css-loader'},
-			{ test: /\.less$/, loader: "style-loader!css-loader!less-loader?sourceMap" },
-			{ test: /\.scss$/, loader: 'style-loader!css-loader!sass-loader?sourceMap'},
+			{test: /\.css$/, loader: 'style-loader!css-loader!postcss-loader'},
+			{ test: /\.less$/, loader: "style-loader!css-loader!postcss-loader!less-loader?sourceMap" },
+			{ test: /\.scss$/, loader: 'style-loader!css-loader!css-loader!sass-loader?sourceMap'},
 			
 			//{ test: /\.js$/, loader: 'jsx-loader?harmony' , exclude: '/node_modules/' },
 			//{ test: /\.html$/, loader: 'html-loader'},
@@ -108,7 +108,7 @@ module.exports = {
 	
 	resolve: {
 		alias: {
-            'vue': 'vue/dist/vue.min.js',
+            'vue': 'vue/dist/vue.js',
 			'vueRouter' :'vue-router/dist/vue-router.min.js',
 			'vueResource' :'vue-resource/dist/vue-resource.min.js'
         }
