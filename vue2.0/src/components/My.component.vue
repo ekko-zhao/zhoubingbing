@@ -1,42 +1,115 @@
-<template>
-	<div>
-		prop: {{name}} <br>
-		 <input
-			ref="input"
-			v-bind:value="value"
-			v-on:input="updateValue($event.target.value)"
-		  >
-	</div>
-</template>
+
 
 <script>
-	module.exports = {
-		data: function(){
-			return {
-				name:'zhoubingbing'
-			}
-		},
+module.exports = {
+	//functional: true,
+	
+	data: function(){
+		return {
+			mg: this.message,
+			name: 'bingbing'
+		}
+	},
+	directives:{
+		focus: {
+			inserted: function (el) {
+				//console.log(el)
+				// 聚焦元素
+				el.focus()
+			 }
+		}
+	},
+	render: function(createElement , context){
+		var vm = this;
+		var s =  createElement('p','this is p, ')
 		
-		props:  ['value'],
-		//props: ['message']
 		
-		methods: {
-    // 不是直接更新值，而是使用此方法来对输入值进行格式化和位数限制
-    updateValue: function (value) {
-      var formattedValue = value
-        // 删除两侧的空格符
-        .trim()
-        // 保留 2 小数位
-        .slice(0, value.indexOf('.') + 3)
-      // 如果值不统一，手动覆盖以保持一致
-      if (formattedValue !== value) {
-        this.$refs.input.value = formattedValue
-      }
-      // 通过 input 事件发出数值
-      this.$emit('input', Number(formattedValue))
-    }
-  }
+		var input = createElement('input', {
+			domProps: {
+			  value: self.value
+			},
+			on: {
+			  input: function (event) {
+				self.value = event.target.value;
+				vm.data.mg = self.value
+			  }
+			},
+			ref: 'myInput',
+			directives: [
+				{
+					name: 'focus',
+					value: '2',
+					  expression: '1 + 1',
+					  arg: 'foo',
+					  modifiers: {
+						bar: true
+					  }
+					
+					
+				}
+			]
+		  })
 		
+		
+		//console.log(vm.$refs.myInput)
+		
+		var n = 1;
+		
+		
+		return createElement('div', {
+			'class': {
+				foo: true,
+				bar: false
+			},
+			
+			style: {
+				color: 'red',
+    			fontSize: '14px'
+			},
+			attrs: {
+				id:'foo'
+			},
+			props: {
+				myProp: 'bar'
+			},
+			
+			
+			
+			// DOM 属性
+			domProps: {
+				 //innerHTML: 'baz' 
+			},
+			on: {
+				click: function(){
+					
+					//vm.props.message = 23
+					
+				}
+			},
+			nativeOn: {
+				//click: this.nativeClickHandler
+			},
+			
+			/*
+			
+			scopedSlots: {
+				//default: props => h('span', props.text)
+			},
+			
+			// 如果组件是其他组件的子组件，需为slot指定名称
+			slot: 'name-of-slot',
+			
+			// 其他特殊顶层属性
+			key: 'myKey',
+			ref: 'myRef'
+			
+			*/
+		}, [ s, input])
+	},
+	props:{
+		message:[String]
 	}
+	
+}
 
 </script>

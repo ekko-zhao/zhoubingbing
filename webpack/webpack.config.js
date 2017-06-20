@@ -38,7 +38,9 @@ module.exports = { 
 		}),
 
 		/*new webpack.DefinePlugin({
-			'process.env.NODE.ENV':"development"
+			'process.env': {
+				NODE_ENV: '"production"'
+			 }
 		}),
 		new webpack.HotModuleReplacementPlugin(),*/
 

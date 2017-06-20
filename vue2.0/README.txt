@@ -22,6 +22,10 @@ var vm = new Vue({
 	
 	components:{ },
 	
+	directives: { },
+	
+	mixins: { },
+	
 	// 选项 / 数据
 	computed: { },
 	
@@ -132,10 +136,36 @@ example1.items = example1.items.filter(function (item) {
 
 
 	
-	
-	
-	
-	
+插件---------------------------------------------------------------
+	Vue.js 的插件应当有一个公开方法 install 。这个方法的第一个参数是 Vue 构造器 , 第二个参数是一个可选的选项对象:
+	MyPlugin.install = function (Vue, options) {
+		  // 1. 添加全局方法或属性
+		  Vue.myGlobalMethod = function () {
+		    // 逻辑...
+		  }
+		  // 2. 添加全局资源
+		  Vue.directive('my-directive', {
+		    bind (el, binding, vnode, oldVnode) {
+		      // 逻辑...
+		    }
+		    ...
+		  })
+		  // 3. 注入组件
+		  Vue.mixin({
+		    created: function () {
+		      // 逻辑...
+		    }
+		    ...
+		  })
+		  // 4. 添加实例方法
+		  Vue.prototype.$myMethod = function (options) {
+		    // 逻辑...
+			}
+	}
+
+	使用插件:
+		Vue.use(MyPlugin)
+		Vue.use(MyPlugin, { someOption: true })
 	
 	
 	
@@ -151,8 +181,78 @@ Vue.filter('my-filter', function (value) {
 	这里，字符串 'arg1' 将传给过滤器作为第二个参数， arg2 表达式的值将被求值然后传给过滤器作为第三个参数。
 
 
+
+＃Vue.directive( id, [definition] )
+钩子函数：
+	.bind: 只调用一次，指令第一次绑定到元素时调用，用这个钩子函数可以定义一个在绑定时执行一次的初始化动作。
+	.inserted: 被绑定元素插入父节点时调用（父节点存在即可调用，不必存在于 document 中）。
+	.update: 被绑定元素所在的模板更新时调用，而不论绑定值是否变化。通过比较更新前后的绑定值，可以忽略不必要的模板更新（详细的钩子函数参数见下）。
+	.componentUpdated: 被绑定元素所在模板完成一次更新周期时调用。
+	unbind: 只调用一次， 指令与元素解绑时调用。
+
+钩子函数参数:
+	el: 指令所绑定的元素，可以用来直接操作 DOM 。
+	binding: 一个对象，包含以下属性：
+		name: 指令名，不包括 v- 前缀。
+		value: 指令的绑定值， 例如： v-my-directive="1 + 1", value 的值是 2。
+		oldValue: 指令绑定的前一个值，仅在 update 和 componentUpdated 钩子中可用。无论值是否改变都可用。
+		expression: 绑定值的字符串形式。 例如 v-my-directive="1 + 1" ， expression 的值是 "1 + 1"。
+		arg: 传给指令的参数。例如 v-my-directive:foo， arg 的值是 "foo"。
+		modifiers: 一个包含修饰符的对象。 例如： v-my-directive.foo.bar, 修饰符对象 modifiers 的值是 { foo: true, bar: true }。
+	
+	vnode: Vue 编译生成的虚拟节点，查阅 VNode API 了解更多详情。
+	oldVnode: 上一个虚拟节点，仅在 update 和 componentUpdated 钩子中可用。
 	
 	
+函数简写: 
+	大多数情况下，我们可能想在 bind 和 update 钩子上做重复动作，并且不想关心其它的钩子函数。可以这样写:
+	Vue.directive('color-swatch', function (el, binding) {
+	  el.style.backgroundColor = binding.value
+	})
+
+对象字面量:	
+	如果指令需要多个值，可以传入一个 JavaScript 对象字面量。记住，指令函数能够接受所有合法类型的 JavaScript 表达式。
+	<div v-demo="{ color: 'white', text: 'hello!' }"></div>
+	Vue.directive('demo', function (el, binding) {
+		console.log(binding.value.color) // => "white"
+		console.log(binding.value.text)  // => "hello!"
+	})
+
+	
+	
+	
+#Vue.mixin
+选项合并
+	//同名钩子函数将混合为一个数组，因此都将被调用。
+	// 值为对象的选项，例如 methods, components 和 directives，将被混合为同一个对象。 两个对象键名冲突时，取组件对象的键值对。
+	var mixin = {
+	  created: function () {
+	    console.log('混合对象的钩子被调用')
+	  }
+	}
+	new Vue({
+	  mixins: [mixin],
+	  created: function () {
+	    console.log('组件钩子被调用')
+	  }
+	})
+
+全局混合
+	Vue.mixin({
+	  created: function () {
+	    var myOption = this.$options.myOption
+	    if (myOption) {
+	      console.log(myOption)
+	    }
+	  }
+	})
+	new Vue({
+	
+	})
+
+
+
+
 #Vue.component( id, [definition] )
 
 .参数：
@@ -236,19 +336,21 @@ new Vue({
 		
 		//props 验证 需要在开发版本中使用 抛出异常
 		props: {
-			type: String | Number | Boolean | Function | Object | Array,
-			required: true,
+			propName:{
+				type: String | Number | Boolean | Function | Object | Array,
+				required: true,
+				
+				// 数组／对象的默认值应当由一个工厂函数返回
+				default: value,
+				default: function () {
+		        	return { message: 'hello' }
+				},
+				// 自定义验证函数	
+				validator: function (value) {
+		        	return value > 10
+				}
 			
-			// 数组／对象的默认值应当由一个工厂函数返回
-			default: value,
-			default: function () {
-	        	return { message: 'hello' }
-			},
-			// 自定义验证函数	
-			validator: function (value) {
-	        return value > 10
 			}
-			
 		}
 			
 		
@@ -811,7 +913,7 @@ v-for 默认行为试着不改变整体，而是替换元素。迫使其重新�
 	.prevent - 调用 event.preventDefault()
 	.capture - 添加事件侦听器时使用 capture 模式
 	.self - 只当事件是从侦听器绑定的元素本身触发时才触发回调
-	.native - 监听组件根元素的原生事件
+	.native - 监听组件根元素的原生事件  // $element.addEventListener(click, callback);
 	.once - 只触发一次回调 //2.1.4 新增
 	
 按键修饰符:

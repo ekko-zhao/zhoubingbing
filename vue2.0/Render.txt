@@ -1,0 +1,221 @@
+
+#Render 函数
+
+//My.component.vue
+<script>
+module.exports = {
+	//functional: true,
+	
+	data: function(){
+		return {
+			mg: this.message
+		}
+	},
+	directives:{
+		focus: {
+			inserted: function (el) {
+				console.log(el)
+				// 聚焦元素
+				el.focus()
+			 }
+		}
+	},
+	render: function(createElement){
+		
+		// this.message -> props 中的 message
+	
+		// this.$data.mg 相当于 {{ this.$data.mg }}
+		// this.$data.mg 不可再render 中赋值
+		
+		var s =  createElement('p', {},'this is p' + this.$data.mg)
+		
+		
+		var vm = this;
+		return createElement('div', {
+			'class': {
+				foo: true,
+				bar: false
+			},
+			
+			style: {
+				color: 'red',
+    			fontSize: '14px'
+			},
+			attrs: {
+				id:'foo'
+			},
+			props: {
+				myProp: 'bar'
+			},
+			// DOM 属性
+			domProps: {
+				 //innerHTML: 'baz' 
+			},
+			on: {
+				//click: this.clickHandler
+			},
+			
+			
+			nativeOn: {
+				// $element.addEventListener(click, callback);
+				//click: this.nativeClickHandler
+			},
+			
+			/*
+			//只能识别 对象中定义的 directives:{}
+			directives: [
+				{
+					name: 'focus'
+				}	
+			],
+			
+			scopedSlots: {
+				default: props => h('span', props.text)
+			},
+			
+			// 如果组件是其他组件的子组件，需为slot指定名称
+			slot: 'name-of-slot',
+			
+			// 其他特殊顶层属性
+			key: 'myKey',
+			ref: 'myRef'
+			
+			*/
+			}, [this.$slots.default, s, 'node'])
+			
+			// this.$slots.default －> 父组件 <p>123</p>
+	},
+	props:{
+		message:[String]
+	}
+	
+}
+
+</script>
+
+
+//父组件
+<my-component :message="message"><p>123</p></my-component>
+
+
+
+#createElement 参数------------------------------------------
+
+
+createElement(
+	// {String | Object | Function}
+	// 一个 HTML 标签字符串，组件选项对象，或者一个返回值类型为String/Object的函数，必要参数
+	'div',
+	
+	// {Object}
+	// 一个包含模板相关属性的数据对象
+	// 这样，您可以在 template 中使用这些属性.可选参数.
+	{
+		//对 外层 <div></div> 的属性描述
+	},
+	
+	//VNodes 必须唯一
+	[]
+)
+
+
+#v-model -----------------------------------------
+
+	createElement('input', {
+		domProps: {
+		  value: self.value
+		},
+		on: {
+		  input: function (event) {
+			self.value = event.target.value;
+			
+			//改变data中的值, 实现 {{mg}} 绑定
+			vm.$data.mg = self.value
+		  }
+		}
+	})
+
+
+＃事件 & 按键修饰符-------------------------------
+
+	.capture	!
+	.once	~
+	.once.capture	~!
+
+	例如:
+	on: {
+	  '!click': this.doThisInCapturingMode,
+	  '~keyup': this.doThisOnce,
+	  `~!mouseover`: this.doThisOnceInCapturingMode
+	}
+	
+	对于其他的修饰符, 前缀不是很重要, 因为你可以直接在事件处理函数中使用事件方法:
+	.stop	event.stopPropagation()
+	.prevent	event.preventDefault()
+	.self	if (event.target !== event.currentTarget) return
+	.enter, .13	if (event.keyCode !== 13) return (change 13 to another key code for other key modifiers)
+	.ctrl, .alt, .shift, .meta if (!event.ctrlKey) return (change ctrlKey to altKey, shiftKey, or metaKey, respectively)
+	
+
+
+#函数化组件-------------------------------
+.我们标记组件为 functional， 这意味它是无状态（没有 data），无实例（没有 this 上下文）。
+.函数化组件 不能识别 对象中定义的 directives:{}
+
+Vue.component('my-component', {
+	functional: true,
+	render: function (createElement, context) {
+	
+	},
+	// Props 可选
+	props: {}
+})
+
+
+props: 提供props 的对象:
+	.children: VNode 子节点的数组
+	slots: slots 对象
+	data: 传递给组件的 data 对象
+	parent: 对父组件的引用
+
+	this.$slots.default 更新为 context.children
+	this.level 更新为 context.props.level
+
+
+
+
+#slots() 和 children 对比 -------------------------------
+	<my-functional-component>
+	  <p slot="foo">
+	    first
+	  </p>
+	  <p>second</p>
+	</my-functional-component>
+
+	slots().default 只会传递第二个匿名段落标签，
+	slots().foo 会传递第一个具名段落标签
+	children 会给你两个段落标签，
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
