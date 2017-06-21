@@ -14,6 +14,16 @@ module.exports = {
 	}
 }
 
+
+安装 vue-devtools 
+git clone https://github.com/vuejs/vue-devtools
+npm install
+npm run dev
+
+进入chrome插件管理页面
+勾选 ‘ 开发者模式 ’,点击 ‘加载已解压的’扩展程序 ，选择文件安装 即可
+
+
 #Vue 实例---------------------------------------------------------------
 
 .在实例化 Vue 时，需要传入一个选项对象，它可以包含数据、模板、挂载元素、方法、生命周期钩子等选项

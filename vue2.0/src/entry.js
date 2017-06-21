@@ -19,8 +19,7 @@ Vue.use(vueResource);
 var MyPlugin ={ }
 
 MyPlugin.install = function (Vue, options) {
-	console.log(Vue);
-	console.log(options)
+	
 }
 
 
@@ -28,7 +27,7 @@ Vue.use(MyPlugin,{name:'bingbing'});
 
 
 
-/*var vm = new Vue({
+var vm = new Vue({
 	el: '#app',
 	template: `
 		<div style="padding-left:100px;padding-top:50px;">
@@ -67,25 +66,5 @@ Vue.use(MyPlugin,{name:'bingbing'});
 	}
 })
 
-console.log(vm)*/
 
-const NotFound = { template: '<p>Page not found</p>' }
-const Home = { template: '<p>home page</p>' }
-const About = { template: '<p>about page</p>' }
-const routes = {
-  '/': Home,
-  '/about': About
-}
-new Vue({
-  el: '#app',
-  data: {
-    currentRoute: window.location.pathname
-  },
-  computed: {
-    ViewComponent () {
-      return routes[this.currentRoute] || NotFound
-    }
-  },
-  render (h) { return h(this.ViewComponent) }
-})
 
