@@ -177,9 +177,90 @@ example1.items = example1.items.filter(function (item) {
 		Vue.use(MyPlugin)
 		Vue.use(MyPlugin, { someOption: true })
 	
+
+全局配置---------------------------------------------------------------
+
+#silent
+	类型： boolean
+	默认值： false
+	用法： Vue.config.silent = true  // 取消 Vue 所有的日志与警告。
+
+#optionMergeStrategies
+	类型： { [key: string]: Function }
+
+	默认值： {}
+
+#Vue.set( object, key, value )
+	参数：
+	{Object} object
+	{string} key
+	{any} value
 	
+	返回值： 设置的值.
+
+	用法：
+		设置对象的属性。如果对象是响应式的，确保属性被创建后也是响应式的，同时触发视图更新。
+		这个方法主要用于避开 Vue 不能检测属性被添加的限制。
+
+
+
+#Vue.delete( object, key )
+
+
+
+
+
+
+
+
+
+
 	
+#devtools
+	类型： boolean
+	默认值： true (生产版为 false)
+	用法：Vue.config.devtools = true
 	
+	//配置是否允许 vue-devtools 检查代码。开发版本默认为 true，生产版本默认为 false。生产版本设为 true 可以启用检查。
+
+#ignoredElements
+	类型: Array<string>
+	默认值: []
+	用法: 
+	Vue.config.ignoredElements = [
+		'my-custom-web-component', 'another-web-component'
+	]
+	
+	//须使 Vue 忽略在 Vue 之外的自定义元素 (e.g., 使用了 Web Components APIs)。
+	  否则，它会假设你忘记注册全局组件或者拼错了组件名称，从而抛出一个关于 Unknown custom element 的警告。
+
+#keyCodes
+
+	类型： { [key: string]: number | Array<number> }
+	默认值： {}
+	用法：
+	Vue.config.keyCodes = {
+		v: 86,
+		f1: 112,
+		mediaPlayPause: 179,
+		up: [38, 87]
+	}
+
+#productionTip 2.2.0 新增
+
+	类型： boolean
+	默认值： true
+	用法：
+	设置为 false 以阻止 vue 在启动时生成生产提示。
+
+
+
+
+
+
+
+
+
 全局 API---------------------------------------------------------------
 ＃Vue.filter
 示例：

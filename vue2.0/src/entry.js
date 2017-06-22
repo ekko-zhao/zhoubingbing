@@ -26,9 +26,24 @@ MyPlugin.install = function (Vue, options) {
 Vue.use(MyPlugin,{name:'bingbing'});
 
 
+const store = new Vuex.Store({
+  state: {
+    count: 0
+  },
+  mutations: {
+    increment (state,m=12) {
+		
+		alert(m)
+      state.count++
+    }
+  }
+})
+
+
 
 var vm = new Vue({
 	el: '#app',
+	store,
 	template: `
 		<div style="padding-left:100px;padding-top:50px;">
 			<p> </p>
@@ -43,7 +58,6 @@ var vm = new Vue({
 				<button v-if="show" key="saved">hello</button>
 				<button v-else key="edited">hellos</button>
 			</transition>
-			
 		</div>
 	`,
 	data:{
@@ -65,6 +79,19 @@ var vm = new Vue({
 		age:23
 	}
 })
+
+
+store.commit('increment',3)
+
+
+
+
+
+
+
+
+
+
 
 
 

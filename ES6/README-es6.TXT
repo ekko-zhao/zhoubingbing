@@ -116,14 +116,14 @@ continue break return; 跳出循环
 
 //对象添加 Symbol.iterator
 {
-    name:’name’
+	name: ’name’,
     [Symbol.iterator](){
-	var iterator ={
-	    next: next
-	}
-	function next(){
-	    return {value:any, done:Boolean}
-	}
+		var iterator ={
+		    next: next
+		}
+		function next(){
+		    return {value:any, done:Boolean}
+		}
         return iterator;
     }
 }
@@ -177,7 +177,7 @@ try{
 //内部捕获 a
 //外部捕获 b
 
-.如果遍历器函数中没有部署try...catch代码块， 抛出的错误直接被外部的代码块捕获。
+.如果遍历器函数中没有部署try...catch代码块，抛出的错误直接被外部的代码块捕获。
 .如果遍历器函数中没有部署try...catch代码块，抛出错误后终止遍历
 
 //函数内部抛出的错误会被外部捕获， 
@@ -196,7 +196,7 @@ g.next(); //抛出异常
 function* g(){
     yield 1;
     yield 2;
-    yield 2;
+    yield 3;
 }
 var a = g();
 a.return(‘value’) //{value:’value’, done:true}
@@ -208,8 +208,8 @@ function* g(){
 	yield 1;
 	yield 2;
     }finally{
-	yield 3;
-	yield 4;
+		yield 3;
+		yield 4;
     }
 }
 var a = g();
@@ -301,10 +301,10 @@ promise2.then(function (data) {
 #Promise实例的then方法返回一个 新的 Promise实例（new Promise()） ,因此可以链式调用
 
 promise.then(function(data){
-		return promise3;
-	}, function(error){
+	return promise3;
+}, function(error){
 	
-	})
+})
 #等待promise3状态改变（pending to resolved or rejected） 在执行下面代码
 .then(function(data){}, function(error){})
 
