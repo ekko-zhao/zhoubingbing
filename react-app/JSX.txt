@@ -1,0 +1,62 @@
+
+JSX 基本语法--------------------------------------
+.定义标签是，只被一个标签包裹
+.标签一定要闭合，其中在html中允许自闭合的标签（ 如 <img >）在jsx 中也要遵循同样规则
+
+#元素类型
+	DOM元素 和 组件元素
+	DOM元素首字母为小写
+		{
+			<h3>h</h3>
+		}
+	
+	组件元素首字母为大写
+		{
+			<Na>na</Na>
+		}
+		
+#注释
+	需要中{ /*  */ } 写注释 
+	多行注释
+		/*
+			//...
+		*/
+
+#元素属性
+	//class 和 for 是 js中的关键字
+	class 属性改为 className
+	for 属性改为 htmlFor
+
+#boolean属性
+	省略Boolean属性值，jsx默认 bool 值设为 true， disabled required checked readOnly
+	<Component  disabled />
+
+#展开属性
+	JSX: const component = <Component name="name" value="value" />
+	ES6: const data = {name:'foo', value="value"}
+		 
+		 const component = <Component name={data.name} value={data.value} />
+		 简写为： const component = <Component {...data} />
+
+#自定义html标签
+	.在JSX语法中往DOM元素中传入自定义属性是不会被渲染的 <div d="xxx"></div>
+	.需要加 data- 前缀 <div data-d="xxx"></div>
+	
+	.但是在自定义标签中任意的属性都是被支持的 <Component d="xxx" />
+	.以aria- 开头的网络无障碍属性同样可以正常使用 <div 以aria-hidden={true}></div>
+
+#JSX 中的属性表达式
+	属性需要使用表达式，只要用 {} 替换 "" 即可 
+	<Component name={Boolean? '': '' } />
+
+//子组件一样可以表达式使用
+	<Component >{ Boolean? <Cl1/> : <Cl2/>}<／Component>
+
+
+
+
+
+
+
+
+
