@@ -7,6 +7,20 @@ npm start
 
 
 
+//index.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import registerServiceWorker from './registerServiceWorker';
+
+
+ReactDOM.render(
+	<App/>, 
+	document.getElementById('root')[, function callback]
+	);
+registerServiceWorker();
+
+
 //react 组件的构建---------------------------------------------
 
 #React.createClass
@@ -16,12 +30,21 @@ npm start
 				title: 'this is title',
 				text: 'this is text'
 			}
-		},
+		}
+		
 		
 		static defaultProps = {}
 		
+		getInitialState (){
+			return {
+				
+			}
+		}
+		
+		
 		render(){
 			const {title, text} = this.props;
+			//return 的也可以是一个 React.children.map(dom array,fn) 返回的节点数组
 			return (
 				<button type="button" title={title}>
 					<span>{text}</span>
@@ -145,15 +168,6 @@ npm start
 通过 React.Children.map 方法遍历子节点 reduce filter 等， forEach不能这么使用
 
 
-
-
-
-
-
-
-
-
-
 #propTypes
 在开发环境下会校验props 的类型， 如果不匹配则会 warning
 	static propTypes ={
@@ -161,8 +175,6 @@ npm start
 				  React.PropTypes.oneOfType([ React.PropTypes.string , React.PropTypes.number ])
 	
 	}
-
-
 
 
 //react 的生命周期---------------------------------------------
@@ -261,25 +273,57 @@ npm start
 	componentDidUpdate(nextProps, nextState){}
 
 
+//React 与 DOM------------------------------------------
+import React from 'react'
+
+#cloneElement
+	参数：TYPE（ReactElement），[PROPS（object）]，[CHILDREN（ReactElement）]
+	克隆并返回一个新的 ReactElement （内部子元素也会跟着克隆），新返回的元素会保留有旧元素的 props、ref、key，也会集成新的 props（只要在第二个参数中有定义）。
+
+	render(){
+		return React.cloneElement(<conponent/>, {title:''}, [chlidren, chlidren]);
+	}
+
+//#createElement 
+
+
+import ReactDom from 'react-dom'---------
+
+1.findDOMode
+	DOM 真正被添加到HTML中的生命周期方法是componentDidMount 和 componentDidUpdate方法
+用法：
+	const dom = ReactDom.findDOMNode(<app/>)
+	const dom = ReactDom.findDOMNode(this)
+
+2.render
+	该方法会把元素挂载到 container 中， 并且会返回 element 的实例（即 refs 引用）。
+	如果是无组件状态， render会返回 null。
+用法：
+	ReactDOM.render(
+	<App></App>, 
+	document.getElementById('root')[, function callback]);
 
 
 
 
+#ReactDom 的不稳定方法
 
+#refs
 
+用法：
+	render(){
+		const {title, text} = this.props;
+		return (
+			<div>
+				<button ref="button" type="button" }></button>
+				<Chlid ref="chlid" title={this.state.props.title} />
+			</div>
+		)
+	}
+	
+	如果作用在html元素中：this.refs.button 和 ReactDom.findDOMNode(this.refs.button) 是一样的 ， 返回对element的引用
 
-
-
-
-
-
-
-
-
-
-
-
-
+	如果作用在component组件中 只能ReactDom.findDOMNode(this.refs.button)， 返回对element的引用
 
 
 
