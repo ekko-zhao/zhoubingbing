@@ -1,23 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { AlertComponent } from './components/alert/alert.component';
 
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styles: []
+	selector: 'app-root',
+	templateUrl: './app.component.html',
+	styles: []
 })
 
 export class AppComponent {
-  public totalItems: number = 64;
-  public currentPage: number = 4;
-  public smallnumPages: number = 2;
- 
-  public setPage(pageNo: number): void {
-    this.currentPage = pageNo;
-  }
- 
-  public pageChanged(event: any): void {
-    console.log('Page changed to: ' + event.page);
-    console.log('Number items per page: ' + event.itemsPerPage);
-  }
+	constructor() { }
+	name: String = 'bingbing'
+
+	//alert 提示模态框
+	@ViewChild(AlertComponent) private alertComponent: AlertComponent;
+	alert(msg: String) {
+		this.alertComponent.showModal(msg);
+	}
+
 }
+
+/*
+	获取对 AppComponent 组件的引用
+	child.component
+	import { AppComponent } from '../../app.component';
+
+	constructor(private _appComponent: AppComponent) { }
+
+*/
