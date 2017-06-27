@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import ReactDom from 'react-dom'
+
 /*class App extends Component {
   render() {
     return (
@@ -96,7 +98,20 @@ class App extends Component{
 	}
 
 	componentDidMount(){
-		 
+		 const dom = ReactDom.findDOMNode(this)
+		 console.log(dom);
+		
+		
+		
+		//console.log(this.refs);
+		
+		console.log( this.refs.button )
+		console.log( ReactDom.findDOMNode(this.refs.button) )
+		
+		console.log( this.refs.chlid )
+		console.log( ReactDom.findDOMNode(this.refs.chlid) )
+		
+		//console.log( ReactDom.findDOMNode(this.refs.button) )
 	}
 	
 	handelClick(e){
@@ -126,13 +141,13 @@ class App extends Component{
 		const {title, text} = this.props;
 		return (
 			<div>
-				<button type="button" title={this.state.props.title} onClick={this.handelClick}>
+				<button ref="button" type="button" title={this.state.props.title} onClick={this.handelClick}>
 					<span>{text}</span>
 				</button>
 				<span>{this.state.name}</span>
 				<br/>
 			{this.state.props.title}
-				<Chlid title={this.state.props.title} />
+				<Chlid ref="chlid" title={this.state.props.title} />
 			</div>
 			
 		)
