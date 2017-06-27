@@ -243,6 +243,19 @@ Output sourcemaps
 --watch (aliases: -w)
 当文件更改时运行构建
 
+	*代理请求API
+		ng serve 改为 ng serve --proxy-config proxy.conf.json。
+		//不过，建议还是使用CROS来解决跨域问题，只需要简单的后端配置，安全、靠谱、方便！
+		
+		
+	*跨域
+		前面说利用CROS来解决Angular跨域，然而发现好多人都理不清一些细节问题，这里以在QQ群中经常遇到的几个点写下来，共勉之！
+		
+		后端未开启 OPTIONS 预检，如果你接收到一个 405 异常时，那么大多数是这个问题。
+		Angular的 Http 的 content-type 默认是 javascript/json，所以不同后端语言在接收时要注意。
+		如果不设置【Access-Control-Allow-Credentials:true】的话默认是不会发送COOKIE的，这样如果有些请求需要用到COOKIE，比如登录校验，那就需要注意了。
+
+
 
 ng generate-----------------------------------------------------------------------------------------------
 

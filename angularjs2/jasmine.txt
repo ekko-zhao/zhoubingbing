@@ -37,6 +37,7 @@ npm install --save-dev jasmine-core
 </body>
 </html>
 
+
 //expect的匹配器--------------------------
 toBe  			使用 === 比较结果
 toEqual 		比较俩个对象是否相等
