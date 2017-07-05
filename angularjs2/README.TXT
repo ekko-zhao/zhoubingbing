@@ -50,7 +50,11 @@ export class AppModule{
 按键事件过滤(keyup.enter)
 失去焦点事件 (blur)
 
-
+//元数据 渲染方式
+@Component({
+	queries
+	encapsulation: ViewEncapsulation.None // ViewEncapsulation.Native // ViewEncapsulation.Emulated
+})
 
 
 //导出模块--------------------------------------------------------------------
@@ -276,11 +280,7 @@ items: QueryList<ListItem>
 
 
 
-//元数据
-@Component({
-	queries
-	encapsulation: ViewEncapsulation.None // ViewEncapsulation.Native // ViewEncapsulation.Emulated
-})
+
 
 
 //模板-------------------------------------------------------------------------------------------------------------
@@ -807,8 +807,8 @@ export class ContactService{
 	let url ='url';
 	
 	private extractData(res: Response){
-		let body = res.json();
-		return body.data|| {}
+		let data = res.json();
+		return data|| {}
 	}
 	
 	private handleError(error: any){
@@ -1100,8 +1100,13 @@ export class FooterComponent{ }
 })
 export class AppComponent{ }
 
+]
 
 //app.module.ts
+import { RouterModule } from '@angular/router';
+import { rootRouterConfig } from './app.routers';
+let rootRouterModule: ModuleWithProviders = RouterModule.forRoot(rootRouterConfig, { useHash: true });
+
 @NgModule({
 	declarations: [AppComponent, HeaderComponent, FooterComponent],
 	imports: [BrowserModule, rootRouterModule],

@@ -20,6 +20,8 @@ input::-moz-placeholder, textarea::-moz-placeholder { color: #4a4a4a; }
 input:-ms-input-placeholder, textarea:-ms-input-placeholder { color: #4a4a4a; }
 input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { color: #4a4a4a; }
 
+
+
 /*.loading-gif{ background:url(../../images/icon/loading.gif) center center no-repeat; background-size:26px auto;}*/
 //.loading-img{ background:url(../../images/icon/loading.gif) center center no-repeat;}
 
@@ -30,7 +32,26 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { color: #
 }*/
 
 
-
+.modals {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+}
+.modals.in{
+	display: block;
+    /*-webkit-animation-name: popfade; -webkit-animation-duration:0.2s;
+	-moz-animation-name: popfade; -moz-animation-duration:0.2s;
+	-o-animation-name: popfade; -o-animation-duration:0.2s;
+    -ms-animation-name: popfade; -ms-animation-duration:0.2s;
+	animation-name: popfade; animation-duration:0.2s;*/
+}
 
 
 

@@ -1,14 +1,20 @@
-<div class="modal fade" bsModal #confirmModal="bs-modal" [config]="{backdrop: 'static', keyboard: false, show:true}" tabindex="-1"
+
+<div class="modal" bsModal #confirmModal="bs-modal" [config]="{backdrop: 'static', keyboard: false, show:false}" tabindex="-1"
     role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            <div class="modal-header text-center padder-v-lg text-md break-all">
-                {{message}}
+            <div class="modal-header text-center p-t-lg p-l-none p-r-none text-md break-all">
+                <p class="padder break-all">{{obj.text}}</p>
+                <p *ngIf="obj.note" class="text-left padder text-sm b-t p-t break-all">{{obj.note}}</p>
+                <div *ngIf="obj.textarea" class="padder">
+                    <textarea class="b w-full text-sm padder-sm padder-v-xs " rows="4" placeholder="{{obj.textarea}}" [(ngModel)]="textarea"></textarea>
+                </div>
             </div>
             <div class="modal-body no-padder no-padder-v">
-                <div class="container-fluit">
+                <div class="container">
                     <div class="row text-center">
-                        <div class="col-xs-6 padder-v-sm text-light">确定</div><div class="col-xs-6 padder-v-sm b-l b-light">取消</div>
+                        <div class="col-xs-{{obj.type===2? 12 : 6}} padder-v-sm text-light" (click)="done()">{{obj.doneText}}</div>
+                        <div *ngIf="obj.type!==2" class="col-xs-6 padder-v-sm b-l b-light" (click)="fail()">{{obj.failText}}</div>
                     </div>
                 </div>
             </div>

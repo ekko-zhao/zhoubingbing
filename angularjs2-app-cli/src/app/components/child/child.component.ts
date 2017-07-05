@@ -10,10 +10,8 @@ export class ChildComponent implements OnInit {
   constructor(private _appComponent: AppComponent) {
 
   }
-  public open(mes: String) {
-    console.log(this._appComponent)
-    this._appComponent.alert(mes)
-    this._appComponent.name = 'bb'
+  public open(mes: string) {
+
   }
   ngOnInit() {
   }
