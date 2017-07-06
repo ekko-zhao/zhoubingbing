@@ -568,7 +568,7 @@ export class SexReform implements PipeTransform{
 
 //指令-------------------------------------------------------------------------------------------------------------
 <li *ngFor="let item of items; let i = index;"></li>
-<li *ngFor="let item of items; trackBy: trackByfn"></li>
+<li *ngFor="let item of items; trackBy: trackByfn; let isEven=even; let isFirst=first; let isOdd=odd; let isLast=last;"></li>
 trackByfn(){
 	return contact.id;
 }
