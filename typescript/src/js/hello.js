@@ -1,3 +1,1 @@
-﻿export default{
-	name:"zhoubingbing"
-}
+// 启用 --strictNullChecks

@@ -1517,14 +1517,22 @@ export class DelayingComponent{
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DelayingComponent } from './delaying.component';
+import {CommonModule} from "@angular/common";
+
+
 
 const delayingRortes: Routes = [
 	{path:'', component: OtherComponent}
 	{path:'id', component: DelayingComponent}
 ]
 
+	/*
+	在延迟加载模块中需要 imports CommonModule， 解析 ngIf ngFor 等指令
+	*/
+
+
 @NgModule({
-	imports: [ RouterModule.forChild(delayingRortes)],
+	imports: [ RouterModule.forChild(delayingRortes), CommonModule ],
 	declarations: [DelayingComponent],
 	
 })
