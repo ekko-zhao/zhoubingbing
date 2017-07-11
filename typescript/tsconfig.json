@@ -1,6 +1,21 @@
 {
 	"compilerOptions": {
 		"target": "es5",
-		"experimentalDecorators": true
-	}
+		"experimentalDecorators": true,
+		"allowUnreachableCode": true,
+		"outDir":"dist",
+		"strictNullChecks": true,
+		"noImplicitAny": true,
+		"baseUrl":".",
+		"paths":{
+			"hello2":["src/js/folder2/h.ts"]
+		}
+		
+	},
+	"include":[
+		"src/js/entry.ts"
+	],
+	"exclude":[
+		"src/js/folder"
+	]
 }
