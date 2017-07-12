@@ -16,10 +16,7 @@
 	  }
 };
 
-var copy = Object.assign({}, obj); 
-// { foo: 1, bar: 2 }
-// copy.bar的值来自obj.bar的getter函数的返回值 
-console.log(copy); 
+console.log(Object.getOwnPropertyDescriptors(obj)); 
 </script>
 </body>
 </html>
