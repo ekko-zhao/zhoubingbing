@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { Platform, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -11,14 +11,26 @@ import { AlertComponent } from '../pages/alert/alert.component';
 import { BadgesComponent } from '../pages/badges/badges.component';
 import { ButtonsComponent } from '../pages/buttons/buttons.component';
 import { CardsComponent } from '../pages/cards/cards.component';
+import { CheckboxComponent } from '../pages/checkbox/checkbox.component';
+import { DateTimeComponent } from '../pages/date-time/date-time.component';
+import { FABsComponent } from '../pages/fabs/fabs.component';
+import { GesturesComponent } from '../pages/gestures/gestures.component';
+import { GridComponent } from '../pages/grid/grid.component';
+import { IconsComponent } from '../pages/icons/icons.component';
+import { InputsComponent } from '../pages/inputs/inputs.component';
+import { ListsComponent } from '../pages/lists/lists.component';
+import { LoadingComponent } from '../pages/loading/loading.component';
+import { MenusComponent } from '../pages/menus/menus.component';
 
+import { PageOne } from '../pages/menus/page-one';
+import { PageTwo } from '../pages/menus/page-two';
 
 @Component({
     templateUrl: 'app.html'
 })
 export class MyApp {
     //rootPage: any = TabsPage;
-    rootPage: any = CardsComponent;
+    rootPage: any = MenusComponent;
 
     constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
         platform.ready().then(() => {
@@ -27,5 +39,13 @@ export class MyApp {
             statusBar.styleDefault();
             splashScreen.hide();
         });
+    }
+    @ViewChild('mycontent') mycontent
+
+    openPage(p) {
+        this.rootPage = PageOne;
+    }
+    openPage2() {
+        this.rootPage = PageTwo;
     }
 }
