@@ -1,0 +1,148 @@
+ion-nav是NavController的声明组件
+
+在root页面中 使用root 属性创建
+	<ion-nav [root]="root"></ion-nav>
+	
+
+//root Component-----------------------------------------
+	
+import { Component } from '@angular/core';
+import { GettingStartedPage } from './getting-started';
+
+import { NavController } from 'ionic-angular';
+
+
+@Component({
+	template: `<ion-nav [root]="root"></ion-nav>`
+})
+class MyApp {
+	root = GettingStartedPage;
+	
+	constructor( public navCtrl: NavController ){ }
+	
+	/*
+		跳转页面
+		this.navCtrl.push(Page1, data, options);
+		
+			options{
+				Property		Value		Description
+				animate			boolean		Whether or not the transition should animate.
+				animation		string		What kind of animation should be used.
+				direction		string		The conceptual direction the user is navigating. For example, is the user navigating forward, or back?
+				duration		number		The length in milliseconds the animation should take.
+				easing			string		The easing for the animation.
+			}
+		
+		返回页面
+		this.navCtrl.pop();
+	*/
+}
+
+Input Properties
+	Attr:		Type:		Details:
+	
+	name		string		a unique name for the nav element
+	root		Page		The Page component to load as the root page within this nav.
+	rootParams	object		Any nav-params to pass to the root page of this nav.
+	
+	
+//Overlay Component-------------------------------------
+
+import { Component } from '@angular/core';
+import { App, ViewController, NavParams } from 'ionic-angular';
+
+@Component({
+    template: `
+    <ion-content>
+      <h1>My PopoverPage</h1>
+      <button ion-button (click)="pushPage()">Call pushPage</button>
+     </ion-content>
+    `
+  })
+class PopoverPage {
+	constructor(
+		public viewCtrl: ViewController
+		public appCtrl: App,
+		private navParams: NavParams
+	) {}
+
+	pushPage() {
+		this.viewCtrl.dismiss();
+		//获得root Component 中的 ViewController
+		this.appCtrl.getRootNav().push(SecondPage);
+	}
+}
+
+
+生命周期事件
+
+Page Event			Returns			Description
+ionViewDidLoad		void
+ionViewWillEnter	void
+ionViewDidEnter		void
+ionViewWillLeave	void
+ionViewDidLeave		void
+ionViewWillUnload	void
+ionViewCanEnter		boolean/Promise<void>
+ionViewCanLeave		boolean/Promise<void>
+
+
+
+Instance Members-----------------------------------
+
+ViewController {
+	canGoBack() 	boolean		// Returns true 有一个有效的上一页（ 更页面不是有效的上一页 ） 可以返回， Otherwise returns false.
+	canSwipeBack() 	boolean		// 如果能 Swipe 返回  , then this will return true.
+	
+	getActive() 	ViewController // 返回活动页面的视图控制器。
+	
+	// 未测试
+	getActiveChildNav()			// Returns the active child navigation.
+	// 未测试
+	getActiveChildNavs()		// Returns a list of the active child navigation.
+	
+	getPrevious()	ViewController // Returns the view controller which is before the given view controller. If no view controller is passed in, then it’ll default to the active view.
+	getSecondaryIdentifier()
+	getType()	// 返回 nav
+	
+	getViews()	Array<ViewController>	// push除数添加一项， pop返回 删除数组最后一项; 该数组长度是动态的； Returns the current stack of views in this nav controller.
+	getByIndex(index) 				// 在视图控制器列表中查找  ViewController Returns the view controller that matches the given index.
+	length() number					// The number of views in this stack, including the current view.
+	first()		ViewController  	// 返回此导航控制器堆栈中的第一个视图控制器
+	last()		ViewController		// Returns the last page in this nav controller’s stack.
+	indexOf(ViewController)	number // Returns the index number of the given view controller.
+	
+	
+	goToRoot(options: NavOptions)
+	 
+	insert(insertIndex, page, params, opts)		// 向导航视图中添加视图		在测试中 发现insertIndex只能是 视图列表中的最后一个 length-1 否则 将不能返回 该添加将转换成视图
+	insertPages(insertIndex, insertPages, opts)	// 向导航视图中添加视图	 	insertPages : [{page: OtherPage, parmas?:any}] 数组最后一个将转换成视图
+	
+	isActive(ViewController) boolean
+	isTransitioning() 	boolean
+	
+	parent //The parent navigation instance. If this is the root nav, then it’ll be null. A Tab instance’s parent is Tabs, otherwise the parent would be another nav, if it’s not already the root nav.
+
+	pop(opts)
+	popToRoot(opts) // 返回根页面
+	push(page, params, opts)
+	
+	
+	remove(startIndex, removeCount, opts)
+	removeView(viewController, opts) // 在DOM中删除视图 this.navCtrl.removeView( this.navCtrl.getViews()[index] ); 测试中 pop 方法回失效
+	
+	setPages(pages, opts)
+	setRoot(pageOrViewCtrl, params, opts, done)
+	
+	swipeBackEnabled
+	
+	
+}
+
+
+
+	
+	
+	
+	
+	

@@ -1,0 +1,157 @@
+
+Usage:
+
+import { ViewChild } from '@angular/core';
+import { Slides } from 'ionic-angular';
+
+class MyPage {
+	// 获取slides实例  也可以通过 @ViewChild(‘slides’) slides 来获取 ;
+	@ViewChild(Slides) slides: Slides;
+	
+	goToSlide() {
+		this.slides.slideTo(2, 500);
+	}
+}
+
+html:
+
+<ion-content padding>
+	<ion-slides #slides>
+		<ion-slide>
+			<h1>Slide 1</h1>
+		</ion-slide>
+		
+		<ion-slide>
+			<h1>Slide 2</h1>
+		</ion-slide>
+		
+		<ion-slide>
+			<h1>Slide 3</h1>
+		</ion-slide>
+		
+	</ion-slides>
+</ion-content>
+
+
+
+// API
+
+
+ion-slides
+
+ion-slide
+
+
+Instance Members --------------------
+
+{
+	controlBy  			// 返回 ‘slide’
+	controlInverse		// 控制反向
+	enableKeyboardControl(shouldEnableKeyboard) // shouldEnableKeyboard boolean 如果设置为true，则滑块可由键盘控制
+	
+	getActiveIndex()	// Get the index of the active slide. Returns: number
+	getPreviousIndex()	// Get the index of the previous slide.	 Returns: number
+	
+	isBeginning()		// If the slide is the first slide or not. Returns: boolean
+	isEnd()				// If the slide is the last slide or not.	Returns: boolean
+	length()
+	
+	lockSwipeToNext(shouldLockSwipeToNext)	//shouldLockSwipeToNext	boolean
+	lockSwipeToPrev(shouldLockSwipeToPrev)	//shouldLockSwipeToPrev	boolean
+	lockSwipes(shouldLockSwipes) 			//shouldLockSwipeToPrev	boolean
+	
+	resize()
+	
+	slideNext(speed[, runCallbacks])
+	slidePrev(speed[, runCallbacks])
+	slideTo(index, speed, runCallbacks)
+	
+	startAutoplay()
+	stopAutoplay()
+	update()
+	
+	
+	
+}
+
+
+
+
+
+SegmentButton--------------------
+
+Instance Members
+isActive
+
+
+Input Properties:
+
+Attr			Type		Details
+autoplay		number			
+loop			boolean		If true, continuously loop from the last slide to the first slide.
+
+centeredSlides	boolean
+control			Slides		传递另一个Slides实例或数组的Slides实例，该实例应该由此幻灯片实例控制
+dir				string		If dir attribute is equal to rtl, set interal _rtl to true;
+direction		string		Swipe direction: 'horizontal' or 'vertical'. Default: horizontal.
+effect			string		The animation effect of the slides. Possible values are: slide, fade, cube, coverflow or flip. Default: slide.
+initialSlide	number		Index number of initial slide. Default: 0.
+
+
+pager			boolean		If true, show the pager.
+paginationType	string		Type of pagination. Possible values are: bullets, fraction, progress. Default: bullets. (Note that the pager will not show unless pager input is set to true).
+parallax		boolean		If true, allows you to use "parallaxed" elements inside of slider.
+slidesPerView	number		Slides per view. Slides visible at the same time. Default: 1.
+spaceBetween	number		Distance between slides in px. Default: 0.
+speed			number		Duration of transition between slides (in milliseconds). Default: 300.
+zoom			boolean		If true, enables zooming functionality.
+
+
+
+
+Output Events
+Attr					Details
+
+ionSlideAutoplay		Emitted when a slide moves.
+ionSlideAutoplayStart	Emitted when a autoplay starts.
+ionSlideAutoplayStop	Emitted when a autoplay stops.
+
+ionSlideDidChange		Emitted when a slide change ends.
+ionSlideDoubleTap		Emitted when the user double taps on the slide's container.
+ionSlideDrag			Emitted when a slide moves.
+
+ionSlideNextEnd			当幻灯片更改以“向前”方向结束时发出
+ionSlideNextStart		当幻灯片更改以“向前”方向开始时发出
+ionSlidePrevEnd
+ionSlidePrevStart
+
+ionSlideReachEnd		幻灯片到达最后一张幻灯片时。
+ionSlideReachStart
+
+ionSlideReachStart		
+ionSlideTap				Emitted when the user taps/clicks on the slide's container.
+ionSlideWillChange
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

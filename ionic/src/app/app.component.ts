@@ -25,14 +25,22 @@ import { MenusComponent } from '../pages/menus/menus.component';
 import { PageOne } from '../pages/menus/page-one';
 import { PageTwo } from '../pages/menus/page-two';
 
+import { ModalComponent } from '../pages/modal/modal.component';
+import { NavigationComponent } from '../pages/navigation/navigation.component';
+
+import { PopoverComponent } from '../pages/popover/popover.component';
+import { RadioComponent } from '../pages/radio/radio.component';
+import { RangeComponent } from '../pages/range/range.component';
+
 @Component({
     templateUrl: 'app.html'
 })
 export class MyApp {
     //rootPage: any = TabsPage;
-    rootPage: any = MenusComponent;
+    rootPage: any = RangeComponent;
 
     constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.

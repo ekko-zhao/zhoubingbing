@@ -24,7 +24,18 @@ import { LoadingComponent } from '../pages/loading/loading.component';
 import { MenusComponent } from '../pages/menus/menus.component';
 import { PageOne } from '../pages/menus/page-one';
 import { PageTwo } from '../pages/menus/page-two';
-
+import { ModalComponent } from '../pages/modal/modal.component';
+import { ModalContentPage } from '../pages/modal/modal-content'
+import { NavigationComponent } from '../pages/navigation/navigation.component';
+import { OtherPage } from '../pages/navigation/other-page';
+import { OtherPage2 } from '../pages/navigation/other-page2';
+import { OtherPage3 } from '../pages/navigation/other-page3';
+import { PopoverComponent } from '../pages/popover/popover.component';
+import { PopoverPage } from '../pages/popover/popover-page';
+import { RadioComponent } from '../pages/radio/radio.component';
+import { RangeComponent } from '../pages/range/range.component';
+import { TabBasicContentPage2 } from '../pages/range/range.component2';
+import { TabBasicContentPage3 } from '../pages/range/range.component3';
 
 let component = [
     ActionSheet,
@@ -42,7 +53,19 @@ let component = [
     LoadingComponent,
     MenusComponent,
     PageOne,
-    PageTwo
+    PageTwo,
+    ModalComponent,
+    ModalContentPage,
+    NavigationComponent,
+    OtherPage,
+    OtherPage2,
+    OtherPage3,
+    PopoverComponent,
+    PopoverPage,
+    RadioComponent,
+    RangeComponent,
+    TabBasicContentPage2,
+    TabBasicContentPage3
 ]
 
 

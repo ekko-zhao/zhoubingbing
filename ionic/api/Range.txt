@@ -1,0 +1,82 @@
+
+Usage:
+
+import { Component } from '@angular/core';
+import {
+    FormGroup,
+    FormControl
+
+} from '@angular/forms';
+
+@Component({
+    templateUrl: 'range.component.html'
+})
+export class RangeComponent {
+    brightness: number = 20;
+    contrast: number = 0;
+    warmth: number = 1300;
+    structure: any = { lower: 33, upper: 60 };
+    text: number = 0;
+	}
+
+html:
+
+// 添加 属性 range-left  range-right 放在范围的俩边
+
+Input Properties:
+Attr			Type			Details
+debounce		number			等待在范围值中每次更改后触发ionChange事件的时间（以毫秒为单位）。  Default 0
+dualKnobs		boolean			显示俩个 knobs. Defaults to false.
+max				number			Maximum integer value of the range. Defaults to 100.
+min				number			Minimum integer value of the range. Defaults to 0.
+pin				boolean			If true, a pin with integer value is shown when the knob is pressed. Defaults to false.
+snaps			boolean			显示分割线  Defaults to false.
+step			number			Defaults to 1.
+
+Output Events:
+ionChange
+
+
+<ion-content padding>
+    <ion-list>
+        <ion-list-header>
+            Adjust Display
+        </ion-list-header>
+        <ion-item>
+            <ion-range [(ngModel)]="brightness">
+                <ion-icon range-left small name="sunny"></ion-icon>
+                <ion-icon range-right name="sunny"></ion-icon>
+            </ion-range>
+        </ion-item>
+        <ion-item>
+            <ion-range min="-200" max="200" pin="true" [(ngModel)]="contrast" color="secondary">
+                <ion-icon range-left small name="contrast"></ion-icon>
+                <ion-icon range-right name="contrast"></ion-icon>
+            </ion-range>
+        </ion-item>
+        <ion-item>
+            <ion-range dualKnobs="true" pin="true" [(ngModel)]="structure" color="dark">
+                <ion-icon range-left small name="brush"></ion-icon>
+                <ion-icon range-right name="brush"></ion-icon>
+            </ion-range>
+        </ion-item>
+        <ion-item>
+            <ion-range min="1000" max="2000" pin="true" step="100" snaps="true" [(ngModel)]="warmth" color="danger">
+                <ion-icon range-left small color="danger" name="thermometer"></ion-icon>
+                <ion-icon range-right color="danger" name="thermometer"></ion-icon>
+            </ion-range>
+        </ion-item>
+    </ion-list>
+
+    <ion-list>
+        <ion-list-header>
+            Adjust Text
+        </ion-list-header>
+        <ion-item>
+            <ion-range min="-100" step="10" snaps="true" [(ngModel)]="text">
+                <ion-label range-left class="small-text">A</ion-label>
+                <ion-label range-right>A</ion-label>
+            </ion-range>
+        </ion-item>
+    </ion-list>
+	</ion-content>

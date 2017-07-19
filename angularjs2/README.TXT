@@ -414,6 +414,21 @@ pattern
 
 
 //模型驱动方式构建表单
+
+/*
+	<form [formGroup]="editform">
+		<input type="text" formControlName="firstName" >
+	</form>
+	this.editform = new FormGroup({
+		firstName: new FormControl('', [Validators.minLength(4) ,Validators.pattern([a-z0-9]+@[a-x0-9].com)  ])
+		// 第一个参数可以是一个 Object{ value: '', disabled: false} 指定值和 状态
+		//firstName: new FormControl('', validateFirstName)
+		
+		//正则表达式 不加 / /
+	})
+	
+*/
+
 import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
 	imports: [ReactiveFormsModule]

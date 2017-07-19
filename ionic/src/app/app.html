@@ -1,5 +1,4 @@
-
-<ion-menu [content]="mycontent" type="reveal" side="left" swipeEnabled="true>
+<ion-menu [content]="mycontent" type="reveal" side="left" swipeEnabled="true">
     <ion-header>
         <ion-toolbar>
             <ion-title>Menu</ion-title>
@@ -7,7 +6,7 @@
     </ion-header>
     <ion-content>
         <ion-list>
-            <button ion-item  (click)="openPage(homePage)">
+            <button ion-item (click)="openPage(homePage)">
         Home
       </button>
             <button ion-item (click)="openPage2(friendsPage)">
@@ -20,4 +19,4 @@
     </ion-content>
 </ion-menu>
 
-<ion-nav #mycontent [root]="rootPage"></ion-nav>
+<ion-nav #mycontent [root]="rootPage" [rootParams]="{name:'bingbing'}" ></ion-nav>
