@@ -1,0 +1,150 @@
+
+Usage:
+
+import { Component, ViewChild } from '@angular/core';
+import { TabBasicContentPage2 } from './range.component2';
+import { TabBasicContentPage3 } from './range.component3';
+
+@Component({
+    templateUrl: 'range.component.html'
+})
+export class RangeComponent {
+
+    rootPage = TabBasicContentPage2;
+    rootPage2 = TabBasicContentPage2;
+    rootPage3 = TabBasicContentPage3;
+}
+
+
+
+html:
+
+<ion-tabs class="tabs-basic">
+    <ion-tab tabTitle="Music" [root]="rootPage"></ion-tab>
+    <ion-tab tabTitle="Movies" [root]="rootPage2"></ion-tab>
+    <ion-tab tabTitle="Games" [root]="rootPage3"></ion-tab>
+</ion-tabs>
+
+// TabBasicContentPage2----------------------------------------
+
+	import { Component, ViewChild } from '@angular/core';
+	import { Platform } from 'ionic-angular';
+	
+	@Component({
+	  template: `
+	    <ion-header>
+	      <ion-navbar>
+	        <ion-title>Tabs2</ion-title>
+	      </ion-navbar>
+	    </ion-header>
+	    <ion-content>
+	        2
+	    </ion-content>
+	`})
+	
+	export class TabBasicContentPage2 {
+	  isAndroid: boolean = false;
+	
+	  constructor(platform: Platform) {
+	    this.isAndroid = platform.is('android');
+	  }
+	}
+
+// API
+
+ion-tabs
+ion-tab
+
+
+ion-tabs--------------------
+// 获取实例
+@ViewChild('myTabs') myTabs: Tabs;  #myTabs
+
+
+Instance Members
+
+getByIndex(index)  // Returns: Tab ; Index of the tab you want to get.  Returns the tab who's index matches the one passed
+
+getSecondaryIdentifier() //  获取当前 tab 的 tabTitle 属性 
+
+getSelected()		// Returns: Tab  Returns the currently selected tab
+getType()			// tabs
+goToRoot(opt:NavOptions) //跳转到第一个tab
+previousTab(trimHistory)
+select(tabOrIndex)	//tabOrIndex	number|Tab		Index, or the Tab instance, of the tab to select. 跳到指定tab
+
+viewCtrl
+
+
+
+Input Properties:
+Attr			Type		Details
+name			string		A unique name for the tabs
+selectedIndex	number		The default selected tab index when first loaded. If a selected index isn't provided then it will use 0, the first tab.
+tabsHighlight	boolean		If true, show the tab highlight bar under the selected tab.
+tabsLayout		string		Set the tabbar layout: icon-top, icon-start, icon-end, icon-bottom, icon-hide, title-hide.
+tabsPlacement	string		Set position of the tabbar: top, bottom.
+
+
+Output Events
+Attr			Details
+ionChange		Emitted when the tab changes.
+
+
+
+ion-tab--------------------
+
+// 获取实例
+@ViewChild('myTab') myTab: Tab;  #myTab
+
+
+Instance Members
+
+{
+	goToRoot()
+	
+}
+
+Input Properties:
+
+Attr			Type		Details
+enabled			boolean		If true, enable the tab. If false, the user cannot interact with this element. Default: true.
+root			Page		Set the root page for this tab.
+rootParams		object		Any nav-params to pass to the root page of this tab.
+show			boolean		If true, the tab button is visible within the tabbar. Default: true.
+tabBadge		string		The badge for the tab button.
+tabBadgeStyle	string		The badge color for the tab button.
+tabIcon			string		The icon for the tab button.
+tabTitle		string		The title of the tab button.
+tabUrlPath		string		The URL path name to represent this tab within the URL.
+tabsHideOnSubPages	boolean	If true, hide the tabs on child pages.
+
+
+
+Output Events
+Attr			Details
+ionSelect		Emitted when the current tab is selected.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

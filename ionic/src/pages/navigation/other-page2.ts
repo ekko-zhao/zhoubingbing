@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform, NavController, ViewController, NavParams } from 'ionic-angular';
+import { Platform, NavController, ViewController, NavParams, IonicPage } from 'ionic-angular';
 import { OtherPage } from './other-page';
 import { OtherPage3 } from './other-page3';
 
+@IonicPage({
+
+})
 @Component({
      template: `
     <ion-header>

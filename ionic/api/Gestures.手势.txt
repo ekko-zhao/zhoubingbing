@@ -1,0 +1,8 @@
+
+(tap)="tapEvent($event)"
+
+(press)="pressEvent($event)"
+
+(pan)="panEvent($event)"
+
+(swipe)="swipeEvent($event)"

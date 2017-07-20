@@ -126,5 +126,12 @@
             <ion-icon name="rainy" color="primary"></ion-icon>
         </ion-col>
     </ion-row>
-
+    <div style="height:1000px;"></div>
+    <ion-avatar>
+        <ion-img width="200" height="260" src="./assets/img/nin-live.png"></ion-img>
+    </ion-avatar>
+    <div style="height:1000px;"></div>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>

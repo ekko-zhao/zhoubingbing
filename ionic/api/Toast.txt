@@ -1,0 +1,57 @@
+
+Usage:
+
+import { Component } from '@angular/core';
+import { Platform, ToastController} from 'ionic-angular';
+
+@Component({
+    templateUrl: 'range.component.html'
+})
+export class RangeComponent {
+
+    constructor(private toastCtrl: ToastController) {
+
+    }
+
+    presentToast() {
+        let toast = this.toastCtrl.create({
+            message: 'User was added successfully',
+            duration: 1000,
+            position: 'top | middle | bottom',
+			cssClass: '',
+			showCloseButton: boolean,	// default false
+			closeButtonText: string
+			dismissOnPageChange: boolean	// 是否在导航到新页面时驳回吐司
+        });
+
+        toast.onDidDismiss(() => {
+            console.log('Dismissed toast');
+        });
+
+        toast.present();
+    }
+	}
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

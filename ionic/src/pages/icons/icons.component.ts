@@ -16,4 +16,17 @@ export class IconsComponent {
         myIcon: string = "home";
 
     */
+    items;
+    doInfinite(infiniteScroll) {
+        console.log('Begin async operation');
+
+        setTimeout(() => {
+        for (let i = 0; i < 30; i++) {
+            this.items.push( this.items.length );
+        }
+
+        console.log('Async operation has ended');
+        infiniteScroll.complete();
+        }, 500);
+    }
 }

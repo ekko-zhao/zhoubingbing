@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, MenuController } from 'ionic-angular';
+import { Platform, MenuController, App, Config, IonicPage } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -37,9 +37,11 @@ import { RangeComponent } from '../pages/range/range.component';
 })
 export class MyApp {
     //rootPage: any = TabsPage;
-    rootPage: any = RangeComponent;
+    rootPage: any = NavigationComponent;
 
-    constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+    constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, app: App, config: Config) {
+
+
 
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
