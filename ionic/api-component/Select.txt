@@ -35,21 +35,10 @@ html:
 
 
 // API
-
-
 ion-select 
-
-ion-option
-
-
-SegmentButton--------------------
-
-Instance Members
-isActive
 
 
 Input Properties:
-
 Attr			Type			Details
 cancelText		string			The text to display on the cancel button. Default: Cancel.
 okText			string			The text to display on the ok button. Default: OK.
@@ -63,7 +52,29 @@ selectOptions	any				Any additional options that the alert or action-sheet inter
 
 Output Events
 Attr			Details
-ionCancel		Emitted when the selection was cancelled.
+ionCancel		Emitted when the selection was cancelled. 
+
+
+
+
+// Option -----------------------------------
+
+ion-option
+
+Input Properties
+Attr		Type		Details
+disabled	boolean		If true, the user cannot interact with this element.
+selected	boolean		If true, the element is selected.
+value		any			The value of the option.
+
+Output 		Events
+Attr		Details
+ionSelect	Event to evaluate when option is selected.
+
+
+
+
+
 
 
 

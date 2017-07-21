@@ -32,6 +32,8 @@ import { PopoverComponent } from '../pages/popover/popover.component';
 import { RadioComponent } from '../pages/radio/radio.component';
 import { RangeComponent } from '../pages/range/range.component';
 
+
+//@IonicPage()
 @Component({
     templateUrl: 'app.html'
 })
@@ -42,8 +44,8 @@ export class MyApp {
     constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, app: App, config: Config) {
 
 
-
-        platform.ready().then(() => {
+        platform.ready().then((readySource) => {
+            console.log(readySource)
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
             statusBar.styleDefault();

@@ -1,0 +1,29 @@
+// Events --------------------------------------------------
+用于不同页面传递数据
+
+import { Events } from 'ionic-angular';
+
+// first page (publish an event when a user is created)
+constructor(public events: Events) {}
+createUser(user) {
+	console.log('User created!')
+	this.events.publish('user:created', user, Date.now());
+}
+
+// second page (listen for the user created event after function is called)
+constructor(public events: Events) {
+	events.subscribe('user:created', (user, time) => {
+		// user and time are the same arguments passed in `events.publish(user, time)`
+		console.log('Welcome', user, 'at', time);
+	});
+}
+
+Instance Members:
+// 添加数据
+publish(topic:string, eventData:any)
+
+// 获取数据
+subscribe(topic:string, handler:function)
+
+// 取消订阅
+unsubscribe(topic, handler)

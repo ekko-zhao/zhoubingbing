@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform, NavController, ViewController, NavParams } from 'ionic-angular';
+import { Platform, NavController, ViewController, NavParams, IonicPage } from 'ionic-angular';
 import { OtherPage } from './other-page';
 
+@IonicPage(
+    {name:'list'}
+)
 @Component({
-     template: `
+    template: `
     <ion-header>
     <ion-navbar>
         <ion-title>
@@ -29,11 +32,11 @@ export class OtherPage3 {
         this.navCtrl.pop();
     }
 
-   // ionViewDidEnter() {
-    ionViewDidEnter(){
+    // ionViewDidEnter() {
+    ionViewDidEnter() {
 
     }
-    ionViewDidLeave(){
+    ionViewDidLeave() {
         console.log('leave2')
     }
 

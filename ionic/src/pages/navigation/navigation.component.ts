@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform, NavController, ViewController, NavParams } from 'ionic-angular';
-import { OtherPage } from './other-page';
-// import { OtherPage2 } from './other-page2';
+import { Platform, NavController, ViewController, NavParams, Keyboard } from 'ionic-angular';
+//import { OtherPage } from './other-page';
+//import { OtherPage2 } from './other-page2';
 
 @Component({
     templateUrl: 'navigation.component.html'
@@ -9,7 +9,7 @@ import { OtherPage } from './other-page';
 export class NavigationComponent {
     items = [];
 
-    constructor(public navCtrl: NavController, public viewCtrl: ViewController) {
+    constructor(public navCtrl: NavController, public viewCtrl: ViewController, public plt: Platform) {
 
         this.items = [
             {
@@ -27,8 +27,12 @@ export class NavigationComponent {
         ]
     }
 
+    ngOnInit(){
+        console.log(this.plt.platforms())
+    }
     openNavDetailsPage(item) {
-        //this.navCtrl.push('gotopage2', { item: item });
+       this.navCtrl.push('otherpage2', { item: item, id:'2323'});
+        //this.navCtrl.push(OtherPage2, { item: item });
     }
     ionViewDidEnter(){
        /*  console.log(this.navCtrl)

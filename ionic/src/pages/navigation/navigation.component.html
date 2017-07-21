@@ -11,22 +11,19 @@
             {{ item.title }}
         </button>
     </ion-list>
-    <pre>
-@Component({{'{'}}
-    template: `{{'<'}}ion-nav [root]="root"{{'>'}}{{'<'}}/ion-nav{{'>'}}`
-{{'}'}})
-class MyApp {{'{'}}
-    root = GettingStartedPage;
-    constructor(){{'{'}} {{'}'}}
-{{'}'}}
-    </pre>
-    <p>
-        Input Properties:
-    </p>
-    <pre>
-Attr	Type	Details
-name	string	a unique name for the nav element
-root	Page	The Page component to load as the root page within this nav.
-rootParams	object	Any nav-params to pass to the root page of this nav.
-    </pre>
+    <ion-list insert>
+        <ion-list reorder="true">
+
+            <ion-item>
+                <ion-note item-start >
+                    <p>Left Note</p>
+                </ion-note>
+                My Item
+                <ion-note item-end>
+                    Right Note
+                </ion-note>
+            </ion-item>
+        </ion-list>
+    </ion-list>
+
 </ion-content>

@@ -140,9 +140,30 @@ ViewController {
 }
 
 
+// NavPop -----------------------------
+	[navPop]
+	<button ion-button navPop>Go Back</button> // 用于返回	
+	
+	
 
-	
-	
-	
-	
-	
+// NavPush -----------------------------
+	[navPush]
+	[navParams]
+
+<button ion-button [navPush]="pushPage" [navParams]="params">Go</button>
+
+Input Properties
+Attr		Type			Details
+navParams	any				Any NavParams you want to pass along to the next view.
+navPush		Page | string
+
+
+
+
+
+
+
+
+
+
+

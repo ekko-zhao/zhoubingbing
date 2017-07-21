@@ -57,6 +57,24 @@ hideWhen="android,ios,portrait,landscape"
 	isActive	boolean
 
 	
+// 图像--------------------------------
+<ion-avatar item-start> </ion-avatar>
+<ion-avatar item-end> </ion-avatar>	
+
+
+
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
 // 图片 懒加载---------------------
 ion-img仅用于虚拟滚动中
 
@@ -74,105 +92,6 @@ src			string
 width		width
 
 $img-placeholder-background	#eee
-
-
-
-
-// InfiniteScroll  无限滚动----------------------------
-
-<ion-content>
-	<ion-list>
-		<ion-item *ngFor="let i of items">{{i}}</ion-item>
-	</ion-list>
-	
-	<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
-		<ion-infinite-scroll-content></ion-infinite-scroll-content>
-	</ion-infinite-scroll>
-</ion-content>
-
-
-用于加载更多
-@Component({...})
-export class NewsFeedPage {
-	items = [];
-
-	constructor() {
-		for (let i = 0; i < 30; i++) {
-			this.items.push( this.items.length );
-		}
-	}
-
-	doInfinite(infiniteScroll) {
-	console.log('Begin async operation');
-	
-	setTimeout(() => {
-		for (let i = 0; i < 30; i++) {
-			this.items.push( this.items.length );
-		}
-	
-		console.log('Async operation has ended');
-			infiniteScroll.complete();
-		}, 500);
-	}
-	
-	
-	// 异步加载
-	doInfinite(): Promise<any> {
-		console.log('Begin async operation');
-	
-		return new Promise((resolve) => {
-			setTimeout(() => {
-				for (var i = 0; i < 30; i++) {
-					this.items.push( this.items.length );
-				}
-			
-				console.log('Async operation has ended');
-				resolve();
-			}, 500);
-		})
-	}
-
-}
-
-
-<ion-content>
-
-	<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
-		<ion-infinite-scroll-content
-			loadingSpinner="bubbles"
-			loadingText="Loading more data...">
-		</ion-infinite-scroll-content>
-	</ion-infinite-scroll>
-
-</ion-content>
-
-
-Instance Members:
-	complete()
-	enable(shouldEnable: boolean) // 没有更多可以添加的数据，并且不再需要无限滚动时，
-	waitFor()
-
-Input Properties:
-Attr		Type		Details
-enabled		boolean
-position	string		top or bottom. Default is bottom. 加载更多发生在底部 还是顶部
-threshold	string		下拉的距离 发生 100px or 10%
-
-Output Events:
-Attr		Details		ionInfinite
-
-
-
-
-
-
-
-
-
-// 图像--------------------------------
-<ion-avatar item-start> </ion-avatar>
-<ion-avatar item-end> </ion-avatar>
-
 
 
 // Chip 芯片 --------------------------------------------------
@@ -197,129 +116,6 @@ Attr		Details		ionInfinite
 // showWhen
 <span ion-text color="primary" showWhen="ios">Cancel</span>
 <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
-
-
-
-// Config --------------------------------------------------
-
-
-import { IonicApp, IonicModule } from 'ionic-angular';
-
-@NgModule({
-declarations: [ MyApp ],
-	imports: [
-		BrowserModule,
-		IonicModule.forRoot(MyApp, {
-			backButtonText: 'Go Back',
-			iconMode: 'ios',
-			modalEnter: 'modal-slide-in',
-			modalLeave: 'modal-slide-out',
-			tabsPlacement: 'bottom',
-			pageTransition: 'ios-transition',
-			
-			
-			tabsPlacement: 'bottom',
-	      	platforms: {
-				ios: {
-					tabsPlacement: 'top',
-				}
-			}
-			
-			
-		}, {}
-	)],
-	bootstrap: [IonicApp],
-	entryComponents: [ MyApp ],
-	providers: []
-})
-
-Property			Type		Details
-mode				string		在整个应用程序中使用的模式。
-
-activator			string		用于按钮，更改按下按钮的效果 Available options: "ripple", "highlight".
-
-
-loadingEnter		string		The name of the transition to use while a loading indicator is presented.
-loadingLeave
-
-actionSheetEnter	
-actionSheetLeave	
-
-alertEnter			
-alertLeave			
-
-modalEnter	
-modalLeave
-
-pickerEnter
-pickerLeave
-
-popoverEnter
-popoverLeave
-
-
-backButtonText		string			The text to display by the back button icon in the navbar.
-backButtonIcon		string			The icon to use as the back button icon.
-
-iconMode			string		The mode to use for all icons throughout the application. Available options: "ios", "md"
-locationStrategy	string		设置为“路径”以在使用深度链接时除去hashbang。
-
-menuType			string		Type of menu to display. Available options: "overlay", "reveal", "push".
-
-pageTransition		string		更改页面时要使用的转换的名称。	Available options: "ios-transition", "md-transition", "wp-transition".
-
-spinner				string		未定义名称时使用的默认微调框。
-swipeBackEnabled	boolean		是否启用本地iOS滑盖即可返回功能。
-
-tabsHighlight		boolean		是否在选择该选项卡时显示高亮线。
-tabsLayout			string		The layout to use for all tabs. Available options: "icon-top", "icon-start", "icon-end", "icon-bottom", "icon-hide", "title-hide".
-tabsPlacement		string		The position of the tabs relative to the content. Available options: "top", "bottom"
-tabsHideOnSubPages	boolean		在页面上是否隐藏标签。 If true it will not show the tabs on child pages.
-
-toastEnter			string		The name of the transition to use while a toast is presented.
-toastLeave			string		The name of the transition to use while a toast is dismissed.
-
-
-Instance Members:
-get(key, fallbackValue:any)		// Returns a single config value, given a key。 fallbackValue 的作用是没有设置默认值的时候， 返回改值
-
-getBoolean(key, fallbackValue:boolean)
-getNumber(key, fallbackValue:number)
-set(platform('ios'|'android'), key, value)
-
-
-// Events --------------------------------------------------
-用于不同页面传递数据
-
-import { Events } from 'ionic-angular';
-
-// first page (publish an event when a user is created)
-constructor(public events: Events) {}
-createUser(user) {
-	console.log('User created!')
-	this.events.publish('user:created', user, Date.now());
-}
-
-// second page (listen for the user created event after function is called)
-constructor(public events: Events) {
-	events.subscribe('user:created', (user, time) => {
-		// user and time are the same arguments passed in `events.publish(user, time)`
-		console.log('Welcome', user, 'at', time);
-	});
-}
-
-Instance Members:
-// 添加数据
-publish(topic:string, eventData:any)
-
-// 获取数据
-subscribe(topic:string, handler:function)
-
-// 取消订阅
-unsubscribe(topic, handler)
-
-
-
 
 
 
@@ -363,5 +159,20 @@ import {  NavParams } from 'ionic-angular';
 constructor( public params: NavParams ){
 	var property = this.params.get('propertyName')
 }
+Instance Members
+data
+get(param:string)
+
+
+
+
+
+
+
+
+
+
+
+
 
 

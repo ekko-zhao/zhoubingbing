@@ -27,9 +27,12 @@ import { PageTwo } from '../pages/menus/page-two';
 import { ModalComponent } from '../pages/modal/modal.component';
 import { ModalContentPage } from '../pages/modal/modal-content'
 import { NavigationComponent } from '../pages/navigation/navigation.component';
-import { OtherPage } from '../pages/navigation/other-page';
-import { OtherPage2 } from '../pages/navigation/other-page2';
-import { OtherPage3 } from '../pages/navigation/other-page3';
+//import { OtherPage } from '../pages/navigation/other-page';
+//import { OtherPage2 } from '../pages/navigation/other-page2';
+//import { OtherPage3 } from '../pages/navigation/other-page3';
+
+//import { OtherPage2Module } from '../pages/navigation/otherpage2module';
+
 import { PopoverComponent } from '../pages/popover/popover.component';
 import { PopoverPage } from '../pages/popover/popover-page';
 import { RadioComponent } from '../pages/radio/radio.component';
@@ -38,6 +41,11 @@ import { TabBasicContentPage2 } from '../pages/range/range.component2';
 import { TabBasicContentPage3 } from '../pages/range/range.component3';
 
 let component = [
+    MyApp,
+    AboutPage,
+    ContactPage,
+    HomePage,
+    TabsPage,
     ActionSheet,
     AlertComponent,
     BadgesComponent,
@@ -57,9 +65,9 @@ let component = [
     ModalComponent,
     ModalContentPage,
     NavigationComponent,
-    OtherPage,
-    OtherPage2,
-    OtherPage3,
+    //OtherPage,
+    //OtherPage2,
+    //OtherPage3,
     PopoverComponent,
     PopoverPage,
     RadioComponent,
@@ -75,25 +83,16 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 @NgModule({
     declarations: [
-        MyApp,
-        AboutPage,
-        ContactPage,
-        HomePage,
-        TabsPage,
         component
     ],
     imports: [
         BrowserModule,
-        // IonicModule.forRoot(MyApp)
-        IonicPageModule.forChild(MyApp)
+        IonicModule.forRoot(MyApp, {
+            preloadModules: true
+        })
     ],
     bootstrap: [IonicApp],
     entryComponents: [
-        MyApp,
-        AboutPage,
-        ContactPage,
-        HomePage,
-        TabsPage,
         component
     ],
     providers: [
@@ -101,6 +100,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
         SplashScreen,
         { provide: ErrorHandler, useClass: IonicErrorHandler }
     ],
-     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
