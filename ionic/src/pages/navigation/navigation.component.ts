@@ -12,7 +12,7 @@ export class NavigationComponent {
     constructor(public navCtrl: NavController, public viewCtrl: ViewController, public plt: Platform) {
 
         this.items = [
-            {
+            /* {
                 'title': 'Angular',
                 'icon': 'angular',
                 'description': 'A powerful Javascript framework for building single page apps. Angular is open source, and maintained by Google.',
@@ -23,10 +23,27 @@ export class NavigationComponent {
                 'icon': 'css3',
                 'description': 'The latest version of cascading stylesheets - the styling language of the web!',
                 'color': '#0CA9EA'
-            }
+            }, */
+            'a1',
+            'a1',
+            'a1',
+            'b1',
+            'b1',
+            'b1',
+            'b1',
+            'b1',
+            'b1',
+            'b1',
+            'c1',
+            'c1',
+            'c1',
+            'c1',
+            'c1',
+            'c1',
+            'c1'
         ]
     }
-
+    header:['a','b','c']
     ngOnInit(){
         console.log(this.plt.platforms())
     }
@@ -46,5 +63,8 @@ export class NavigationComponent {
     ionViewDidLeave(){
         console.log('leave0')
     }
-
+    myHeaderFn(){
+        console.log('myHeaderFn')
+        return null
+    }
 }

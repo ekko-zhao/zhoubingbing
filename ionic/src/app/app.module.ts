@@ -40,6 +40,8 @@ import { RangeComponent } from '../pages/range/range.component';
 import { TabBasicContentPage2 } from '../pages/range/range.component2';
 import { TabBasicContentPage3 } from '../pages/range/range.component3';
 
+import { TestComponent } from '../pages/test/test.component';
+
 let component = [
     MyApp,
     AboutPage,
@@ -73,12 +75,27 @@ let component = [
     RadioComponent,
     RangeComponent,
     TabBasicContentPage2,
-    TabBasicContentPage3
+    TabBasicContentPage3,
+    TestComponent
 ]
 
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+
+
+
+
+
+import { Camera } from '@ionic-native/camera';
+
+class CameraMock extends Camera {
+  getPicture(options) {
+    return new Promise((resolve, reject) => {
+      resolve("BASE_64_ENCODED_DATA_GOES_HERE");
+    })
+  }
+}
 
 
 @NgModule({

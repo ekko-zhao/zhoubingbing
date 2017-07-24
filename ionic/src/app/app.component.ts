@@ -31,7 +31,7 @@ import { NavigationComponent } from '../pages/navigation/navigation.component';
 import { PopoverComponent } from '../pages/popover/popover.component';
 import { RadioComponent } from '../pages/radio/radio.component';
 import { RangeComponent } from '../pages/range/range.component';
-
+import { TestComponent } from '../pages/test/test.component';
 
 //@IonicPage()
 @Component({
@@ -39,7 +39,7 @@ import { RangeComponent } from '../pages/range/range.component';
 })
 export class MyApp {
     //rootPage: any = TabsPage;
-    rootPage: any = NavigationComponent;
+    rootPage: any = TestComponent;
 
     constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, app: App, config: Config) {
 

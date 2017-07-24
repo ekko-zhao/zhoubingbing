@@ -1,22 +1,25 @@
-<ion-menu [content]="mycontent" type="reveal" side="left" swipeEnabled="true">
-    <ion-header>
-        <ion-toolbar>
-            <ion-title>Menu</ion-title>
-        </ion-toolbar>
-    </ion-header>
-    <ion-content>
-        <ion-list>
-            <button ion-item (click)="openPage(homePage)">
-        Home
-      </button>
-            <button ion-item (click)="openPage2(friendsPage)">
-        Friends
-      </button>
-            <button ion-item (click)="openMenu()">
-        Close Menu
-      </button>
-        </ion-list>
-    </ion-content>
-</ion-menu>
+
+
+    <ion-menu [content]="mycontent" type="reveal" side="left" swipeEnabled="true">
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Menu</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content>
+            <ion-list>
+                <button ion-item (click)="openPage(homePage)">
+            Home
+        </button>
+                <button ion-item (click)="openPage2(friendsPage)">
+            Friends
+        </button>
+                <button ion-item (click)="openMenu()">
+            Close Menu
+        </button>
+            </ion-list>
+        </ion-content>
+    </ion-menu>
 
 <ion-nav #mycontent [root]="rootPage" [rootParams]="{name:'bingbing'}" ></ion-nav>
+

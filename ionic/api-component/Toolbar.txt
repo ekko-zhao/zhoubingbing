@@ -3,6 +3,7 @@ Usage:
 
 
 html:
+//  When toolbars are placed within an <ion-header> or <ion-footer>, the toolbars stay fixed in their respective location. When placed within <ion-content>, toolbars will scroll with the content.
 
 <ion-toolbar>
 	<ion-title>Toolbar</ion-title>

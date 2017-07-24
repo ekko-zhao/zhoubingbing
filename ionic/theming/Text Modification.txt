@@ -1,0 +1,102 @@
+
+// Text Modification ------------------
+Text Alignment
+Attribute	Style Rule			Description
+text-left	text-align: left	The inline contents are aligned to the left edge of the line box.
+text-right	text-align: right	The inline contents are aligned to the right edge of the line box.
+text-start	text-align: start	The same as text-left if direction is left-to-right and text-right if direction is right-to-left.
+text-end	text-align: end		The same as text-right if direction is left-to-right and text-left if direction is right-to-left.
+text-center	text-align: center	The inline contents are centered within the line box.
+text-justify	text-align: justify	The inline contents are justified. Text should be spaced to line up its left and right edges to the left and right edges of the line box, except for the last line.
+text-wrap	white-space: nowrap	Sequences of whitespace are collapsed. Newline characters in the source are handled as other whitespace. Breaks lines as necessary to fill line boxes.
+text-nowrap	white-space: normal	Collapses whitespace as for normal, but suppresses line breaks (text wrapping) within text.
+
+
+
+// Text Transformation ------------------
+
+Text Transformation
+Attribute		Style Rule					Description
+text-uppercase	text-transform: uppercase	Forces all characters to be converted to uppercase.
+text-lowercase	text-transform: lowercase	Forces all characters to be converted to lowercase.
+text-capitalize	text-transform: capitalize	Forces the first letter of each word to be converted to uppercase.
+
+
+
+
+
+// Responsive Text Attributes ------------------
+
+/*
+	left, right, start, end, center, justify, wrap, nowrap, uppercase, lowercase, or capitalize, as they are described above.
+*/
+
+Attribute			Description
+text-{modifier}		Applies the modifier to the element on all screen sizes.
+text-sm-{modifier}	Applies the modifier to the element when min-width: 576px.
+text-md-{modifier}	Applies the modifier to the element when min-width: 768px.
+text-lg-{modifier}	Applies the modifier to the element when min-width: 992px.
+text-xl-{modifier}	Applies the modifier to the element when min-width: 1200px.
+
+
+
+
+
+
+// Element Placement ------------------
+Attribute	Style Rule				Description
+float-left	float: left				The element will float on the left side of its containing block.
+float-right	float: right			The element will float on the right side of its containing block.
+float-start	float: left | float: 	right	The same as float-left if direction is left-to-right and float-right if direction is right-to-left.
+float-end	float: left | float: 	right	The same as float-right if direction is left-to-right and float-left if direction is right-to-left.
+
+
+
+
+// Responsive Float Attributes ------------------
+
+
+Attribute			Description
+float-{modifier}	Applies the modifier to the element on all screen sizes.
+float-sm-{modifier}	Applies the modifier to the element when min-width: 576px.
+float-md-{modifier}	Applies the modifier to the element when min-width: 768px.
+float-lg-{modifier}	Applies the modifier to the element when min-width: 992px.
+float-xl-{modifier}	Applies the modifier to the element when min-width: 1200px.
+
+
+
+
+// Content Space ------------------
+
+Attribute		Style Rule			Description
+padding			padding: 16px		Applies padding to all sides.
+padding-top		padding-top: 16px	Applies padding to the top.
+padding-left	padding-left: 16px	Applies padding to the left.
+padding-right	padding-right: 16px	Applies padding to the right.
+padding-bottom	padding-bottom: 16px	Applies padding to the bottom.
+padding-vertical	padding: 16px 0		Applies padding to the top and botttom.
+padding-horizontal	padding: 0 16px		Applies padding to the left and right.
+no-padding		padding: 0				Applies no padding to all sides.
+
+
+
+// Element Margin ------------------
+
+Attribute		Style Rule			Description
+margin			margin: 16px		Applies margin to all sides.
+margin-top		margin-top: 16px	Applies margin to the top.
+margin-left		margin-left: 16px	Applies margin to the left.
+margin-right	margin-right: 16px	Applies margin to the right.
+margin-bottom	margin-bottom: 16px	Applies margin to the bottom.
+margin-vertical	margin: 16px 0		Applies margin to the top and botttom.
+margin-horizontal	margin: 0 16px	Applies margin to the left and right.
+no-margin		margin: 0			Applies no margin to all sides.
+
+
+
+
+
+
+
+
+
