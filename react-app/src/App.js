@@ -105,26 +105,22 @@ class App extends Component{
 		
 		//console.log(this.refs);
 		
-		console.log( this.refs.button )
+		/* console.log( this.refs.button )
 		console.log( ReactDom.findDOMNode(this.refs.button) )
 		
 		console.log( this.refs.chlid )
-		console.log( ReactDom.findDOMNode(this.refs.chlid) )
+		console.log( ReactDom.findDOMNode(this.refs.chlid) ) */
 		
 		//console.log( ReactDom.findDOMNode(this.refs.button) )
 	}
 	
-	handelClick(e){
-		e.preventDefault();
+	handelClick(agr, proxy, event){
+		//e.preventDefault();
 		//e.currentTarget.remove();
 		
+		console.log(proxy._targetInst)
 		
-		this.setState({
-			//name: 'bb',
-			props: {
-				title: 'title change'
-			}
-		})
+		
 		
 	}
 
@@ -141,12 +137,11 @@ class App extends Component{
 		const {title, text} = this.props;
 		return (
 			<div>
-				<button ref="button" type="button" title={this.state.props.title} onClick={this.handelClick}>
+				<button ref="button" type="button" title={this.state.props.title} onClick={this.handelClick.bind(this,'abc')}>
 					<span>{text}</span>
 				</button>
 				<span>{this.state.name}</span>
 				<br/>
-			{this.state.props.title}
 				<Chlid ref="chlid" title={this.state.props.title} />
 			</div>
 			

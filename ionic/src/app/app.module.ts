@@ -27,11 +27,10 @@ import { PageTwo } from '../pages/menus/page-two';
 import { ModalComponent } from '../pages/modal/modal.component';
 import { ModalContentPage } from '../pages/modal/modal-content'
 import { NavigationComponent } from '../pages/navigation/navigation.component';
-//import { OtherPage } from '../pages/navigation/other-page';
-//import { OtherPage2 } from '../pages/navigation/other-page2';
-//import { OtherPage3 } from '../pages/navigation/other-page3';
+/* import { OtherPage } from '../pages/navigation/other-page';
+import { OtherPage2 } from '../pages/navigation/other-page2';
+import { OtherPage3 } from '../pages/navigation/other-page3'; */
 
-//import { OtherPage2Module } from '../pages/navigation/otherpage2module';
 
 import { PopoverComponent } from '../pages/popover/popover.component';
 import { PopoverPage } from '../pages/popover/popover-page';
@@ -59,6 +58,7 @@ let component = [
     GesturesComponent,
     GridComponent,
     IconsComponent,
+    InputsComponent,
     ListsComponent,
     LoadingComponent,
     MenusComponent,
@@ -67,9 +67,9 @@ let component = [
     ModalComponent,
     ModalContentPage,
     NavigationComponent,
-    //OtherPage,
-    //OtherPage2,
-    //OtherPage3,
+    /* OtherPage,
+    OtherPage2,
+    OtherPage3, */
     PopoverComponent,
     PopoverPage,
     RadioComponent,

@@ -5,15 +5,5 @@ import { Platform, ActionSheetController } from 'ionic-angular';
     templateUrl: 'inputs.component.html'
 })
 export class InputsComponent {
-    /*
-        Set the isActive attribute to true or false to change the state of the icon.
-        <ion-icon name="heart"></ion-icon>
-        <ion-icon name="heart" isActive="false"></ion-icon>
-        <ion-icon ios="logo-apple" md="logo-android"></ion-icon>
 
-        <ion-icon [name]="myIcon"></ion-icon>
-
-        myIcon: string = "home";
-
-    */
 }
