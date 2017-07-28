@@ -1,0 +1,30 @@
+Usage
+
+<ion-list>
+	<ion-item>
+		<ion-label floating color="primary">Inline Label</ion-label>
+	    <ion-input placeholder="Text Input"></ion-input>
+	</ion-item>
+</ion-list>
+
+
+<ion-label> 可添加 fixed stacked floating 指令 , 用于定位 label 的位置
+
+Instance Members:
+	ngAfterContentInit()
+	ngControl
+
+
+Input Properties:
+
+	Attr			Type		Details
+	clearInput		boolean		删除图标
+	autocomplete	string		Instructional text that shows before the input has a value.
+	autocorrect		string		Instructional text that shows before the input has a value.
+	clearOnEdit		boolean		If true, the value will be cleared after focus upon edit. Defaults to true when type is "password", false for all other types.
+	max				any
+	min				any
+	placeholder		string
+	readonly		boolean
+	step			any
+	type			string		The type of control to display. The default type is text. Possible values are: "text", "password", "email", "number", "search", "tel", or "url".

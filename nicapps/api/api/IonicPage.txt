@@ -1,0 +1,127 @@
+
+
+// my-page.module.ts ---------------------------
+
+/*
+	my-page.module.ts 的命名需要和 my-page.ts 对应 ，且在一个文件夹内
+
+*/
+
+
+@NgModule({
+	declarations: [
+		MyPage
+	],
+	imports: [
+		IonicPageModule.forChild(MyPage)
+	],
+	entryComponents: [
+		MyPage
+	]
+})
+export class MyPageModule {}
+
+
+// my-page.ts ---------------------------
+
+@IonicPage()
+@Component({
+  	templateUrl: 'myPage.html'
+})
+export class MyPage {
+
+}
+
+
+@IonicPage({
+	name: 'my-page',   		//  this.navCtrl.push('my-page'); 用于跳转页面
+	segment: 'some-path',	//	http://localhost:8101/#/some-path  // 用于显示 url
+	
+	/*
+		segment: 'detail/:id'  
+		this.navCtrl.push('my-page',{id:123});
+		http://localhost:8101/#/some-path/123
+	*/
+	
+	/*
+		@IonicPage({
+			name: 'list'
+		})
+		export class ListPage {
+			constructor(public navCtrl: NavController) {}
+			
+			pushPage(detailInfo) {
+				// Push an `id` to the `'detail-page'`
+				this.navCtrl.push('detail-page', {
+					'id': detailInfo.id
+				})
+			}
+		}
+	
+	*/
+	
+	defaultHistory: ['list'] 
+		// 用于在没有历史纪录的时候（会生成一个返回按钮），  返回list页面
+		// (测试下 push()后的页面中f5 刷新不能返回‘历史纪录丢失’ )
+	
+	priority: 'high | low | off' 
+		// priority:off | low 设置用于 懒加载页面 
+	
+		// priority:high 设置用于 优先加载
+	/*
+		默认该功能是关闭的，需要在 AppModule 中设置 preloadModules: true
+		@NgModule({
+			declarations: [
+				MyApp
+			],
+			imports: [
+				BrowserModule,
+				IonicModule.forRoot(MyApp, {
+					preloadModules: true
+				})
+			],
+			bootstrap: [IonicApp],
+			entryComponents: [
+				MyApp
+			]
+		})
+		export class AppModule { }
+		
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+		
+		
+	
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

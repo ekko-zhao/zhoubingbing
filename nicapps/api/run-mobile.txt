@@ -1,0 +1,23 @@
+ionic cordova build ios --prod
+Open the .xcodeproj file in platforms/ios/ in Xcode
+Connect your phone via USB and select it as the run target
+Click the play button in Xcode to try to run your app
+
+
+// 在测试中遇到的 问题
+
+指定 xcode 路径:
+	sudo xcode-select --switch /Applications/Xcode-beta.app/Contents/Developer
+
+
+
+error: ios-deploy not found 
+	sudo npm install -g ios-deploy --unsafe-perm=true --allow-root
+
+	// 安装模拟器 :
+	npm install -g  ios-sim  
+	npm install -g  ios-deploy --unsafe-perm=true
+
+
+
+	cordova plugin add cordova-plugin-device

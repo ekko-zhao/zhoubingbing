@@ -1,0 +1,40 @@
+import { ActionSheetController } from 'ionic-angular';
+
+export class MyPage {
+	constructor(public actionSheetCtrl: ActionSheetController) { }
+	
+	presentActionSheet() {
+		let actionSheet = this.actionSheetCtrl.create( opts: ActionSheetOptions )
+		actionSheet.present();
+	}
+		
+	
+}
+
+Instance Members
+config
+
+create(opts)		
+Param	Type				Details
+opts	ActionSheetOptions	Action sheet options
+
+ActionSheetOptions:{
+	Option			Type			Description
+	title			string			The title for the Action Sheet.
+	subTitle		string			The sub-title for the Action Sheet.
+	cssClass		string			The title for the Action Sheet.
+	
+	enableBackdropDismiss	string		If the Action Sheet should close when the user taps the backdrop.
+	buttons			array<any>		An array of buttons to display.
+}
+
+
+ActionSheet button options:{
+	text		string		The buttons text.
+	
+	//icon: !this.platform.is('ios') ? 'trash' : null,
+	icon		icon		The buttons icons. 
+	handler		any			An express the button should evaluate.
+	cssClass	string		Additional classes for custom styles, separated by spaces.
+	role		string		How the button should be displayed, destructive or cancel. If not role is provided, it will display the button without any additional styles.
+}

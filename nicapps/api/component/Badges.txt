@@ -1,0 +1,22 @@
+<button ion-button>Button</button>
+
+Input Properties:
+Attr		Type		Details
+block		boolean		If true, activates a button style that fills the available width.
+clear		boolean		If true, activates a transparent button style without a border.
+color		string		The color to use from your Sass $colors map. Default options are: "primary", "secondary", "danger", "light", and "dark". 
+default		boolean		If true, activates the default button size. Normally the default, useful for buttons in an item.
+full		boolean		If true, activates a button style that fills the available width without a left and right border.
+
+large	boolean
+small	boolean
+round	boolean
+outline	boolean
+
+mode		string		The mode determines which platform styles to use. Possible values are: "ios", "md", or "wp". 
+solid		boolean		If true, activates a solid button style. Normally the default, useful for buttons in a toolbar.
+strong		boolean		If true, activates a button with a heavier font weight.
+
+
+
+

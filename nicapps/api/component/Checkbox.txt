@@ -1,0 +1,16 @@
+<ion-checkbox></ion-checkbox>
+
+
+<ion-item>
+    <ion-label>Pepperoni</ion-label>
+    <ion-checkbox [(ngModel)]="pepperoni"></ion-checkbox>
+</ion-item>
+
+
+Input Properties:
+Attr		Type		Details
+checked		boolean		If true, the element is selected.
+
+
+
+

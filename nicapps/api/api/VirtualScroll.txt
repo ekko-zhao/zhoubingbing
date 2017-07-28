@@ -1,0 +1,46 @@
+// VirtualScroll --------------------------------
+[virtualScroll]
+
+<ion-list [virtualScroll]="items">
+
+  <ion-item *virtualItem="let item">
+    {{ item }}
+  </ion-item>
+
+</ion-list>
+
+
+<ion-list [virtualScroll]="items" [headerFn]="myHeaderFn">
+
+  <ion-item-divider *virtualHeader="let header">
+    Header: {{ header }}
+  </ion-item-divider>
+
+  <ion-item *virtualItem="let item">
+    Item: {{ item }}
+  </ion-item>
+
+</ion-list>
+
+
+
+
+
+Input Properties
+
+Attr				Type		Details
+approxFooterHeight	string		Default is 40px.
+approxFooterWidth				Default is 100%
+
+approxHeaderHeight
+approxHeaderWidth
+
+approxItemHeight				Default is 40px.
+approxItemWidth
+
+bufferRatio			number
+
+footerFn
+headerFn
+virtualScroll		array		
+virtualTrackBy		function	Same as ngForTrackBy which can be used on ngFor.

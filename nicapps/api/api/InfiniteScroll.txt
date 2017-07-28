@@ -1,0 +1,85 @@
+<ion-content>
+	<ion-list>
+		<ion-item *ngFor="let i of items">{{i}}</ion-item>
+	</ion-list>
+	
+	<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+		<ion-infinite-scroll-content></ion-infinite-scroll-content>
+	</ion-infinite-scroll>
+</ion-content>
+
+
+用于加载更多
+@Component({...})
+export class NewsFeedPage {
+	items = [];
+
+	constructor() {
+		for (let i = 0; i < 30; i++) {
+			this.items.push( this.items.length );
+		}
+	}
+
+	doInfinite(infiniteScroll) {
+	console.log('Begin async operation');
+	
+	setTimeout(() => {
+		for (let i = 0; i < 30; i++) {
+			this.items.push( this.items.length );
+		}
+	
+		console.log('Async operation has ended');
+			infiniteScroll.complete();
+		}, 500);
+	}
+	
+	
+	// 异步加载
+	doInfinite(): Promise<any> {
+		console.log('Begin async operation');
+	
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				for (var i = 0; i < 30; i++) {
+					this.items.push( this.items.length );
+				}
+			
+				console.log('Async operation has ended');
+				resolve();
+			}, 500);
+		})
+	}
+
+}
+
+
+<ion-content>
+
+	<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+		<ion-infinite-scroll-content
+			loadingSpinner="bubbles"
+			loadingText="Loading more data...">
+		</ion-infinite-scroll-content>
+	</ion-infinite-scroll>
+
+</ion-content>
+
+
+Instance Members:
+	complete()
+	enable(shouldEnable: boolean) // 没有更多可以添加的数据，并且不再需要无限滚动时，
+	waitFor()
+
+Input Properties:
+Attr		Type		Details
+enabled		boolean
+position	string		top or bottom. Default is bottom. 加载更多发生在底部 还是顶部
+threshold	string		下拉的距离 发生 100px or 10%
+
+Output Events:
+Attr		Details		ionInfinite
+ionInfinite
+
+
+
+
