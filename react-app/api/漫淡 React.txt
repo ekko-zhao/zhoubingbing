@@ -19,7 +19,7 @@
 		
 		onClick={this.handelClick.bind(null,'agr0')}
 		
-		此处的 bind 的this 可以是null
+		此处的 bind 的this可以是null
 		
 	*/
 
