@@ -1,0 +1,301 @@
+
+// 合成事件------------------------------------------
+	onClick={this.handelClick.bind(this, agr0)}
+	
+	
+	constructor(props) {
+		super(props);
+		this.handelClick = this.handelClick.bind(this)
+	}
+	// or 构造器内声明
+	handelClick(agr0, proxy, event) {
+		
+	}
+	
+	// or 箭头函数绑定
+	handelClick = ( agr0, proxy, event ) => { }
+	
+	/*	
+		
+		onClick={this.handelClick.bind(null,'agr0')}
+		
+		此处的 bind 的this 可以是null
+		
+	*/
+
+
+// 在react 中使用原生事件
+	componentDidMount(){
+		this.refs.button.addEventListener('click',e=>{
+		
+		})
+	}
+	
+	// 卸载
+	componentWillUnmount(){
+		this.refs.button.removeEventListener('click')
+	}
+
+
+// 合成事件 和原生事件的混合
+
+合成事件 的 event.stopPropagation(); 不能阻止原生事件的冒泡
+/*
+	componentDidMount(){
+		document.body.addEventListener('click',function(event){
+		
+		}
+		
+	}
+	
+	handelClick = ( agr0, proxy, event ) => {
+		event.stopPropagation();
+		// 是不能阻止 document.body 点击事件的
+	}
+	
+	
+*/
+
+反而原生事件 的 event.stopPropagation(); 可以阻止合成事件
+/*
+	<button onClick={this.handelClick.bind(this, agr0)} />
+
+
+	componentDidMount(){
+		this.refs.button.addEventListener('click',e=>{
+			event.stopPropagation();
+		})
+	}
+	// 合成事件 被阻止
+	handelClick = ( agr0, proxy, event ) => {
+	
+	}
+	
+*/
+
+
+// 通过 e.target 判断来避免
+	componentDidMount(){
+		document.body.addEventListener('click',function(event){
+			if(e.target && e.target.matches('button.code') ){
+				return;
+			}
+		}
+	}
+
+
+
+
+// 表单---------------------------------------------------------------
+	handleInputChange = e =>{
+		this.setState({
+			name: e.target.value
+		})
+	}	
+
+	render() {
+	
+		const { name } = this.state;
+		return (
+			<div>
+				<input value={name} type="text" onChange={this.handleInputChange} />
+			</div>
+		)
+	}
+
+	
+// 单选框
+	constructor(props) {
+		super(props);
+		
+		this.state = {
+			name: '',
+			
+		}
+	}
+	handleInputChange = e =>{
+		this.setState({
+			name: e.target.value
+		})
+	}
+	
+	render() {
+	
+		const { name } = this.state;
+		return (
+			<div>
+			<input type="radio" value='bingbing' checked={name==='bingbing'} onChange={this.handleInputChange} />
+			</div>
+		)
+		
+		
+	}
+
+// 复选框
+	constructor() {
+		this.state = {
+		 coffee: [],
+			
+		}
+	}
+	handleInputChange = e =>{
+		const { checked, value } = e.target;
+		let { coffee } = this.state;
+		
+
+		if(checked && coffee.indexOf(value) === -1 ){
+			coffee.push(value);
+			//console.log(coffee)
+		}else{
+			coffee =  coffee.filter(i => i !== value)
+		}
+
+		this.setState({
+			coffee
+		})
+	}
+	render() {
+	
+		const { name } = this.state;
+		return (
+			<div>
+				<input type="checkbox" value='bingbing' checked={coffee.indexOf('bingbing') !== -1} onChange={this.handleInputChange} />
+				<input type="checkbox" value='zhangsan' checked={coffee.indexOf('zhangsan') !== -1} onChange={this.handleInputChange} />
+			</div>
+		)
+		
+	}
+
+
+// 下拉框
+	
+	constructor() {
+		this.state = {
+			select: ''
+		}
+	}
+	handleInputChange = e => {
+		this.setState({
+			select: e.target.value
+		})
+	}
+	render() {
+	
+		const { name } = this.state;
+		return (
+			<div>
+				<select value={select} onChange={this.handleInputChange}>
+					<option value="">请选择</option>
+					<option value="beijing">北京</option>
+					<option value="shanghai">上海</option>
+				</select>
+			</div>
+		)
+		
+	}
+
+
+// 下拉框 多选
+
+	constructor() {
+		this.state = {
+			select: []
+		}
+	}
+	handleInputChange = e => {
+		const { options } = e.target;
+		
+		
+		const select = Object.keys(options)
+						.filter(i => options[i].selected === true)
+						.map(i => options[i].value) 
+		/*
+			options 数组， Object.keys(options) 返回的是一个 序列号组成的数组： ['0', '1', '2', '3']
+		*/
+
+		
+		this.setState({
+			select 	
+		})
+	}
+	render() {
+	
+		const { name } = this.state;
+		return (
+			<div>
+				<select multiple={true} value={select} onChange={this.handleInputChange}>
+					<option value="">请选择</option>
+					<option value="beijing">北京</option>
+					<option value="shanghai">上海</option>
+				</select>
+			</div>
+		)
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

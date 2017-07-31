@@ -37,117 +37,125 @@ import ReactDom from 'react-dom'
 	}
 })*/
 
-class Chlid extends Component{
-	constructor(props){
+class Chlid extends Component {
+	constructor(props) {
 		super(props);
-		this.state ={
+		this.state = {
 			props: props
 		}
 	}
-	
-	componentWillReceiveProps(nextProps){
-		console.log(nextProps);
-		
-		if('title' in nextProps){
+
+	componentWillReceiveProps(nextProps) {
+		//console.log(nextProps);
+
+		if ('title' in nextProps) {
 			this.setState({
 				props: {
 					title: nextProps.title
 				}
 			})
 		}
-			
-		
+
+
 	}
-	
-	render(){
+
+	render() {
 		return (
 			<div title={this.state.props.title}>
 				Child
 			</div>
-			
+
 		)
 	}
 }
 
-	
-class App extends Component{
-	constructor(props){
+
+class App extends Component {
+	constructor(props) {
 		super(props);
 		this.handelClick = this.handelClick.bind(this)
-		
-		this.state ={
-			name: 'bingbing',
+
+		this.state = {
+			name: '',
 			age: 29,
-			props: props
+			props: props,
+			select: []
 		}
-		
+
+
+
 	}
-	
+
 	static defaultProps = {
 		title: 'this is title',
 		text: 'this is text'
 	}
-	
+
 	static propTypes = {
 		title: React.PropTypes.string
-	}
-	
-	
-	componentWillMount(){
-		 
+
 	}
 
-	componentDidMount(){
-		 const dom = ReactDom.findDOMNode(this)
-		 console.log(dom);
-		
-		
-		
-		//console.log(this.refs);
-		
-		/* console.log( this.refs.button )
-		console.log( ReactDom.findDOMNode(this.refs.button) )
-		
-		console.log( this.refs.chlid )
-		console.log( ReactDom.findDOMNode(this.refs.chlid) ) */
-		
-		//console.log( ReactDom.findDOMNode(this.refs.button) )
+
+	componentWillMount() {
+
 	}
-	
-	handelClick(agr, proxy, event){
-		//e.preventDefault();
-		//e.currentTarget.remove();
+
+	componentDidMount() {
+
+	}
+
+	handelClick = (agr0, proxy, event) => {
+		console.log(1)
+	}
+
+	handleInputChange = e => {
 		
-		console.log(proxy._targetInst)
+		const { options } = e.target;
+		const select = Object.keys(options)
+						.filter(i => options[i].selected === true)
+						.map(i => options[i].value) 
+
 		
-		
-		
+		this.setState({
+			select 	
+		})
+
 	}
 
 	/*componentWillReceiveProps(nextProps){
 		return false
 	}*/
-	shouldComponentUpdate(nextProps, nextState){
+	shouldComponentUpdate(nextProps, nextState) {
 		return true;
 	};
-	
-	
 
-	render(){
-		const {title, text} = this.props;
+
+	render() {
+		const { title, text } = this.props;
+		const { select } = this.state;
 		return (
 			<div>
-				<button ref="button" type="button" title={this.state.props.title} onClick={this.handelClick.bind(this,'abc')}>
+				<button ref="button" type="button" title={this.state.props.title} >
 					<span>{text}</span>
 				</button>
 				<span>{this.state.name}</span>
-				<br/>
+				<br />
 				<Chlid ref="chlid" title={this.state.props.title} />
+				<p></p>
+
+				<select multiple={true} value={select} onChange={this.handleInputChange}>
+					<option value="">请选择</option>
+					<option value="beijing">北京</option>
+					<option value="shanghai">shanghai</option>
+					<option value="tianjin">tianjin</option>
+				</select>
+
 			</div>
-			
+
 		)
 	}
-	
+
 }
 
 
