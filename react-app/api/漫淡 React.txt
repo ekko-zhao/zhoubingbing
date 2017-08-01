@@ -87,6 +87,16 @@
 
 
 // 表单---------------------------------------------------------------
+
+/*
+	表单中几个重要的属性 
+	value 
+	checked
+	selected
+	
+	onChange 和 DOM 3 中定义的所有表单事件
+*/
+
 	handleInputChange = e =>{
 		this.setState({
 			name: e.target.value
@@ -103,7 +113,7 @@
 		)
 	}
 
-	
+
 // 单选框
 	constructor(props) {
 		super(props);
@@ -159,7 +169,7 @@
 		const { name } = this.state;
 		return (
 			<div>
-				<input type="checkbox" value='bingbing' checked={coffee.indexOf('bingbing') !== -1} onChange={this.handleInputChange} />
+			r
 				<input type="checkbox" value='zhangsan' checked={coffee.indexOf('zhangsan') !== -1} onChange={this.handleInputChange} />
 			</div>
 		)
@@ -220,41 +230,220 @@
 	}
 	render() {
 	
-		const { name } = this.state;
+		const { select } = this.state;
 		return (
 			<div>
 				<select multiple={true} value={select} onChange={this.handleInputChange}>
 					<option value="">请选择</option>
 					<option value="beijing">北京</option>
 					<option value="shanghai">上海</option>
+					/*
+						<option value="beijing" selected={ select.indexOf('beijing') @== -1 }>北京</option>
+					*/
 				</select>
 			</div>
 		)
 		
 	}
 
+// 以上为受控组件
+	
+	受控组件表单的验证
+	
+	handleInputChange(e){
+		this.setStage({
+			value: e.target.value.subString(0, 100).toUppercase();
+		})
+	}
+
+// 为受控组件 添加统一的绑定事件
+	<input type="text" value={this.state.name}  onChange={this.handleInputChange.bind(this, name)} />
+	
+	handleInputChange(agr0, event){
+	const { value } = event.target;
+		this.setState({
+			[agr0] : value
+		})
+		// 如果是复杂的表单 需要 switch case
+	}
+
+
+// 非受控组件
+	
+	constructor(props) {
+		super(props);
+		this.state = {
+			name: 'zhoubb'
+		}
+	}
+	componentDidMount() {
+		// 在非受控组件中 表单的值不会随状态的改变发生变化
+		this.setState({
+			name:'zhou'
+		})
+	}
+
+	handleSubmit(){
+		e.preventDefault();
+		const { value } = this.refs.name;
+		// ...
+	}
+	
+	
+	// 这里显示的是 zhoubb
+	<input type="text"  defaultValue={this.state.name} />
+
+
+// 样式处理------------------------------------------------------------------
+
+const style = {
+	color: white,
+	//  没有 - 符号 驼峰命名
+	backgroundImage:`url(${src})`,
+	// 前缀大些
+	WebkitTransition: 'all',
+	// ms 是唯一要小些的浏览器前缀
+	msTransition: 'all',
+	// 单位 px 会自动补全
+	height: 100
+	
+}
+
+const componnet = <Component style={style} />
+
+// 使用 classNames 库 ---------------------------------------------------------
+
+import classNames from 'classNames';
+render(){
+	const btnClass = {
+		btn: true,
+		btn-pressed: boolean,
+		btn-over: boolean
+	}
+
+	<div>
+	<button class={btnClass} >button</button>
+	</div>
+}
+
+
+// 启用 CSS Modules---------------------------------------------------------
+
+/* webpack.config.js */
+loader: "style-loader!css-loader?modules&localIdentName=[path][name]-[local]-[hash:base64:5]"
+
+/* button.css */
+
+// 默认为局部样式
+	.normal{}
+	.disabled{}
+
+// 局部样式
+	:local{
+		.name{}
+	}
+	:local(.name){
+		color:red
+	}
+
+// 全局样式
+	:global{
+		.name{}
+	}
+	:global(.name){
+		color:red
+	}
+
+// 通过 composes 来组合样式
+	.base{}
+
+	// 编译后变成俩个 class : button-base-hash  button-normal-hash
+	.normal{
+		composes: base;
+		composes: $primary-color from 'primary.css';
+		color: red;
+	}
+
+// 通过 composes 来引入样式
+	.normal{
+		/*
+			primary.css
+			{
+				primary-color{
+					color: red;
+				}
+
+			}
+		*/
+		composes: $primary-color from 'primary.css';
+		color: red;
+	}
+
+// 实现 css 与 js 变量共享
+	／*  config.scss *／
+	$primary-color: #333
+
+	:export{
+		primaryColor: $primary-color;
+	}
+
+	／*  *.scss *／
+	import style from config.scss
+	style.primaryColor === '#333'
 
 
 
 
+// css modules 只转变类选择器， 可以通过向 DOM 添加 data-role 属性 覆盖局部样式 
+	[data-role="role-name"]: {
+		
+	}
+
+
+/* *.js */
+import styles from 'button.css'
+
+console.log(styles) =>
+/* 
+	{
+		normal: button-normal-abcwe
+		disabled: button-normal-vadde
+	}
+
+	// 名称 生成规则
+	button: button.css
+	normal: .normal
+	abcwe: [hash:base64:5]
+
+ */
 
 
 
+// 在react 中使用
 
+import classNames from 'classNames';
 
+const cx = classNames({
+	normal: boolean,
+	disabled: boolean
+})
+remder(){
+	<div>
+		<p className={styles.normal}></p>
+		<p className={styles[cx]}></p>
+	</div>
+}
+/*
+	如果不想写 styles.* 的话 
+	import CSSModules from 'react-css-modules';
 
-
-
-
-
-
-
-
-
-
-
-
-
+	class ClassName extend{
+		remder(){
+			<p styleName={normal}></p>
+		}
+	}
+	export default CSSModules(ClassName, styles)
+*/
 
 
 

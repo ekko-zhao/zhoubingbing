@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import './less/button.css';
+
+// console.log(style)
+
 import ReactDom from 'react-dom'
 
 /*class App extends Component {
@@ -76,7 +80,7 @@ class App extends Component {
 		this.handelClick = this.handelClick.bind(this)
 
 		this.state = {
-			name: '',
+			name: 'zhoubb',
 			age: 29,
 			props: props,
 			select: []
@@ -102,7 +106,9 @@ class App extends Component {
 	}
 
 	componentDidMount() {
-
+		this.setState({
+			name:'zhou'
+		})
 	}
 
 	handelClick = (agr0, proxy, event) => {
@@ -144,12 +150,7 @@ class App extends Component {
 				<Chlid ref="chlid" title={this.state.props.title} />
 				<p></p>
 
-				<select multiple={true} value={select} onChange={this.handleInputChange}>
-					<option value="">请选择</option>
-					<option value="beijing">北京</option>
-					<option value="shanghai">shanghai</option>
-					<option value="tianjin">tianjin</option>
-				</select>
+				<input type="text"  defaultValue={this.state.name} />
 
 			</div>
 

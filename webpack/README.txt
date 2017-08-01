@@ -8,7 +8,20 @@ module.exports = {
         loaders: [
             {
                 test:   /\.css$/,
-                loader: "style-loader!css-loader!postcss-loader"
+                loader: "style-loader!css-loader!postcss-loader",
+                    /*
+                        ?sourceMap=true
+
+                        
+                    */
+                // 指定路径
+                include: path.resolve(--dirname, 'src/styles'),
+
+                // 排除路径
+                exclude: '/node_modules/',
+
+
+
             }
         ]
     }

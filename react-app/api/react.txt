@@ -48,6 +48,15 @@ registerServiceWorker();
 			return (
 				<button type="button" title={title}>
 					<span>{text}</span>
+					/*
+						使用表达式 生成遍历节点 
+						<ul>
+							{array.map(item, index)=>{
+								<li>index</li>
+							}}
+						</ul>
+						
+					*/
 				</button>
 			)
 		}
