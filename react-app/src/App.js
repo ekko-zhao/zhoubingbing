@@ -1,45 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-import './less/button.css';
-
-// console.log(style)
-
+import MyContainer from './Test';
 import ReactDom from 'react-dom'
 
-/*class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}*/
-
-/*const App = React.createClass({
-	getDefaultProps(){
-		return {
-			title: 'this is title',
-			text: 'this is text'
-		}
-	},
-	render(){
-		const {title, text} = this.props;
-		return (
-			<button type="button" title={title}>
-				<span>{text}</span>
-			</button>
-		)
-	}
-})*/
+import './App.css';
+// import './less/button.css';
 
 class Chlid extends Component {
 	constructor(props) {
@@ -48,46 +12,30 @@ class Chlid extends Component {
 			props: props
 		}
 	}
-
-	componentWillReceiveProps(nextProps) {
-		//console.log(nextProps);
-
-		if ('title' in nextProps) {
-			this.setState({
-				props: {
-					title: nextProps.title
-				}
-			})
-		}
-
-
+	componentDidMount() {
+		console.log(2)
+	}
+	static defaultProps = {
+		title: 'this is title',
+		'data-text': 'this is text'
 	}
 
 	render() {
+		console.log(4)
 		return (
-			<div title={this.state.props.title}>
+			<div {...this.props.name}>
 				Child
 			</div>
-
 		)
 	}
 }
 
-
 class App extends Component {
 	constructor(props) {
 		super(props);
-		this.handelClick = this.handelClick.bind(this)
-
 		this.state = {
-			name: 'zhoubb',
-			age: 29,
-			props: props,
-			select: []
+			name: 'zhoubb'
 		}
-
-
-
 	}
 
 	static defaultProps = {
@@ -95,70 +43,25 @@ class App extends Component {
 		text: 'this is text'
 	}
 
-	static propTypes = {
-		title: React.PropTypes.string
 
+	componentDidMount() { }
+
+	handleClick = (agr0) => {
+		console.log(agr0)
+		// this.props.title = agr0
 	}
-
-
-	componentWillMount() {
-
-	}
-
-	componentDidMount() {
-		this.setState({
-			name:'zhou'
-		})
-	}
-
-	handelClick = (agr0, proxy, event) => {
-		console.log(1)
-	}
-
-	handleInputChange = e => {
-		
-		const { options } = e.target;
-		const select = Object.keys(options)
-						.filter(i => options[i].selected === true)
-						.map(i => options[i].value) 
-
-		
-		this.setState({
-			select 	
-		})
-
-	}
-
-	/*componentWillReceiveProps(nextProps){
-		return false
-	}*/
-	shouldComponentUpdate(nextProps, nextState) {
-		return true;
-	};
-
 
 	render() {
-		const { title, text } = this.props;
-		const { select } = this.state;
+		var A = MyContainer(Chlid);
 		return (
 			<div>
-				<button ref="button" type="button" title={this.state.props.title} >
-					<span>{text}</span>
-				</button>
 				<span>{this.state.name}</span>
-				<br />
-				<Chlid ref="chlid" title={this.state.props.title} />
-				<p></p>
-
-				<input type="text"  defaultValue={this.state.name} />
+				<p onClick={this.handleClick.bind(this,"asd")}>{this.props.title}</p>
 
 			</div>
-
 		)
 	}
-
 }
-
 
 export default App;
 

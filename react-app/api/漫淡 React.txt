@@ -427,11 +427,13 @@ const cx = classNames({
 	normal: boolean,
 	disabled: boolean
 })
-remder(){
-	<div>
-		<p className={styles.normal}></p>
-		<p className={styles[cx]}></p>
-	</div>
+render(){
+	return(
+		<div>
+			<p className={styles.normal}></p>
+			<p className={styles[cx]}></p>
+		</div>
+	)
 }
 /*
 	如果不想写 styles.* 的话 
@@ -439,11 +441,250 @@ remder(){
 
 	class ClassName extend{
 		remder(){
-			<p styleName={normal}></p>
+			return(
+				<p styleName={normal}></p>
+			)
 		}
 	}
 	export default CSSModules(ClassName, styles)
 */
+
+
+// 组件间的通信------------------------------------------------------------------------------------------
+/* App.js */
+
+handleItemChange = () => {}
+render(){
+	return (
+		<List list={[text:1, text:2]} handleItemChange={this.handleItemChange} />
+	)
+}
+
+/* List.js */
+
+// 设置默认值
+static defaultProps={
+	...
+	handleItemChange: ()=>{}
+}
+
+onItemChange(entry){
+	...
+
+	// 发射 父级事件
+	this.props.handleItemChange(entry)
+}
+
+render(){
+	return(
+		<div>
+			{array.map((entry, index) => {
+				<ListItem onChange="this.onItemChange.bind(this.entry)"/>	
+			})}
+		</div>
+	)
+}
+
+/* ListItem.js */
+
+render(){
+	return(
+		<div>
+			// 发射 父级事件
+			<input type="text" onChange={this.props.onChange} />
+		</div>
+	)
+}
+
+// 跨级组件通信--------------------
+	.不建议用于 组件事件通信中
+	.主要用于全局信息不会改变， 如界面主题 用户信息	
+
+	在组件中定义
+	static childContextTypes = {
+			color: React.PropTypes.string
+		}
+	getChildContext(){
+		return {
+			color: 'red'
+		}
+	}
+
+	// 子组件中 
+	static contextTypes = {
+		color: React.PropTypes.string
+	}
+	
+	console.log(this.context.color)
+	
+
+
+
+// 没有嵌套关系的组建通信 可以通过 events 订阅来实现--------------------
+
+var emitter = new events.EventEmitter();
+/* App.js */
+import emitter from "./events"
+
+
+componentDidMount(){
+	emitter.on('some_event',function(){});
+}
+
+// 取掉订阅
+componentWillUnmount(){
+	emitter.removeListener('some_event');
+}
+
+// 在 其他组件中使用
+emitter.emit('some_event'， agr0, agr1);
+
+
+// 高阶组件 ----------------------------------------------------------
+1.
+/* wrappedComponent.js */
+import React, { Component } from 'react';
+
+const MyContainer = (WrappedComponent) => {
+	return class extends Component{
+		render(){
+			console.log(1)
+			const np = {
+				name:{
+					id:'1212',
+					name: 'is name'
+				}
+			}
+			// 这里的 this.props 是 调用时 给值 <Chlid title:"" />
+			// 这里的 {...np} 会传递给 调用（ Chlid ）组件
+			
+			// 这里相当于 普通调用组件
+			return <WrappedComponent {...this.props} {...np} />
+		}
+	}
+}
+
+export default MyContainer;
+
+
+
+/* Chlid.js */
+class Chlid extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			props: props
+		}
+	}
+	
+	static defaultProps = {
+		title: 'this is title',
+		'data-text': 'this is text'
+	}
+	
+	// 这里是最终显示 dom
+	render() {
+		console.log(2)
+		return (
+			<div  {...this.props.name}>
+				Child
+			</div>
+		)
+	}
+}
+
+export export default MyContainer(Chlid);
+
+
+/* App.js */
+
+<Chlid title:"" />
+
+
+
+// 在高阶组件中可以 抽象state 
+
+/* wrappedComponent.js */
+import React, { Component } from 'react';
+
+const MyContainer = (WrappedComponent) => {
+	
+	constructor(props){
+		super(props);
+		this.state = {
+			name:''
+		}
+		this.handleInputChange = this.handleInputChange.bind(this)
+	}
+	
+	handleInputChange(e){
+		this.setState({
+			name: e.target.value
+		})
+	}
+
+	return class extends Component{
+		const np = {
+			name: {
+				value: this.state.name,
+				onChange: this.handleInputChange
+			}
+		}
+		render(){
+		return <WrappedComponent  {...np}/>
+		}
+	}
+}
+
+export default MyContainer;
+
+/* Chlid.js */
+class Chlid extends Component {
+	render() {
+		return (
+			<imput {...np.name}/>
+		)
+	}
+}
+
+export export default MyContainer(Chlid);
+
+
+2. 方向继承
+
+/* wrappedComponent.js */
+const MyContainer = (WrappedComponent) => {
+	return class extends WrappedComponent{
+		componentDidMount(){
+			console.log(this.props)
+		}
+		render(){
+			return super.render();
+			/*
+				在这里可以劫持渲染
+				<div>
+					<p/>
+					{return super.render()}
+				</div>
+			*/
+		}
+	}
+} 
+
+export default MyContainer;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
