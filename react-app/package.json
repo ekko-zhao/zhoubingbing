@@ -10,7 +10,9 @@
     "node-less-chokidar": "^0.1.0",
     "node-sass-chokidar": "0.0.3",
     "npm-run-all": "^4.0.2",
-    "react-scripts": "1.0.7"
+    "react-addons-css-transition-group": "^15.6.0",
+    "react-scripts": "1.0.7",
+    "react-smooth": "^0.3.0"
   },
   "scripts": {
     "build-css": "node-less-chokidar src/ -o src/",

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import MyContainer from './Test';
 import ReactDom from 'react-dom'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Animate from 'react-smooth';
+
 
 import './App.css';
-// import './less/button.css';
+import './less/button.css';
 
 class Chlid extends Component {
 	constructor(props) {
@@ -25,6 +28,7 @@ class Chlid extends Component {
 		return (
 			<div {...this.props.name}>
 				Child
+				<div style={{ width: 200 + 'px', height: 200 + 'px', 'backgroundColor': 'red' }}></div>
 			</div>
 		)
 	}
@@ -34,7 +38,8 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: 'zhoubb'
+			name: 'zhoubb',
+			list: []
 		}
 	}
 
@@ -44,7 +49,25 @@ class App extends Component {
 	}
 
 
-	componentDidMount() { }
+	componentDidMount() {
+		setTimeout(() => {
+			this.setState({
+				name: 'zhoubingbing',
+				list: [{},{}]
+			})
+		}, 2000)
+		setTimeout(() => {
+			this.setState({
+				name: 'zhoubingbing',
+				list:[{}]
+			})
+		}, 6000)
+	}
+
+	/* conponentWillEnter() {
+		console.log(11)
+	} */
+
 
 	handleClick = (agr0) => {
 		console.log(agr0)
@@ -56,23 +79,13 @@ class App extends Component {
 		return (
 			<div>
 				<span>{this.state.name}</span>
-				<p onClick={this.handleClick.bind(this,"asd")}>{this.props.title}</p>
-
+				
 			</div>
 		)
 	}
 }
 
 export default App;
-
-
-
-
-
-
-
-
-
 
 
 

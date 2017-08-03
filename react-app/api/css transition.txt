@@ -1,0 +1,49 @@
+
+
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
+<ReactCSSTransitionGroup transitionName="example"  transitionEnterTimeout={400} transitionLeaveTimeout={400}>
+	<p>Child</p>
+	{ this.state.list.map( item =>{
+		return (<div className="a" style={{width:200+'px', height:200+'px', 'backgroundColor':'red'}}></div>)
+	}) }
+</ReactCSSTransitionGroup>
+
+
+.example-enter{
+    margin-left: 10px;
+    &.example-enter-active{
+        margin-left: 600px;
+        transition:  all .4s cubic-bezier(0.6, .2, .4, .8);
+    }
+}
+
+.example-leave{
+    transform: scaleY(1);
+    &.example-leave-active{
+        transform: scaleY(0);
+        transition: transform .4s ease;  
+    }
+}
+
+// [transitionName] 设置 动画类 名
+
+// transitionAppear={true} transitionAppearTimeout={400}  
+
+transitionAppear为 元素 挂载到 dom 中的时候 执行的动画
+transitionAppear 默认为 false， 当为true 的时候 需要设置 transitionAppearTimeout
+
+// transitionEnter 默认为 true, 当为true 的时候 需要设置 transitionEnterTimeout transitionLeaveTimeout
+
+
+
+
+
+import Animate from 'react-smooth';
+
+// 为 元素 挂载到 dom 中的时候 执行的动画
+<Animate form={{left:0}} to={{left:300}}>
+	<div style={{position:'absolute', top:20, left:0}} >
+		sdfd
+	</div>
+</Animate>
