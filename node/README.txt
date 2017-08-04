@@ -8,11 +8,16 @@ https://www.npmjs.com/~zhoubbmls
 npm config set registry https://registry.npm.taobao.org 
 npm config set registry https://registry.npmjs.org
 
-commonjs¹æ·¶
-ÔÚ±àÒë¹ı³ÌÖĞ£¬Node¶Ô»ñÈ¡µÄJavaScriptÎÄ¼ş ½øĞĞÍ·Î²°ü×°¡£{\n jsÎÄ±¾ \n};
+commonjsè§„èŒƒ
+åœ¨ç¼–è¯‘è¿‡ç¨‹ä¸­ï¼ŒNodeå¯¹è·å–çš„JavaScriptæ–‡ä»¶ è¿›è¡Œå¤´å°¾åŒ…è£…ã€‚{\n jsæ–‡æœ¬ \n};
 (functin(require, exports, nmodule, __filename, __firname){
 	exports.add = { }
 })
+
+// npm ç‰ˆæœ¬ç®¡ç†-------------------------------------------------------------
+~x.y.z: åŒ¹é…å¤§äº x.y.z çš„ z çš„æœ€æ–°ç‰ˆ 
+^x.y.z: åŒ¹é…å¤§äº x.y.z çš„ y.z çš„æœ€æ–°ç‰ˆ
+*: ä»»æ„ç‰ˆæœ¬ï¼Œä¸€èˆ¬æ˜¯æœ€åä¸€æ¬¡æ­£å¼å‘å¸ƒç‰ˆæœ¬
 
 
 AMD -----------------------------------------------------------------------
@@ -30,26 +35,26 @@ define(function(require, exports, module){
 
 
 
-ºËĞÄÄ£¿é-½«ÄÇĞ©ÓÉ´¿C/C++±àĞ´µÄ²¿·ÖÍ³Ò»Í³³ÆÎªÄÚ½¨Ä£¿é buffer crypto evals fs os µÈ
+æ ¸å¿ƒæ¨¡å—-å°†é‚£äº›ç”±çº¯C/C++ç¼–å†™çš„éƒ¨åˆ†ç»Ÿä¸€ç»Ÿç§°ä¸ºå†…å»ºæ¨¡å— buffer crypto evals fs os ç­‰
 
-±¾µØ°²×°°ü Ö¸¶¨packjson.jsonÎÄ¼ş¼Ğ
+æœ¬åœ°å®‰è£…åŒ… æŒ‡å®špackjson.jsonæ–‡ä»¶å¤¹
 npm install <tarball file>
 npm install <tarball rul>
 npm install <folder>
 
-´Ó·Ç¹Ù·½°²×°
+ä»éå®˜æ–¹å®‰è£…
 npm install underscore --registory="http://registory.url"
 
-Ö¸¶¨Ä¬ÈÏÔ´
+æŒ‡å®šé»˜è®¤æº
 
 npm config set registry http://registry.npmjs.org
 
 
-setTimeout() ºÍ setInterver() Óëä¯ÀÀÆ÷APIÊÇÒ»ÖÂµÄ
+setTimeout() å’Œ setInterver() ä¸æµè§ˆå™¨APIæ˜¯ä¸€è‡´çš„
  
-process.nextTick(); Ö´ĞĞÓÅÏÈ setImmediate(); 
+process.nextTick(); æ‰§è¡Œä¼˜å…ˆ setImmediate(); 
 
-setImmediate(); ½øÈëÏÂÒ»ÂÖÑ­»·
+setImmediate(); è¿›å…¥ä¸‹ä¸€è½®å¾ªç¯
 
 
 events ----------------------------------------------------------------
@@ -57,21 +62,21 @@ events ----------------------------------------------------------------
 var events = require('events');
 var emitter = new events.EventEmitter();
 
-emitter.on('newListener',function(eventname, listener){ }); µ±Ìí¼ÓĞÂµÄ¼àÌıÆ÷Ê±£¬'newListener' ÊÂ¼ş»á´¥·¢
-emitter.on('removeListener',function(eventname, listener){ }); µ±¼àÌıÆ÷±»ÒÆ³ıÊ±,'removeListener' ÊÂ¼ş±»´¥·¢
+emitter.on('newListener',function(eventname, listener){ }); å½“æ·»åŠ æ–°çš„ç›‘å¬å™¨æ—¶ï¼Œ'newListener' äº‹ä»¶ä¼šè§¦å‘
+emitter.on('removeListener',function(eventname, listener){ }); å½“ç›‘å¬å™¨è¢«ç§»é™¤æ—¶,'removeListener' äº‹ä»¶è¢«è§¦å‘
 
 emitter.emit('error');
 
 emitter.on('some_event',function(){})
-emitter.addListener(event, listener) ÎªÖ¸¶¨ÊÂ¼şÌí¼ÓÒ»¸ö¼àÌıÆ÷µ½¼àÌıÆ÷Êı×éµÄÎ²²¿
+emitter.addListener(event, listener) ä¸ºæŒ‡å®šäº‹ä»¶æ·»åŠ ä¸€ä¸ªç›‘å¬å™¨åˆ°ç›‘å¬å™¨æ•°ç»„çš„å°¾éƒ¨
 emitter.emit('some_event');
 
-emitter.setMaxListener(n); ÉèÖÃnÉÏÏŞ£¬ 0ÔòÈ¡ÏûÏŞÖÆ
+emitter.setMaxListener(n); è®¾ç½®nä¸Šé™ï¼Œ 0åˆ™å–æ¶ˆé™åˆ¶
 
 once(event, listener)
 removeListener(event, listener)
 removeAllListeners([event])
-listeners(event) ·µ»ØÖ¸¶¨ÊÂ¼şµÄ¼àÌıÆ÷Êı×é¡£
+listeners(event) è¿”å›æŒ‡å®šäº‹ä»¶çš„ç›‘å¬å™¨æ•°ç»„ã€‚
 
 require('events').EventEmitter.listenerCount(emitter,event)
 
@@ -84,12 +89,12 @@ var eventproxy = require('EventProxy');
 var proxy = new eventproxy.EventProxy();
 
 proxy.all('tempate', 'data', 'resources', function(tempate, data, resources){ })
-proxy.tail('tempate', 'data', 'resources', function(tempate, data, resources){ }) //Ö»ÄÜÖ´ĞĞÒ»´Î
+proxy.tail('tempate', 'data', 'resources', function(tempate, data, resources){ }) //åªèƒ½æ‰§è¡Œä¸€æ¬¡
 proxy.emit('tempate');
 
-proxy.after('data', 10, function(){ }) //Ö´ĞĞ10´Î data ºó»áÖ´ĞĞÕìÌıÆ÷
+proxy.after('data', 10, function(){ }) //æ‰§è¡Œ10æ¬¡ data åä¼šæ‰§è¡Œä¾¦å¬å™¨
 
-//´¦ÀíÒì³£
+//å¤„ç†å¼‚å¸¸
 exports.getContent = function (callback) {
 	var ep = new EventProxy();
 	ep.all('tempate', 'data', 'resources', function(tempate, data, resources){ })
@@ -145,7 +150,7 @@ Q.defer.prototype.all = function(promises){
 	return this.promise;
 }
 var deferred = Q.defer();
-deferred.all([promise1£¬promise2]).then(functin(results){
+deferred.all([promise1ï¼Œpromise2]).then(functin(results){
 
 },functin(err){
 
@@ -168,7 +173,7 @@ var app = connect();
 async ---------------------------------------------------------------------
 var async = require('async');
 
-//Òì²½²¢ĞĞ ÎŞÒÀÀµ
+//å¼‚æ­¥å¹¶è¡Œ æ— ä¾èµ–
 async.series([
 	function(callback){
 		fs.readFile('./src/txt/file1.txt','utf8',callback)
@@ -181,7 +186,7 @@ async.series([
 	console.log(results)
 })
 
-//Òì²½´®ĞĞ ÒÀÀµ
+//å¼‚æ­¥ä¸²è¡Œ ä¾èµ–
 async.waterfall([
 	function(callback){
 		fs.readFile('./src/txt/file1.txt','utf8',function(err,content){
@@ -197,7 +202,7 @@ async.waterfall([
 	console.log(results)
 })
 
-//Òì²½´®ĞĞ ×Ô¶¯´¦ÀíÒÀÀµ
+//å¼‚æ­¥ä¸²è¡Œ è‡ªåŠ¨å¤„ç†ä¾èµ–
 var deps = {
 	readFile2: ['readFile1', function(obj, callback){
 		callback(null,{name:'zhoubingbing'});
@@ -222,7 +227,7 @@ async.auto(deps)
 step ---------------------------------------------------------------------
 
 var step = require('step');
-//Òì²½´®ĞĞ ÒÀÀµ
+//å¼‚æ­¥ä¸²è¡Œ ä¾èµ–
 step(
 	function readFile1(){
 		fs.readFile('./src/txt/file1.txt','utf8',this);	
@@ -234,7 +239,7 @@ step(
 		console.log(content)
 	}
 )
-//Òì²½²¢ĞĞ
+//å¼‚æ­¥å¹¶è¡Œ
 step(
 	function readFile1(){
 		fs.readFile('./src/txt/file1.txt','utf8', this.parallel());	
@@ -251,11 +256,11 @@ step(
 	},
 	function readFile1(err,results){
 		if (err) throw err;
-		var group = this.group(); //²¢ĞĞ
+		var group = this.group(); //å¹¶è¡Œ
 		results.forEach(function(filename){
 			
 			if(/\.txt$/.test(filename)){
-				fs.readFile(__dirname+"\\"+filename, group()) //Éú³É»Øµ÷º¯Êı
+				fs.readFile(__dirname+"\\"+filename, group()) //ç”Ÿæˆå›è°ƒå‡½æ•°
 			}
 		})
 	},
@@ -276,4 +281,3 @@ step(
 
 
 
- 
