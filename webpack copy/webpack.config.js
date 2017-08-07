@@ -97,7 +97,7 @@ module.exports = { 
 		}*/
 	},
 
-	//inline: true || --inline 刷新页面 
+	//inline: true || --inline 刷新页面
 	//inline: true, hot:true || --inline --hot  重新加载改变的部分，HRM失败则刷新页面
 	/*"scripts": {
 		"dev": "webpack-dev-server --hot --inline"
@@ -155,7 +155,7 @@ module.exports = { 
 				loader: 'babel-loader'
 			}
 			/*
-				query: {  presets: ['react', 'es2015']  } //或者添加 query 
+				query: {  presets: ['react', 'es2015']  } //或者添加 query
 			*/
 
 		]

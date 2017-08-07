@@ -1,0 +1,185 @@
+
+/* package.json */	-----------------------------------------------------
+{	
+    "scripts": {
+        "dev": "webpack-dev-server --colors --progress",
+	}
+}
+
+Using webpack-dev-server
+将会使用简单的web服务器 
+npm install --save-dev webpack-dev-server
+
+"dev": "webpack-dev-server
+
+// webpack.config.js
+
+devServer: {
+	
+	// 这个选项允许你指定一个白名单，允许访问服务器的开发
+	cli --allowed-hosts .host.com,host2.com
+	allowedHosts: [
+	    'host.com',
+	    'subdomain.host.com',
+	    'subdomain2.host.com',
+	    'host2.com'
+	]
+	
+	// 在启动时通过ZeroConf网络广播服务器
+	cli --bonjour
+	bonjour: true
+	
+	
+	//  values are none, error, warning or info (default).
+	cli --client-log-level none
+	devServer.clientLogLevel
+	
+	// Enables/Disables colors on the console.
+	CLI only
+	--color
+	
+	// 为所有服务启用gzip压缩
+	CLI --compress
+	compress: true
+	
+	
+	// 将用于确定哪些 static 文件， bundle应该从哪里得到，并优先考虑
+	CLI webpack-dev-server --content-base /path/to/content/dir
+	contentBase: false
+	
+	
+	// 当设置为true时，该选项绕过主机检查,易受到DNS重新绑定攻击
+	CLI --disable-host-check
+	disableHostCheck: true
+	
+	// filename has no effect when used without lazy mode. 
+	lazy: true,
+	filename: "bundle.js"
+	
+	
+	// 向所有响应添加头信息
+	headers: {
+		"X-Custom-Foo": "bar"
+	}
+	
+	// By default this is localhost
+	--host 0.0.0.0
+	host: "0.0.0.0"
+	
+	// 启用webpack的热模块替换特性
+	--hot
+	hot: true
+	
+	--port 8080
+	port: 8080
+	
+	proxy: {
+		"/api": {
+		target: "https://other-server.example.com",
+			pathRewrite: {"^/api" : ""}
+			//pathRewrite: {'regExp' : '/path'}
+		},
+		secure: false
+	}
+	
+	
+	输出编译进度到控制台
+	--progress
+	
+	
+
+	// 使热模块替换,  页面无刷新技术s
+	--hot-only
+	hotOnly: true
+	
+	// 使用https
+	--https
+	https: true
+	
+	// 添加证书
+	--https --key /path/to/server.key --cert /path/to/server.crt --cacert /path/to/ca.pem
+	https: {
+		key: fs.readFileSync("/path/to/server.key"),
+		cert: fs.readFileSync("/path/to/server.crt"),
+		ca: fs.readFileSync("/path/to/ca.pem"),
+	}
+	
+	cli信息输出。它是默认启用的。
+	--info=false
+	
+	// 将在您的包中插入一个脚本，以处理重新加载的内容 , 构建消息将出现在浏览器控制台中
+		在使用热模块替换时，推荐使用内联模式。
+		默认情况下, 应用程序将使用内联模式启用
+	--inline=false
+	inline: false
+	
+	// 在浏览器中打开
+	--open
+	open: true
+	
+	
+	// 在浏览器中打开指定页面
+	--open-page "/different/page"
+	openPage: '/different/page'
+	
+	
+	// 当出现编译错误或警告时，在浏览器中显示全屏幕覆盖
+	overlay: true
+	overlay: {
+		warnings: true,
+		errors: true
+	}
+	
+	// Path to a SSL pfx file.
+	--pfx /path/to/file.pfx
+	pfx: '/path/to/file.pfx'
+	
+	
+	// 指定备用的代理服务器地址
+	public: "myapp.test:80"
+	--public myapp.test:80
+	
+	
+	
+	//devServer.publicPath is the same as output.publicPath.
+	publicPath: "/assets/"
+	publicPath: "http://localhost:8080/assets/"
+	
+	// 这意味着webpack的错误或警告是不可见的
+	--quiet
+	quiet: true
+	
+	// 这个选项允许浏览器打开您的本地IP
+	--useLocalIp
+	useLocalIp: true
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
