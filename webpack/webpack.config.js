@@ -20,7 +20,7 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         extractCSS,
         new HtmlWebpackPlugin({
-            template: __dirname + '/index.html'
+            template: __dirname + '/index.html',
         }),
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: true
@@ -28,16 +28,22 @@ module.exports = {
         /* new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         }), */
+        // new webpack.optimize.CommonsChunkPlugin("./dist/commons.js", ["./src/aa.js", "./src/bb.js"]),
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: options.devtool && (options.devtool.indexOf("sourcemap") >= 0 || options.devtool.indexOf("source-map") >= 0)
         })
 
     ],
-    entry: './src/index.js',
+    //entry: './src/index.js',
+    entry: {
+        index: './src/index.js',
+        aa: "./src/aa.js",
+        bb: "./src/bb.js"
+    },
     output: {
         //path: path.resolve(__dirname, 'dist'),
         path: __dirname + '/dist',
-        filename: 'bundle.js',
+        filename: '[name]bundle.js',
 
         //publicPath: "./"
     },
@@ -49,7 +55,9 @@ module.exports = {
         inline: true,
         port: 3000,
         compress: true,
-        overlay: true
+        overlay: true,
+        open: true,
+        openPage: 'index.html'
     },
     module: {
         rules: [

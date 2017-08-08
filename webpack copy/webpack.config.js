@@ -45,9 +45,10 @@ module.exports = { 
 		new webpack.HotModuleReplacementPlugin(),*/
 
 		// 默认会把所有入口节点的公共代码提取出来,生成一个common.js
-		//new webpack.optimize.CommonsChunkPlugin('./build/js/common.js'),
+		// new webpack.optimize.CommonsChunkPlugin('./build/js/common.js'),
 
-		         /*new CommonsChunkPlugin("./src/build/js/admin-commons.js", ["./src/assets/js/ap1", "./src/assets/js/ap2"]),*/          //new CommonsChunkPlugin("commons.js", ["p1", "p2", "admin-commons.js"]),
+        // new CommonsChunkPlugin("./src/build/js/admin-commons.js", ["./src/assets/js/ap1", "./src/assets/js/ap2"]),
+        // new CommonsChunkPlugin("commons.js", ["p1", "p2", "admin-commons.js"]),
 
 		/*new webpack.optimize.UglifyJsPlugin({
             compress: {

@@ -119,8 +119,8 @@ devServer: {
 	
 	
 	// 在浏览器中打开指定页面
-	--open-page "/different/page"
-	openPage: '/different/page'
+	--open-page "index.html"
+	openPage: 'index.html'
 	
 	
 	// 当出现编译错误或警告时，在浏览器中显示全屏幕覆盖

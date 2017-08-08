@@ -80,7 +80,10 @@ module.exports = {
 		filename: 'bundle.js',
 		
 		// 配置页面中 静态资源的请求路径
-		publicPath: "./"
+		publicPath: "./",
+		
+		// sourceMap 名称
+		sourceMapFilename: '[name].map'
 	},
 	
 	// 使用源代码 maps , 追踪错误和警告到具体的代码行；  由于会大幅度的增加文件大小，所以只能在开发环境中使用
