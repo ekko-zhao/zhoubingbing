@@ -63,10 +63,26 @@ module.exports = {
 			bundle:'./src/entry.js',
 			bundle2:'./src/entry2.js'
 		},
+		
+		// 多入口，模块单一引用，单一文件输出
 		output: {
 			path: __dirname + '/dist',
 			filename: 'src/build/[name].bundle.js',
 		}
+		
+		// 多入口，模块单一引用，分文件输出
+		output: {
+			path: __dirname + '/dist',
+			filename: 'src/build/bundle.js',
+		}
+		
+		// 单一入口，模块单一引用
+		entry: './src/index.js',
+		output: {
+			path: __dirname + '/dist',
+			filename: 'src/build/bundle.js',
+		}
+		
 		
 		// index.html
 		<head>
@@ -179,157 +195,65 @@ module.exports = {
 		*/
 		
 		
-	}
-}
-
-// 热替换 -----------------------------------------------------
-	HMR并不打算在生产中使用，这意味着它只应该用于开发。
-	它允许在运行时更新所有模块，而不需要 ‘完全’ 刷新。
-	增强开发效率
-	
-webpack.config.js
-	const webpack = require('webpack');
-	devServer: {
-		hot: true,
-		hotOnly: true
 	},
-	plugins: [
-		new webpack.HotModuleReplacementPlugin()
-	]
-
-热替换 用于样式
-
-rules: {
-    test: /\.less$/,
-	// 不能用于 extract-text-webpack-plugin 
-    use: [
-        'style-loader',
-        'css-loader'
-	] 
+	resolve: {
+		alias: {
+			jquery: "jquery/src/jquery"
+		}
+	}
 }
 
-// webpack.optimize.UglifyJsPlugin ------------------------------------------
 
-	var options = {
-	    devtool: 'inline-source-map',
-	}
-	module.exports = {
-		plugins:[
-			// 如果没有该插件，在 devtool: 'inline-source-map' 的情况下 sourceMap 是有的
-		    new webpack.optimize.UglifyJsPlugin({
-				// 这里再次决定是否有 sourceMap
-		    	sourceMap: options.devtool && (options.devtool.indexOf("sourcemap") >= 0 || options.devtool.indexOf("source-map") >= 0)
-		    })
-		]
-		devtool: options.devtool
+// 缓存技术 ----------------------------------------------------
+
+hash是compilation对象计算所得，而不是具体的项目文件计算所得。所以以上配置的编译输出文件，所有的文件名都会使用相同的hash指纹。
+chunkhash 是根据具体模块文件的内容计算所得的hash值，所以某个文件的改动只会影响它本身的hash指纹，不会影响其他文件。
+
+
+output: {
+	filename: '[name].[chunkhash:8].js',
+    path: __dirname + '/built'
+}
+
+
+// hash应用场景 
+	hash可以作为版本控制的一环，将其作为编译输出文件夹的名称统一管理
+	output: {
+		filename: '/dest/[hash]/[name].js'
 	}
 
+
+// contenthash
+	extract-text-webpack-plugin提供了另外一种hash值：contenthash
+
+	/* webpack.config.js */
+	// 用 [chunkhash] 命名的好处是 不用每个文件 chunkhash 都会改变
+	entry: './src/index.js',
+	output: {
+	      filename: '[name].[chunkhash].js',
+	      path: path.resolve(__dirname, 'dist')
+	}
 	
-// webpack.DefinePlugin -----------------------------------------------------
-	plugins:[
-		// 这里定义的 process.env.NODE_ENV 将会转变成 
-			{
-				process:{
-					env:{
-						NODE_ENV: 'production'
-					}
-				}
-			}
-			可以在 任何js 中访问
-		new webpack.DefinePlugin({
-	        'process.env.NODE_ENV': JSON.stringify('production')
+	plugins: [
+		new webpack.optimize.CommonsChunkPlugin({
+			name: 'common'
 		})
 	]
-	/*
-		除了在 plugins 中定义外 还可以在 CLI 中定义 
-		"scripts": {
-			"dev": "webpack-dev-server --define process.env.NODE_ENV=\"'production'\" "
-		}
-	*/
-	
-/* index.js */
-	console.log(process.env.NODE_ENV)  => 'production'
-	console.log(process) => object
-	
-	
 
-// html-webpack-plugin -----------------------------------------------------
 
-	多个页面可以在 plugins 配置多个
-	plugins:[
-		new HtmlWebpackPlugin({}),
-		new HtmlWebpackPlugin({})
-	]
-
-new HtmlWebpackPlugin({
-	title: 'My App',
-	filename: 'index.html',
-	/*
-		或者指定 template
-		template: __dirname+'/src/tpl/login.html',
-	*/
+// 给点击事件传递 参数----------------------------------------------------
 	
-	//当传递true或“body”时，所有javascript资源将放置在body元素的底部。 'head'将脚本放置在head元素中
-	inject: true | 'head' | 'body' |false ,
-	
-	favicon: path,
-	
-	minify: { removeComments: true, collapseWhitespace: true, removeAttributeQuotes: true,} | false Pass a html-minifier options object to minify the output.
-	
-	// css js path?[hash]
-	hash: true, 
-	
-	
-	cache: boolean,
-	
-	// main 和 user 和 entry 的属性名相对应
-	chunks:['main','user','common.js']
-	
-	showErrors: true | false if true (default) errors details will be written into the HTML page.
-	
-	// 允许控制块在被包含到HTML之前应该如何排序。
-	chunksSortMode: 'none' | 'auto' | 'dependency' |'manual' | {function} - default: 'auto'
-}),
+	import Print from './print';
+	element.onClick = Print.bind(null, 'Hello webpack!');
 
 
 
-// extract-text-webpack-plugin -----------------------------------------------------
-	用于导出 css 文件
-	
-	// for webpack 2.0
-	npm install --save-dev extract-text-webpack-plugin@2.1.2
-	
 
-	var ETP = require("extract-text-webpack-plugin");
-	// 指定 css 输出路径， 路径相对于 output.path 内
-	var extractCSS = new ETP('./css/style.css');
-	
-	plugins: [
-		extractCSS,
-	]
 
-	module: {
-        rules: [
-            {
-				test: /\.less$/,
-                usess: extractCSS.extract({
-					fallback: 'style-loader',
-					use: 'css-loader!less-loader'
-				})
-            }
-        ]
-	}
 
-// 清除 ／dist 文件夹 -----------------------------------------------------
 
-npm install clean-webpack-plugin --save-dev
 
-/* webpack.config.js */
-	const CleanWebpackPlugin = require('clean-webpack-plugin');
-	
-	plugins: [
-		new CleanWebpackPlugin(['dist']),
-	]
+
 
 
 

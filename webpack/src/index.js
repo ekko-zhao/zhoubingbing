@@ -1,26 +1,27 @@
 
 import './style.css';
-import print from './print.js'
-
-/* import './aa.js';
-import './bb.js'; */
+// import print from './print.js';
+//import _ from 'lodash';
 
 function component() {
     var element = document.createElement('div');
 
-    // Lodash, currently included via a script, is required for this line to work
-    element.innerHTML = 'Hellos';
-    element.onclick = print;
+    var button = document.createElement('button');
+    var br = document.createElement('br');
 
+    button.innerHTML = 'Click me and look at the console!';
+    element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+    element.appendChild(br);
+    element.appendChild(button);
+
+    // Note that because a network request is involved, some indication
+    // of loading would need to be shown in a production-level site/app.
+    button.onclick = e => import(/* webpackChunkName: "print" */ './print').then(module => {
+        var print = module.default;
+        print();
+    });
+    console.log(this);
     return element;
 }
 
 document.body.appendChild(component());
-
-/* if (module.hot) {
-   module.hot.accept('./print.js', function() {
-     console.log('Accepting the updated printMe module!');
-     printMe();
-   })
- } */
-

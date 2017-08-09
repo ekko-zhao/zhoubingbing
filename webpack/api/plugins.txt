@@ -1,0 +1,306 @@
+
+// 热替换 -----------------------------------------------------
+	HMR并不打算在生产中使用，这意味着它只应该用于开发。
+	它允许在运行时更新所有模块，而不需要 ‘完全’ 刷新。
+	增强开发效率
+	
+webpack.config.js
+	const webpack = require('webpack');
+	devServer: {
+		hot: true,
+		hotOnly: true
+	},
+	plugins: [
+		new webpack.HotModuleReplacementPlugin()
+	]
+
+热替换 用于样式
+
+rules: {
+    test: /\.less$/,
+	// 不能用于 extract-text-webpack-plugin 
+    use: [
+        'style-loader',
+        'css-loader'
+	] 
+}
+
+// webpack.optimize.UglifyJsPlugin ------------------------------------------
+
+	var options = {
+	    devtool: 'inline-source-map',
+	}
+	module.exports = {
+		plugins:[
+			// 如果没有该插件，在 devtool: 'inline-source-map' 的情况下 sourceMap 是有的
+		    new webpack.optimize.UglifyJsPlugin({
+				// 这里再次决定是否有 sourceMap
+		    	sourceMap: options.devtool && (options.devtool.indexOf("sourcemap") >= 0 || options.devtool.indexOf("source-map") >= 0)
+		    })
+		]
+		devtool: options.devtool
+	}
+
+	
+// webpack.DefinePlugin -----------------------------------------------------
+	plugins:[
+		// 这里定义的 process.env.NODE_ENV 将会转变成 
+			{
+				process:{
+					env:{
+						NODE_ENV: 'production'
+					}
+				}
+			}
+			可以在 任何js 中访问
+		new webpack.DefinePlugin({
+	        'process.env.NODE_ENV': JSON.stringify('production')
+		})
+	]
+	/*
+		除了在 plugins 中定义外 还可以在 CLI 中定义 
+		"scripts": {
+			"dev": "webpack-dev-server --define process.env.NODE_ENV=\"'production'\" "
+		}
+	*/
+	
+/* index.js */
+	console.log(process.env.NODE_ENV)  => 'production'
+	console.log(process) => object
+	
+	
+
+// html-webpack-plugin -----------------------------------------------------
+
+	多个页面可以在 plugins 配置多个
+	plugins:[
+		new HtmlWebpackPlugin({}),
+		new HtmlWebpackPlugin({})
+	]
+
+new HtmlWebpackPlugin({
+	title: 'My App',
+	filename: 'index.html',
+	/*
+		或者指定 template
+		template: __dirname+'/src/tpl/login.html',
+	*/
+	
+	//当传递true或“body”时，所有javascript资源将放置在body元素的底部。 'head'将脚本放置在head元素中
+	inject: true | 'head' | 'body' |false ,
+	
+	favicon: path,
+	
+	minify: { removeComments: true, collapseWhitespace: true, removeAttributeQuotes: true,} | false Pass a html-minifier options object to minify the output.
+	
+	// css js path?[hash]
+	hash: true, 
+	
+	
+	cache: boolean,
+	
+	// main 和 user 和 entry 的属性名相对应
+	chunks:['main','user','common.js']
+	
+	showErrors: true | false if true (default) errors details will be written into the HTML page.
+	
+	// 允许控制块在被包含到HTML之前应该如何排序。
+	chunksSortMode: 'none' | 'auto' | 'dependency' |'manual' | {function} - default: 'auto'
+}),
+
+
+// 代码分割
+// CommonsChunkPlugin -----------------------------------------------------
+	
+	// webpack.config.js
+
+	entry: {
+        index: './src/index.js',
+        index2: './src/index2.js',
+		
+		
+    },
+    output: {
+        path: __dirname + '/dist',
+        filename: '[name].bundle.js'
+	},
+	plugins: [
+		new webpack.optimize.CommonsChunkPlugin({
+            name: 'common'
+		}),
+		new HtmlWebpackPlugin({
+            template: __dirname + '/index.html',
+			// 如果指定chunks 则会选择加载， 否则所有模块都引入
+            chunks: ['common', 'index', 'index2']
+		}),	
+	]
+	
+	/*
+		在index 和 index2 有共同的 模块引入时 ， 则会把共同的 模块引入单独大包到 common.bundle.js 中
+		
+		// 如果想指定某个 文件 单独打包的话，需要单独指定
+		// 如果index.js中 引入了lodash.js 不会打包在 index.bundle.js 中
+		entry: {
+        	...
+			index: './src/index.js',
+			lodash: 'lodash'
+		},
+		plugins:[
+			new HtmlWebpackPlugin({
+				template: __dirname + '/index.html'
+			}),	
+		]
+	*/
+	
+// 代码分割
+// 动态加载
+	/* index.js */
+	import './style.css';
+	function getComponent() {
+	
+	    return import(/* webpackChunkName: "lodash" */ 'lodash').then(_ => {
+	        var element = document.createElement('div');
+	
+	        element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+	
+	        return element;
+	
+	    }).catch(error => 'An error occurred while loading the component');
+	
+	}
+	
+	
+	getComponent().then(component => {
+	    document.body.appendChild(component);
+	})
+	
+/*
+	// 第二种实现方式	
+	async function getComponent() {
+	var element = document.createElement('div');
+	   const _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+	   
+	   element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+	   
+	   return element;
+	}
+	
+	getComponent().then(component => {
+    	document.body.appendChild(component);
+	});
+	
+	// 第三种实现方式
+	function component() {
+	    var element = document.createElement('div');
+	
+	    var button = document.createElement('button');
+	    var br = document.createElement('br');
+	
+	    button.innerHTML = 'Click me and look at the console!';
+	    element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+	    element.appendChild(br);
+	    element.appendChild(button);
+	
+	    
+	    button.onclick = e => import(/* webpackChunkName: "print" */ './print').then(module => {
+	        var print = module.default;
+	        print();
+	    });
+	
+	    return element;
+	}
+	
+	document.body.appendChild(component());
+*/
+
+
+// webpack.HashedModuleIdsPlugin -----------------------------------------------------
+	组织moudule.id 发生改变时 contenthash 不变
+	entry: {
+    	...
+		index: './src/index.js',
+		lodash: 'lodash'
+	},
+	
+	plugins:[
+		new HtmlWebpackPlugin({
+			template: __dirname + '/index.html'
+		}),
+		new webpack.HashedModuleIdsPlugin(),
+	]
+
+// webpack.ProvidePlugin -----------------------------------------------------
+	// 生成全局 变量
+	plugins:[
+		new webpack.ProvidePlugin({
+	    	_: 'lodash',
+			
+			/*
+				这里可以发布 module的属性 作为全局变量
+				children:[module, child, ...children?].
+				
+				例如： concat => lodash.concat
+				concat: ['lodash', 'concat']
+			*/
+		})
+		
+	],
+	resolve: {
+        alias: {
+            _: "lodash"
+        }
+	}
+	
+	
+	
+
+// extract-text-webpack-plugin -----------------------------------------------------
+	用于导出 css 文件
+	
+	// for webpack 2.0
+	npm install --save-dev extract-text-webpack-plugin@2.1.2
+	
+
+	var ETP = require("extract-text-webpack-plugin");
+	// 指定 css 输出路径， 路径相对于 output.path 内
+	var extractCSS = new ETP('./css/style.css');
+	
+	plugins: [
+		extractCSS,
+	]
+
+	module: {
+        rules: [
+            {
+				test: /\.less$/,
+                usess: extractCSS.extract({
+					fallback: 'style-loader',
+					use: 'css-loader!less-loader'
+				})
+            }
+        ]
+	}
+
+// 清除 ／dist 文件夹 -----------------------------------------------------
+
+npm install clean-webpack-plugin --save-dev
+
+/* webpack.config.js */
+	const CleanWebpackPlugin = require('clean-webpack-plugin');
+	
+	plugins: [
+		new CleanWebpackPlugin(['dist']),
+	]
+
+
+
+
+
+
+
+
+
+
+
+
+

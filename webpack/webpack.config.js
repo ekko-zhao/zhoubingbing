@@ -15,39 +15,56 @@ var options = {
 
 
 module.exports = {
+
+    //entry: './src/index.js',
+    entry: {
+        index: './src/index.js',
+        //lodash: 'lodash'
+    },
+    output: {
+        //path: path.resolve(__dirname, 'dist'),
+        path: __dirname + '/dist',
+        filename: '[name].bundle.js',
+        //publicPath: "./"
+    },
     plugins: [
         new CleanWebpackPlugin(['dist']),
         new webpack.HotModuleReplacementPlugin(),
         extractCSS,
         new HtmlWebpackPlugin({
             template: __dirname + '/index.html',
+            //chunks: ['common', 'index'],
         }),
-        new webpack.optimize.UglifyJsPlugin({
+        /* new webpack.optimize.UglifyJsPlugin({
             sourceMap: true
-        }),
-        /* new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('production')
         }), */
-        // new webpack.optimize.CommonsChunkPlugin("./dist/commons.js", ["./src/aa.js", "./src/bb.js"]),
-        new webpack.optimize.UglifyJsPlugin({
+
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'common'
+        }),
+        new webpack.ProvidePlugin({
+            _: 'lodash',
+            partition: ['lodash', 'partition']
+        }),
+
+        /* new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' })
+        The available options are:
+            name: string
+            names: string[]
+            filename: string
+            minChunks: number
+            chunks: string[]
+            children: boolean
+            async: boolean
+            minSize: number
+
+        */
+        /* new webpack.optimize.UglifyJsPlugin({
             sourceMap: options.devtool && (options.devtool.indexOf("sourcemap") >= 0 || options.devtool.indexOf("source-map") >= 0)
-        })
+        }) */
 
     ],
-    //entry: './src/index.js',
-    entry: {
-        index: './src/index.js',
-        aa: "./src/aa.js",
-        bb: "./src/bb.js"
-    },
-    output: {
-        //path: path.resolve(__dirname, 'dist'),
-        path: __dirname + '/dist',
-        filename: '[name]bundle.js',
-
-        //publicPath: "./"
-    },
-    devtool: options.devtool,
+    //devtool: options.devtool,
     devServer: {
         hot: true,
         hotOnly: true,
@@ -56,8 +73,8 @@ module.exports = {
         port: 3000,
         compress: true,
         overlay: true,
-        open: true,
-        openPage: 'index.html'
+        // open: true,
+        // openPage: 'index.html'
     },
     module: {
         rules: [
@@ -79,8 +96,29 @@ module.exports = {
                     fallback: 'style-loader',
                     use: 'css-loader'
                 })
-            }
+            },
+            /*
+                imports-loader
+                npm install --save-dev imports-loader
+                向模块中添加 $变量
+                require('imports-loader?$=jquery!./jqGreen');
+
+                exports-loader
+                npm install --save-dev exports-loader
+                require('exports?window.Hello!./Hello.js');
+
+                // Hello.js
+                window.Hello = function(){
+                    console.log('say hello.');
+                }
+
+            */
         ]
+    },
+    resolve: {
+        alias: {
+            _: "lodash"
+        }
     }
 
 }

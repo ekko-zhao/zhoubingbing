@@ -1,0 +1,25 @@
+
+/* obj.js */
+export var a = {
+    name:'is a'
+}
+
+export var b = {
+    name:'is b'
+}
+
+/* main.js */
+import { a } from 'obj.js'
+import * as o from 'obj.js'
+o => {
+    a
+    b
+}
+
+// 这里不用 { }
+export defualt var b = {
+    name:'is b'
+}
+import b from 'obj.js'
+
+
