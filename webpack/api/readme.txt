@@ -100,6 +100,30 @@ module.exports = {
 		
 		// sourceMap 名称
 		sourceMapFilename: '[name].map'
+		
+		
+		/*
+			chunkFilename: "[name].min.js"
+			什么场景需要呢？我们项目就遇到过，在按需加载（异步）模块的时候，这样的文件是没有被列在entry中的，如使用CommonJS的方式异步加载模块：
+			require.ensure(["modules/tips.jsx"], function(require) {
+		    var a = require("modules/tips.jsx");
+		    	// ...
+			}, 'tips');
+			异步加载的模块是要以文件形式加载哦，所以这时生成的文件名是以chunkname配置的，生成出的文件名就是tips.min.js。
+			（require.ensure() API的第三个参数是给这个模块命名，否则 chunkFilename: "[name].min.js" 中的 [name] 是一个自动分配的、可读性很差的id
+			
+			output.chunkLoadTimeout 
+			// Number of milliseconds before chunk request expires, defaults to 120 000. This option is supported since webpack 2.6.0.
+			
+			
+			output.devtoolLineToLine
+			能给所有或者指定模块设置为行到行的map模式。行到行map模式用一个简单的 sourcecMap , 在这个sourceMap 中每行生成的文件映射到同一行的源文件。这是一个性能优化。只有当你需要更好的性能或者你确定输入的行和生成 的行匹配，你再这么做。 
+			true 使它对所有module有效（不推荐）。 
+			一个对象{test，include,exclude} 同module.loaders 很像，对指定的文件设置有效。
+			
+			
+		*/
+		
 	},
 	
 	// 使用源代码 maps , 追踪错误和警告到具体的代码行；  由于会大幅度的增加文件大小，所以只能在开发环境中使用

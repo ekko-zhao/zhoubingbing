@@ -1,0 +1,45 @@
+
+less-loader --------------------------------------------------------------
+	npm install --save-dev less-loader less
+	module.exports = {
+	    ...
+	    module: {
+	        rules: [{
+	            test: /\.less$/,
+	            use: [{
+	                loader: "style-loader" // creates style nodes from JS strings
+	            }, {
+					loader: "css-loader", // translates CSS into CommonJS
+					sourceMap: true
+	            }, {
+					loader: "less-loader", // compiles Less to CSS
+					options: {
+	                    strictMath: true,
+	                    noIeCompat: true,
+						sourceMap: true
+					}
+	            }]
+	        }]
+	    }
+	};
+	
+	
+babel-loader --------------------------------------------------------------
+
+npm install --save-dev babel-loader babel-core babel-preset-env webpack
+module: {
+  rules: [
+    {
+      test: /\.js$/,
+      exclude: /(node_modules|bower_components)/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+			// 这里可以在.babelrc 中设置
+			presets: ['env'],
+			plugins: [require('babel-plugin-transform-object-rest-spread')]
+        }
+      }
+    }
+  ]
+}
