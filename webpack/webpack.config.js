@@ -118,7 +118,8 @@ module.exports = {
     resolve: {
         alias: {
             _: "lodash"
-        }
+        },
+        extensions: [".tsx", ".ts", ".js"]
     }
 
 }

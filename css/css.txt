@@ -13,4 +13,162 @@ transition:  all 2s cubic-bezier(0.6, .2, .4, .8);
 	
 // 判断正负加速度
 	以x轴为基轴， 单位长度内下一个 y轴提升的距离 大与上一个单位长度y轴提升的距离 为正加速度， 反之为 负加速度
+
+	
+// IE：---------------------------------------------
+	
+	filter:progid:DXImageTransform.Microsoft. /*.后面都是紧跟着各种滤镜和转场函数*/
+	
+	// 模糊滤镜
+	filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='x', MakeShadow='x', ShadowOpacity='x')
+	PixelRadius，设置对象的模糊半径，1~100数值。
+	MakeShadow，设置对象是否投影，布尔值，true和false
+	ShadowOpacity，设置对象投影不透明度，0.0~1.0，假如MakeShadow为false那么该值无效。
+	
+	
+	
+	// 对png透明图片进行不透明度的处理
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled='true' , sizingMethod='' , src='mini.jpg')
+	属性			特性			描述
+	enabled			Enabled			可选值，Boolean布尔值，默认值为ture，启用过滤器；false为不启用过滤器。所有的filter都有该属性值，下面不一一多说。
+	
+	sizingMethod	sizingMethod	可选值，设置或检索的方式来显示一个图像在对象边界显示方式。
+									有三个值：
+									crop裁剪图像以适应对象的尺寸；
+									image，默认值，扩大或减少对象的边界,以适应图像的尺寸；
+									scale，伸展或收缩图像填充对象的边界；
+									
+	src				src				必须值，引入图片。
+	
+	
+	// 渐变滤镜
+	filter:progid:DXImageTransform.Microsoft.Gradient(enabled='ture',GradientType='1',StartColorStr='#00000000',EndColorStr='#FFFF3300')
+	
+	属性			特性		描述
+	enabled			Enabled		可选值，Boolean布尔值，默认值为ture，启用过滤器；false为不启用过滤器。
+	
+	StartColorStr				比如一个值为：#AARRGGBB ，那么AA代表透明度alpha，RR表示红色16进制值，GG表示绿色16进制值，BB表示蓝色16进制值。
+	EndColorStr
+	
+	StartColor					设置或者检索开始不透明度的梯度值，整数型Integer，指定一个整数型值，值的变化从0 (transparent[透明]) to 4294967295 ([白色不透明]).
+	EndColor					设置或者检索结束不透明度的梯度值，同上，很少用。
+
+	GradientType				设置渐变的方向。有两个值，1代表水平方向，0代表垂直方向渐变。
+
+	// BasicImage，调整对象的内容的颜色处理、图像旋转或不透明度。
+	filter:progid:DXImageTransform.Microsoft.BasicImage(Grayscale='x', Xray='x', Mirror='x', Invert='x', Opcity='x', Rotation='x')
+	GrayScale ，设置或调整对象的灰度值。
+	Invert ，设置或调整对象的反相。
+	Opacity ，设置或调整对象的不透明度。
+	Mask ，设置或调整对象的的RGB是否为MashColor值，0默认值，显示正常RGB值，1表示改变内容为MashColor（不常用）
+	Mirror ，设置或调整对象镜像。0正常显示，1内容对象将翻过来。
+	Rotation ，设置或调整对象旋转，0正常显示，1代表旋转90°，2代表旋转180°，3代表旋转270°
+	XRay ，设置或调整对象的X射线，布尔值，0正常显示，1代表X射线，有点像我们去医院拍X光一样的效果。
+
+	// DropShadow **，设置对象的投影效果。
+	filter:progid:DXImageTransform.Microsoft.DropShadow(OffX='x', OffY='x', Color='x', Positive='x')
+	OffX，设置投影的X位移，单位数值，默认值为5
+	OffY，设置投影的Y位移，单位数值，默认值为5
+	Color，设置投影的颜色值
+	Positive，设置投影的透明或者非透明。
+
+
+	// Glow **，设置对象的光晕效果。
+	filter:progid:DXImageTransform.Microsoft.Glow(color='', Strength='')
+	color，设置光晕颜色。
+	Strength，设置光晕的宽度，数值单位
+
+	// Light **，设置对象的亮度
+	filter:progid:DXImageTransform.Microsoft.Light()
+	
+	addAmbient，加入对象环境光
+	addCone ，加入锥形光源
+	addPoint 加入点光源
+	changeColor ，改变亮度颜色
+	changeStrength，改变亮度长度
+	clear，清除亮度
+	moveLight，移动光源焦点。
+	
+	//Shadow，设置对象阴影效果。
+	filter:progid:DXImageTransform.Microsoft.Shadow(color='', Direction='', Strength='')
+	
+	Color，设置阴影颜色。
+	Direction，设置阴影的方向，角度也是从0°~315°取值（跟PS的投影效果非常的相似。）
+	Strength，设置投影强度，数值越大越模糊。
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
 	
