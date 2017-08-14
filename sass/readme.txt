@@ -4,7 +4,6 @@
 	window下安装SASS首先需要安装Ruby，先从官网下载Ruby并安装。安装过程中请注意勾选Add Ruby executables to your PATH添加到系统环境变量。如下图：
 	
 	/*
-		
 		// https://ruby.taobao.org/ 缺少 sass 4.0.0 
 		// 建议使用默认源， 如有必要使用 taobao 源
 		gem sources --remove https://rubygems.org/
@@ -298,6 +297,332 @@ Sass 有两种语法格式
 
 	.seriousError {
 	  border-width: 3px; }
+
+
+# 延伸复杂的选择器
+
+	.hoverlink {
+	  @extend a:hover;
+	}
+	.comment a.user:hover {
+	  font-weight: bold;
+	}
+	
+	// 编译为:
+	.comment a.user:hover, .comment .user.hoverlink {
+	font-weight: bold; }
+
+# @extend-Only 选择器 
+	// Sass 引入了“占位符选择器” (placeholder selectors)，看起来很像普通的 id 或 class 选择器，只是 # 或 . 被替换成了 %。
+	// 可以像 class 或者 id 选择器那样使用，当它们单独使用时，不会被编译到 CSS 文件中。
+	
+	#context a%extreme {
+	  color: blue;
+	  font-weight: bold;
+	  font-size: 2em;
+	}
+	
+	.notice {
+	  @extend %extreme;
+	}
+	// 编译为:
+	#context a.notice {
+	  color: blue;
+	  font-weight: bold;
+	  font-size: 2em;
+	}
+	
+# !optional
+	比如，这样写 a.important {@extend .notice}，当没有 .notice 选择器时，将会报错，
+	只有 h1.notice 包含 .notice 时也会报错，因为 h1 与 a 冲突，会生成新的选择器。
+
+	如果要求 @extend 不生成新选择器，可以通过 !optional 声明达到这个目的，例如：
+	a.important {
+	  @extend .notice !optional;
+	}
+
+# @at-root
+	.parent {
+	  ...
+	  @at-root .child { ... }
+	}
+	// 编译为:
+	.parent { ... }
+	.child { ... }
+
+# @at-root (without: ...) and @at-root (with: ...)
+	@media print {
+	  .page {
+	    width: 8in;
+	    @at-root (without: media) {
+	      color: red;
+	    }
+	  }
+	 }
+	// 编译为:
+	@media print {
+	.page {
+    	width: 8in;
+	  }
+	}
+	.page {
+	  color: red;
+	}
+
+
+# @warn
+
+	@mixin adjust-location($x, $y) {
+	  @if unitless($x) {
+	    @warn "Assuming #{$x} to be in pixels";
+	    $x: 1px * $x;
+	  }
+	  @if unitless($y) {
+	    @warn "Assuming #{$y} to be in pixels";
+	    $y: 1px * $y;
+	  }
+	  position: relative; left: $x; top: $y;
+	}
+
+
+# @error
+	@mixin adjust-location($x, $y) {
+	  @if unitless($x) {
+	    @error "$x may not be unitless, was #{$x}.";
+	  }
+	  @if unitless($y) {
+	    @error "$y may not be unitless, was #{$y}.";
+	  }
+	  position: relative; left: $x; top: $y;
+	}
+
+// 控制指令 -----------------------------------------------------------------------------------------------
+
+# @if
+	// 当 @if 的表达式返回值不是 false 或者 null 时，条件成立，输出 {} 内的代码：
+	p {
+	  @if 1 + 1 == 2 { border: 1px solid; }
+	  @if 5 < 3 { border: 2px dotted; }
+	  @if null  { border: 3px double; }
+	}
+	
+	//  @if 声明后面可以跟多个 @else if 声明，或者一个 @else 声明。如果 @if 声明失败，Sass 将逐条执行 @else if 声明，如果全部失败
+	$type: monster;
+	p {
+	  @if $type == ocean {
+	    color: blue;
+	  } @else if $type == matador {
+	    color: red;
+	  } @else if $type == monster {
+	    color: green;
+	  } @else {
+	    color: black;
+	  }
+	}
+
+
+# @for
+	@for $var from <start> through <end>，或者 @for $var from <start> to <end>，
+	区别在于 through 与 to 的含义：当使用 through 时，条件范围包含 <start> 与 <end> 的值，
+	而使用 to 时条件范围只包含 <start> 的值不包含 <end> 的值。
+	
+	@for $var from 1 through 3 {
+	.item-#{$var} { width: 2em * $var; }
+	}
+	编译为:
+	.item-1 {
+	  width: 2em; }
+	.item-2 {
+	  width: 4em; }
+	.item-3 {
+	width: 6em; }
+
+
+
+
+# @each
+	@each $animal in puma, sea-slug, egret, salamander {
+	  .#{$animal}-icon {
+	    background-image: url('/images/#{$animal}.png');
+	  }
+	}
+	
+# 多个参数
+
+	@each $animal, $color, $cursor in (puma, black, default),
+	                                  (sea-slug, blue, pointer),
+	                                  (egret, white, move) {
+	  .#{$animal}-icon {
+	    background-image: url('/images/#{$animal}.png');
+	    border: 2px solid $color;
+	    cursor: $cursor;
+	  }
+	  }
+	  编译为:
+	  .puma-icon {
+		  background-image: url('/images/puma.png');
+		  border: 2px solid black;
+		  cursor: default; }
+		...
+		...
+		
+	@each $header, $size in (h1: 2em, h2: 1.5em, h3: 1.2em) {
+	  #{$header} {
+	    font-size: $size;
+	  }
+	}
+
+# @while
+
+	$i: 6;
+		@while $i > 0 {
+		  .item-#{$i} { width: 2em * $i; }
+		  $i: $i - 2;
+	}
+
+	.item-6 {
+	  width: 12em; }
+	
+	.item-4 {
+	  width: 8em; }
+	
+	.item-2 {
+	width: 4em; }
+
+
+// 混合指令 --------------------------------------------------------------
+	混合指令的用法是在 @mixin 后添加名称与样式
+	@mixin large-text {
+	  font: {
+	    family: Arial;
+	    size: 20px;
+	    weight: bold;
+	  }
+	  color: #ff0000;
+	}
+
+
+	混合也需要包含选择器和属性，甚至可以用 & 引用父选择器：
+	@mixin clearfix {
+	  display: inline-block;
+	  &:after {
+	    content: ".";
+	    display: block;
+	    height: 0;
+	    clear: both;
+	    visibility: hidden;
+	  }
+	  * html & { height: 1px }
+	}
+
+# 引用混合样式 @include
+
+	@mixin silly-links {
+	  	a {
+	    	color: blue;
+	    	background-color: red;
+		}	
+	}
+	
+	使用 @include 指令引用混合样式，格式是在其后添加混合名称，以及需要的参数（可选）：
+	.page-title {
+		@include silly-links;
+	  	padding: 4px;
+	  	margin-top: 10px;
+	}
+	
+	也可以在最外层引用混合样式，不会直接定义属性，也不可以使用父选择器。
+	@include silly-links;
+
+# 参数
+	@mixin sexy-border($color, $width) {
+	  border: {
+	    color: $color;
+	    width: $width;
+	    style: dashed;
+	  }
+	}
+	p { @include sexy-border(blue, 1in); }
+	
+	// 混合指令也可以使用给变量赋值的方法给参数设定默认值，然后，当这个指令被引用的时候，如果没有给参数赋值，则自动使用默认值：
+	@mixin sexy-border($color, $width: 1in) {
+	  border: {
+	    color: $color;
+	    width: $width;
+	    style: dashed;
+	  }
+	}
+	p { @include sexy-border(blue); }
+	h1 { @include sexy-border(blue, 2in); }
+
+
+	混合指令也可以使用关键词参数，上面的例子也可以写成：
+	p { @include sexy-border($color: blue); }
+	h1 { @include sexy-border($color: blue, $width: 2in); }
+
+# 参数变量
+	@mixin box-shadow($shadows...) {
+	  	-moz-box-shadow: $shadows;
+	  	-webkit-box-shadow: $shadows;
+	  	box-shadow: $shadows;
+	}
+	.shadows {
+	  	@include box-shadow(0px 4px 5px #666, 2px 6px 10px #999);
+	}
+
+	参数变量也可以用在引用混合指令的时候 (@include)，与平时用法一样，将一串值列表中的值逐条作为参数引用
+	@mixin colors($text, $background, $border) {
+	  	color: $text;
+	  	background-color: $background;
+	  	border-color: $border;
+	}
+	$values: #ff0000, #00ff00, #0000ff;
+	.primary {
+	  	@include colors($values...);
+	}
+
+# 向混合样式中导入内容 (Passing Content Blocks to a Mixin)
+
+	@mixin apply-to-ie6-only {
+	  * html {
+	    @content;
+	  }
+	}
+	@include apply-to-ie6-only {
+	  #logo {
+	    background-image: url(/logo.gif);
+	  }
+	  }
+
+	编译为：
+	* html #logo {
+	  background-image: url(/logo.gif);
+	}
+
+
+// 函数指令 --------------------------------------------------------------------------------
+
+	Sass 支持自定义函数，并能在任何属性值或 Sass script 中使用：
+	$grid-width: 40px;
+	$gutter-width: 10px;
+	
+	@function grid-width($n) {
+	  @return $n * $grid-width + ($n - 1) * $gutter-width;
+	}
+	
+	#sidebar { width: grid-width(5); }
+	
+	编译为:
+	
+	#sidebar {
+	width: 240px; }
+
+
+
+
+
+
+
 
 
 
