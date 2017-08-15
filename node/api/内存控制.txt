@@ -1,0 +1,256 @@
+
+# V8 点内存限制
+	在Node中通过JavaScript 使用内存时就会发现只能使用部分内 (64位系统下约为1.4 GB，32位系统下约为0.7 GB)。
+	主要原因在于Node基于V8构件
+	
+	// 当我们在代码中申明变量并赋值时, 所适用对象的内存就分配在堆中。 如果以申请的堆空闲内存不够分配新的对象， 将继续申请堆内存， 直到堆的大小超过V8限制为止。
+
+#  V8 的内存分代
+	新生代的对象为存活时间较短的对象， --max-new-space-size
+	老生代的对象为时间较长或常驻内存的对象。 --max-old-space-size
+	
+	对于新生代内存， 有两个reserved_semispace_size_构成，按机器位数不同，reserved_semispace_size_在64 和 32位操作系统上分别为16 MB和 8MB, 所以新生代内存的最大值在64 和 32位系统上分别为32 MB和 16 MB。
+	
+	V8提供了 linux-tick-processor 工具用于统计日志信息。
+	Windows 下的对应命令文件为 windows-tick-processor.bat。 将该目录添加到环境变量PATH中， 即可直接调用：
+	$ linux-tick-processor v8.log
+	
+	(function(){
+		// 如果在闭包内有全局变量的引用 会造成内存泄漏，
+		window.a = {};
+		
+	}(window))
+
+# 内存指标
+	// 产看内存使用情况
+	$ node
+	> process.memoryUsage()
+	{ 
+		rss: 23556096,
+		heapTotal: 7331840, // 申请到的内存
+		heapUsed: 4941672, // 已用内存
+		external: 8696
+	}
+	
+	os.totalmem() //查看系统的内存大小
+	os.freemem()  // 查看系统的闲置内存
+
+# 堆外内存
+	var useMem = function () {
+		var size = 200 * 1024 * 1024; 
+		var buffer = new Buffer(size); 
+		for(vari=0;i<size;i++){
+			buffer[i] = 0; 
+		}
+		return buffer; 
+	};
+	它不经过V8的内存分配机制， 所以也不会有堆内存的大小限制
+	
+
+
+# 内存泄漏
+	造成内存泄漏的原因有如下几个：
+	缓存
+	队列消费不及时
+	作用域未释放
+
+	
+	// JavaScript 开发者通常喜欢用对象的键值对来缓存东西，但这与严格意义上的缓存又有着区别， 
+		严格意义的缓存有着完善的过期策略，而普通的对象的键值对并没有
+	
+	// JavaScript 对象十分容易创建一个缓存对象，但是受垃圾回收机制的影响， 只能小量使用
+	
+	var cache = {};
+	var get = function (key) {
+		if (cache[key]) { 
+			return cache[key];
+		}else{
+			// get from otherwise
+		}
+	};
+	var set = function (key, value) { 
+		cache[key] = value;
+	};
+
+# 缓存限制策略
+	为了解决缓存中的对象永远无法释放的问题， 需要加入一种策略来限制缓存的无限增长。
+	如下一个模块，它可以实现对键值数量的闲置。
+	
+	var LimitableMap = function (limit) { this.limit = limit || 10;
+		this.map = {};
+		this.keys = [];
+	};
+	
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
+	
+	LimitableMap.prototype.set = function (key, value) {
+		var map = this.map;
+		var keys = this.keys;
+		
+		if (!hasOwnProperty.call(map, key)) {
+			if (keys.length === this.limit) {
+				var firstKey = keys.shift();
+				delete map[firstKey];
+			}
+			keys.push(key);
+		}
+		map[key] = value;
+	}
+	
+	LimitableMap.prototype.get = function (key) {
+		return this.map[key];
+	};
+	
+	module.exports = LimitableMap;
+
+	虽然淘汰策略并不是十分搞笑， 只能应付小型应用场景
+	如果需要更高效的缓存，可以参见Isaac Z. Schlueter采用LRU算法的缓存
+	
+	如果通过exports导出的函数，可以访问文件模块中的私有变量，这样每个文件模块在编译执行形成的作用域因为模块缓存的原因， 不会被释放
+
+	(function (exports, require, module, __filename, __dirname) {
+		var local = "局部变量";
+		exports.get = function () { 
+			return local;
+		};
+	}）
+
+# 缓存的解决方案
+	将缓存转移到外部， 减少常驻内存的对象的数量， 让垃圾回收更高效
+	进程之间可以共享缓存
+	目前 较好的缓存有 Redis 和 Memcached
+	Redis https://github.com/mranney/node_redis
+	Memcached https://github.com/3rd-Eden/node-memcached
+
+
+# 关注队列状态
+	队列在消费者-生产者模型中经常充当中间产物，
+	大多数应用场景下，消费的速度远远大于生产的速度
+	但是一旦消费速度低于生产速度，将会形成堆积
+	
+# 内存泄漏排查
+	现在有许多工具用于定位Node应用的内存泄漏：
+	
+	// 测试未成功
+	node-heapdump
+	npm install --save heapdump
+	
+	在代码第一行添加： var heapdump=require('heapdump');
+	
+	在代码检测中添加
+	heapdump.writeSnapshot('/Users/lakala/personer/git/node/' + Date.now() + '.heapsnapshot');
+	
+	// 测试未成功
+	node-memwatch
+	var memwatch = require('memwatch'); 
+	
+	// 如果经过连续5次垃圾回收后， 内存仍然没有被释放， 这意味着内存泄漏的产生，node-menwatch将会发出一个leak事件。
+	
+	
+	memwatch.on('leak', function (info) {
+    	console.log('leak:');
+		console.log(info);
+		/*
+		info: {
+				start: Mon Oct 07 2013 13:46:27 GMT+0800 (CST),
+				end: Mon Oct 07 2013 13:54:40 GMT+0800 (CST),
+				growth: 6222576,
+				reason: 'heap growth over 5 consecutive GCs (8m 13s) - 43.33 mb/hr'
+			}
+		*/	
+	});
+	
+	在进程中使用node-menwatc之后， 每次进行全堆垃圾回收时，将会触发一次stats事件
+	memwatch.on('stats', function (stats) { 
+		console.log('stats:');
+		console.log(stats);
+	});
+
+# 大内存的应用
+	stream 模块是Node的原声模块， 直接引用杰克。 stream继承自EventEmitter， 具备基本的自定义事件功能。
+	它分可读和可写俩种。 
+	node中的大多数模块都有stream的应用，比如fs的 createReadStream() 和 createWriteStream() 方法可以分别用于创建文件的可读流和可写流， process 模块中的stdin 和 stdout 则分别是可读流和可写流的示例。
+	
+	
+	由于V8 内存的限制， 我们无法通过 fs.readFile() 和 fs.writeFile() 直接进行大文件的操作
+	
+	var reader = fs.createReadStream('api/readme.txt');
+    var writer = fs.createWriteStream('api/readme2.txt');
+
+    reader.on('data', function (chunk) {
+        writer.write(chunk);
+    })
+    reader.on('end', function (chunk) {
+        writer.end();
+	})
+
+	/*
+		var reader = fs.createReadStream('api/readme.txt');
+		var writer = fs.createWriteStream('api/readme2.txt');
+		reader.pipe(writer);
+		
+		可读流提供了管道方法pipe(), 封装了data事件的写入操作
+	*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
