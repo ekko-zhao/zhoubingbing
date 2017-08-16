@@ -6,7 +6,14 @@ zhoubbmls
 https://www.npmjs.com/~zhoubbmls
 
 npm config set registry https://registry.npm.taobao.org 
+或	npm --registry https://registry.npm.taobao.org info underscore
+
 npm config set registry https://registry.npmjs.org
+
+
+通过 npm config set prefix "目录路径" 来设置。
+通过 npm config get prefix 来获取当前设置的目录。
+
 
 commonjs规范
 在编译过程中，Node对获取的JavaScript文件 进行头尾包装。{\n js文本 \n};
