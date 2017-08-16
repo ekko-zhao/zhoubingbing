@@ -22,6 +22,11 @@ git commit -m "" --author=""
 
 //删除  git rm *.file
 
+// 重新拉取文件
+git checkout .
+
+
+
 //Mac——————————
 $ssh-keygen -t rsa -C zhoubbmls@sina.com
 

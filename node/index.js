@@ -1,4 +1,3 @@
-// JavaScript Document
-var obj = require('./src/json/obj');
-
-console.log(obj)
+var str = "深入浅出node.js";
+var buf = new Buffer(str, 'utf-8')
+console.log(Buffer.poolSize)
