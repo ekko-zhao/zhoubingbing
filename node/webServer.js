@@ -1,4 +1,4 @@
-var heapdump = require('heapdump');
+//var heapdump = require('heapdump');
 var fs = require('fs');
 
 
@@ -22,13 +22,15 @@ http.createServer(function (require, response) {
     response.write('<head><meta charset="utf-8"/></head>');
     response.write('<h1>Node.js</h1>');
     response.write('<b>服务已启动...</b>');
-    response.end('<p>Hello World</p>');
+
+    var buf = new Buffer('<p>Hello World</p>');
+    response.end(buf);
 
 
-    var reader = fs.createReadStream('api/readme.txt');
+    /* var reader = fs.createReadStream('api/readme.txt');
     var writer = fs.createWriteStream('api/readme2.txt');
 
-    reader.pipe(writer);
+    reader.pipe(writer); */
 
 
     //heapdump.writeSnapshot('/Users/lakala/personer/git/node/' + Date.now() + '.heapsnapshot');

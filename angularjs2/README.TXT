@@ -1,4 +1,4 @@
-TypeScript 2.x-----------------------
+﻿TypeScript 2.x-----------------------
 npm install @types/node --save-dev
 
 //angular2 --------------------------------------------------------------------
@@ -893,9 +893,11 @@ export class HttpInterceptor{
 	
 	afterResponse(res: Observable<Response>): Observable<any>{
 		//请求响应的处理逻辑
+		/*
 		res.subscribe( (data) =>{
 			console.log(data);
 		});
+		*/
 		return res;
 	}
 }
@@ -919,7 +921,6 @@ export class HttpInterceptorBackend implements ConnectionBackend {
 		
 		return result;
 	}
-	
 }
 
 
@@ -928,8 +929,7 @@ http-factory.ts---------
 import { RequestOptions, Http } from '@angular/http';
 import { HttpInterceptorBackend } from './http-interceptor-backend';
 
-export function httpFactory(httpInterceptorBackend: HttpInterceptorBackend,
-	requestOptions: RequestOptions): Http{
+export function httpFactory(httpInterceptorBackend: HttpInterceptorBackend, requestOptions: RequestOptions): Http{
 	return new Http(httpInterceptorBackend, requestOptions);
 }
 

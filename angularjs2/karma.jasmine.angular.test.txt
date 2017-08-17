@@ -1,7 +1,7 @@
-
+ï»¿
 npm install --save-dev karma-webpack
 
-//angualr2 ²âÊÔ¹¤¾ß---------------------------------------------------------------------
+//angualr2 æµ‹è¯•å·¥å…·---------------------------------------------------------------------
 
 //webpack.test.js-----------
 
@@ -35,7 +35,7 @@ module.exports = {
 
 Error.stackTraceLimit = Infinity;
 
-//ÒıÈë±àÒëÊ±ËùĞèµÄÎÄ¼ş¿â
+//å¼•å…¥ç¼–è¯‘æ—¶æ‰€éœ€çš„æ–‡ä»¶åº“
 require('reflect-metadata');
 require('zone.js/dist/zone');
 require('zone.js/dist/proxy');
@@ -44,7 +44,7 @@ require('zone.js/dist/jasmine-patch');
 require('zone.js/dist/async-test');
 require('zone.js/dist/fake-async-test');
 
-//´ò°üÎÄ¼şÃûºó×ºÎª spec.ts µÄ²âÊÔ´úÂë
+//æ‰“åŒ…æ–‡ä»¶ååç¼€ä¸º spec.ts çš„æµ‹è¯•ä»£ç 
 var appContext = require.context('./src', true, /\.spec\.ts/ );
 appContext.keys().forEach(appContext)
 
@@ -139,7 +139,7 @@ module.exports = function (config) {
 
 
 
-//×é¼şµÄ²âÊÔ----------------------
+//ç»„ä»¶çš„æµ‹è¯•----------------------
 
 import { ComponentName } from "componentSrc"
 
@@ -154,11 +154,11 @@ descirbe('ComponentName', () =>{
 	})
 })
 
-//¹ÜµÀµÄ²âÊÔ----------------------
+//ç®¡é“çš„æµ‹è¯•----------------------
 
-Í¬ÉÏ
+åŒä¸Š
 
-//·şÎñµÄ²âÊÔ-------------------
+//æœåŠ¡çš„æµ‹è¯•-------------------
 
 import { ServiceName } from "serviceSrc"
 import { inject, TestBed } from '@angular/core/testing'
@@ -168,7 +168,7 @@ descirbe('ServiceName', ()=>{
 		TestBed.configureTestingModule({
 			providers:[ServiceName]
 			/*
-				Èç¹û·şÎñÒÀÀµÆäËû·şÎñ
+				å¦‚æœæœåŠ¡ä¾èµ–å…¶ä»–æœåŠ¡
 				providers:[ServiceName,OtherServiceName]
 			*/
 		})
@@ -181,11 +181,11 @@ descirbe('ServiceName', ()=>{
 
 
 /*
-	×é¼şµÄ²âÊÔÒ²¿ÉÓÃ×¢ÈëµÄ·½Ê½
+	ç»„ä»¶çš„æµ‹è¯•ä¹Ÿå¯ç”¨æ³¨å…¥çš„æ–¹å¼
 */
 
 
-//×é¼şDOM ½»»¥²âÊÔ-------------------------------------------
+//ç»„ä»¶DOM äº¤äº’æµ‹è¯•-------------------------------------------
 import (DetailComponent ) from './detail.component'
 import { inject, TestBed, ComponentFixture, async } from '@angular/core/testing'
 
@@ -209,20 +209,20 @@ descirbe('DetailComponent', ()=>{
 		fixture.componentInstance.getById();
 		fixture.detectChanges();
 		
-		//»ñÈ¡²¢¼ì²é DOM ÔªËØµÄÄÚÈİ
+		//è·å–å¹¶æ£€æŸ¥ DOM å…ƒç´ çš„å†…å®¹
 		
 		expect( compild.querySelector('.detail-info>li:first-child>p:nth-child(2)').textContent ).toBe('zhoubb')
 		
 	}))
 	
 	/*
-		TestBed.createComponent(DetailComponent) ÓÃÓÚ³õÊ¼»¯±»²âÊÔ×é¼ş£¬ ²¢´´½¨ComponentFixture¶ÔÏó£¬ Õâ¸ö¶ÔÏó¿ÉÈÏÎªÊÇ±»²âÊÔ×é¼şµÄÉÏÏÂÎÄ»·¾³£¬ Í¨¹ıËü¿ÉÒÔ»ñÈ¡ÒÑ¾­Íê³É³õÊ¼»¯×é¼şÊµÀıÒÔ¼°DOM ÔªËØµÈ
+		TestBed.createComponent(DetailComponent) ç”¨äºåˆå§‹åŒ–è¢«æµ‹è¯•ç»„ä»¶ï¼Œ å¹¶åˆ›å»ºComponentFixtureå¯¹è±¡ï¼Œ è¿™ä¸ªå¯¹è±¡å¯è®¤ä¸ºæ˜¯è¢«æµ‹è¯•ç»„ä»¶çš„ä¸Šä¸‹æ–‡ç¯å¢ƒï¼Œ é€šè¿‡å®ƒå¯ä»¥è·å–å·²ç»å®Œæˆåˆå§‹åŒ–ç»„ä»¶å®ä¾‹ä»¥åŠDOM å…ƒç´ ç­‰
 		
-		fixture.debugElement.nativeElement ÓÃÓÚ»ñÈ¡×é¼ş¶ÔÓ¦µÄÔ­ÉúDOM ÔªËØ£¬ Ö®ºó¿ÉÒÔÍ¨¹ıquerySelector()µÈDOMÔªËØÔ­ÉúµÄAPI ×ö½øÒ»²½´¦Àí
+		fixture.debugElement.nativeElement ç”¨äºè·å–ç»„ä»¶å¯¹åº”çš„åŸç”ŸDOM å…ƒç´ ï¼Œ ä¹‹åå¯ä»¥é€šè¿‡querySelector()ç­‰DOMå…ƒç´ åŸç”Ÿçš„API åšè¿›ä¸€æ­¥å¤„ç†
 		
-		fixture.componentInstance»ñÈ¡×é¼ş¶ÔÓ¦µÄ ¶ÔÏóÊµÀı£» Ö®ºó¿ÉÒÔÄÚ²¿µÄ±äÁ¿
+		fixture.componentInstanceè·å–ç»„ä»¶å¯¹åº”çš„ å¯¹è±¡å®ä¾‹ï¼› ä¹‹åå¯ä»¥å†…éƒ¨çš„å˜é‡
 		
-		fixture.detectChanges() ·½·¨ÓÃÓÚµ±js ±äÁ¿¼°Ä£°åÄÚÈİ±ä¸üÊ±´¥·¢±ä»¯¼à²â¡£ ×é¼ş³õÊ¼»¯¡¤DOMÔªËØ»òjs Öµ±ä»¯Ê±£¬ ¶¼ĞèÒªµ÷ÓÃÕâ¸ö·½·¨£¬ ÒÔ±ã´¥·¢AngularµÄ±ä»¯¼à²â»úÖÆ
+		fixture.detectChanges() æ–¹æ³•ç”¨äºå½“js å˜é‡åŠæ¨¡æ¿å†…å®¹å˜æ›´æ—¶è§¦å‘å˜åŒ–ç›‘æµ‹ã€‚ ç»„ä»¶åˆå§‹åŒ–Â·DOMå…ƒç´ æˆ–js å€¼å˜åŒ–æ—¶ï¼Œ éƒ½éœ€è¦è°ƒç”¨è¿™ä¸ªæ–¹æ³•ï¼Œ ä»¥ä¾¿è§¦å‘Angularçš„å˜åŒ–ç›‘æµ‹æœºåˆ¶
 		
 		
 	*/
@@ -231,12 +231,12 @@ descirbe('DetailComponent', ()=>{
 })
 
 
-//Í¨¹ıMock µÄ·½Ê½²âÊÔ
+//é€šè¿‡Mock çš„æ–¹å¼æµ‹è¯•
 
 class MockCotactService extends ContactService{
 	getContactBiId(){
 		return {
-			"name": "ÕÅÈı"
+			"name": "å¼ ä¸‰"
 		}
 	}
 }
@@ -250,12 +250,12 @@ beforeEach(()=>{
 	})
 })
 
-//Í¨¹ı async º¯Êı²âÊÔÒì²½ÇëÇó
+//é€šè¿‡ async å‡½æ•°æµ‹è¯•å¼‚æ­¥è¯·æ±‚
 getContactBiId(){
 	return new Promise((resolve, reject)=>{
 		setTimeout(()=>{
 			resolve({
-				"name": "ÕÅÈı"
+				"name": "å¼ ä¸‰"
 			})
 		},1000)
 	})

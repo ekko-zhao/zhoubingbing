@@ -11,21 +11,108 @@
 
 # Buffer对象
 	Buffer对象类似于数组， 它的元素为16进制的俩位数， 即0-255的数值 （0-ff）
-	
+
 	var str = "深入浅出node.js"；
 	var buf = new Buffer(str, 'utf-8')
 	console.log(buf) => <Buffer e6 b7 b1 e5 85 a5 e6 b5 85 e5 87 ba 6e 6f 64 65 2e 6a 73>
-	
-	
+
+
 	var buf = new Buffer(100); // 分配了一个长100字节的Buffer对象
 	buf.length 为100
-	
+
 	如果设置 buf的某一个值大于 255 则会 等于 x%256 取余数， 例如 buf[20] = 257, 则 buf[20] = 1
 	如果设置 buf的某一个值小于 0 则会等于 加 256 直到 0 >= x <= 255 为止
 
 
 # Buffer内存分配
+    full: 完全分配状态
+    partial: 部分分配状态
+    empty： 没有被分配状态
 
+    Node 以8KB为界限来区分Buffer 是大对象还是小对象
+    Buffer.poolSize 为8*1024
+
+    var pool;
+    function allocPool() {
+        pool = new SlowBuffer(Buffer.poolSize);
+        pool.used = 0;
+    }
+
+     new Buffer(1024); 这次构造将会去检查pool对象， 如果pool没有被创建， 将会创建一个新的slab单元指向它
+    如果下一个 new Buffer 的 length > 当前pool 所剩下的， 则会新建 一个pool
+    if (!pool || pool.length - pool.used < this.length) allocPool();
+
+# Buffer 的转换
+    Buffer对象可以与字符串之间相互转换。目前支持的字符串编码类型有如下这几种。
+    ASCII
+    UTF-8
+    UTF-16LE/UCS-2
+    Base64
+    Binary
+    Hex
+
+    buf =  new Buffer(100); // 申请100的长度
+    buf.write(string, [offset], [length], [encoding])
+
+    [offset]为 buf 的位置，
+    [length] 为 要写入的长度 不应该大于 string.length 否则无效
+
+    由于 每次一写入都可以 传递 encoding参数 不同的编码所用的字节不同， 将buffer反转字符串时需要谨慎处理
+
+# Buffer 转字符串
+    buf.toString([encoding], [start], [end])
+
+# Buffer 不支持的编码类型
+
+    Buffer.isEncoding(encoding) // 此方法判断 是否为Buffer支持的编码格式，返回boolean
+
+    iconv 和  iconv-lite 来个模块支持更多的编码类型转换
+        Windows 125
+        ISO-8859
+        IBM/DOS
+        Macintosh
+        KOI8
+        Latin1
+        US-ASCII
+        GBK
+        GB2312
+
+    var iconv = require('iconv-lite');
+    // buffer 转字符串
+    var str = iconv.decode(buf, 'win1251');
+
+    // 字符串转 Buffer
+    var buf = iconv.encode("Sample input string", 'win1251');
+
+// Buffer 的拼接
+
+    var rs = fs.createReadStream('test.md', { highWaterMark: 11});
+    rs.setEncoding('utf8');
+
+    // 正确的拼接
+    var chunks = [];
+    var size = 0;
+    res.on('data', function (chunk) {
+        chunks.push(chunk);
+        size += chunk.length;
+    });
+    res.on('end', function () {
+        var buf = Buffer.concat(chunks, size);
+        var str = iconv.decode(buf, 'utf8');
+        console.log(str);
+    });
+
+# Buffer 的性能
+    for (var i = 0; i < 1024 * 10; i++) {
+    helloworld += "a";
+    }
+    // Buffer 加快传输速度
+    // helloworld = new Buffer(helloworld);
+
+    http.createServer(function (req, res) {
+        res.writeHead(200);
+        res.end(helloworld);
+    }).listen(8001);
 
 
 

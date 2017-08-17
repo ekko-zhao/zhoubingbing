@@ -1,11 +1,11 @@
-
+﻿
 zhoubingbing
 zhoubbmls@sina.com
 zhoubbmls
 
 https://www.npmjs.com/~zhoubbmls
 
-npm config set registry https://registry.npm.taobao.org 
+npm config set registry https://registry.npm.taobao.org
 或	npm --registry https://registry.npm.taobao.org info underscore
 
 npm config set registry https://registry.npmjs.org
@@ -15,6 +15,14 @@ npm config set registry https://registry.npmjs.org
 通过 npm config get prefix 来获取当前设置的目录。
 
 
+node 更新到了 5.9 版本，执行 npm install 提示 Skipping failed optional dependency /chokidar/fsevents
+解决方案：更新 npm 版本即可，执行如下命令: npm i npm -g
+
+
+
+
+
+
 commonjs规范
 在编译过程中，Node对获取的JavaScript文件 进行头尾包装。{\n js文本 \n};
 (functin(require, exports, nmodule, __filename, __firname){
@@ -22,7 +30,7 @@ commonjs规范
 })
 
 // npm 版本管理-------------------------------------------------------------
-~x.y.z: 匹配大于 x.y.z 的 z 的最新版 
+~x.y.z: 匹配大于 x.y.z 的 z 的最新版
 ^x.y.z: 匹配大于 x.y.z 的 y.z 的最新版
 *: 任意版本，一般是最后一次正式发布版本
 
@@ -58,8 +66,8 @@ npm config set registry http://registry.npmjs.org
 
 
 setTimeout() 和 setInterver() 与浏览器API是一致的
- 
-process.nextTick(); 执行优先 setImmediate(); 
+
+process.nextTick(); 执行优先 setImmediate();
 
 setImmediate(); 进入下一轮循环
 
@@ -145,11 +153,11 @@ Q.defer.prototype.all = function(promises){
 		promise.then(function(data){
 			count --;
 			results[i] = data;
-			
+
 			if(count === 0 ){
 				that.resolve(results)
 			}
-			
+
 		},function(err){
 			that.reject(err)
 		})
@@ -161,7 +169,7 @@ deferred.all([promise1，promise2]).then(functin(results){
 
 },functin(err){
 
-}) 
+})
 
 memeda ---------------------------------------------------------------------
 
@@ -186,7 +194,7 @@ async.series([
 		fs.readFile('./src/txt/file1.txt','utf8',callback)
 	},
 	function(callback){
-	
+
 		fs.readFile('./src/txt/file2.txt','utf8',callback)
 	}
 ],function(err, results){
@@ -202,7 +210,7 @@ async.waterfall([
 	},
 	function(arg1, callback){
 		fs.readFile('./src/txt/file2.txt','utf8',function(err,content){
-			callback(err,content)	
+			callback(err,content)
 		})
 	}
 ],function(err, results){
@@ -219,7 +227,7 @@ var deps = {
 		fs.readFile('./src/txt/file1.txt','utf8',function(err,content){
 			return callback(err,content);
 		})
-		
+
 	},
 	startup:['readFile1','readFile2',function(file1){
 		console.log(file1) -> {
@@ -237,10 +245,10 @@ var step = require('step');
 //异步串行 依赖
 step(
 	function readFile1(){
-		fs.readFile('./src/txt/file1.txt','utf8',this);	
+		fs.readFile('./src/txt/file1.txt','utf8',this);
 	},
 	function readFile2(err, content){
-		fs.readFile('./src/txt/file2.txt','utf8',this);	
+		fs.readFile('./src/txt/file2.txt','utf8',this);
 	},
 	function done(err, content){
 		console.log(content)
@@ -249,11 +257,11 @@ step(
 //异步并行
 step(
 	function readFile1(){
-		fs.readFile('./src/txt/file1.txt','utf8', this.parallel());	
+		fs.readFile('./src/txt/file1.txt','utf8', this.parallel());
 		fs.readFile('./src/txt/file2.txt','utf8', this.parallel());
 	},
 	function done(err, content1, content2){
-		
+
 	}
 )
 
@@ -265,7 +273,7 @@ step(
 		if (err) throw err;
 		var group = this.group(); //并行
 		results.forEach(function(filename){
-			
+
 			if(/\.txt$/.test(filename)){
 				fs.readFile(__dirname+"\\"+filename, group()) //生成回调函数
 			}
