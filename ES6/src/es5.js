@@ -1,10 +1,16 @@
 'use strict';
 
-var text = "xcmom and dad and baby";
-var pattern = /mom( and dad( and babys)?)?/gi;
-var matches = pattern.exec(text);
-console.log(matches.index); // 0
-console.log(matches.input); // "mom and dad and baby"
-console.log(matches[0]); // "mom and dad and baby"
-console.log(matches[1]); // " and dad and baby"
-console.log(matches[2]); 
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var promise = new _promise2['default'](function (resolve, reject) {
+	throw new Error('test');
+	resolve('ok');
+});
+
+promise.then()['catch'](function (e) {
+	console.log(e);
+});

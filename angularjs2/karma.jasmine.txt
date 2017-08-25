@@ -1,27 +1,29 @@
-
-//È«¾Ö°²×° karma init Éú³Ékarma.conf.js
+ï»¿
+//å…¨å±€å®‰è£… karma-cli
 npm install -g karma-cli
-npm install -g karma
-npm install -g karma-jasmine karma-chrome-launcher
 
-//cmd: karma init
+//ç”Ÿæˆkarma.conf.js
+    cmd: karma init
 
 //package.json
 {
-	script:{
-		"test": "karma start karma.conf.js",
-	}
-	"devDependencies": {
-		"jasmine": "^2.6.0",
-		"jasmine-core": "^2.6.2",
-		"karma": "^1.7.0",
-		"karma-chrome-launcher": "^2.1.1",
-		"karma-jasmine": "^1.1.0",
-	}
+    "script":{
+        "test": "karma start karma.conf.js"
+    },
+    "devDependencies": {
+        "jasmine": "^2.6.0",
+        "jasmine-core": "^2.6.2",
+        "karma": "^1.7.0",
+        "karma-chrome-launcher": "^2.1.1",
+        "karma-jasmine": "^1.1.0"
+    }
 }
 
+// npm install -g karma
+// npm install -g karma-jasmine karma-chrome-launcher
 
-//ÔËĞĞ²âÊÔÓÃÀı
+
+//è¿è¡Œæµ‹è¯•ç”¨ä¾‹
 cmd: npm test
 
 

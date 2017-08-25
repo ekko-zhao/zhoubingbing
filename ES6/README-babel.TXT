@@ -52,7 +52,8 @@ npm install babel-plugin-transform-es3-property-literals
 .babelrc配置文件-----------------------------------------------
 {
 	"presets": [
-		'es2015'
+		"es2015",
+		"stage-0"
 	],
 	"ignore": [
 		'src/filename.js'
@@ -67,17 +68,17 @@ npm install babel-plugin-transform-es3-property-literals
 }
 
 
-#对于新的新的API：Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise等全局对象 #需要安装
-$ npm install --save babel-polyfill
+# 对于新的新的API：Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise等全局对象 #需要安装
+	$ npm install --save babel-polyfill
 
-1.
-npm install babel-plugin-transform-runtime --save-dev
-plugins:["transform-runtime”]
+	1.
+	npm install babel-plugin-transform-runtime --save-dev
+	plugins:["transform-runtime"]
 
-2.
-import 'babel-polyfill';
-// 或者
-require('babel-polyfill');
+	2.
+	import 'babel-polyfill';
+	// 或者
+	require('babel-polyfill');
 
 
 为了兼容像 IE8 这样的老版本浏览器，我们引入 es5-shim 作为 polyfill
