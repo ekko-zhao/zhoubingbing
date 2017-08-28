@@ -9,7 +9,18 @@ import { ConfirmComponent } from './components/confirm/confirm.component';
 })
 
 export class AppComponent {
-    constructor() { }
+    constructor() {
+        function* libs() {
+            yield 10
+        }
+        var promise = new Promise((resolve, reject) => {
+            throw new Error('test');
+            //resolve('ok');
+        })
+
+        promise.then()
+            .catch(function (e) { console.log(e) })
+    }
 }
 
 /*
