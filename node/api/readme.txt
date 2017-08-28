@@ -20,6 +20,14 @@ node 更新到了 5.9 版本，执行 npm install 提示 Skipping failed optiona
 
 
 
+// 设置环境变量 -------------------------------------------------------------
+    set NODE_ENV=development
+
+    /*
+
+        "dev": "set NODE_ENV=development&& webpack-dev-server --colors --progress"
+
+    */
 
 
 
