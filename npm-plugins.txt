@@ -1,3 +1,31 @@
 
 normalize.css
 npm install --save normalize.css
+
+webpack postcss
+
+npm install --save-dev postcss-loader
+
+/*postcss.config.ts*/
+{
+    module.exports = {
+        plugins: {
+            'autoprefixer': {
+                "browsers": ["last 2 version", "> 5%"]
+            }
+        }
+    }
+
+}
+
+
+last 2 versions	每一个主要浏览器的最后2个版本
+last 2 Chrome versions	谷歌浏览器的最后两个版本
+> 5%	市场占有量大于5%
+> 5% in US	美国市场占有量大于5%
+ie 6-8	ie浏览器6-8
+Firefox > 20	火狐版本>20
+Firefox >= 20	火狐版本>=20
+Firefox < 20	火狐<20
+Firefox <= 20	火狐<=20
+iOS 7	指定IOS 7浏览器
