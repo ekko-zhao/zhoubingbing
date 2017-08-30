@@ -42,7 +42,7 @@ import { ContactModule } from './module/contact.module';
 	providers:[]
 })
 export class AppModule{
-	
+
 }
 
 //知识点记载---------------------------------------------------------------
@@ -101,7 +101,7 @@ import { Component } from '@angular/core';
 })
 export class ListComponent {
 	contacts = [{},{}];
-	
+
 	listen(arg:boolean){
 		console.log(arg)
 	}
@@ -121,25 +121,25 @@ import { Component, OnInit, Input, Output, SimpleChanges, EventEmitter } from '@
 export class ListItemComponent implements OnInit{
 	ngOnInit(){ }
 	@Input() contactName:any = {};
-	
+
 	//向parent组件传递数据
 	@Output() onListen = new EventEmitter<boolean>();
 	listen(){
 		this.onListen.emit(true)
 	}
-	
+
 	//钩子函数 当parent组件传递的值 contact 改变时触发
 	changes:string[] = [];
 	ngOnChanges( changes:{ [proKey:string]: SimpleChanges } ){
 		let log: string[] = [];
-		
+
 		for(let proName in changes){
 			let changeProp = changes[proName];
 			console.log (changeProp.previousValue);
 			console.log (changeProp.currentValue);
 		}
 	}
-	
+
 }
 //or
 @Component ({
@@ -184,17 +184,22 @@ export class ListItemComponent{
 	@Input()
 	set contact( contact: any  ){
 		this._contact.name = ( contact.name && contact.name.trim() ) || 'no name set';
-		
+
 		this._contact.telNum = contact.telNum || "000-0000";
 	}
 	get contact(){
 		return this._contact;
 	}
-	
+
 }
 //ng-content------------------
 父组件
-<header></header>
+<parent-component>
+    <header></header>
+    <div class="className">className</div>
+    <div name="attr">attr</div>
+</parent-component>
+
 
 子组件
 <ng-content select="header"> </ng-content>
@@ -212,11 +217,11 @@ ngAfterViewChecked
 
 //组件初始化 插入DOM中
 ngOnInit(){
-	
+
 }
 //组件销毁
 ngOnDestroy(){
-	
+
 }
 
 
@@ -420,13 +425,13 @@ pattern
 		<input type="text" formControlName="firstName" >
 	</form>
 	this.editform = new FormGroup({
-		firstName: new FormControl('', [Validators.minLength(4) ,Validators.pattern([a-z0-9]+@[a-x0-9].com)  ])
+		firstName: new FormControl('', [Validators.minLength(4) ,Validators.pattern([a-z0-9]+@[a-x0-9].com)])
 		// 第一个参数可以是一个 Object{ value: '', disabled: false} 指定值和 状态
 		//firstName: new FormControl('', validateFirstName)
-		
+
 		//正则表达式 不加 / /
 	})
-	
+
 */
 
 import { ReactiveFormsModule } from '@angular/forms';
@@ -465,11 +470,11 @@ export class ListComponent {
 		this.editform = new FormGroup({
 			firstName: new FormControl('', [Validators.minLength(4) ,Validators.pattern([a-z0-9]+@[a-x0-9].com)  ])
 			//firstName: new FormControl('', validateFirstName)
-			
+
 			//正则表达式 不加 / /
 		})
 	}
-	
+
 }
 
 //formControl-----------
@@ -478,7 +483,7 @@ export class ListComponent {
 firstname2: FormControl = new FormControl();
 
 //管道------------------------
-date 
+date
 yyyy	2013
 yy		13
 y		2013
@@ -547,7 +552,7 @@ percent 将小数转化为 百分比
 
 自定义管道
 import { SexReform } from './pipe/sexreform.pipe';
-@NgModule({ 
+@NgModule({
 	declarations: [SexReform]
 })
 
@@ -562,7 +567,7 @@ export class SexReform implements PipeTransform{
 		}
 	}
 	//{{val | sexReform }}
-	
+
 	/*
 		transform 可以接受多个参数
 		transform(val1:string, val2:string){}
@@ -598,7 +603,7 @@ import { Directive, ElementRef} from '@angular/core';
 export class BeautifulBackgroundDirective{
 	constructor(el: ElementRef){
 		el.nativeElement.style.backgroundColor='yellow'
-	}	
+	}
 }
 <p myBeautifulBackground>background</p>
 
@@ -611,16 +616,16 @@ import { Directive, ElementRef, Input } from '@angular/core';
 export class BeautifulBackgroundDirective{
 	private _defaultColor = 'yellow'
 	private el:HTMLElement;
-	
+
 	@Input('myBeautifulBackground') set backgroundColor(colorName:string){
 		this.setStyle(colorName)
 	}
-	
+
 	constructor(el: ElementRef){
 		this.el = el.nativeElement;
 		this.setStyle(this._defaultColor);
 	}
-	
+
 	private setStyle(color:string){
 		this.el.style.backgroundColor = color
 	}
@@ -637,14 +642,14 @@ import { Directive, ElementRef, Input, HostListener } from '@angular/core';
 export class BeautifulBackgroundDirective{
 	private _defaultColor = 'yellow'
 	private el:HTMLElement;
-	
+
 	@Input('myBeautifulBackground') backgroundColor:string;
-	
+
 	constructor(el: ElementRef){
 		this.el = el.nativeElement;
 		this.setStyle(this._defaultColor);
 	}
-	
+
 	@HostListener('click') onClick(){
 		this.setStyle(this.backgroundColor || this._defaultColor);
 	}
@@ -662,8 +667,8 @@ import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 	selector:'[myBeautifulBackground]'
 })
 export class BeautifulBackgroundDirective{
-	
-	@Input('myBeautifulBackground') 
+
+	@Input('myBeautifulBackground')
 	set condition(newCondition:boolean){
 		console.log(newCondition)
 		if(!newCondition){
@@ -674,9 +679,9 @@ export class BeautifulBackgroundDirective{
 	}
 	constructor(private templateRef:TemplateRef <any>, private viewContainer: ViewContainerRef ){
 		console.log(this.templateRef);
-		
+
 	}
-	
+
 }
 
 <p *myBeautifulBackground="b" >asas</p>
@@ -689,7 +694,7 @@ b:boolean = false / true
 	selector:'',
 	template:`
 		<div>
-			
+
 		</div>
 	`,
 })
@@ -737,7 +742,7 @@ export class ListComponent {
 	}
 }
 
-//child-component  
+//child-component
 //注意子组件不能加 providers:[SharedService]，否则他们将会分别创建自己的实例对象
 import { Component} from '@angular/core';
 import { SharedService } from '../services/shared.service';
@@ -747,12 +752,12 @@ import { SharedService } from '../services/shared.service';
 		<input type="text" [(ngModel)]="inputText">
 		<button (click)="add()">button</button>
 	`
-	
+
 })
 export class ListItemComponent{
 	inputText:string = 'Testing data'
 	constructor(private _sharedService: SharedService){
-		
+
 	}
 	add(){
 		this._sharedService.append(this.inputText);
@@ -776,7 +781,7 @@ import { Observable, URLSearchParams } from 'rxjs/Rx';
 @Injectable()
 export class ContactService{
 	constructor(private _http: Http){}
-	
+
 	//get
 	getContacts(url:string): Observable<any[]>{
 		return this._http.get(url)
@@ -796,7 +801,7 @@ export class ContactService{
 		let params = new URLSearchParams();
 		params.set('format','json');
 		params.set('callback','JSONP_CALLBACK');
-		
+
 		return this._jsonp
 		.get(url,{search: params})
 		.map(res =>res.json())
@@ -805,33 +810,33 @@ export class ContactService{
 			error => this.errorMessage = <any>error
 		)
 	}
-	
-	
+
+
 	//post
 	addContact(contact:object,url:string) : Observable<any>{
 		let body = JSON.stringify(contact);
 		let headers = new Headers({'Content-type':'application/json'})
 		let options = new RequestOptions({'headers': headers});
-		
+
 		return this._http.post(url, body, options)
 		.map(this.extractData)
 		.catch(this.handleError)
 	}
-	
-	
+
+
 	let url ='url';
-	
+
 	private extractData(res: Response){
 		let data = res.json();
 		return data|| {}
 	}
-	
+
 	private handleError(error: any){
 		let errMsg = (error.massage) ? error.massage:
 			error.status? `${error.status} - ${error.statusText}` : 'Server error';
 		return Observable.throw(errMsg);
 	}
-	
+
 }
 
 import { Component} from '@angular/core';
@@ -869,10 +874,10 @@ import { httpFactory } from './http-factory';
 	providers:[HttpInterceptor, HttpInterceptorBackend,
 		{
 			provide: Http,
-		 	useFactory: httpFactory, 
+		 	useFactory: httpFactory,
 			deps: [HttpInterceptorBackend, RequestOptions]
 		}
-		
+
 	]
 })
 
@@ -890,7 +895,7 @@ export class HttpInterceptor{
 		console.log(request);
 		return request;
 	}
-	
+
 	afterResponse(res: Observable<Response>): Observable<any>{
 		//请求响应的处理逻辑
 		/*
@@ -914,11 +919,11 @@ export class HttpInterceptorBackend implements ConnectionBackend {
 	constructor(private _httpInterceptor: HttpInterceptor, private _xhrBackend: XHRBackend){}
 	createConnection(request: Request): XHRConnection{
 		let interceptor = this._httpInterceptor;
-		
+
 		let req = interceptor.beforeRequest ? interceptor.beforeRequest(request) : request;
 		let result = this._xhrBackend.createConnection(req);
 		result.response = interceptor.afterResponse ? interceptor.afterResponse(result.response) : result.response;
-		
+
 		return result;
 	}
 }
@@ -951,7 +956,7 @@ export class className{
 @Injectable()
 export class serviceName{
 	constructor(public serviceproperty :serviceName){}
-	
+
 }
 
 //在模块中注入服务-------------
@@ -1003,7 +1008,7 @@ let globalSetting ={}
 
 
 
-·别名 globalSetting  实现多个依赖共享一个对象实例 
+·别名 globalSetting  实现多个依赖共享一个对象实例
 @Component({
 	provides:[
 		{provide:NewLoggerService, useClass:NewLoggerService},
@@ -1055,9 +1060,9 @@ export class ListComponent implements Parent{
 import { Parent } from './parent';
 export class ListItemComponent{
 	constructor(public _parent:Parent ){
-		
+
 	}
-	
+
 }
 
 
@@ -1104,12 +1109,12 @@ export class FooterComponent{ }
 				or
 				<a [routerLink]="['/header',12]">header</a>
 				<a [routerLink]="['/footer']">footer</a>
-				
+
 				//向子页面添加 Matrix参数
 				<a [routerLink]="['/header',12,{start:'2017-5-12'，end:'2017-5-20'}]">header</a>
-				
+
 			-->
-			
+
 		</main>
 	`
 })
@@ -1150,20 +1155,20 @@ export class AppComponent{
 			console.log(_router)
 			//字符串 or urlTree	实例
 			_router.navigateByUrl('/footer');
-			
+
 			/*
 				//不改变url 跳转页面
 				_router.navigate(['/footer'，23], {skipLocationChange:true});
-				
+
 			*/
-			
+
 			/*
 				_router.navigate(['/footer'，23]);
 				_router.navigateByUrl('/header/23');
-				
+
 			*/
-			
-			
+
+
 		},2000)
 	}
 }
@@ -1181,7 +1186,7 @@ constructor(private _activatedRoute: ActivatedRoute){
 
 
 
-//同一页面内跳转参数订阅 
+//同一页面内跳转参数订阅
 export class className implements OnInit, OnDestroy{
 	private sub: any;
 	id: string
@@ -1191,7 +1196,7 @@ export class className implements OnInit, OnDestroy{
 			console.log(this.id)
 		})
 	}
-	
+
 	ngOnInit(){
 	}
 	ngOnDestroy(){
@@ -1200,7 +1205,7 @@ export class className implements OnInit, OnDestroy{
 	}
 }
 
-//同一页面内跳查询转参数订阅 
+//同一页面内跳查询转参数订阅
 export class className implements OnInit, OnDestroy{
 	private sub: any;
 	limit: string
@@ -1210,7 +1215,7 @@ export class className implements OnInit, OnDestroy{
 			console.log(this.limit)
 		})
 	}
-	
+
 	ngOnInit(){
 	}
 	ngOnDestroy(){
@@ -1263,13 +1268,13 @@ export class CanActivateGuard implements CanActivate{
 	canActivate(  route:ActivatedRouteSnapshot, state:RouterStateSnapshot ){
 		//route 表示要激活的目标配置项
 		//state 表示当前所处的路由状态  包含了（要激活的目标配置项）
-	
+
 		if(/* 登陆 */){
 			return true;
 		}else{
 			return false;
 		}
-		
+
 		/*
 			//异步执行
 			return new Observable<boolean>( observer => {
@@ -1278,14 +1283,14 @@ export class CanActivateGuard implements CanActivate{
 					//observer.next(false);
 					observer.complete();
 				},2000)
-			
+
 			})
 		*/
 	}
 }
 
 //模块注入
-@NgModule({ 
+@NgModule({
 	providers:[ CanActivateGuard ]
 })
 
@@ -1316,8 +1321,8 @@ export const rootRouterConfig: Routes =[
 @Injectable()
 export class CanDeactivateGuard implements CanDeactivate{
 	CanDeactivate(component:any, route:ActivatedRouteSnapshot, state:RouterStateSnapshot){
-		//比较component实例数据是否发生变化 
-		
+		//比较component实例数据是否发生变化
+
 		//异步执行
 			return new Observable<boolean>( observer => {
 				confirm({
@@ -1327,7 +1332,7 @@ export class CanDeactivateGuard implements CanDeactivate{
 					}
 				})
 			})
-		
+
 		return true;
 	}
 }
@@ -1341,7 +1346,7 @@ export const rootRouterConfig: Routes =[
 ]
 
 //模块注入
-@NgModule({ 
+@NgModule({
 	providers:[ CanDeactivate ]
 })
 
@@ -1356,7 +1361,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 @Injectable()
 export class ResolveGuard implements  Resolve<any>{
 	constructor(private _http: Http){ }
-	
+
 	resolve(){
 		return this._http.get('./src/json/contact.json')
 		.map(this.extractData)
@@ -1368,17 +1373,17 @@ export class ResolveGuard implements  Resolve<any>{
 					observer.complete();
 				},2000)
 			})
-		
+
 		*/
 		//拦截服务返回的数据 放置在ActivatedRoute 的data属性中
 	}
-	
+
 	private extractData(res: Response){
 		let body = res.json();
 		return body.data|| {}
-		
+
 	}
-	
+
 	private handleError(error: any){
 		let errMsg = (error.massage) ? error.massage:
 			error.status? `${error.status} - ${error.statusText}` : 'Server error';
@@ -1388,7 +1393,7 @@ export class ResolveGuard implements  Resolve<any>{
 //路由
 import { ResolveGuard } from '../services/resolve.guard';
 export const rootRouterConfig: Routes =[
-	{path: 'child', component: componentName, 
+	{path: 'child', component: componentName,
 		resolve:{
 			contact: ResolveGuard
 		},
@@ -1399,7 +1404,7 @@ export const rootRouterConfig: Routes =[
 ]
 
 //模块注入
-@NgModule({ 
+@NgModule({
 	providers:[ ResolveGuard ]
 })
 
@@ -1427,25 +1432,25 @@ import { trigger, state, style, animate, transition} from '@angular/animations';
 			})),
 			transition('inactive => active', animate('100ms ease-in')),
 			transition('active => inactive', animate('100ms ease-out')),
-			
+
 			/*
 				//延迟0.2s 第一个参数
 				animate('0.2s 0.1s ease-out')
-			
+
 				transition('inactive => active', [
 					style({transform: 'translateX(-100%) scale(1)'}),
 					animate('100ms')
 				]),
-				
+
 				//进场
 				//transition(':enter', [ ... ]); // void => *
 				transition('void => *', animate('100ms ease-out')),
-				
+
 				//离场
 				transition('* => void', animate('100ms ease-out'))
 				//transition(':leave', [ ... ]); // * => void
-				
-				
+
+
 				//0%, 70%, 100%
 				transition('* => void', [
 				  animate(300, keyframes([
@@ -1454,7 +1459,7 @@ import { trigger, state, style, animate, transition} from '@angular/animations';
 					style({opacity: 0, transform: 'translateX(100%)',  offset: 1.0})
 				  ]))
 				])
-				
+
 				//并行动画组
 				transition('void => *', [
 				  style({width: 10, transform: 'translateX(50px)', opacity: 0}),
@@ -1468,9 +1473,9 @@ import { trigger, state, style, animate, transition} from '@angular/animations';
 					}))
 				  ])
 				]),
-				
+
 			*/
-			
+
 		])
 	]
 })
@@ -1478,11 +1483,11 @@ export class MyAnimation{
 	state:string = 'active';
 	toggleState(){
 		if(this.state == "inactive" ){
-			this.state = "active" 
+			this.state = "active"
 		}else{
 			this.state = "inactive"
 		}
-		
+
 	}
 }
 
@@ -1511,7 +1516,7 @@ module: {
 	loaders: [{
 		test: /\.tsx?$/,
 		loader: 'awesome-typescript-loader!angular-router-loader',
-		//or 
+		//or
 		// loaders: ['awesome-typescript-loader','angular-router-loader'],
 		exclude: '/node_modules/'
 	}]
@@ -1549,7 +1554,7 @@ const delayingRortes: Routes = [
 @NgModule({
 	imports: [ RouterModule.forChild(delayingRortes), CommonModule ],
 	declarations: [DelayingComponent],
-	
+
 })
 export class DelayingModule{}
 
@@ -1579,7 +1584,7 @@ export class CanLoadGuard implements CanLoad {
 			return false;
 		}
 		//异步加载同上
-		
+
 	}
 }
 
@@ -1587,7 +1592,7 @@ export class CanLoadGuard implements CanLoad {
 export const rootRouterConfig: Routes =[
 	//{path:'delay/id', component:DelayingModule}
 	{path:'delay', loadChildren:'../delaying.module/delaying.module.ts#DelayingModule'，canLoad:[CanLoadGuard]}
-	
+
 ]
 
 
