@@ -1,7 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+
+import { HeaderComponent } from './components/header.component';
+import { FooterComponent } from './components/footer.component';
+
+import { RouterModule } from '@angular/router';
+import { rootRouterConfig } from './router-config/app.routers';
+let rootRouterModule: ModuleWithProviders = RouterModule.forRoot(rootRouterConfig, {useHash: true});
 
 //bootstrap
 import { ngxBootstrap } from './ngxBootstrap'
@@ -19,13 +26,16 @@ import { LoadingComponent } from './components/loading/loading.component';
         AppComponent,
         AlertComponent,
         ConfirmComponent,
-        LoadingComponent
+        LoadingComponent,
+        HeaderComponent,
+        FooterComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
-        ngxBootstrap
+        ngxBootstrap,
+        rootRouterModule
     ],
     providers: [],
     bootstrap: [AppComponent]

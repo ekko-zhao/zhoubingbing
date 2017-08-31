@@ -1,6 +1,7 @@
 //import  * as bootstrap from 'ngx-bootstrap';
-import { ModalModule } from 'ngx-bootstrap';
+import { ModalModule, BsDropdownModule  } from 'ngx-bootstrap';
 
 export const ngxBootstrap = [
-	ModalModule.forRoot()
+    ModalModule.forRoot(),
+    BsDropdownModule.forRoot()
 ]

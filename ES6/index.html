@@ -1,18 +1,36 @@
 <!doctype html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>babel-es6</title>
-	<!--<script src="src/es5.js" ></script>-->
+    <meta charset="UTF-8">
+    <title>babel-es6</title>
+    <!--<script src="src/es5.js" ></script>-->
 
 </head>
 
 <body>
-<script>
+    <script>
+        function delay(t){
+            var q = new Promise( (resolve,reject)=> {
+                setTimeout(function(){
+                    resolve('ok')
+                },t);
+
+            });
+            return q;
+        }
+
+        function* f(){
+            yield delay(2000)
+        }
+        f().next().value.then(function (data) {
+            console.log(data)
+        }, function (data) {
+            console.log(data)
+        })
 
 
-</script>
-
-
+    </script>
 </body>
+
 </html>

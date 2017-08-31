@@ -1,4 +1,6 @@
 
+
+
 //Symbol——————————————————————————————————————————————————
 var a = Symbol();
 var b = Symbol(‘foo’);
@@ -103,6 +105,8 @@ clear() 清空 null
 // Iterator & for...of循环——————————————————————————————————————————————————————————
 continue break return; 跳出循环
 
+[...iterator] = [agr0,agr1]
+
 数组和类似数组的对象，set,Map 3类数据结构具备Iterator接口
 字符串也是类似数组的对象 具备Iterator接口
 
@@ -139,18 +143,25 @@ Obj.prototype[Symbol.iterator] = function(){
     return iterator;
 }
 
+
+
+
 // Generator——————————————————————————————————————————————————————————
 function* flat(){
     yield 'hello';
-    yield 'world';
+	var agr =  yield 'world';
+	
     return 'ending';
 }
 var f = flat();
 f == f[Symbol.iterator]() //true
 
 //next参数的传递————————————
+f.next();
+f.next('agr');
+第一次传递的参数不能带有参数， 传递的参数会 传递给 agr；
 
-第一次传递的参数不能带有参数， 传递的参数会作为上一个yield返回的值
+
 
 //Generator.prototype.throw()————————————
 
@@ -218,6 +229,16 @@ a.next(); //{value:4, done:false}
 a.next(); //{value:5, done:true}
 
 
+//yield* 语句
+function* foo(){
+
+}
+function* f(){
+	// 调用 generator函数
+	yield* foo();
+}
+
+
 //yield* 后面跟遍历器
 .遍历嵌套数组的所有成员
 function* iterTree(tree){
@@ -239,7 +260,7 @@ for(let x of iterTree(tree)){
 
 
 支持遍历器的成员 都可以跟在 yield* 后面
-yield*  [‘a’, ‘b’, ’c’]
+yield*  ['a', 'v', 'c'] //返回的是 iterator 对象
 
 
 //作为对象属性的 Generator 函数
@@ -253,6 +274,30 @@ var o = {
 
 	}
 }
+
+// 应用--------------------------------------
+yield 语句是同步运行， 不是异步运行 ； 包括读取文件  ， 异步亲求
+
+function delay(t){
+	var q = new Promise( (resolve,reject)=> {
+		setTimeout(function(){
+			resolve('ok')
+		},t);
+
+	});
+	return q;
+}
+
+function* f(){
+	yield delay(2000)
+}
+f().next().value.then(function (data) {
+	console.log(data)
+}, function (data) {
+	console.log(data)
+})
+
+// 2秒后 ok
 
 
 //Promise——————————————————————————————

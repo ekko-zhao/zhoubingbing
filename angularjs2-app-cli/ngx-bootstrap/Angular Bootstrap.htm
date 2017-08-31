@@ -3,7 +3,7 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Angular Bootstrap</title>
 
-  
+
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="description" content="Bootstrap 3 and Bootstrap 4 widgets for Angular: autocomplete, accordion, alert, buttons, carousel,
   collapse, dropdown, pagination, popover, progressbar, rating, tabset, timepicker, tooltip, typeahead,
@@ -160,15 +160,15 @@
 </div>
 
 <div class="content-box" id="content">
-  
+
   <!--template bindings={}-->
 
   <div class="section" id="example">
     <div class="item">
-      
+
   <p>Displays collapsible content panels for presenting information in a limited amount of space</p>
   <p>The <strong>accordion component</strong> builds on top of the collapse directive to provide a list of items, with collapsible bodies that are collapsed or expanded by clicking on the item's header.</p>
-  
+
   <h2>Contents</h2>
   <ul>
     <li><a fragment="usage" routerlink="." href="http://valor-software.com/ngx-bootstrap/index-bs4.html#/accordion#usage">Usage</a></li>
@@ -188,8 +188,8 @@
         <li><a fragment="accordion-config" routerlink="." href="http://valor-software.com/ngx-bootstrap/index-bs4.html#/accordion#accordion-config">AccordionConfig</a></li>
       </ul>
     </li>
-  </ul>   
-      
+  </ul>
+
   <h2 fragment="usage" id="usage" routerlink=".">Usage</h2>
 
   <p><pre class="prettyprint lang-typescript prettyprinted"><span class="com">// RECOMMENDED (doesn't work with system.js)</span><span class="pln">
@@ -203,9 +203,9 @@
 </span><span class="kwd">export</span><span class="pln"> </span><span class="kwd">class</span><span class="pln"> </span><span class="typ">AppModule</span><span class="pun">(){}</span></pre></p>
 
   <h2 fragment="examples" id="examples" routerlink=".">Examples</h2>
-      
+
   <p>Click headers to expand/collapse content that is broken into logical sections, much like tabs.</p>
-  
+
   <h2 fragment="simple" id="simple" routerlink=".">Simple accordion</h2>
   <ng-sample-box><div class="section bd-example">
     <demo-accordion-basic><accordion role="tablist" class="panel-group" aria-multiselectable="false">
@@ -215,15 +215,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button">
         <!--template bindings={}--><div>Static Header, initially expanded</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
+
     This content is straight in the template.
-  
+
     </div>
   </div>
 </div>
@@ -243,10 +243,10 @@
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
-    
+
+
     This is just some content to illustrate fancy headings.
-  
+
     </div>
   </div>
 </div>
@@ -257,15 +257,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button">
         <!--template bindings={}--><div>Content 1</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
+
     <p>Content 1</p>
-  
+
     </div>
   </div>
 </div>
@@ -276,15 +276,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button">
         <!--template bindings={}--><div>Content 2</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
+
     <p>Content 2</p>
-  
+
     </div>
   </div>
 </div>
@@ -309,7 +309,7 @@
         </li>
     </ul>
     <div class="tab-content">
-      
+
       <!--template bindings={}--><tab heading="template" class="active tab-pane">
         <pre class="prettyprint linenums lang-html prettyprinted"><ol class="linenums"><li class="L0"><span class="tag">&lt;accordion&gt;</span></li><li class="L1"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Static Header, initially expanded"</span><span class="tag">&gt;</span></li><li class="L2"><span class="pln">    This content is straight in the template.</span></li><li class="L3"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L4"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> #</span><span class="atn">group</span><span class="tag">&gt;</span></li><li class="L5"><span class="pln">    </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">accordion-heading</span><span class="tag">&gt;</span></li><li class="L6"><span class="pln">      I can have markup, too!</span></li><li class="L7"><span class="pln">      </span><span class="tag">&lt;i</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"pull-right float-xs-right glyphicon"</span></li><li class="L8"><span class="pln">         [</span><span class="atn">ngClass</span><span class="pln">]</span><span class="pun">=</span><span class="atv">"{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"</span><span class="tag">&gt;&lt;/i&gt;</span></li><li class="L9"><span class="pln">    </span><span class="tag">&lt;/div&gt;</span></li><li class="L0"><span class="pln">    This is just some content to illustrate fancy headings.</span></li><li class="L1"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L2"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Content 1"</span><span class="tag">&gt;</span></li><li class="L3"><span class="pln">    </span><span class="tag">&lt;p&gt;</span><span class="pln">Content 1</span><span class="tag">&lt;/p&gt;</span></li><li class="L4"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L5"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Content 2"</span><span class="tag">&gt;</span></li><li class="L6"><span class="pln">    </span><span class="tag">&lt;p&gt;</span><span class="pln">Content 2</span><span class="tag">&lt;/p&gt;</span></li><li class="L7"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L8"><span class="tag">&lt;/accordion&gt;</span></li></ol></pre>
       </tab>
@@ -318,13 +318,13 @@
       </tab>
       <!--template bindings={}-->
       <!--template bindings={}-->
-    
+
     </div>
   </tabset>
   </div>
 </div>
 </ng-sample-box>
-        
+
   <h2 fragment="disabled" id="disabled" routerlink=".">Disabled</h2>
   <ng-sample-box><div class="section bd-example">
     <demo-accordion-disabled><p>
@@ -340,15 +340,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button" aria-expanded="true">
         <!--template bindings={}--><div>Static Header, initially expanded</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse in show" role="tabpanel" aria-expanded="true" aria-hidden="false" style="overflow: visible; height: auto; display: block;">
     <div class="panel-body card-block">
-      
+
     This content is straight in the template.
-  
+
     </div>
   </div>
 </div>
@@ -359,15 +359,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button">
         <!--template bindings={}--><div>Content 1</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
+
     <p>accordion 1</p>
-  
+
     </div>
   </div>
 </div>
@@ -378,15 +378,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button">
         <!--template bindings={}--><div>Content 2</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
+
     <p>accordion 2</p>
-  
+
     </div>
   </div>
 </div>
@@ -411,7 +411,7 @@
         </li>
     </ul>
     <div class="tab-content">
-      
+
       <!--template bindings={}--><tab heading="template" class="active tab-pane">
         <pre class="prettyprint linenums lang-html prettyprinted"><ol class="linenums"><li class="L0"><span class="tag">&lt;p&gt;</span></li><li class="L1"><span class="pln">  </span><span class="tag">&lt;button</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"button"</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"btn btn-primary btn-sm"</span><span class="pln"> (</span><span class="atn">click</span><span class="pln">)</span><span class="pun">=</span><span class="atv">"status.isFirstDisabled = ! status.isFirstDisabled"</span><span class="tag">&gt;</span></li><li class="L2"><span class="pln">    Enable / Disable first panel</span></li><li class="L3"><span class="pln">  </span><span class="tag">&lt;/button&gt;</span></li><li class="L4"><span class="tag">&lt;/p&gt;</span></li><li class="L5"><span class="pln">&nbsp;</span></li><li class="L6"><span class="tag">&lt;accordion&gt;</span></li><li class="L7"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Static Header, initially expanded"</span></li><li class="L8"><span class="pln">                   [</span><span class="atn">isOpen</span><span class="pln">]</span><span class="pun">=</span><span class="atv">"status.isFirstOpen"</span></li><li class="L9"><span class="pln">                   [</span><span class="atn">isDisabled</span><span class="pln">]</span><span class="pun">=</span><span class="atv">"status.isFirstDisabled"</span><span class="tag">&gt;</span></li><li class="L0"><span class="pln">    This content is straight in the template.</span></li><li class="L1"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L2"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Content 1"</span><span class="tag">&gt;</span></li><li class="L3"><span class="pln">    </span><span class="tag">&lt;p&gt;</span><span class="pln">accordion 1</span><span class="tag">&lt;/p&gt;</span></li><li class="L4"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L5"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Content 2"</span><span class="tag">&gt;</span></li><li class="L6"><span class="pln">    </span><span class="tag">&lt;p&gt;</span><span class="pln">accordion 2</span><span class="tag">&lt;/p&gt;</span></li><li class="L7"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L8"><span class="tag">&lt;/accordion&gt;</span></li></ol></pre>
       </tab>
@@ -420,13 +420,13 @@
       </tab>
       <!--template bindings={}-->
       <!--template bindings={}-->
-    
+
     </div>
   </tabset>
   </div>
 </div>
-</ng-sample-box>  
-        
+</ng-sample-box>
+
   <h2 fragment="dynamic" id="dynamic" routerlink=".">Dynamic accordion</h2>
   <ng-sample-box><div class="section bd-example">
     <demo-accordion-dynamic><p>
@@ -441,15 +441,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button" aria-expanded="true">
         <!--template bindings={}--><div>Static Header, initially expanded</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse in show" role="tabpanel" aria-expanded="true" aria-hidden="false" style="overflow: visible; height: auto; display: block;">
     <div class="panel-body card-block">
-      
+
     This content is straight in the template.
-  
+
     </div>
   </div>
 </div>
@@ -460,15 +460,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button">
         <!--template bindings={}--><div>Dynamic Group Header - 1</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
+
     Dynamic Group Body - 1
-  
+
     </div>
   </div>
 </div>
@@ -478,15 +478,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button">
         <!--template bindings={}--><div>Dynamic Group Header - 2</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
+
     Dynamic Group Body - 2
-  
+
     </div>
   </div>
 </div>
@@ -497,19 +497,19 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button">
         <!--template bindings={}--><div>Dynamic Body Content</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
+
     <p>The body of the accordion group grows to fit the contents</p>
     <button class="btn btn-primary btn-sm" type="button">Add
       Item
     </button>
     <!--template bindings={}--><div>Item 1</div><div>Item 2</div><div>Item 3</div>
-  
+
     </div>
   </div>
 </div>
@@ -529,10 +529,10 @@
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
-    
+
+
     This is just some content to illustrate fancy headings.
-  
+
     </div>
   </div>
 </div>
@@ -557,7 +557,7 @@
         </li>
     </ul>
     <div class="tab-content">
-      
+
       <!--template bindings={}--><tab heading="template" class="active tab-pane">
         <pre class="prettyprint linenums lang-html prettyprinted"><ol class="linenums"><li class="L0"><span class="tag">&lt;p&gt;</span></li><li class="L1"><span class="pln">  </span><span class="tag">&lt;button</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"button"</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"btn btn-primary btn-sm"</span></li><li class="L2"><span class="pln">          (</span><span class="atn">click</span><span class="pln">)</span><span class="pun">=</span><span class="atv">"group.isOpen = !group.isOpen"</span><span class="tag">&gt;</span><span class="pln">Toggle last panel</span></li><li class="L3"><span class="pln">  </span><span class="tag">&lt;/button&gt;</span></li><li class="L4"><span class="tag">&lt;/p&gt;</span></li><li class="L5"><span class="pln">&nbsp;</span></li><li class="L6"><span class="tag">&lt;accordion&gt;</span></li><li class="L7"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Static Header, initially expanded"</span></li><li class="L8"><span class="pln">                   [</span><span class="atn">isOpen</span><span class="pln">]</span><span class="pun">=</span><span class="atv">"status.isFirstOpen"</span><span class="tag">&gt;</span></li><li class="L9"><span class="pln">    This content is straight in the template.</span></li><li class="L0"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L1"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> *</span><span class="atn">ngFor</span><span class="pun">=</span><span class="atv">"let group of groups"</span><span class="pln"> [</span><span class="atn">heading</span><span class="pln">]</span><span class="pun">=</span><span class="atv">"group.title"</span><span class="tag">&gt;</span></li><li class="L2"><span class="pln">    {{ group?.content }}</span></li><li class="L3"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L4"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Dynamic Body Content"</span><span class="tag">&gt;</span></li><li class="L5"><span class="pln">    </span><span class="tag">&lt;p&gt;</span><span class="pln">The body of the accordion group grows to fit the contents</span><span class="tag">&lt;/p&gt;</span></li><li class="L6"><span class="pln">    </span><span class="tag">&lt;button</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"button"</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"btn btn-primary btn-sm"</span><span class="pln"> (</span><span class="atn">click</span><span class="pln">)</span><span class="pun">=</span><span class="atv">"addItem()"</span><span class="tag">&gt;</span><span class="pln">Add</span></li><li class="L7"><span class="pln">      Item</span></li><li class="L8"><span class="pln">    </span><span class="tag">&lt;/button&gt;</span></li><li class="L9"><span class="pln">    </span><span class="tag">&lt;div</span><span class="pln"> *</span><span class="atn">ngFor</span><span class="pun">=</span><span class="atv">"let item of items"</span><span class="tag">&gt;</span><span class="pln">{{item}}</span><span class="tag">&lt;/div&gt;</span></li><li class="L0"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L1"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> #</span><span class="atn">group</span><span class="pln"> [</span><span class="atn">isOpen</span><span class="pln">]</span><span class="pun">=</span><span class="atv">"status.isOpen"</span><span class="tag">&gt;</span></li><li class="L2"><span class="pln">    </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">accordion-heading</span><span class="tag">&gt;</span></li><li class="L3"><span class="pln">      I can have markup, too!</span></li><li class="L4"><span class="pln">      </span><span class="tag">&lt;i</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"pull-right float-xs-right glyphicon"</span></li><li class="L5"><span class="pln">         [</span><span class="atn">ngClass</span><span class="pln">]</span><span class="pun">=</span><span class="atv">"{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"</span><span class="tag">&gt;&lt;/i&gt;</span></li><li class="L6"><span class="pln">    </span><span class="tag">&lt;/div&gt;</span></li><li class="L7"><span class="pln">    This is just some content to illustrate fancy headings.</span></li><li class="L8"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L9"><span class="tag">&lt;/accordion&gt;</span></li></ol></pre>
       </tab>
@@ -566,13 +566,13 @@
       </tab>
       <!--template bindings={}-->
       <!--template bindings={}-->
-    
+
     </div>
   </tabset>
   </div>
 </div>
-</ng-sample-box>   
-       
+</ng-sample-box>
+
   <h2 fragment="one-time" id="one-time" routerlink=".">Open only one at a time</h2>
   <ng-sample-box><div class="section bd-example">
     <demo-accordion-one-time><div class="checkbox">
@@ -589,15 +589,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button">
         <!--template bindings={}--><div>Header</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
+
     This content is straight in the template.
-  
+
     </div>
   </div>
 </div>
@@ -608,15 +608,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button">
         <!--template bindings={}--><div>Content 1</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
+
     <p>Content 1</p>
-  
+
     </div>
   </div>
 </div>
@@ -627,15 +627,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button">
         <!--template bindings={}--><div>Content 2</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
+
     <p>Content 2</p>
-  
+
     </div>
   </div>
 </div>
@@ -660,7 +660,7 @@
         </li>
     </ul>
     <div class="tab-content">
-      
+
       <!--template bindings={}--><tab heading="template" class="active tab-pane">
         <pre class="prettyprint linenums lang-html prettyprinted"><ol class="linenums"><li class="L0"><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"checkbox"</span><span class="tag">&gt;</span></li><li class="L1"><span class="pln">  </span><span class="tag">&lt;label&gt;</span></li><li class="L2"><span class="pln">    </span><span class="tag">&lt;input</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"checkbox"</span><span class="pln"> [(</span><span class="atn">ngModel</span><span class="pln">)]</span><span class="pun">=</span><span class="atv">"oneAtATime"</span><span class="tag">&gt;</span></li><li class="L3"><span class="pln">    Open only one at a time</span></li><li class="L4"><span class="pln">  </span><span class="tag">&lt;/label&gt;</span></li><li class="L5"><span class="tag">&lt;/div&gt;</span></li><li class="L6"><span class="pln">&nbsp;</span></li><li class="L7"><span class="tag">&lt;accordion</span><span class="pln"> [</span><span class="atn">closeOthers</span><span class="pln">]</span><span class="pun">=</span><span class="atv">"oneAtATime"</span><span class="tag">&gt;</span></li><li class="L8"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Header"</span><span class="tag">&gt;</span></li><li class="L9"><span class="pln">    This content is straight in the template.</span></li><li class="L0"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L1"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Content 1"</span><span class="tag">&gt;</span></li><li class="L2"><span class="pln">    </span><span class="tag">&lt;p&gt;</span><span class="pln">Content 1</span><span class="tag">&lt;/p&gt;</span></li><li class="L3"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L4"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Content 2"</span><span class="tag">&gt;</span></li><li class="L5"><span class="pln">    </span><span class="tag">&lt;p&gt;</span><span class="pln">Content 2</span><span class="tag">&lt;/p&gt;</span></li><li class="L6"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L7"><span class="tag">&lt;/accordion&gt;</span></li></ol></pre>
       </tab>
@@ -669,13 +669,13 @@
       </tab>
       <!--template bindings={}-->
       <!--template bindings={}-->
-    
+
     </div>
   </tabset>
   </div>
 </div>
 </ng-sample-box>
-                
+
   <h2 fragment="styling" id="styling" routerlink=".">Styling</h2>
   <ng-sample-box><div class="section bd-example">
     <demo-accordion-styling _nghost-fpt-47=""><accordion _ngcontent-fpt-47="" role="tablist" class="panel-group" aria-multiselectable="false">
@@ -685,15 +685,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button" aria-expanded="true">
         <!--template bindings={}--><div>Static Header, initially expanded</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse in show" role="tabpanel" aria-expanded="true" aria-hidden="false" style="overflow: visible; height: auto; display: block;">
     <div class="panel-body card-block">
-      
+
     This content is straight in the template.
-  
+
     </div>
   </div>
 </div>
@@ -704,15 +704,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button">
         <!--template bindings={}--><div>Content 1</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
+
     <p _ngcontent-fpt-47="">accordion 1</p>
-  
+
     </div>
   </div>
 </div>
@@ -723,15 +723,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button">
         <!--template bindings={}--><div>Content 2</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
+
     <p _ngcontent-fpt-47="">accordion 2</p>
-  
+
     </div>
   </div>
 </div>
@@ -761,7 +761,7 @@
         </li>
     </ul>
     <div class="tab-content">
-      
+
       <!--template bindings={}--><tab heading="template" class="active tab-pane">
         <pre class="prettyprint linenums lang-html prettyprinted"><ol class="linenums"><li class="L0"><span class="tag">&lt;accordion&gt;</span></li><li class="L1"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Static Header, initially expanded"</span></li><li class="L2"><span class="pln">                   [</span><span class="atn">panelClass</span><span class="pln">]</span><span class="pun">=</span><span class="atv">"customClass"</span></li><li class="L3"><span class="pln">                   [</span><span class="atn">isOpen</span><span class="pln">]</span><span class="pun">=</span><span class="atv">"isFirstOpen"</span><span class="tag">&gt;</span></li><li class="L4"><span class="pln">    This content is straight in the template.</span></li><li class="L5"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L6"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Content 1"</span><span class="tag">&gt;</span></li><li class="L7"><span class="pln">    </span><span class="tag">&lt;p&gt;</span><span class="pln">accordion 1</span><span class="tag">&lt;/p&gt;</span></li><li class="L8"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L9"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Content 2"</span><span class="pln"> </span><span class="atn">panelClass</span><span class="pun">=</span><span class="atv">"customClass"</span><span class="tag">&gt;</span></li><li class="L0"><span class="pln">    </span><span class="tag">&lt;p&gt;</span><span class="pln">accordion 2</span><span class="tag">&lt;/p&gt;</span></li><li class="L1"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L2"><span class="tag">&lt;/accordion&gt;</span></li></ol></pre>
       </tab>
@@ -772,13 +772,13 @@
       <!--template bindings={}--><tab heading="style" class="tab-pane">
         <pre class="prettyprint linenums lang-css prettyprinted"><ol class="linenums"><li class="L0"><span class="pun">.</span><span class="pln">card</span><span class="pun">.</span><span class="pln">customClass</span><span class="pun">,</span></li><li class="L1"><span class="pun">.</span><span class="pln">card</span><span class="pun">.</span><span class="pln">customClass </span><span class="pun">.</span><span class="pln">card</span><span class="pun">-</span><span class="pln">header</span><span class="pun">,</span></li><li class="L2"><span class="pun">.</span><span class="pln">panel</span><span class="pun">.</span><span class="pln">customClass </span><span class="pun">{</span></li><li class="L3"><span class="pln">  background</span><span class="pun">-</span><span class="pln">color</span><span class="pun">:</span><span class="pln"> </span><span class="com">#5bc0de;</span></li><li class="L4"><span class="pln">  color</span><span class="pun">:</span><span class="pln"> </span><span class="com">#fff;</span></li><li class="L5"><span class="pun">}</span></li><li class="L6"><span class="pun">.</span><span class="pln">panel</span><span class="pun">.</span><span class="pln">customClass </span><span class="pun">.</span><span class="pln">panel</span><span class="pun">-</span><span class="pln">body </span><span class="pun">{</span></li><li class="L7"><span class="pln">  background</span><span class="pun">-</span><span class="pln">color</span><span class="pun">:</span><span class="pln"> </span><span class="com">#337aa7;</span></li><li class="L8"><span class="pun">}</span></li></ol></pre>
       </tab>
-    
+
     </div>
   </tabset>
   </div>
 </div>
 </ng-sample-box>
-                
+
   <h2 fragment="config" id="config" routerlink=".">Configuring defaults</h2>
   <ng-sample-box><div class="section bd-example">
     <demo-accordion-config><accordion role="tablist" class="panel-group" aria-multiselectable="true">
@@ -788,15 +788,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button">
         <!--template bindings={}--><div>Header</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
+
     This content is straight in the template.
-  
+
     </div>
   </div>
 </div>
@@ -807,15 +807,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button">
         <!--template bindings={}--><div>Content 1</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
+
     <p>Content 1</p>
-  
+
     </div>
   </div>
 </div>
@@ -826,15 +826,15 @@
     <div class="panel-title">
       <div class="accordion-toggle" role="button">
         <!--template bindings={}--><div>Content 2</div>
-        
+
       </div>
     </div>
   </div>
   <div class="panel-collapse collapse" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
     <div class="panel-body card-block">
-      
+
     <p>Content 2</p>
-  
+
     </div>
   </div>
 </div>
@@ -859,7 +859,7 @@
         </li>
     </ul>
     <div class="tab-content">
-      
+
       <!--template bindings={}--><tab heading="template" class="active tab-pane">
         <pre class="prettyprint linenums lang-html prettyprinted"><ol class="linenums"><li class="L0"><span class="tag">&lt;accordion&gt;</span></li><li class="L1"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Header"</span><span class="tag">&gt;</span></li><li class="L2"><span class="pln">    This content is straight in the template.</span></li><li class="L3"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L4"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Content 1"</span><span class="tag">&gt;</span></li><li class="L5"><span class="pln">    </span><span class="tag">&lt;p&gt;</span><span class="pln">Content 1</span><span class="tag">&lt;/p&gt;</span></li><li class="L6"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L7"><span class="pln">  </span><span class="tag">&lt;accordion-group</span><span class="pln"> </span><span class="atn">heading</span><span class="pun">=</span><span class="atv">"Content 2"</span><span class="tag">&gt;</span></li><li class="L8"><span class="pln">    </span><span class="tag">&lt;p&gt;</span><span class="pln">Content 2</span><span class="tag">&lt;/p&gt;</span></li><li class="L9"><span class="pln">  </span><span class="tag">&lt;/accordion-group&gt;</span></li><li class="L0"><span class="tag">&lt;/accordion&gt;</span></li></ol></pre>
       </tab>
@@ -868,7 +868,7 @@
       </tab>
       <!--template bindings={}-->
       <!--template bindings={}-->
-    
+
     </div>
   </tabset>
   </div>
@@ -932,7 +932,7 @@
         </tbody>
       </table>
     </section>
-  
+
 
   <!--template bindings={}-->
 
@@ -958,7 +958,7 @@
             <div><i>Type: </i><code>Boolean</code></div>
             <!--template bindings={}-->
               <div><i>Default value: </i><code>false</code></div>
-            
+
             <div><p>Whether the other panels should be closed when a panel is opened </p>
 </div>
           </td>
@@ -966,8 +966,8 @@
         </tbody>
       </table>
     </section>
-  
-  
+
+
 </div>
 <hr>
 </ng-api-doc-config>
@@ -975,10 +975,10 @@
     </div>
   </div>
 
-  
+
   <!--template bindings={}-->
 
-  
+
   <!--template bindings={}-->
 </div>
 </demo-section></accordion-section>
