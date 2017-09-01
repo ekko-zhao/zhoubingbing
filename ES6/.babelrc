@@ -9,12 +9,12 @@
 		"transform-es3-property-literals"
 	],
 	"ignore": [
-		"src/filename.js"
+		//"src/filename.js"
 	],
-	"env": {
-		"production": {
-			"plugins": []
-		}
-	},
+	// "env": {
+	// 	"production": {
+	// 		"plugins": []
+	// 	}
+	// },
 	"comments":false
 }

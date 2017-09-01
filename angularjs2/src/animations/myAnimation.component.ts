@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'; 
+import { Component } from '@angular/core';
 import { trigger, state, style, animate, transition} from '@angular/animations';
 
 
@@ -7,7 +7,8 @@ import { trigger, state, style, animate, transition} from '@angular/animations';
 	selector: 'my-animation',
 	template: `
 		<button type="button" [@heroState]="state"  (@heroState.start)="animationStarted($event)" (click)="toggleState()">button-animate</button>
-	`,
+    `,
+    // templateUrl:'a.html',
 	animations: [
 		trigger('heroState', [
 			state('inactive', style({
@@ -31,11 +32,11 @@ export class MyAnimation{
 	state:string = 'active';
 	toggleState(){
 		if(this.state == "inactive" ){
-			this.state = "active" 
+			this.state = "active"
 		}else{
 			this.state = "inactive"
 		}
-		
+
 	}
 	animationStarted($event:any){
 		console.log($event)

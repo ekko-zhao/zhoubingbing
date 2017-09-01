@@ -10,26 +10,16 @@
 
 <body>
     <script>
-        function delay(t){
-            var q = new Promise( (resolve,reject)=> {
-                setTimeout(function(){
-                    resolve('ok')
-                },t);
-
-            });
-            return q;
+        try
+        {
+            var a ={};
+            console.log(a.ss.as())
         }
+        catch(e)
+        {
+            throw ('无法获取未定义或 null 引用的属性“remove”');
 
-        function* f(){
-            yield delay(2000)
         }
-        f().next().value.then(function (data) {
-            console.log(data)
-        }, function (data) {
-            console.log(data)
-        })
-
-
     </script>
 </body>
 

@@ -1,6 +1,14 @@
 ﻿TypeScript 2.x-----------------------
 npm install @types/node --save-dev
 
+// webpack把模块里templateUrl的html文件像打包stylesUrl一样打包
+ loaders: [
+    {
+        test: /\.ts$/,
+        loaders: ['ts', 'angular2-template-loader']
+    }
+ ]
+
 //angular2 --------------------------------------------------------------------
 
 ?.安全操作符
@@ -190,21 +198,21 @@ export class ListItemComponent{
 	get contact(){
 		return this._contact;
 	}
-
 }
-//ng-content------------------
-父组件
-<parent-component>
-    <header></header>
-    <div class="className">className</div>
-    <div name="attr">attr</div>
-</parent-component>
+//ng-content 插槽------------------------------------------------------
+    父组件
+    <parent-component>
+        <header></header>
+        <div class="className">className</div>
+        <div name="attr">attr</div>
+    </parent-component>
+
+    子组件
+    <ng-content select="header"> </ng-content>
+    <ng-content select=".className"> </ng-content>
+    <ng-content select="[name=attr]"> </ng-content>
 
 
-子组件
-<ng-content select="header"> </ng-content>
-<ng-content select=".className"> </ng-content>
-<ng-content select="[name=attr]"> </ng-content>
 
 ngOnInit
 ngOnChanges
@@ -304,6 +312,15 @@ items: QueryList<ListItem>
 (click)="fn()"
 
 
+[ngClass]="fn()" \ ="{class:isBoolean}"
+[ngStyle]
+<ul [ngSwitch]="property">
+	<li *ngSwitchCase=""></li>
+	<li *ngSwitchCase=""></li>
+	<li *ngSwitchDefault></li>
+</ul>
+
+
 //表单双向绑定----------------
 <input type="text" [value]="name" (input)="name=$event.target.value" />
 <input type="text" name="username" [(ngModel)]="user.name" (ngModelChange)="user.name=$event" >
@@ -320,13 +337,6 @@ import { FormsModule } from '@angular/forms';
 export class AppModule{ }
 
 
-[ngClass]="fn()" \ ="{class:isBoolean}"
-[ngStyle]
-<ul [ngSwitch]="property">
-	<li *ngSwitchCase=""></li>
-	<li *ngSwitchCase=""></li>
-	<li *ngSwitchDefault></li>
-</ul>
 
 
 NgPlural NgPluralCase--------------------------
@@ -1412,8 +1422,10 @@ export const rootRouterConfig: Routes =[
 //动画---------------------------------------------------------------------------------
 npm install --save @angular/animations
 
-//myAnimation.component.ts
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+//into your app.module.ts file.
+
+//myAnimation.component.ts
 import { trigger, state, style, animate, transition} from '@angular/animations';
 @Component({
 	selector: 'my-animation',

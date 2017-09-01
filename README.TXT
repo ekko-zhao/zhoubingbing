@@ -1,4 +1,4 @@
-git init 
+git init
 git remote add origin https://github.com/zhoubbmls/zhoubingbing.git
 
 //配置提交作者
@@ -8,7 +8,7 @@ git config user.email "zhoubbmls@sina.com"
 [credential] helper = store
 git config --global credential.helper store
 
-:w!强制存盘 
+:w!强制存盘
 
 git add .
 git status
@@ -25,6 +25,8 @@ git commit -m "" --author=""
 // 重新拉取文件
 git checkout .
 
+// 添加环境变量
+set PATH=%PATH%;C:\Program Files\Git\bin
 
 
 //Mac——————————
