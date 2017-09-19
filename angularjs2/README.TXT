@@ -314,14 +314,35 @@ items: QueryList<ListItem>
 
 [ngClass]="fn()" \ ="{class:isBoolean}"
 [ngStyle]
+
+// ngSwitch ----------------------------------------------------------------
 <ul [ngSwitch]="property">
 	<li *ngSwitchCase=""></li>
 	<li *ngSwitchCase=""></li>
 	<li *ngSwitchDefault></li>
 </ul>
 
+NgPlural NgPluralCase -------------------------------------------------------
+class MyLocalization extends NgLocalization{
+	getPluralCategory(value:any){
+		if(value<5) return 'few'
+	}
+}
+@Component({
+	selector:'',
+	template:`
+		<div [ngPlural]="value">
+			<template ngPluralCase="0">0</template>
+			<template ngPluralCase="1">1</template>
+			<template ngPluralCase="few">few</template>
+			<template ngPluralCase="other">other</template>
+		</div>
+	`,
+	directives: [NgPlural, NgPluralCase],
+	providers: [provide(NgLocalization,{useClass: MyLocalization})]
+})
 
-//表单双向绑定----------------
+//表单双向绑定 -------------------------------------------------------
 <input type="text" [value]="name" (input)="name=$event.target.value" />
 <input type="text" name="username" [(ngModel)]="user.name" (ngModelChange)="user.name=$event" >
 
@@ -365,7 +386,7 @@ class MyLocalization extends NgLocalization{
 <input type="radio" name="six" [(ngModel)]="property" value="female">
 <input type="radio" name="six" [(ngModel)]="property" value="male">
 
-//单选框----------------
+//复选框----------------
 <input type="checkbox" name="six" [(ngModel)]="property">
 property:true\false
 
@@ -376,7 +397,7 @@ interests:any[] =[
 ]
 
 <select name="interestValue" [(ngModel)]="">
-	<option *ngFor="let interest of interests" value="interest.value or interest">{{ interest.text }}</option>
+	<option *ngFor="let interest of interests" value="interest.value of interest">{{ interest.text }}</option>
 </select>
 
 多选时 select 的值为 数组
@@ -511,6 +532,7 @@ d		9
 //24hours
 HH		23
 H		8
+
 //12hours
 hh		11
 h		8
@@ -554,9 +576,9 @@ EUR 欧元
 
 percent 将小数转化为 百分比
 
-{{number : percent[:1.0-2] }}
+{{ * | number : percent[:1.0-2] }}
 
-{{slice : start[:end] }}
+{{ * | slice : start[:end] }}
 
 
 
@@ -986,10 +1008,10 @@ export class serviceName{
 //依赖查找的规则是按照注入器从当前组件向父级查找 找不到就会报错
 
 //@Host 限定在当前组件查找  找不到就会报错
-constructor( @Host propertyName: serviceName ){}
+constructor( @Host() propertyName: serviceName ){}
 
 //@Optional 可以兼容依赖不存在的情况 提高系统的健壮性 找不到不会报错
-constructor( @Optional propertyName: serviceName ){}
+constructor( @Optional() propertyName: serviceName ){}
 
 
 
@@ -1168,7 +1190,7 @@ export class AppComponent{
 
 			/*
 				//不改变url 跳转页面
-				_router.navigate(['/footer'，23], {skipLocationChange:true});
+				_router.navigate(['/footer',23], {skipLocationChange:true});
 
 			*/
 
@@ -1552,7 +1574,7 @@ import { DelayingComponent } from './delaying.component';
 import {CommonModule} from "@angular/common";
 
 
-
+//和 app.routers.ts 路由一对一
 const delayingRortes: Routes = [
 	{path:'', component: OtherComponent}
 	{path:'id', component: DelayingComponent}
@@ -1627,5 +1649,17 @@ var md5 = (str:string)=>{
 
 
 
+---------------------------------------------------------------------------------------------------------------------
 
+针对页面上某个元素的数据更新做处理
+   1、定义模板驱动表单名
+  <input type="text" pInputText size="50" [formControl]="term" placeholder="输入搜索条件">
 
+   2、ts 文件中新建一个表单元素对象。
+  colo = new FormControl();
+
+  3、ngonInit中订阅数据更新
+
+    this.colo.valueChanges.distinctUntilChanged().subscribe((ast) => {
+     //do something
+    })
