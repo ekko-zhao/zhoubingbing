@@ -1,5 +1,13 @@
 
 //方法装饰器--------------------------------------------------------------------------------------------
+
+/*
+	target 为 TestClass类实例，
+	propertyKey 为 'testMethod' 方法名;
+	descriptor 为 descriptor 描述 
+	descriptor.value 可以重新定义 方法 testMethod； 如果有返回值将会作为 testMethod的返回值；
+*/
+
 function log(target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<any>){
 	let origin = descriptor.value;
 	descriptor.value = function(...agrs:any[]){
@@ -36,6 +44,19 @@ class Person{
 	}
 }
 
+/*
+	参数 component 为类装饰器的 参数 { seletor: 'person', template: 'person.html' }
+	target 为Person类的构造函数
+	function(firstName, secondName){
+		this.firstName = firstName;
+		this.secondName = secondName;
+	}
+	function.prototype = {
+		methods: () = {
+		
+		}
+	}
+*/
 function Component(component){
 	return (target:any) => {
 		return componentClass(target, component);
@@ -79,11 +100,14 @@ class UserService {
 }
 
 //属性装饰器---------------------------------------------------------------------------------
-()(target: any, propertyKey: string){
+function fn()(target: any, propertyKey: string){
 	
 }
 
-
+class Person{
+	@aa 
+	public name: string;
+}
 
 
 
