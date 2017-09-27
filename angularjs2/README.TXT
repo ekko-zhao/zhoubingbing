@@ -565,7 +565,7 @@ slice 非纯管道
 
 //decimal minIntegerDigits.minFactionDigits-maxFactionDigits
 整数 小数最小保留数 小数最大保留数
-number : 1.0-2
+number : '1.0-2'
 
 currency : 'USD' : false
 USD23.23
@@ -1663,3 +1663,11 @@ var md5 = (str:string)=>{
     this.colo.valueChanges.distinctUntilChanged().subscribe((ast) => {
      //do something
     })
+
+
+------------------------------------------------------------------------------
+
+import { HttpService } from '@service/http-service';
+constructor(
+        private sanitizer: DomSanitizer
+ ) { }
