@@ -61,7 +61,7 @@ export class AppModule{
 //元数据 渲染方式
 @Component({
 	queries
-	encapsulation: ViewEncapsulation.None // ViewEncapsulation.Native // ViewEncapsulation.Emulated
+	encapsulation: ViewEncapsulation.None (没有样式包装)  || ViewEncapsulation.Emulated（样式包装 [_ngcontent-1]）|| ViewEncapsulation.Native
 })
 
 

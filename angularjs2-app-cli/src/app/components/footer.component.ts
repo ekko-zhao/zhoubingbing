@@ -31,7 +31,9 @@ export class FooterComponent {
 
 
     constructor() {
-        //var a = this.setname('zhoub1b');
+
+
+
     }
 
 

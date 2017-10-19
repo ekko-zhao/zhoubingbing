@@ -159,7 +159,7 @@ f == f[Symbol.iterator]() //true
 //next参数的传递————————————
 f.next();
 f.next('agr');
-第一次传递的参数不能带有参数， 传递的参数会 传递给 agr；
+第一次传递的参数不能带有参数，传递的参数会 传递给 agr；(上一次 next()  的结果 )
 
 
 
@@ -239,6 +239,7 @@ function* f(){
 }
 
 
+// 在Generator 函数内部调用一个 Generator 函数， yield* generator();
 //yield* 后面跟遍历器
 .遍历嵌套数组的所有成员
 function* iterTree(tree){
@@ -259,8 +260,11 @@ for(let x of iterTree(tree)){
 
 
 
+
+
 支持遍历器的成员 都可以跟在 yield* 后面
 yield*  ['a', 'v', 'c'] //返回的是 iterator 对象
+
 
 
 //作为对象属性的 Generator 函数
@@ -276,7 +280,7 @@ var o = {
 }
 
 // 应用--------------------------------------
-yield 语句是同步运行， 不是异步运行 ； 包括读取文件  ， 异步亲求
+yield 语句是同步运行， 不是异步运行 ； 包括读取文件  ， 异步请求
 
 function delay(t){
 	var q = new Promise( (resolve,reject)=> {
