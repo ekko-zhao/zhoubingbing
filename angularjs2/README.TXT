@@ -215,6 +215,7 @@ export class ListItemComponent{
 
 
 ngOnInit
+ngOnDestroy
 ngOnChanges
 ngDoCheck
 ngAfterContentInit
@@ -640,6 +641,13 @@ export class BeautifulBackgroundDirective{
 <p myBeautifulBackground>background</p>
 
 
+/* app.module.ts*/
+@NgModule({
+    declarations: [
+        directive.file.ts
+    ]
+})
+	
 //为指令绑定输入
 import { Directive, ElementRef, Input } from '@angular/core';
 @Directive({
