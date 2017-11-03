@@ -449,6 +449,50 @@ minlength
 maxlength
 pattern
 
+// 添加 表单自定义验证-------------------------------------------------------
+
+/* username.validator.ts */
+import { FormControl } from '@angular/forms';
+export function validateUsername(c: FormControl) {
+    //let regexp = /^1[0-9]{10,10}$/;
+    let regexp = /^[^_][A-Za-z0-9_\u4e00-\u9fa5]+$/;
+
+    let strlen = 0;
+    let value = c.value;
+    if(!value) return;
+    for (var i = 0; i < value.length; i++) {
+        if (value.charCodeAt(i) > 255)
+            strlen += 2;
+        else
+            strlen++;
+    }
+
+    return regexp.test(c.value) && (strlen >= 6 && strlen <= 30)  ? null : {
+        validate: { valid: false }
+    }
+}
+
+/* username.directive.ts */
+import { Directive } from '@angular/core';
+import { NG_VALIDATORS } from '@angular/forms';
+import { validateUsername } from '@myDirective/username.validator';
+
+@Directive({
+    selector: '[validateUsername][ngModel]',
+    providers: [
+        { provide: NG_VALIDATORS, useValue: validateUsername, multi: true }
+    ]
+})
+export class UsernameValidator {
+}
+/* 	
+	模型驱动方式构建表单
+	firstName: new FormControl('', [Validators.minLength(4) , UsernameValidator])
+*/
+
+/* html */
+<input class="form-control" type="text" name="name" id="name" [(ngModel)]="form.name" validateUsername (keyup)="form.name=$event.target.value" required>
+
 
 //模型驱动方式构建表单
 
@@ -457,13 +501,13 @@ pattern
 		<input type="text" formControlName="firstName" >
 	</form>
 	this.editform = new FormGroup({
-		firstName: new FormControl('', [Validators.minLength(4) ,Validators.pattern([a-z0-9]+@[a-x0-9].com)])
+		firstName: new FormControl('', [Validators.minLength(4) , Validators.pattern([a-z0-9]+@[a-x0-9].com)])
 		// 第一个参数可以是一个 Object{ value: '', disabled: false} 指定值和 状态
 		//firstName: new FormControl('', validateFirstName)
 
 		//正则表达式 不加 / /
 	})
-
+	
 */
 
 import { ReactiveFormsModule } from '@angular/forms';
@@ -1290,7 +1334,16 @@ _router.navigate(['/header','233', {s:'2017-05-24'}, {outlets:{primary: ['child'
 or
 _router.navigate(['/header','233', {s:'2017-05-24'}, 'child', {outlets:{aux:['view']}}]);
 
-
+// 监听路由变化 ---------------------------------
+constructor(
+	private router: Router,
+){}
+this.router.events
+	.filter(event => event instanceof NavigationEnd)
+	.map(() => this.activatedRoute)
+	.subscribe((event) => {
+		
+	});
 
 //路由拦截---------------------------------
 
@@ -1679,3 +1732,31 @@ import { HttpService } from '@service/http-service';
 constructor(
         private sanitizer: DomSanitizer
  ) { }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
