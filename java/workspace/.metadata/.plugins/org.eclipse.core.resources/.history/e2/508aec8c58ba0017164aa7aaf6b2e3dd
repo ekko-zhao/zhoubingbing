@@ -1,0 +1,13 @@
+package javaNote;
+
+public class Test {
+
+	public static void main(String args[]) {
+		byte a = (byte) 241;
+		byte b = (byte) (a >> 4);
+		byte c = (byte) (b >>> 4);
+		int i = -1;
+
+		System.out.println(a);
+	}
+}

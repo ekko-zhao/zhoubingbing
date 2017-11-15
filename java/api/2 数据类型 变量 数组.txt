@@ -1,0 +1,103 @@
+﻿
+// 数据类型
+	byte 	2^(8-1)-1
+			01111111 为最大值 第一位0 为 +- 符号, (byte)0b10000001 为-127
+			/*
+				01111111
+				10000000+1 = 10000001
+			*/
+			其它 short int long类型类同
+			取值范围（-128~127） 当操作来自网络或文件的数据流时 ，byte特别有用
+			超出范围的数 n%256-256 为 (byte)n 的强类型转换
+			
+	short	2^x(16-1)-1
+	int		2^(32-1)-1
+	
+	long	2^(64-1)-1
+			2222L
+	float 	2.25f
+			精度7位, 有8位有效数字，但绝对能保证的为7位，也即float的精度为7~8位有效数字；
+			
+	double 	2.25d  这里d 是可选的， 默认的double 类型使用64位储存
+			精度16位，有效数字16-17位
+	
+	char	0~2^16 没有负值
+			主要用途表示Unicode 字符，ASCII 字符占用Unicode 字符中前127 各值。
+			它可以用作整数类型
+			
+	boolean	true/false
+			true 和 false 不能转换成任何数字表现形式
+			true 不等于 1， false 不等于 0
+			
+// 变量
+	type identifier [ = value ][, identifier [ = value ] ...];
+	int a,b;
+	int a = 12;
+	
+// 表达式中的自动类型提升
+	·所有byte short int 和 char 提升为int 类型。
+	·如果有一个为long,则提升为long
+	·如果有一个为float,则提升为float
+	·如果有一个为double,则提升为double
+	
+// 数组
+	type var-name
+	int varname[]; 
+		·此时这个数组是不存在的，需要将它链接到一个实际的 物理的整数数组
+		·必须使用 new 分配一个数组赋值给 varname
+	varname = new int[5]  
+		·5表示长度
+		·int varname[] = new int[5]
+	varname[0] = 0
+	
+	.初始化
+	int varname[] = {0, 1, 2, 3, 4}
+
+	int varname[][] = new int[5][4]
+		.多维数组
+	int varname[] = new int[5][]
+		.动态分配  varname[0] = new int[4]
+		
+	break;
+		first:{
+			·break first; // 跳出代码块, 
+				// break 必须在要终止的代码块内
+		}
+	continue;
+	return;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

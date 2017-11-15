@@ -1,0 +1,12 @@
+package javaNote;
+
+public class Test {
+
+	public static void main(String args[]) {
+		byte a = (byte) 0xf1;
+		;
+		int i = -1;
+
+		System.out.println(0bf1);
+	}
+}

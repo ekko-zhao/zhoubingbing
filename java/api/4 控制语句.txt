@@ -1,0 +1,42 @@
+﻿// if  
+	·与javascript if语法一致
+	
+// switch
+	·与javascript if语法一致
+	
+	switch(expression)
+		·expression 类型 必须是 byte short int char 或枚举 JDK 7 开始 可以为String
+		
+		int a = 2;
+		switch (a) {
+		case 2:
+			System.out.println(3);
+			System.out.println(4);
+			break;
+			// case 语句中可以没有大括号， break语句是可以选的
+		default:
+			System.out.println(5);
+		}
+
+// 	while(contion){
+	
+	}
+		·与javascript if语法一致
+	do{
+	
+	}while(contion)
+		·与javascript if语法一致
+	
+//	for循环
+	for(initialization; condition; iteration){
+		
+	}
+	·initialization 可以初始化设定 多个值用 逗号分开， int a=1,b=4
+	·initializat ioncondition iteration 都可以省略，for( ; ; ){}
+	
+// for each
+	int items[] = { 1, 2, 3, 4 };
+	for (int item : items) {
+		System.out.println(item);
+	}
+		·break语句终止循环
