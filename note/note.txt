@@ -11,3 +11,62 @@ IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome
 <meta name="format-detection" content="telephone=no, email=no" />
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, user-scalable=yes">
 <meta name="renderer" content="webkit">
+
+
+// for of 找出 数组中元素的位置-----------------------------------------------
+let sign = [];
+let signs = [];
+let count = 0;
+
+let loopStop = false;
+var loop = (items, item) => {
+	for (let i = 0; i < items.length; i++) {
+		if (loopStop) break;
+		if (items[i]['children'].length > 0) {
+			sign.push(i);
+			loop(items[i]['children'], item);
+			if (loopStop) break;
+			sign.push('point');
+		} else {
+			if (item['permissionId'] === items[i]['permissionId']) {
+				sign.push(i);
+				loopStop = true;
+			}
+		}
+	}
+}
+
+for (let item of this.customItems) {
+	loopStop = false;
+	count = 0;
+	// 这里执行 loop(array, item)
+	loop(this.menuList, item);
+	let d = sign.slice(0);
+	signs.push(d);
+	sign = [];
+}
+
+// 找出在数组中的当前位置
+let strList = []
+for (let item of signs) {
+	let index = item.lastIndexOf('point');
+	item.splice(0, index + 1);
+	let str = item.join('');
+	strList.push(str);
+}
+console.log(strList);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
