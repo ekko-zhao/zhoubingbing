@@ -449,6 +449,18 @@ minlength
 maxlength
 pattern
 
+
+// 重置表单
+import { NgForm } from '@angular/forms';
+
+<from #searchForm="ngForm">
+	<input name="form.systemReferNo" [(ngModel)]="form.systemReferNo"
+</from>
+this.searchForm.resetFrom()
+单个重置
+'form.systemReferNo' 与 表单name 一致
+this.searchForm.controls['form.systemReferNo'].reset();
+
 // 添加 表单自定义验证-------------------------------------------------------
 
 /* username.validator.ts */
