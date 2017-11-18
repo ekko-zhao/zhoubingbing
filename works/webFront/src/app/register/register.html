@@ -1,0 +1,63 @@
+<div class="lay-out">
+    <p class="text-center text-lg m-t">账户注册</p>
+    <form class="p-t" #editForm="ngForm">
+        <div class="form-group p-b-sm" style="padding-left: 90px; position: relative;">
+            <label class="col-sm-2 control-label text-right no-padder m-t-sm" for="name">用户名：</label>
+            <input class="form-control" type="text" name="name" id="name" [(ngModel)]="form.name" validateUsername (keyup)="form.name=$event.target.value"
+                #thinputname="ngModel" required>
+            <p class="error text-xs m-t-xs m-b-n" *ngIf="thinputname.invalid && thinputname.dirty">6~30位字符，只能包含中文（一个中文占两个字符）、英文字母（区分大小写）、数字、下划线_,但不能只使用下划线,且下划线不能作为首字符</p>
+        </div>
+        <div class="form-group p-b-sm" style="padding-left: 90px; position: relative;">
+            <label class="col-sm-2 control-label text-right no-padder m-t-sm" for="cellPhone">手机号：</label>
+            <input class="form-control" type="text" name="cellPhone" id="cellPhone" [(ngModel)]="form.cellPhone" (keyup)="form.cellPhone=$event.target.value"
+                [pattern]="regex['mobile']" #formCellPhone="ngModel" (blur)="checkCellPhone()" required>
+            <p class="text-muted text-xs m-t-xs m-b-n" *ngIf="cellPMsg">{{cellPMsg}}</p>
+        </div>
+        <div class="form-group p-b-sm" style="padding-left: 90px; position: relative;">
+            <label class="col-sm-2 control-label text-right no-padder m-t-sm" for="cellPhoneCode">验证码：</label>
+            <div style="position:relative; padding-right:100px;">
+                <input class="form-control" type="text" name="cellPhoneCode" id="cellPhoneCode" maxlength="6" [(ngModel)]="form.cellPhoneCode"
+                    (keyup)="form.cellPhoneCode=$event.target.value" [pattern]="regex['mobileCode']" required>
+                <mobile-code #mobilecode [transmit]="transmit">
+                    <button mobile-code class="btn btn-info text-center" style="position:absolute;top:0;right:0; line-height:23px; width:82px;"
+                        [disabled]="!mobilecode['flag'] || formCellPhone.invalid" (click)="setCode(mobilecode['flag']); mobilecode['timeStart']();">{{mobilecode['text']}}</button>
+                </mobile-code>
+            </div>
+        </div>
+        <div class="form-group p-b-sm" style="padding-left: 90px; position: relative;">
+            <label class="col-sm-2 control-label text-right no-padder m-t-sm" for="password">新密码：</label>
+            <input class="form-control" type="password" name="password" id="password" [(ngModel)]="form.password" (keyup)="form.password=$event.target.value"
+                #password="ngModel" [pattern]="regex['password']" required>
+            <p class="error text-xs m-t-xs m-b-n" *ngIf="password.invalid && password.dirty">大写字母、小写字母、数字、特殊符号必须包含其中三种组合，最短8位，最长16位</p>
+        </div>
+        <div class="form-group p-b-sm" style="padding-left: 90px; position: relative;">
+            <label class="col-sm-2 control-label text-right no-padder m-t-sm" for="confirmPwd">确认密码：</label>
+            <input class="form-control" type="password" name="confirmPwd" id="confirmPwd" [(ngModel)]="form.confirmPwd" (keyup)="form.confirmPwd=$event.target.value"
+                #confirmPwd="ngModel" required>
+            <p class="error text-xs m-t-xs m-b-n" *ngIf="password['value']!==confirmPwd['value'] && confirmPwd['dirty'] ">两次输入的密码不一致</p>
+        </div>
+        <div class="form-group form-group-lg p-b-sm r">
+            <button type="submit" class="btn btn-info btn-lg w-full" [disabled]="!editForm.valid || password['value']!==confirmPwd['value'] "
+                (click)="submit()">注  册<span class="loading_button" [ngClass]="{hide:submitflag}"><img src="../../assets/images/loading_button.gif"></span></button>
+        </div>
+        <div class="form-group form-group-lg">
+            <div class="row">
+                <div class="col-xs-6">
+                </div>
+                <div class="col-xs-6 text-right"><a href="index.html" class="m-l-xs text-info">账户登陆</a></div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="text-center text-sm m-t p-b">
+    <a class="padder text-muted" href="index.html">返回首页</a><span class="text-muteder">|</span>
+    <a class="padder text-muted" href="http://www.lakala.com/about/index.html" target="_blank">关于拉卡拉</a><span class="text-muteder">|</span>
+    <a class="padder text-muted" href="https://mall.lakala.com/" target="_blank">拉卡拉商城</a>
+</div>
+<div class="register-success text-md" *ngIf="regsuccessFlag">
+    <div class="text-center padder" style="margin-top:20%;">
+        <p>您已成功注册如下账号，请保管好自己的账号信息。</p>
+        <p>用户名：<span class="text-success font-bold">{{form['name']}}</span>， 绑定手机号：<span class="text-success font-bold">{{form['cellPhone']}}</span></p>
+        <p class="text-base"><span class="time">{{countdown}}</span>s后 <a class="text-info" href="./app.html" style="text-decoration:underline;">跳转 </a>我的商服中心</p>
+    </div>
+</div>

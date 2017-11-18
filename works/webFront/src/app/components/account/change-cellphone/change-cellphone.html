@@ -1,0 +1,35 @@
+<form class="form-horizontal" #editForm="ngForm">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="form.oldCellPhone">原手机号：</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="tel" id="form.oldCellPhone" name="form.oldCellPhone" [(ngModel)]="form.oldCellPhone" (keyup)="form.oldCellPhone=$event.target.value"
+                [pattern]="regex['mobile']" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="form.cellPhone">变更手机号：</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="tel" id="form.cellPhone" name="form.cellPhone" [(ngModel)]="form.cellPhone" (keyup)="form.cellPhone=$event.target.value"
+                [pattern]="regex['mobile']" #formCellPhone="ngModel" required>
+        </div>
+    </div>
+    <div class="form-group" style="position: relative; margin-right: 0px;">
+        <label class="control-label col-sm-2" for="form.cellPhone" for="cellPhoneCode">手机验证码：</label>
+        <div class="col-sm-10" style="position:relative; padding-right:100px;">
+            <input class="form-control" type="text" name="cellPhoneCode" id="cellPhoneCode" maxlength="6" [(ngModel)]="form.cellPhoneCode"
+                (keyup)="form.cellPhoneCode=$event.target.value" [pattern]="regex['mobileCode']" required>
+            <mobile-code #mobilecode [transmit]="transmit">
+                <button mobile-code class="btn btn-info btn-sm text-center" style="position:absolute;top:0;right:0; line-height:23px; width:82px;"
+                    [disabled]="!mobilecode['flag'] || formCellPhone.invalid" (click)="setCode(mobilecode['flag']); mobilecode['timeStart']();">{{mobilecode['text']}}</button>
+            </mobile-code>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="form.confirmPwd"></label>
+        <div class="col-sm-10 m-t">
+            <div class="p-t b-t b-t-dashed"><button type="button" class="btn btn-info btn-md" [disabled]="!editForm.valid"
+                    (click)="submit()">确认修改</button></div>
+        </div>
+    </div>
+</form>

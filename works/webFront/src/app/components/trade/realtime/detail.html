@@ -1,0 +1,92 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">电子签购单</h4>
+            <button type="button" class="close pull-right" (click)="hide()"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body text-base">
+            <div class="container-fluid">
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">商户名称(MERCHANT NO)：</div>
+                    <div class="col-sm-8">{{items.mercName}}</div>
+                </div>
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">商户编号(MFRCHANT NO)：</div>
+                    <div class="col-sm-8">{{items.mercId}}</div>
+                </div>
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">终端编号(TERMINAL NO)：</div>
+                    <div class="col-sm-8">{{items.termId}}</div>
+                </div>
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">订单号(ORDER NO)：</div>
+                    <div class="col-sm-8">{{items.orderNo}}</div>
+                </div>
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">卡号(CARD NO)：</div>
+                    <div class="col-sm-8">{{items.cardNo}}</div>
+                </div>
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">卡类别(CARD TYPE)：</div>
+                    <div class="col-sm-8">{{items.debitInfoName}}</div>
+                </div>
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">日期时间(DATE/TIME)：</div>
+                    <div class="col-sm-8">{{items.tranDate}} {{items.tranTime}}</div>
+                </div>
+
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">网点名称：</div>
+                    <div class="col-sm-8">{{items.siteName}}</div>
+                </div>
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">交易日期：</div>
+                    <div class="col-sm-8">{{items.tranDate}}</div>
+                </div>
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">交易时间：</div>
+                    <div class="col-sm-8">{{items.tranTime}}</div>
+                </div>
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">授权号(AUTH NO)：</div>
+                    <div class="col-sm-8">{{items.autcod}}</div>
+                </div>
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">批次号(BATCH NO)：</div>
+                    <div class="col-sm-8">{{items.batNo}}</div>
+                </div>
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">系统参考号(REFER NO)：</div>
+                    <div class="col-sm-8">{{items.systemReferNo}}</div>
+                </div>
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">交易类型(TRANS TYPE)：</div>
+                    <div class="col-sm-8">{{items.tranTypeName}}</div>
+                </div>
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">交易状态(TRANS STAT)：</div>
+                    <div class="col-sm-8">{{items.tranStatusName}}</div>
+                </div>
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">交易项目(TRANS ITEM)：</div>
+                    <div class="col-sm-8"></div>
+                </div>
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">交易金额(AMOUNT)：</div>
+                    <div class="col-sm-8">{{items.tranAmount}}</div>
+                </div>
+                <div class="row m-t-sm p-b-sm b-b">
+                    <div class="col-sm-4 font-bold text-right p-r-none">电子签名(SIGNATURE)：</div>
+                    <div class="col-sm-8"></div>
+                </div>
+                <div class="row m-t-sm p-b-sm">
+                    <div class="col-sm-4 font-bold text-right p-r-none">备注(REFERENCE)：</div>
+                    <div class="col-sm-8">{{items.memo}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default btn-sm p-l p-r" (click)="hide()">关闭</button>
+        </div>
+    </div>
+</div>

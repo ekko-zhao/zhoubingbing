@@ -1,0 +1,14 @@
+<div class="lay-out" [ngClass]="{hide: !visible}">
+    <ul class="b r">
+        <li>
+            <label class="no-select"><span class="font-bold">全选</span><input class="hide" type="checkbox" name="checkboxControl" [(ngModel)]="checkboxControl" (ngModelChange)="checkboxAll(checkboxControl);"></label>
+            <span class="code font-bold" style="padding-left:20px">交易类型</span>
+        </li>
+        <li *ngFor="let item of itmes; let index = index;">
+            <label class="i-checks i-checks-sm">
+                <input type="checkbox" class="hide" [name]="'checkbox'+index" [(ngModel)]="checkbox[index]" (ngModelChange)="checkboxChange()"><i></i>
+                <span class="code">{{item.paramValue}}</span>
+            </label>
+        </li>
+    </ul>
+</div>

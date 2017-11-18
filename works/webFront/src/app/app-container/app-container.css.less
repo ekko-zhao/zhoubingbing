@@ -1,0 +1,13 @@
+.lay-out{
+    position: absolute; top: 122px; left: 0; bottom: 0; right: 0;
+    transition: margin-left 0.2s;
+
+    &.folded{
+        margin-left: -240px;
+    }
+}
+@media (max-width: 767px){
+    .lay-out{
+        top: 92px;
+    }
+}

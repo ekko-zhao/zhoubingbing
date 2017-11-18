@@ -1,0 +1,122 @@
+<div class="container-fluid p-b-sm m-b-lg b-b b-b-dashed">
+    <form class="search-form" #searchForm="ngForm">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label" for="form.mercId">商户号:</label>
+                <input type="text" class="form-control text-sm" id="form.mercId" name="form.mercId" [(ngModel)]="form.mercId" #formMercId
+                    [pattern]="regex.merchantNo" (keyup)="form.mercId=$event.target.value" (focus)="listMerchant['inputfocus']($event)">
+                <list-merchant #listMerchant [transmitinput]="formMercId" [transmitform]="form" transmitName="mercId" transmitTerm="termId"
+                    [transmitlistterminal]="listTerminal"></list-merchant>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label" for="form.termId">终端号:</label>
+                <input type="text" class="form-control text-sm" style="background-color:white; cursor:default;" id="form.termId" name="form.termId"
+                    [(ngModel)]="form.termId" #formTermId (keyup)="form.termId=$event.target.value" (focus)="listTerminal['inputfocus']($event)"
+                    readonly>
+                <list-terminal #listTerminal [transmitinput]="formTermId" [transmitform]="form" transmitName="termId" [transmitlisttermlist]="listMerchant['termList']"></list-terminal>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label" for="form.tranStartDate">交易起始日期:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control text-sm" style="background-color:white; cursor:default;" name="form.tranStartDate"
+                        id="form.tranStartDate" [(ngModel)]="form.tranStartDate" bsDatepicker #dpStart="bsDatepicker" [bsConfig]="{locale:'zh-cn', containerClass:'theme-dark-blue', dateInputFormat:'MM/DD/Y'}"
+                        readonly>
+                    <span class="input-group-addon el-click" (click)="dpStart.toggle()">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label" for="form.tranEndDate">交易终止日期:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control text-sm" style="background-color:white; cursor:default;" name="form.tranEndDate" id="form.tranEndDate"
+                        [(ngModel)]="form.tranEndDate" bsDatepicker #dpEnd="bsDatepicker" [bsConfig]="{locale:'zh-cn',containerClass:'theme-dark-blue', dateInputFormat:'MM/DD/Y'}"
+                        readonly>
+                    <span class="input-group-addon el-click" (click)="dpEnd.toggle()">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label">交易类型:</label>
+                <select class="form-control text-sm" name="form.tranType" [(ngModel)]="form.tranType">
+                    <option value="null">---请选择---</option>
+                    <option *ngFor="let option of selectList['TRANS_TYPE']" [value]="option.paramCode">{{option.paramValue}}</option>
+                </select>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label">交易状态:</label>
+                <select class="form-control text-sm" name="form.tranStatus" [(ngModel)]="form.tranStatus">
+                    <option value="null">---请选择---</option>
+                    <option *ngFor="let option of selectList['TRANS_STATUS']" [value]="option.paramCode">{{option.paramValue}}</option>
+                </select>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label" for="form.systemReferNo">系统参考号:</label>
+                <input type="text" class="form-control text-sm" id="form.systemReferNo" name="form.systemReferNo" [(ngModel)]="form.systemReferNo"
+                    (keyup)="form.systemReferNo=$event.target.value">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label" for="form.orderNo">订单号:</label>
+                <input type="text" class="form-control text-sm" id="form.orderNo" name="form.orderNo" [(ngModel)]="form.orderNo" (keyup)="form.orderNo=$event.target.value">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <button class="btn btn-info btn-sm p-l p-r m-r-sm" (click)="search($event)" type="submit" [disabled]="!searchForm.valid">查询</button>
+                <button class="btn btn-default btn-sm p-l p-r" (click)="reset()">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container-fluid m-b m-t-n-sm">
+    <div class="row">
+        <div class="col-xs-6 no-padder">
+        </div>
+        <div class="col-xs-6 no-padder text-right">
+            <div class="btn-group tabel-control">
+                <button class="btn btn-default" (click)="tableCustomStart()">
+                    <span class="icon-menuoption text-base"></span>
+                </button>
+                <div class="btn-group" dropdown>
+                    <button type="button" class="btn btn-default dropdown-toggle" dropdownToggle>
+                        <span class="icon-download text-md"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" *dropdownMenu role="menu">
+                        <li role="menuitem">
+                            <a class="dropdown-item text-center" [href]="'api/v1/transaction/exportExcel?'+tableSearch" target="_blank">xlsx 格式</a>
+                        </li>
+                        <li class="divider dropdown-divider"></li>
+                        <li role="menuitem">
+                            <a class="dropdown-item text-center" [href]="'api/v1/transaction/exportTxt?'+tableSearch" target="_blank">txt 格式</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="table-responsive table-wrap">
+    <table class="table nowrap table-striped table-hover">
+        <tbody>
+            <tr>
+                <th>序号</th>
+                <th *ngFor="let th of table.storage;">{{th.text}}</th>
+                <th>电子签购单</th>
+            </tr>
+            <tr *ngFor="let item of items; let index = index;">
+                <td>{{index+1}}</td>
+                <td *ngFor="let td of table.storage;">{{item[td.key]}}</td>
+                <td>
+                    <a class="btn btn-default btn-sm" (click)="transactionDetailStart(item['logNo'])">查看</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<app-pagination [paginationData]="paginationData" #appPagination></app-pagination>
+<app-modal #appModalCustom>
+    <table-custom class="modal-sample" #tableCustom [appModal]="appModalCustom" [transmit]="table" (onListen)="tableDone($event)"></table-custom>
+</app-modal>
+
+<app-modal #transactionDetailModal>
+    <transaction-detail class="modal-sample" #transactionDetail [appModal]="transactionDetailModal"></transaction-detail>
+</app-modal>

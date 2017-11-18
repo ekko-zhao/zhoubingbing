@@ -1,0 +1,9 @@
+<div class="lay-out" [ngClass]="{folded:myService.folded}">
+    <nav-aside></nav-aside>
+    <nav-aside-custom #navAsideCustom [transmit]="todayGeneral"></nav-aside-custom>
+    <app-router>
+        <sub-title></sub-title>
+        <today-general #todayGeneral [transmit]="navAsideCustom"></today-general>
+        <app-loading></app-loading>
+    </app-router>
+</div>

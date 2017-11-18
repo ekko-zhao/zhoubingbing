@@ -1,0 +1,48 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">批量添加</h4>
+            <button type="button" class="close pull-right" (click)="hide()"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <div class="m-t">
+                <div class="table-responsive table-wrap">
+                    <table class="table nowrap table-striped">
+                        <tbody>
+                            <tr>
+                                <th width="20%"></th>
+                                <th width="30%">文件名</th>
+                                <th width="15%">文件大小</th>
+                                <th>上传进度</th>
+                            </tr>
+                            <tr *ngFor="let item of uploader['queue']; let index = index;">
+                                <th></th>
+                                <td>{{item.file.name}}</td>
+                                <td>{{(item.file.size / 1024) | number:'1.0-2'}}kb</td>
+                                <td>{{item.progress | number:'1.0-0'}}%</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <a class="btn btn-default btn-sm" href="static/template/test.download.xlsx" download="test.download.xlsx">下载模板<i class="glyphicon glyphicon-download m-l-xs text-muted"></i></a>
+                                    <br>
+                                    <div class="inline overflow-hidden pos-rlt m-t">
+                                        <button class="btn btn-info btn-sm">上传模板<i class="glyphicon glyphicon-upload m-l-xs"></i></button>
+                                        <input class="transparent" style="position:absolute; top:0%; left:0; right:0%; bottom:0; width:100%;" type="file" #inputuploader
+                                            ng2FileSelect [uploader]="uploader" accept=".xlsx" multiple>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="m-t m-b-xs text-muted">1.下载模板</p>
+                <p class="m-b-xs text-muted">2.填写商户号和入款账号（后六位）后上传模板</p>
+                <p class="text-muted">3.点击又下方 确认添加 按钮</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-info btn-sm p-l p-r" (click)="submitAuto()">确认添加</button>
+            <button class="btn btn-default btn-sm p-l p-r" (click)="hide()">关闭</button>
+        </div>
+    </div>
+</div>

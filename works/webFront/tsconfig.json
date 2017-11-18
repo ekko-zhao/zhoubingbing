@@ -1,0 +1,40 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "outDir": "./dist",
+        "module": "es2015",
+        "sourceMap": false,
+        "declaration": false,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "removeComments": true,
+        "target": "es5",
+        "allowJs": true,
+        "baseUrl": "./",
+        "paths": {
+            "@service/*": [
+                "src/app/service/*"
+            ],
+            "@myCommon/*": [
+                "src/app/components/common/*"
+            ],
+            "@myDirective/*": [
+                "src/app/directive/*"
+            ]
+        },
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "lib": [
+            "es2016",
+            "dom"
+        ]
+    },
+    "exclude": [
+        "test.ts",
+        "**/*.spec.ts",
+        "src/assets/*",
+        "node_modules"
+    ]
+}

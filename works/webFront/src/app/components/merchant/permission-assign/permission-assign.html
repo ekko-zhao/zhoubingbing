@@ -1,0 +1,72 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">商终号权限配置</h4>
+            <button type="button" class="close pull-right" (click)="hide()"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid p-b-sm m-b-lg b-b b-b-dashed">
+                <form class="search-form" #searchForm="ngForm">
+                    <div class="row">
+                        <div class="col-md-6 col-md-4 form-group m-l-none">
+                            <label class="control-label" for="form.merchantNo"><span class="text-danger p-r-xs" *ngIf="transmit['type']==='222'">*</span>商户号:</label>
+                            <input type="text" class="form-control text-sm" id="form.merchantNo" name="form.merchantNo" [(ngModel)]="form.merchantNo"
+                                #formMerchantNo [pattern]="regex.merchantNo" (keyup)="form.merchantNo=$event.target.value" (focus)="listMerchant['inputfocus']($event)"
+                                [required]="transmit['type']==='222'">
+                            <list-merchant #listMerchant [transmitinput]="formMerchantNo" [transmitform]="form" transmitName="merchantNo" transmitTerm="terminalNo"
+                                [transmitlistterminal]="listTerminal"></list-merchant>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none" [ngClass]="{hide:transmit['type']!=='222'}">
+                            <label class="control-label" for="form.terminalNo">终端号:</label>
+                            <input type="text" class="form-control text-sm" style="background-color:white; cursor:default;" id="form.terminalNo" name="form.terminalNo"
+                                [(ngModel)]="form.terminalNo" #formTermId (keyup)="form.terminalNo=$event.target.value" (focus)="listTerminal['inputfocus']($event)"
+                                readonly>
+                            <list-terminal #listTerminal [transmitinput]="formTermId" [transmitform]="form" transmitName="terminalNo" [transmitlisttermlist]="listMerchant['termList']"></list-terminal>
+                        </div>
+                        <div class="col-md-6 col-md-4 form-group m-l-none">
+                            <label class="control-label"><span class="text-danger p-r-xs">*</span>商终号权限:</label>
+                            <select class="form-control text-sm" name="form.merchantPerms" [(ngModel)]="form.merchantPerms" required>
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 col-md-4 form-group m-l-none">
+                            <button class="btn btn-info btn-sm p-l p-r m-r-sm" (click)="search($event)" type="submit" [disabled]="!searchForm.valid">查询</button>
+                            <button class="btn btn-default btn-sm p-l p-r" (click)="reset()">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="container-fluid m-b m-t-n-sm">
+                <div class="row">
+                    <div class="col-xs-6 no-padder">
+                        <div class="btn-group r">
+                            <button class="btn btn-info text-sm" (click)="addAssign()" [disabled]="postForm['merchantPerms']==='1'">添加权限</button>
+                            <button class="btn btn-danger text-sm" (click)="delAssign()" [disabled]="postForm['merchantPerms']==='0'">删除权限</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive table-wrap">
+                <table class="table nowrap table-striped table-hover">
+                    <tbody>
+                        <tr>
+                            <th>序号</th>
+                            <th><label class="no-select">全选<input class="hide" type="checkbox" name="checkboxControl" [(ngModel)]="checkboxControl" (ngModelChange)="checkboxAll(checkboxControl);"></label></th>
+                            <th *ngFor="let th of table.storage;">{{th.text}}</th>
+                        </tr>
+                        <tr *ngFor="let item of items; let index = index;">
+                            <td>{{index+1}}</td>
+                            <td><label class="i-checks"><input type="checkbox" [name]="'checkbox'+index" [(ngModel)]="checkbox[index]" (ngModelChange)="checkboxChange()"><i></i></label></td>
+                            <td *ngFor="let td of table.storage;">{{item[td.key]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <app-pagination [paginationData]="paginationData" #appPagination></app-pagination>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default btn-sm p-l p-r" (click)="hide()">关闭</button>
+        </div>
+    </div>
+</div>

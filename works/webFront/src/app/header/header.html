@@ -1,0 +1,37 @@
+<div class="layout container-fluid" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" (click)="isCollapsed = !isCollapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand block no-select" [routerLink]="['/']">
+            <span class="icon-logo" style="font-size:25px"></span>
+            <p class="hidden-xs">联想控股成员企业</p>
+        </a>
+    </div>
+    <div class="navbar-collapse">
+        <div class="info no-select point-default">
+            <p class="name">商户服务中心</p>
+            <p class="tel">客服热线：95016</p>
+        </div>
+        <div class="nav-wrap">
+            <ul class="navgation no-select" [@slideInOut]="isCollapsed?false:true">
+                <li class="active"><a href="./app.html">我的商服中心</a></li>
+                <li><a href="https://mall.lakala.com/" target="_blank">拉卡拉商城</a></li>
+                <li><a href="http://www.lakala.com/product/index.html" target="_blank">产品中心</a></li>
+                <li dropdown>
+                    <a [routerLink]="[]" dropdownToggle>联系我们</a>
+                    <ul *dropdownMenu class="nav-sub dropdown-menu" role="menu">
+                        <li></li>
+                        <li><a href="http://www.lakala.com/contact/index.html" target="_blank">联系我们</a></li>
+                        <li><a href="#">关于我们</a></li>
+                        <li><a href="#">帮助中心</a></li>
+                        <li><a href="#">版本:v1.1.11</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

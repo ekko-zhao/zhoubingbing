@@ -1,0 +1,53 @@
+<div class="container-fluid lay-out b m-b-md">
+    <div class="row" [ngClass]="{hide:myService.path!=='general'}">
+        <div class="col-md-4">
+            <p class="text-base p-t-md">个人信息<span class="hidden-md hidden-lg">：</span></p>
+            <div class="base-info">
+                <p class="text-md font-bold m-b-xs p-t-xs" style="color:#5c6267;">{{timeText}}！{{myService.getUsername()}}</p>
+                <p class="time text-ellipsis text-muted">上次登录时间：{{userData['lastLoginTime']}}</p>
+                <div>
+                    <a [routerLink]="['/account/change-password']" class="btn btn-sm btn-info m-t-xs m-r">安全设置</a>
+                    <button type="button" class="btn btn-sm btn-info m-t-xs" (click)="quit()">退出</button>
+                </div>
+                <span class="user icon-user"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <p class="text-base m-b-none p-t-md">今日数据<span class="hidden-md hidden-lg">：</span></p>
+            <div class="data text-ellipsis" (click)="getSettleCount()" *ngIf="systodaysettlementmoney"><span class="text">今日结算金额</span><span class="number">{{settleCount}}</span>元</div>
+            <div class="data text-ellipsis" (click)="getTransferCount()" *ngIf="systodaytransfermoney"><span class="text">今日划款金额</span><span class="number">{{transferCount}}</span>元</div>
+            <div class="data text-ellipsis" (click)="getTradeCount()" *ngIf="systodaytransactiondata"><span class="text">今日交易数据</span><span class="number">{{tradeCount.count}}</span>笔 / <span class="number">{{tradeCount.tranAmount}}</span>元</div>
+        </div>
+        <div class="col-md-4">
+            <p class="text-base m-b-none p-t-md">快捷菜单<span class="hidden-md hidden-lg">：</span></p>
+            <div class="container-fluid menu">
+                <div class="row">
+                    <div class="col-xs-6" *ngFor="let item of customItems; let index = index; trackBy: trackByfn;" [ngClass]="{hide:index>5}">
+                        <div class="content">
+                            <a [routerLink]="" (click)="routerUrl(item.url)">{{item.name}}</a>
+                            <span class="icon-edit" (click)="editMenuCustom()" [ngClass]="{hide:myService['menuCustomVisible']}"></span>
+                            <span class="icon-delete" (click)="saveMenuCustom(index)" [ngClass]="{hide:myService['menuCustomVisible']}"></span>
+                        </div>
+                    </div>
+                    <div class="col-xs-6" *ngIf="customItems.length<6">
+                        <div class="content">
+                            <a [routerLink]="" (click)="editMenuCustom()" [ngClass]="{hide:myService['menuCustomVisible']}"><img src="../../assets/svg/plus-sub.svg" width="14"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row simpleData" [ngClass]="{hide:myService.path==='general'}">
+        <p class="text-base title">今日数据：</p>
+        <div class="col-md-4" *ngIf="systodaysettlementmoney">
+            <div class="data text-ellipsis" (click)="getSettleCount()"><span class="text">今日结算金额</span><span class="number">{{settleCount}}</span>元</div>
+        </div>
+        <div class="col-md-4" *ngIf="systodaytransfermoney">
+            <div class="data text-ellipsis" (click)="getTransferCount()"><span class="text">今日划款金额</span><span class="number">{{transferCount}}</span>元</div>
+        </div>
+        <div class="col-md-4" *ngIf="systodaytransactiondata">
+            <div class="data text-ellipsis" (click)="getTradeCount()"><span class="text">今日交易数据</span><span class="number">{{tradeCount.count}}</span>笔 / <span class="number">{{tradeCount.tranAmount}}</span>元</div>
+        </div>
+    </div>
+</div>

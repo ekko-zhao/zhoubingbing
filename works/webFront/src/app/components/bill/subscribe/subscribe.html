@@ -1,0 +1,37 @@
+<form class="form-horizontal" #editForm="ngForm">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="form.subscriptionMail">订阅邮箱：</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control text-sm" id="form.subscriptionMail" name="form.subscriptionMail" [(ngModel)]="form.subscriptionMail"
+                [pattern]="regex.email" (keyup)="form.subscriptionMail=$event.target.value" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="form.cellPhone">手机号：</label>
+        <div class="col-sm-10">
+            <input type="text" #cellPhone="ngModel" class="form-control text-sm" id="form.cellPhone" name="form.cellPhone" [(ngModel)]="form.cellPhone" [pattern]="regex.mobile"
+                (keyup)="form.cellPhone=$event.target.value" required>
+                <p class="text-muted m-t-xs m-b-none">手机号用于接收订阅到期提醒</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="form.cellPhone">订阅周期：</label>
+        <div class="col-sm-10 m-t-xs">
+            <label class="i-checks i-checks-sm font-normal m-r"><input type="radio" name="form.period" [(ngModel)]="form.period" value="ONE_MONTH" required><i></i>一个月</label>
+            <label class="i-checks i-checks-sm font-normal m-r"><input type="radio" name="form.period" [(ngModel)]="form.period" value="THREE_MONTH" required><i></i>三个月</label>
+            <label class="i-checks i-checks-sm font-normal m-r"><input type="radio" name="form.period" [(ngModel)]="form.period" value="SIX_MONTH" required><i></i>六个月</label>
+            <label class="i-checks i-checks-sm font-normal m-r"><input type="radio" name="form.period" [(ngModel)]="form.period" value="ONE_YEAR" required><i></i>十二个月</label>
+            <p *ngIf="!subscribe && form.period">订阅周期是起始时间为今日至最近的 {{ form.period=='ONE_MONTH'?'一': (form.period=='THREE_MONTH'? '三': (form.period=='SIX_MONTH'? '六': (form.period=='ONE_YEAR'? '十二':'') )) }} 个月内</p>
+            <p *ngIf="subscribe">您上一次选择的订阅周期： {{form.startDate}} 至 {{form.endDate}} </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <div class="p-t b-t b-t-dashed">
+                <button type="button" class="btn btn-info btn-md m-l" [disabled]="!editForm.valid" (click)="submit()">订阅</button>
+                <button type="button m-l-sm" class="btn btn-info btn-md m-l" [disabled]="!editForm.valid" (click)="submit()" *ngIf="subscribe || subscribeSuccess" (click)="updateState()">取消订阅</button>
+            </div>
+        </div>
+    </div>
+</form>

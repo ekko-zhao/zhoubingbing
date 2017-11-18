@@ -1,0 +1,61 @@
+<div class="container-fluid p-b-sm m-b-lg b-b b-b-dashed">
+    <form class="search-form" #searchForm="ngForm">
+        <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+            <label class="control-label" for="form.mercId">商户号:</label>
+            <input type="text" class="form-control text-sm" id="form.mercId" name="form.mercId" [(ngModel)]="form.mercId" #formMercId
+                [pattern]="regex.merchantNo" (keyup)="form.mercId=$event.target.value" (focus)="listMerchant['inputfocus']($event)">
+            <list-merchant #listMerchant [transmitinput]="formMercId" [transmitform]="form" transmitName="mercId"></list-merchant>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+            <label class="control-label" for="form.startDate">交易起始日期:</label>
+            <div class="input-group">
+                <input type="text" class="form-control text-sm" style="background-color:white; cursor:default;" name="form.startDate" id="form.startDate"
+                    [(ngModel)]="form.startDate" bsDatepicker #dpStart="bsDatepicker" [bsConfig]="{locale:'zh-cn', containerClass:'theme-dark-blue', dateInputFormat:'MM/DD/Y'}"
+                    readonly>
+                <span class="input-group-addon el-click" (click)="dpStart.toggle()"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+            <label class="control-label" for="form.endDate">交易终止日期:</label>
+            <div class="input-group">
+                <input type="text" class="form-control text-sm" style="background-color:white; cursor:default;" name="form.endDate" id="form.endDate"
+                    [(ngModel)]="form.endDate" bsDatepicker #dpEnd="bsDatepicker" [bsConfig]="{locale:'zh-cn',containerClass:'theme-dark-blue', dateInputFormat:'MM/DD/Y'}"
+                    readonly>
+                <span class="input-group-addon el-click" (click)="dpEnd.toggle()"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+            <label class="control-label">是否勾选直联:</label>
+            <select class="form-control text-sm" name="form.isDirect" [(ngModel)]="form.isDirect">
+                <option value="1">是</option>
+                <option value="0">否</option>
+            </select>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none hide">
+            <label class="control-label">支付场景:</label>
+            <input type="text" class="form-control text-sm" style="background-color:white; cursor:default;" name="form.tranType" [(ngModel)]="form.tranType">
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none" [ngClass]="{hide:form.isDirect==='1'}">
+            <label class="control-label" for="form.tranTypeName">支付场景:</label>
+            <input type="text" class="form-control text-sm" style="background-color:white; cursor:default;" id="form.tranTypeName" name="form.tranTypeName"
+                [(ngModel)]="form.tranTypeName" #formTranTypeName (keyup)="form.tranTypeName=$event.target.value" (focus)="tranTypeCheckbox['inputfocus']($event)"
+                readonly>
+            <tran-type-checkbox #tranTypeCheckbox [transmitinput]="formTranTypeName" [transmitform]="form" transmitName="tranTypeName"
+                transmitId="tranType"></tran-type-checkbox>
+            <div style="position:absolute; right:-12px; top:0; z-index:9;">
+                <button type="button" class="btn btn-default round text-muted" style="padding:0 6px;" popover="请选择多天交易日期" triggers="mouseenter:mouseleave"
+                    container="body">?</button>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+            <button class="btn btn-info btn-sm p-l p-r m-r-sm" (click)="search($event)" type="submit" [disabled]="!searchForm.valid">查询</button>
+            <button class="btn btn-default btn-sm p-l p-r" (click)="reset()">重置</button>
+        </div>
+    </form>
+</div>
+
+<div class="btn-group">
+    <button type="button" class="btn btn-default text-sm" (click)="hChartsConfig('amount')">按金额</button>
+    <button type="button" class="btn btn-default text-sm" (click)="hChartsConfig('count')">按笔数</button>
+</div>
+<div #chart style="width:100%;height:400px;"></div>

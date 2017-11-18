@@ -1,0 +1,14 @@
+<div class="text-right" [ngClass]="{hide:data.totalItems==0}">
+    <div class="inline" style="vertical-align:middle; padding-top:1px;">
+        <pagination [boundaryLinks]="data.boundaryLinks" [totalItems]="data.totalItems" [(ngModel)]="data.currentPage" (pageChanged)="data.pageChanged($event)"
+            [itemsPerPage]="data.itemsPerPage" [firstText]="data.firstText" [lastText]="data.lastText" [maxSize]="data.maxSize"
+            [previousText]="data.previousText" [nextText]="data.nextText" [rotate]="data.rotate"> </pagination>
+    </div>
+    <form class="inline">
+        <input type="text" class="form-control page b-ddd" name="form.page" [(ngModel)]="form.page" (keyup)="form.page=$event.target.value" #formPage="ngModel" pattern="^[0-9]*$">
+        <button class="btn btn-default btn-sm" [disabled]="formPage.invalid" (click)="setPage(form.page)" type="submit">Go</button>
+    </form>
+</div>
+<p class="text-center text-base text-muted m-t-md m-b-md" [ngClass]="{hide:data.totalItems>0}">
+    暂无数据
+</p>

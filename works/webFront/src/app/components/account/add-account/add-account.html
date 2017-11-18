@@ -1,0 +1,43 @@
+<form class="form-horizontal" #editForm="ngForm">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="form.name">BMCP账号的用户名：</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" id="form.name" name="form.name" [(ngModel)]="form.name" (keyup)="form.name=$event.target.value"
+                required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="form.contactName">BMCP账号的联系人：</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="tel" id="form.contactName" name="form.contactName" [(ngModel)]="form.contactName" (keyup)="form.contactName=$event.target.value"
+                required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="form.cellPhone">BMCP账号的绑定手机号：</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" id="form.cellPhone" name="form.cellPhone" [(ngModel)]="form.cellPhone" (keyup)="form.cellPhone=$event.target.value"
+                [pattern]="regex['mobile']" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="form.email">BMCP账号的邮箱：</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="email" id="form.email" name="form.email" [(ngModel)]="form.email" (keyup)="form.email=$event.target.value"
+                [pattern]="regex['email']" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="form.orgNo">所属机构号：</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" id="form.orgNo" name="form.orgNo" [(ngModel)]="form.orgNo" (keyup)="form.orgNo=$event.target.value"
+                required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2"></label>
+        <div class="col-sm-10 m-t">
+            <div class="p-t b-t b-t-dashed"><button type="button" class="btn btn-info btn-md" [disabled]="!editForm.valid" (click)="submit()">创建</button></div>
+        </div>
+    </div>
+</form>

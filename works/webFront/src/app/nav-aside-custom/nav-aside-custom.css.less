@@ -1,0 +1,126 @@
+.layout {
+    position: absolute; top: 0; left: 0;
+    /* float: left; */
+    height:100%; width: 240px;
+    background-color: #ffffff;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.06);
+    padding-bottom: 60px;
+}
+.nav-wrap{
+    position: absolute; top: 0; bottom: 60px; left: 0; width: 100%; overflow: auto;
+}
+.bottom-box{
+    padding-top: 10px;
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 60px;
+}
+
+ul.navigation{
+    padding-top: 36px;
+    > li{
+        border-top: 1px #b4bfc2 solid;
+
+        >a{
+            display: block; line-height: 50px; padding-left: 50px; padding-right: 50px; position: relative;
+            &:hover{
+                background-color: darken(#ffffff, 4%);
+            }
+            .icon{
+                position: absolute; left: 0; top: 0; bottom: 0;
+                width: 50px; text-align: center; font-size: 18px; color: #5a6265;
+                &:before{
+                    line-height: 50px;
+                }
+                &.icon-general{ font-size: 16px; }
+                &.icon-trade{ font-size: 20px; }
+                &.icon-accounting{ font-size: 22px; }
+                &.icon-transfer{ font-size: 15px; }
+                &.icon-bill{ font-size: 20px; }
+                &.icon-data{ font-size: 16px; }
+            }
+
+
+            .img{
+                position: absolute; right: 0; top: 0; bottom: 0;
+                width: 50px; text-align: center;
+            }
+        }
+
+        // 当前选择菜单
+        &.at{
+            >a:before{
+                content: '';
+                position: absolute; top: 0; left: 0; bottom: 0; width: 4px; background-color: #00b0ec;
+            }
+        }
+
+    }
+}
+
+ul.nav-sub{  background-color: #dce3e6;
+    li{
+        >.checks-custom{ position: absolute; top: 10px; left: 10px;}
+        >a{
+            position: relative; display: block; line-height: 40px; padding-left: 50px;
+            &.at{
+                color: #1abdf5;
+            }
+            &:hover{
+                background-color: darken(#dce3e6, 4%);
+            }
+            &:after{
+                content: ''; position: absolute; bottom: 0; left: 50px; right: 0;
+                border-bottom: 1px #b8c2c6 solid;
+            }
+
+            >.text{
+                display: block; padding-left: 15px;
+            }
+            .img{
+                position: absolute; right: 0; top: 0; bottom: 0;
+                width: 50px; text-align: center;
+            }
+        }
+        &:last-child{
+            >a{
+                &:after{
+                    border-bottom: none;
+                }
+            }
+            // 三级菜单样式
+            .nav-sub-child:after{
+                bottom: auto; top: 0;
+                border-bottom: none;
+                border-top: 1px #b8c2c6 solid;
+            }
+        }
+    }
+    .nav-sub-child{ position: relative;
+        &:after{
+            content: ''; position: absolute; bottom: 0; left: 50px; right: 0;
+            border-bottom: 1px #b8c2c6 solid;
+        }
+
+        li{
+            &:first-child { padding-top: 10px;
+                >.checks-custom{ top: 15px; }
+            }
+            &:last-child { padding-bottom: 10px;}
+            >.checks-custom{ position: absolute; top: 5px; left: 10px;}
+            >a{
+                line-height: 30px; color: #626a6f; padding-left: 65px;
+                &.at{
+                    color: #1abdf5;
+                }
+                &:after{
+                    border-bottom: none;
+                }
+            }
+        }
+    }
+}
+
+
+
+@media (max-width:767px) {
+    .layout { top:92px; }
+}

@@ -1,0 +1,67 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">新增子账号</h4>
+            <button type="button" class="close pull-right" (click)="hide()"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" #editForm="ngForm">
+                <div class="form-group">
+                    <label class="control-label col-sm-2">子帐号类型：</label>
+                    <div class="col-sm-10">
+                        <select class="form-control text-sm" name="form.type" [(ngModel)]="form.type" required>
+                        <option value="null">---请选择---</option>
+                        <option value="111">一级子帐号</option>
+                        <option value="222">二级子帐号</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="form.name.add">用户名：</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" id="form.name.add" name="form.name" [(ngModel)]="form.name" validateUsername (keyup)="form.name=$event.target.value"
+                            #thinputname="ngModel" required>
+                        <p class="error text-xs m-t-xs m-b-n-sm" *ngIf="thinputname.invalid && thinputname.dirty">6~30位字符，只能包含中文（一个中文占两个字符）、英文字母（区分大小写）、数字、下划线_,但不能只使用下划线,且下划线不能作为首字符</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="form.contactName.add">联系人：</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" id="form.contactName.add" name="form.contactName" [(ngModel)]="form.contactName"
+                            (keyup)="form.contactName=$event.target.value" required>
+
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="form.cellPhone.add">手机号：</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" id="form.cellPhone.add" name="form.cellPhone" [(ngModel)]="form.cellPhone" (keyup)="form.cellPhone=$event.target.value"
+                            [pattern]="regex['mobile']" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="form.password.add">初始密码：</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="password" id="form.password.add" name="form.password" maxlength="32" [(ngModel)]="form.password"
+                            (keyup)="form.password=$event.target.value" [pattern]="regex['password']" #password="ngModel" required>
+                        <p class="error text-xs m-t-xs m-b-none" *ngIf="password.invalid && password.dirty">大写字母、小写字母、数字、特殊符号必须包含其中三种组合，最短8位，最长16位</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="form.confirmPwd.add">确认密码：</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="password" id="form.confirmPwd.add" name="form.confirmPwd" [(ngModel)]="form.confirmPwd"
+                            (keyup)="form.confirmPwd=$event.target.value" #confirmPwd="ngModel" required>
+                        <p class="error text-xs m-t-xs m-b-none" *ngIf="password['value']!==confirmPwd['value'] && confirmPwd['dirty'] ">两次输入的密码不一致</p>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-info btn-sm p-l p-r" [disabled]="!editForm.valid || password['value']!==confirmPwd['value'] " (click)="submit()">新增</button>
+            <button class="btn btn-default btn-sm p-l p-r" (click)="hide()">关闭</button>
+        </div>
+    </div>
+</div>

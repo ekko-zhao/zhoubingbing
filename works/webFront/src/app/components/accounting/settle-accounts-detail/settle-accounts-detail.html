@@ -1,0 +1,86 @@
+<div class="container-fluid p-b-sm m-b-lg b-b b-b-dashed">
+    <form class="search-form" #searchForm="ngForm">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label" for="form.mercId">商户号:</label>
+                <input type="text" class="form-control text-sm" id="form.mercId" name="form.mercId" [(ngModel)]="form.mercId" #formMercId
+                    [pattern]="regex.merchantNo" (keyup)="form.mercId=$event.target.value" (focus)="listMerchant['inputfocus']($event)">
+                <list-merchant #listMerchant [transmitinput]="formMercId" [transmitform]="form" transmitName="mercId" transmitTerm="termId"
+                    [transmitlistterminal]="listTerminal"></list-merchant>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label" for="form.termId">终端号:</label>
+                <input type="text" class="form-control text-sm" style="background-color:white; cursor:default;" id="form.termId" name="form.termId"
+                    [(ngModel)]="form.termId" #formTermId (keyup)="form.termId=$event.target.value" (focus)="listTerminal['inputfocus']($event)"
+                    readonly>
+                <list-terminal #listTerminal [transmitinput]="formTermId" [transmitform]="form" transmitName="termId" [transmitlisttermlist]="listMerchant['termList']"></list-terminal>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label" for="form.liqStartDate">结算起始日期:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control text-sm" style="background-color:white; cursor:default;" name="form.liqStartDate"
+                        id="form.liqStartDate" [(ngModel)]="form.liqStartDate" bsDatepicker #dpStart="bsDatepicker" [bsConfig]="{locale:'zh-cn', containerClass:'theme-dark-blue', dateInputFormat:'MM/DD/Y'}"
+                        readonly>
+                    <span class="input-group-addon el-click" (click)="dpStart.toggle()"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label" for="form.liqEndDate">结算终止日期:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control text-sm" style="background-color:white; cursor:default;" name="form.liqEndDate" id="form.liqEndDate"
+                        [(ngModel)]="form.liqEndDate" bsDatepicker #dpEnd="bsDatepicker" [bsConfig]="{locale:'zh-cn',containerClass:'theme-dark-blue', dateInputFormat:'MM/DD/Y'}"
+                        readonly>
+                    <span class="input-group-addon el-click" (click)="dpEnd.toggle()"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <button class="btn btn-info btn-sm p-l p-r m-r-sm" (click)="search($event)" type="submit" [disabled]="!searchForm.valid">查询</button>
+                <button class="btn btn-default btn-sm p-l p-r" (click)="reset()">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container-fluid m-b m-t-n-sm">
+    <div class="row">
+        <div class="col-xs-6 no-padder">
+        </div>
+        <div class="col-xs-6 no-padder text-right">
+            <div class="btn-group tabel-control">
+                <button class="btn btn-default" (click)="tableCustomStart()"><span class="icon-menuoption text-base"></span></button>
+                <div class="btn-group" dropdown>
+                    <button type="button" class="btn btn-default dropdown-toggle" dropdownToggle><span class="icon-download text-md"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right" *dropdownMenu role="menu">
+                        <li role="menuitem"><a class="dropdown-item text-center" [href]="'api/v1/settlement/settlementDetail/exportExcel?'+tableSearch"
+                                target="_blank">xlsx 格式</a></li>
+                        <li class="divider dropdown-divider"></li>
+                        <li role="menuitem"><a class="dropdown-item text-center" [href]="'api/v1/settlement/settlementDetail/exportTxt?'+tableSearch"
+                                target="_blank">txt 格式</a></li>
+                        <li class="divider dropdown-divider"></li>
+                        <li role="menuitem"><a class="dropdown-item text-center" [href]="'api/v1/settlement/settlementDetail/exportPdf?'+tableSearch"
+                                target="_blank">PDF 格式</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="table-responsive table-wrap">
+    <table class="table nowrap table-striped table-hover">
+        <tbody>
+            <tr>
+                <th>序号</th>
+                <th *ngFor="let th of table.storage;">{{th.text}}</th>
+            </tr>
+            <tr *ngFor="let item of items; let index = index;">
+                <td>{{index+1}}</td>
+                <td *ngFor="let td of table.storage;">{{item[td.key]}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="p-t-sm m-b-n-sm" [ngClass]="{hide: (items?.length <= 0)}"><span class="text-warning font-bold">汇总：</span>笔数 <span class="text-warning font-bold">{{phCount.count}}</span>、交易金额
+    <span class="text-warning font-bold">{{phCount.tranAmount}}</span> 元、手续费 <span class="text-warning font-bold">{{phCount.fee}}</span>    元、结算金额 <span class="text-warning font-bold">{{phCount.liqAmount}}</span> 元</div>
+<app-pagination [paginationData]="paginationData" #appPagination></app-pagination>
+<app-modal #appModalCustom>
+    <table-custom class="modal-sample" #tableCustom [appModal]="appModalCustom" [transmit]="table" (onListen)="tableDone($event)"></table-custom>
+</app-modal>

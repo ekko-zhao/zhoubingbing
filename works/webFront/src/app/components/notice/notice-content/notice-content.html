@@ -1,0 +1,42 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">公告详情</h4>
+            <button type="button" class="close pull-right" (click)="hide()"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body text-base">
+            <h3 class="text-center font-bold">{{item['noticeName']}}</h3>
+            <div class="content m-t-sm">
+                <b class="title" style="padding-left:14px;">发布人：</b>{{item['createUser']}}
+            </div>
+            <div class="content m-t-sm">
+                <b class="title">发布时间：</b>{{item['createTime']}}
+            </div>
+            <div class="content m-t-sm">
+                <b class="title">公告内容：</b>
+                <div class="p-b" [innerHtml]="content" style="min-height:100px;"></div>
+            </div>
+            <div class="content m-t-sm" style="min-height:20px;">
+                <b class="title">附件列表：</b>
+                <div class="b-t" [ngClass]="{hide:item['attachmentEntityList']?.length==0}">
+                    <table class="table b table-striped m-b-none">
+                        <tr>
+                            <th style="width:30%;">文件名</th>
+                            <th style="width:20%;">文件大小</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr *ngFor="let item of item['attachmentEntityList']; let index = index;">
+                            <td>{{item.fileName}}</td>
+                            <td>{{item.fileSize}}</td>
+                            <!-- <td><a class="btn btn-default btn-sm" [href]="sanitizer.bypassSecurityTrustUrl(item.filePath)" download="{{item.fileName}}">下载</a></td> -->
+                            <td><a class="btn btn-default btn-sm" [href]="sanitizer.bypassSecurityTrustUrl('api/v1/notice/fileDownload/'+item.id)" target="_blank">下载</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default btn-sm p-l p-r" (click)="hide()">关闭</button>
+        </div>
+    </div>
+</div>

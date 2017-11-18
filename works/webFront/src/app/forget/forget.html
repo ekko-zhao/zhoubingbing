@@ -1,0 +1,43 @@
+<div class="lay-out">
+    <p class="text-center text-lg m-t">找回密码</p>
+    <form class="p-t" #editForm="ngForm">
+        <div class="form-group p-b-sm r">
+            <div class="input-group"> <span class="input-group-addon icon-loginuser text-lg text-muted"></span>
+                <input class="form-control r" type="text" name="name" [(ngModel)]="form.name" (keyup)="form.name=$event.target.value" placeholder="用户名"
+                    required>
+            </div>
+        </div>
+        <div class="form-group p-b-sm r">
+            <div class="input-group"> <span class="input-group-addon icon-loginuser text-lg text-muted"></span>
+                <input class="form-control r" type="tel" name="cellPhone" [(ngModel)]="form.cellPhone" (keyup)="form.cellPhone=$event.target.value"
+                    placeholder="手机号" [pattern]="regex['mobile']" required>
+            </div>
+        </div>
+        <div class="form-group p-b-sm r">
+            <div style="padding-right:170px; position: relative;">
+                <div class="input-group"> <span class="input-group-addon icon-logincode text-lg text-muted"></span>
+                    <input class="form-control r" type="text" name="captcha" [(ngModel)]="form.captcha" (keyup)="form.captcha=$event.target.value"
+                        placeholder="验证码" required>
+                </div>
+                <img class="getVCode" src="{{codeSrc}}" (click)="getVCode()">
+                <span class="getVText text-info" (click)="getVCode()">换一张</span>
+            </div>
+        </div>
+
+        <div class="form-group form-group-lg p-b-sm r">
+            <button type="submit" class="btn btn-info btn-lg w-full" [disabled]="!editForm.valid" (click)="submit()">找回密码<span class="loading_button" [ngClass]="{hide:submitflag}"><img src="../../assets/images/loading_button.gif"></span></button>
+        </div>
+        <div class="form-group form-group-lg">
+            <div class="row">
+                <div class="col-xs-6">
+                </div>
+                <div class="col-xs-6 text-right"><a href="index.html" class="m-l-xs text-info">账户登陆</a></div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="text-center text-sm m-t p-b">
+    <a class="padder text-muted" href="index.html">返回首页</a><span class="text-muteder">|</span>
+    <a class="padder text-muted" href="http://www.lakala.com/about/index.html" target="_blank">关于拉卡拉</a><span class="text-muteder">|</span>
+    <a class="padder text-muted" href="https://mall.lakala.com/" target="_blank">拉卡拉商城</a>
+</div>

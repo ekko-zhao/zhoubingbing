@@ -1,0 +1,105 @@
+<div class="container-fluid p-b-sm m-b-lg b-b b-b-dashed">
+    <form class="search-form" #searchForm="ngForm">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label" for="form.name">用户名:</label>
+                <input type="text" class="form-control" id="form.name" name="form.name" [(ngModel)]="form.name" (keyup)="form.name=$event.target.value">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label" for="form.cellPhone">手机号:</label>
+                <input type="text" class="form-control" id="form.cellPhone" name="form.cellPhone" [(ngModel)]="form.cellPhone" (keyup)="form.cellPhone=$event.target.value"
+                    [pattern]="regex.mobile">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label" for="form.orgNo">所属机构号:</label>
+                <input type="text" class="form-control" id="form.orgNo" name="form.orgNo" [(ngModel)]="form.orgNo" (keyup)="form.orgNo=$event.target.value">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label" for="form.parentName">所属主账号:</label>
+                <input type="text" class="form-control" id="form.parentName" name="form.parentName" [(ngModel)]="form.parentName" (keyup)="form.parentName=$event.target.value">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <label class="control-label">账号类型:</label>
+                <select class="form-control text-sm" name="form.type" [(ngModel)]="form.type">
+                    <option value="null">---请选择---</option>
+                    <option *ngFor="let option of selectList['USER_TYPE']" [value]="option.paramCode">{{option.paramValue}}</option>
+                </select>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group m-l-none">
+                <button class="btn btn-info btn-sm p-l p-r m-r-sm" (click)="search($event)" type="submit" [disabled]="!searchForm.valid">查询</button>
+                <button class="btn btn-default btn-sm p-l p-r" (click)="reset()">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container-fluid m-b m-t-n-sm">
+    <div class="row">
+        <div class="col-xs-6 no-padder">
+            <div class="btn-group r">
+                <button class="btn btn-warning text-sm" (click)="activateData()">激活</button><button class="btn btn-danger text-sm" (click)="deleteData()">注销</button>
+            </div>
+        </div>
+        <div class="col-xs-6 no-padder text-right">
+            <div class="btn-group tabel-control">
+                <button class="btn btn-default" (click)="tableCustomStart()"><span class="icon-menuoption text-base"></span></button>
+                <div class="btn-group" dropdown>
+                    <button type="button" class="btn btn-default dropdown-toggle" dropdownToggle><span class="icon-download text-md"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right" *dropdownMenu role="menu">
+                        <li role="menuitem"><a class="dropdown-item text-center" [href]="'api/v1/user/admin/exportExcel?'+tableSearch" target="_blank">xlsx 格式</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="table-responsive table-wrap">
+    <table class="table nowrap table-striped table-hover">
+        <tbody>
+            <tr>
+                <th>序号</th>
+                <th><label class="no-select">全选<input class="hide" type="checkbox" name="checkboxControl" [(ngModel)]="checkboxControl" (ngModelChange)="checkboxAll(checkboxControl);"></label></th>
+                <th *ngFor="let th of table.storage;">{{th.text}}</th>
+                <th>子账号信息</th>
+                <th>账号信息变更</th>
+                <th>商终号权限配置</th>
+            </tr>
+            <tr *ngFor="let item of items; let index = index;">
+                <td>{{index+1}}</td>
+                <td><label class="i-checks" *ngIf="item['type']==='300'"><input type="checkbox" [name]="'checkbox'+index" [(ngModel)]="checkbox[index]" (ngModelChange)="checkboxChange()"><i></i></label></td>
+                <td *ngFor="let td of table.storage;">{{item[td.key]}}</td>
+                <td><button class="btn btn-default btn-sm" *ngIf="item['type']==='200'" (click)="subaccountListStart(item['userId'])">子账号列表</button></td>
+                <td><button class="btn btn-default btn-sm" *ngIf="item['type']==='200' || item['type']==='300'" (click)="modifyMobileStart(item)">修改手机号</button></td>
+                <td><button class="btn btn-default btn-sm" *ngIf="item['type']==='200' || item['type']==='111' || item['type']==='222'"
+                        (click)="merchantListStart(item)">查看</button>
+                    <button class="btn btn-default btn-sm m-l-sm" *ngIf="item['type']==='200'" (click)="batchAddStart(item)">批量添加</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<app-pagination [paginationData]="paginationData" #appPagination></app-pagination>
+
+<!-- 表头定制 -->
+<app-modal #appModalCustom>
+    <table-custom class="modal-sample" #tableCustom [appModal]="appModalCustom" [transmit]="table" (onListen)="tableDone($event)"></table-custom>
+</app-modal>
+
+<!-- 子账号列表 -->
+<app-modal #appModalAccount>
+    <subaccount-list #subaccountList class="modal-sample" [appModal]="appModalAccount"></subaccount-list>
+</app-modal>
+
+<!-- 修改手机号 -->
+<app-modal #modifyMobileModal>
+    <change-cellphone-modal #modifyMobile class="modal-sample" [appModal]="modifyMobileModal" (onListen)="search($event)"></change-cellphone-modal>
+</app-modal>
+
+<!-- 查看商终 -->
+<app-modal #merchantListModal>
+    <merchant-list #merchantList class="modal-sample" [appModal]="merchantListModal"></merchant-list>
+</app-modal>
+
+<!-- 批量添加 -->
+<app-modal #batchAddModal>
+    <batch-add #batchAdd class="modal-sample" [appModal]="batchAddModal"></batch-add>
+</app-modal>

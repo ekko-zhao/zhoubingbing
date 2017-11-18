@@ -1,0 +1,18 @@
+<div class="modal fade" bsModal #confirmModal="bs-modal" [config]="{backdrop: 'static', keyboard: false, show:false}" tabindex="-1"
+    role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header text-center p-t-lg p-l-none p-r-none text-md break-all">
+                <p class="padder break-all">{{obj.text}}</p>
+                <p *ngIf="obj.note" class="text-left padder text-sm b-t m-b-none break-all">{{obj.note}}</p>
+                <div *ngIf="obj.textarea!==null" class="padder">
+                    <textarea class="b w-full text-sm padder-sm padder-v-xs " rows="4" placeholder="{{obj.textarea}}" [(ngModel)]="textarea" (keyup)="form.textarea=$event.target.value"></textarea>
+                </div>
+            </div>
+            <div class="modal-body text-right">
+                <button class="btn btn-info btn-sm p-r p-l" (click)="done()">{{obj.doneText}}</button>
+                <button class="btn btn-default btn-sm p-r p-l m-l-sm" (click)="fail()" *ngIf="obj.type!==2">{{obj.failText}}</button>
+            </div>
+        </div>
+    </div>
+</div>

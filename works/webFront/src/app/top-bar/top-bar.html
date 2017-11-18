@@ -1,0 +1,16 @@
+<div class="top-bar">
+    <ul>
+        <li><a [routerLink]="[]">帮助中心</a></li>
+        <li dropdown>
+            <a [routerLink]="[]" dropdownToggle>{{myService.getUsername()}}<span class="caret"></span></a>
+            <div *dropdownMenu class="dropdown-menu dropdown-menu-right user b animated fadeInRight" role="menu">
+                <ul class="list-unstyled container-fluid row">
+                    <!-- <li class="col-xs-6"><a [routerLink]="[]"><span class="icon icon-account"></span><p>账号管理</p></a></li>
+                    <li class="col-xs-6"><a [routerLink]="[]"><span class="icon icon-install"></span><p>安全设置</p></a></li> -->
+                    <li class="col-xs-12"><a class="exit" [routerLink]="[]" (click)="quit()">退出</a></li>
+                </ul>
+            </div>
+        </li>
+        <li><a [routerLink]="['notice/notice-list']">公告</a></li>
+    </ul>
+</div>

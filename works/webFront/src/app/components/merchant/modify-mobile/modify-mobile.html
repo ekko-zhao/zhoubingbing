@@ -1,0 +1,43 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">修改手机号</h4>
+            <button type="button" class="close pull-right" (click)="hide()"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" #editForm="ngForm">
+                <div class="form-group">
+                    <label class="control-label col-sm-2">原手机号：</label>
+                    <div class="col-sm-10">
+                        <span class="form-control">{{transmit['cellPhone']}}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">原联系人：</label>
+                    <div class="col-sm-10">
+                        <span class="form-control">{{transmit['contactName']}}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="form.cellPhone">变更手机号：</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" id="form.cellPhone" name="form.cellPhone" [(ngModel)]="form.cellPhone" [pattern]="regex['mobile']"
+                            (keyup)="form.cellPhone=$event.target.value" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="form.contactName">变更联系人：</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" id="form.contactName" name="form.contactName" [(ngModel)]="form.contactName" validateUsername
+                            (keyup)="form.contactName=$event.target.value" #thinputname="ngModel" required>
+                        <p class="error text-xs m-t-xs m-b-n" *ngIf="thinputname.invalid && thinputname.dirty">6~30位字符，只能包含中文（一个中文占两个字符）、英文字母（区分大小写）、数字、下划线_,但不能只使用下划线,且下划线不能作为首字符</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-info btn-sm p-l p-r" (click)="submit()" [disabled]="editForm.invalid">确定修改</button>
+            <button class="btn btn-default btn-sm p-l p-r" (click)="hide()">关闭</button>
+        </div>
+    </div>
+</div>

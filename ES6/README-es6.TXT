@@ -1,3 +1,45 @@
+// 对象的解构----------------------------------------------
+#数组
+适用于 var let const
+	var [a, b, c] = [1,2,3];
+	var [a,  , c] = [1,2,3]; 
+	var [a, b, c] = [1, ,3]; // b = undefined
+	var [a, [b], c] = [1, [4, 5], 3]; // b = 4
+	var [a, ...b] = [1,2,3,4] // b = [2,3,4]
+
+对于set 结构， 也可以使用数据的解构赋值
+	let [x,y,z] = nwe Set(['a','b','c']);
+
+只要某种数据结构具有 Iterator 接口， 都可以采用数组形式的结构赋值
+function* fibs(){
+	var a = 0;
+	var b= 0;
+	while(true){
+		yield a;
+		[a,b] = [b, a+b]
+	}
+}
+var [a, b, c, d, e, f] = fibs(); //f = 5
+
+默认值 严格等于 undefined时才会等于 默认值
+var [a=1,b=2,c] = [null,2,3]; // a=null
+
+var [a=1] = [undefined]; // a=1
+var [a=b, b=2] = [1,2]; // 报错 b 在 a 后申明
+
+#对象
+var {foo:foo, bar:bar} = {foo:'aaa', bar:'bbb'}
+简写
+var {foo, bar} = {foo:'aaa', bar:'bbb'}
+
+var {foo: alias, bar} = {foo:'aaa', bar:'bbb'} // alias = 'aaa';  foo => error
+
+
+
+
+
+
+
 
 
 
