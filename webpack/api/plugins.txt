@@ -1,5 +1,6 @@
 
 // 热替换 -----------------------------------------------------
+热替换 用于样式
     npm install --save-dev webpack-dev-server
 
 	HMR并不打算在生产中使用，这意味着它只应该用于开发。
@@ -8,15 +9,19 @@
 
 webpack.config.js
 	const webpack = require('webpack');
+
+    plugins: [
+        process.env.NODE_ENV !== 'production' ? new webpack.HotModuleReplacementPlugin() : function () { },
+    ]
 	devServer: {
 		hot: true,
+        inline: true,
 		hotOnly: true
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin()
 	]
 
-热替换 用于样式
 
 rules: {
     test: /\.less$/,
@@ -291,13 +296,17 @@ new HtmlWebpackPlugin({
 	        rules: [{
 	            test: /\.less$/,
 	            use: extractLess.extract({
-	                use: [{
-	                    loader: "css-loader"
-	                }, {
-	                    loader: "less-loader"
-	                }],
 	                // use style-loader in development
 	                fallback: "style-loader"
+
+                    use: [{
+	                    loader: "css-loader"
+	                }, {
+	                    loader: "postcss-loader
+	                }, {
+	                    loader: "less-loader"
+	                }]
+                    // use: 'css-loader?minimize=true!postcss-loader!less-loader'
 	            })
 	        }]
 	    },
@@ -334,6 +343,24 @@ new HtmlWebpackPlugin({
         ]
 	}
 
+// 拷贝文件夹-----------------------------------------------------
+var TransferWebpackPlugin = require('transfer-webpack-plugin');
+    plugins: [
+        new TransferWebpackPlugin([
+            { from: 'static', to: 'static' },
+        ], path.join(__dirname, 'src')),
+        // 如果没有该插件，在 devtool: 'inline-source-map' 的情况下 sourceMap 是有的
+        process.env.NODE_ENV === 'production' ? new webpack.optimize.UglifyJsPlugin({
+            sourceMap: false,
+            compress: {
+                warnings: false,
+            },
+            output: {
+                comments: false,
+            }
+        }) : function () { }
+    ]
+
 // 清除 ／dist 文件夹 -----------------------------------------------------
 
 npm install clean-webpack-plugin --save-dev
@@ -345,9 +372,30 @@ npm install clean-webpack-plugin --save-dev
 		new CleanWebpackPlugin(['dist']),
 	]
 
+// 用于读取tsconfig 配置的路径 供ts文件使用 -----------------------------------------------------
 
-
-
+    const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
+    resolve: {
+        // 用于编译 tsconfig.json compilerOptions.paths
+        plugins: [
+            new TsConfigPathsPlugin({
+                configFileName: "tsconfig.json",
+                compiler: "typescript",
+            })
+        ]
+    }
+    "compilerOptions": {
+        "outDir": "./dist",
+        "baseUrl": "./",
+        "paths": {
+            "@service/*": [
+                "src/app/service/*"
+            ],
+            "@myCommon/*": [
+                "src/app/components/common/*"
+            ],
+        }
+    },
 
 
 

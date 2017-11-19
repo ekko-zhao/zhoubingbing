@@ -76,7 +76,8 @@ devServer: {
 	proxy: {
 		"/api": {
 		target: "https://other-server.example.com",
-			pathRewrite: {"^/api" : ""}
+			pathRewrite: {"^/api" : ""},
+            secure: false,
 			//pathRewrite: {'regExp' : '/path'}
 		},
 		secure: false

@@ -71,6 +71,7 @@ module.exports = {
 
         inline: true,
         port: 3000,
+        //host: '10.7.30.221',
         compress: true,
         overlay: true,
         // open: true,
