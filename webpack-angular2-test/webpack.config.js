@@ -24,7 +24,7 @@ module.exports = {
             chunks: ['polyfills', 'app']
         }),
         // 如果没有该插件，在 devtool: 'inline-source-map' 的情况下 sourceMap 是有的
-        new webpack.optimize.UglifyJsPlugin({
+       /*  new webpack.optimize.UglifyJsPlugin({
             sourceMap: false,
             compress: {
                 warnings: false,
@@ -32,7 +32,7 @@ module.exports = {
             output: {
                 comments: false,
             }
-        })
+        }) */
 
     ],
     devServer: {
