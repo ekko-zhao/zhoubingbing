@@ -16,17 +16,18 @@ IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome
 // for of 找出 数组中元素的位置-----------------------------------------------
 let sign = [];
 let signs = [];
-let count = 0;
 
 let loopStop = false;
 var loop = (items, item) => {
 	for (let i = 0; i < items.length; i++) {
 		if (loopStop) break;
 		if (items[i]['children'].length > 0) {
-			sign.push(i);
+			
 			loop(items[i]['children'], item);
-			if (loopStop) break;
-			sign.push('point');
+			if (loopStop) {
+				sign.push(i);
+				break;
+			}
 		} else {
 			if (item['permissionId'] === items[i]['permissionId']) {
 				sign.push(i);
@@ -38,10 +39,9 @@ var loop = (items, item) => {
 
 for (let item of this.customItems) {
 	loopStop = false;
-	count = 0;
 	// 这里执行 loop(array, item)
 	loop(this.menuList, item);
-	let d = sign.slice(0);
+	let d = sign.reverse();
 	signs.push(d);
 	sign = [];
 }
@@ -49,8 +49,6 @@ for (let item of this.customItems) {
 // 找出在数组中的当前位置
 let strList = []
 for (let item of signs) {
-	let index = item.lastIndexOf('point');
-	item.splice(0, index + 1);
 	let str = item.join('');
 	strList.push(str);
 }
