@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+
 @Component({
     selector: 'app-root',
     template: '<p>app-root</p>'
@@ -6,17 +7,15 @@ import { Component, ViewChild } from '@angular/core';
 
 export class AppComponent {
     constructor() {
+        var s = Symbol();
+        var s2 = Symbol();
         var obj = {
-            name: 'zhoubingbinf',
-            getname: function() {
-                console.log(this)
-            }
+            [s]: 'zhoubing',
+            [s2]: 'zhangdan'
         }
 
-       var a =  obj.getname.bind({age:23})
-
         console.log('===============================')
-        console.log(a())
+        console.log(obj[s2])
         console.log('===============================')
     }
 }

@@ -37,12 +37,13 @@ module.exports = {
     ],
     devServer: {
         inline: true,
-        port: 3088,
+        port: 3089,
     },
     module: {
         rules: [{
             test: /\.tsx?$/,
             use: [
+                // 'babel-loader',
                 'awesome-typescript-loader'
             ],
             exclude: /node_modules/
