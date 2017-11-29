@@ -422,7 +422,14 @@ Map 和 Set 结构Generator 函数
 	
 	Reflect.ownKeys(objectSymbol); // 返回所有自身属性 [ Symbol('a'), Symbol('b'), 'name' ]
 	
-	
+	Symbol 用于 class 的属性名， 可以造成一种非私有的内部方法的效果 
+	var sym = Symbol();
+	class Abc{
+		constructor(){
+			this[sym] = 'sss'
+		}
+		static fnName(){}
+	}
 	
 # Symbol.for & Symbol.keyFor()
 
@@ -434,14 +441,84 @@ Map 和 Set 结构Generator 函数
 	let a = Symbol('s1');
 	Symbol.keyFor(a) // undefined
 	
-	Symbol 用于 class 的属性名， 可以造成一种非私有的内部方法的效果
-	var sym = Symbol();
-	class Abc{
-		constructor(){
-			this[sym] = 'sss'
+	
+# 内置的 Symbol 值
+	Symbol.search
+	对象的 Symbol.search 属性指向一个方法， 当对象被 String.prototype.search() 方法调用时会返回该方法的返回值
+	String.prototype.search(regexp);
+	// 同等于
+	regexp[Symbol.search](this);
+	
+	var a = /dq/[Symbol.search]('asdqdd'); // => 2
+	
+	/*
+		// 讲解，  可以自己自定义返回值
+		class MySearch {
+            constructor(value) {
+                this.value = value;
+            }
+            value;
+            [Symbol.search](string) {
+                console.log(string)
+                return string.indexOf(this.value)
+            }
+        }
+		MySearch 对象被 String.prototype.search() 方法调, 返回 Symbol.search 属性的返回值
+		'foobar'.search(new MySearch('foo')); // =>0
+		
+	*/
+	
+	Symbol.split
+	对象的 Symbol.split 属性指向一个方法， 当对象被 String.prototype.split() 方法调用时会返回该方法的返回值
+	String.prototype.split(separator, limit);
+	// 同等于
+	separator[Symbol.split](this, limit)
+	/a/[Symbol.split]('abc'); // ["","b",""]
+	
+	
+	Symbol.replace
+	String.prototype.replace(searchValue, replaceValue);
+	// 同等于
+	searchValue[Symbol.replace](this, replaceValue);
+	
+	Symbol.match
+	regexp[Symbol.match](this);
+
+	
+	Symbol.iterator
+	对象的 Symbol.iterator 属性指向其默认的遍历器方法， 即对象在进行 for...of 循环时ihui调用这个方法， 返回该对象的默认遍历器
+	
+	class Collection {
+		*[Symbol.iterator](){
+			let i = 0;
+			while(this[i] !== undefined){
+				yield this[i];
+				i++;
+			}
 		}
-		static fnName(){}
 	}
+	let myCollection = new Collection();
+	myCollection[0] = 1;
+	myCollection[1] = 2;
+	
+	for(let v of myCollection){
+		console.log(v)
+	}
+	// 1
+	// 2
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

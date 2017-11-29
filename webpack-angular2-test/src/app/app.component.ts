@@ -7,15 +7,28 @@ import { Component, ViewChild } from '@angular/core';
 
 export class AppComponent {
     constructor() {
-        var s = Symbol();
-        var s2 = Symbol();
-        var obj = {
-            [s]: 'zhoubing',
-            [s2]: 'zhangdan'
+        'hello'[Symbol.iterator]();
+
+        for(let value of 'hello'){
+            console.log(value)
         }
 
+        /* class MySearch {
+            constructor(value) {
+                this.value = value;
+            }
+            value;
+            [Symbol.search](string) {
+                console.log(string)
+                return string.indexOf(this.value)
+            }
+        } */
+
         console.log('===============================')
-        console.log(obj[s2])
+        /* console.log(new MySearch('foo'));
+        console.log('foobar'.search(new MySearch('foo'))); */
+
+
         console.log('===============================')
     }
 }
