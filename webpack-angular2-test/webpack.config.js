@@ -24,15 +24,15 @@ module.exports = {
             chunks: ['polyfills', 'app']
         }),
         // 如果没有该插件，在 devtool: 'inline-source-map' 的情况下 sourceMap 是有的
-       /*  new webpack.optimize.UglifyJsPlugin({
-            sourceMap: false,
-            compress: {
-                warnings: false,
-            },
-            output: {
-                comments: false,
-            }
-        }) */
+        /*  new webpack.optimize.UglifyJsPlugin({
+             sourceMap: false,
+             compress: {
+                 warnings: false,
+             },
+             output: {
+                 comments: false,
+             }
+         }) */
 
     ],
     devServer: {
@@ -49,6 +49,9 @@ module.exports = {
             exclude: /node_modules/
         }
         ]
+    },
+    node: {
+        fs: 'empty'
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js']

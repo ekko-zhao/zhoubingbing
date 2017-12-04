@@ -356,8 +356,7 @@ Map 和 Set 结构Generator 函数
 	Object.create(); 添加自身的 可枚举的属性到新对象中
 	var o = Object.create(obj1.prototype, obj2.prototype)
 
-
-
+	
 //Symbol---------------------------------------------------------------------------------------------------
 	var a = Symbol();
 	var b = Symbol('foo');
@@ -443,82 +442,211 @@ Map 和 Set 结构Generator 函数
 	
 	
 # 内置的 Symbol 值
-	Symbol.search
-	对象的 Symbol.search 属性指向一个方法， 当对象被 String.prototype.search() 方法调用时会返回该方法的返回值
-	String.prototype.search(regexp);
-	// 同等于
-	regexp[Symbol.search](this);
+
+	Symbol.hasInstance
+			对象的 Symbol.hasInstance 属性指定一个内部方法， 对象使用 instanceof 运算符时会调用这个方法， 判断该对象是否为某个构造函数的实例
+			
+		foo instanceof Foo
+		// 同等于
+		Foo[Symbol.hasInstance](foo);
+		
+		/*
+			class MyClass {
+				[Symbol.hasInstance](agr) {
+					// 自定义返回值
+					return agr instanceof Array;
+				}
+			}
+			var foo: any = new MyClass();
+			[] instanceof foo // true
+			
+		*/
+		
 	
-	var a = /dq/[Symbol.search]('asdqdd'); // => 2
-	
-	/*
-		// 讲解，  可以自己自定义返回值
-		class MySearch {
-            constructor(value) {
-                this.value = value;
+	Symbol.species
+		ymbol.species属性指向用来创建派生类对象的构造函数
+		即：this.constructor[Symbol.species]属性存在就会使用这个属性创建对象实例。
+		
+		class Foo {
+            static get [Symbol.species]() {
+                console.log(222);
+                return this;
             }
-            value;
-            [Symbol.search](string) {
-                console.log(string)
-                return string.indexOf(this.value)
+            spawn() {
+                return new this.constructor[Symbol.species]();//不需要写死返回实例类型
             }
         }
-		MySearch 对象被 String.prototype.search() 方法调, 返回 Symbol.search 属性的返回值
-		'foobar'.search(new MySearch('foo')); // =>0
+		// 派生类
+        class Bar extends Foo {
+            static get [Symbol.species]() {
+                console.log(111);
+                return Foo;
+            }
+			//自定义需要返回的实例类型
+        }
+
+        var a = new Foo();
+
+        var x = new Bar();
+        var y = x.spawn();
+	
+
+	Symbol.search
+		对象的 Symbol.search 属性指向一个方法， 当对象被 String.prototype.search() 方法调用时会返回该方法的返回值
+		String.prototype.search(regexp);
+		// 同等于
+		regexp[Symbol.search](this);
 		
-	*/
+		var a = /dq/[Symbol.search]('asdqdd'); // => 2
+		
+		/*
+			// 讲解，  可以自己自定义返回值
+			class MySearch {
+				constructor(value) {
+					this.value = value;
+				}
+				value;
+				[Symbol.search](string) {
+					console.log(string)
+					return string.indexOf(this.value)
+				}
+			}
+			MySearch 对象被 String.prototype.search() 方法调, 返回 Symbol.search 属性的返回值
+			'foobar'.search(new MySearch('foo')); // =>0
+			
+		*/
 	
 	Symbol.split
-	对象的 Symbol.split 属性指向一个方法， 当对象被 String.prototype.split() 方法调用时会返回该方法的返回值
-	String.prototype.split(separator, limit);
-	// 同等于
-	separator[Symbol.split](this, limit)
-	/a/[Symbol.split]('abc'); // ["","b",""]
+		对象的 Symbol.split 属性指向一个方法， 当对象被 String.prototype.split() 方法调用时会返回该方法的返回值
+		String.prototype.split(separator, limit);
+		// 同等于
+		separator[Symbol.split](this, limit)
+		/a/[Symbol.split]('abc'); // ["","b",""]
 	
 	
 	Symbol.replace
-	String.prototype.replace(searchValue, replaceValue);
-	// 同等于
-	searchValue[Symbol.replace](this, replaceValue);
+		String.prototype.replace(searchValue, replaceValue);
+		// 同等于
+		searchValue[Symbol.replace](this, replaceValue);
 	
 	Symbol.match
-	regexp[Symbol.match](this);
+		regexp[Symbol.match](this);
 
 	
 	Symbol.iterator
-	对象的 Symbol.iterator 属性指向其默认的遍历器方法， 即对象在进行 for...of 循环时ihui调用这个方法， 返回该对象的默认遍历器
+		对象的 Symbol.iterator 属性指向其默认的遍历器方法， 即对象在进行 for...of 循环时ihui调用这个方法， 返回该对象的默认遍历器
+		
+		class Collection {
+			*[Symbol.iterator](){
+				let i = 0;
+				while(this[i] !== undefined){
+					yield this[i];
+					i++;
+				}
+			}
+		}
+		let myCollection = new Collection();
+		myCollection[0] = 1;
+		myCollection[1] = 2;
+		
+		for(let v of myCollection){
+			console.log(v)
+		}
+		// 1
+		// 2
 	
-	class Collection {
-		*[Symbol.iterator](){
-			let i = 0;
-			while(this[i] !== undefined){
-				yield this[i];
-				i++;
+	Symbol.toPrimitive
+	对象的Symbol.toPrimitive 属性指向一个方法，(一个对象可被转换为原始值) 对象被转换为原始类型的值时会调用这个方法。
+	
+	Number
+	String
+	Default
+	
+	let obj ={
+		[Symbol.toPrimitive]:{
+			switch(hint){
+				case(unmber):
+					return 10;
+				case('string'):
+					return 'str'
+				case ('default'):
+					return 'default';
+				default:
+				throw new Error();
+				
 			}
 		}
 	}
-	let myCollection = new Collection();
-	myCollection[0] = 1;
-	myCollection[1] = 2;
-	
-	for(let v of myCollection){
-		console.log(v)
-	}
-	// 1
-	// 2
 	
 	
+	Symbol.toStringTag
+		class ValidatorClass {
+            get [Symbol.toStringTag]() {
+                return "Validator";
+            }
+        }
+		
+        var validator = new ValidatorClass();
+        validator.toString(); // => [object Validator]
+		
+		或者
+		var obj = {};
+        Object.defineProperty(obj, Symbol.toStringTag, {
+            get: function () {
+                return "Validator";
+            }
+        })
+        obj.toString(); // => [object Validator]
 	
+		/*		
+			许多内置的 JavaScript 对象类型即便没有 toStringTag 属性，也能被 toString() 方法识别并返回特定的类型标签，比如：
+			Object.prototype.toString.call('foo');     // "[object String]"
+			Object.prototype.toString.call([1, 2]);    // "[object Array]"
+			Object.prototype.toString.call(3);         // "[object Number]"
+			Object.prototype.toString.call(true);      // "[object Boolean]"
+			Object.prototype.toString.call(undefined); // "[object Undefined]"
+			Object.prototype.toString.call(null);      // "[object Null]"
+		*/
 	
+	Symbol.unscopables
+	对象的 Symbol.unscopables 属性指向一个对象， 指定使用 with 关键字时哪些属性会被 with 环境排除
+	Array.prototype[Symbol.unscopables]； // =>{copyWithin: true, entries: true, fill: true, find: true, findIndex: true}
 	
+// Reflect ----------------------------------------------
+	Reflect.getOwnPropertyDescript(target, name); 	// 同于 Object.getOwnPropertyDescript(name);
+	Reflect.defineProperty(target, name, desc);		// 同于 Object.defineProperty(target, name, desc);
+	Reflect.getOwnPropertyNames(target);			
+	Reflect.setPrototypeOf(target, prototype);		// 同于 Object.setPrototypeOf(target, prototype); 设置 __proto__ 	
+	Reflect.getPrototypeOf(target);
+	Reflect.deletePrototype(target, prototype);     // 同于 delete target.prototype
 	
+	Reflect.freeze(target)							// 同于 Object.freeze(target) 完全冻结对象， 不能新增和删除 属性，不可以修改已有属性值
+	Reflect.isFreezen(target)
+	Reflect.seal(target)							// v Object.seal(target)	不能新增和删除 属性，可以修改已有属性值
+	Reflect.isSealed(target)
 	
+	Reflect.has(target, name)						// name in target
+	Reflect.hasOwn(target, name)
+	Reflect.keys(target)
 	
+	Reflect.isExtensible(target)							// 同于 Object.isExtensible(target)， 判断一个对象是否可扩展 （即是否能够添加新的属性）。
+	Reflect.preventExtensions(target)						// 同于 Object.preventExtensions(target) 方法阻止新属性添加到对象 
 	
+	Reflect.enumerate(target)								// 以废弃
 	
+	Reflect.set(target, propertyKey, value[, receiver])		// receiver 为 set函数中的 上下文(this),  如果 propertyKey 属性设置了赋值函数
+	Reflect.get(target, propertyKey, value[, receiver])		// receiver 为 get函数中的 上下文(this),
 	
+	Reflect.apply(target, thisArgument, argumentsList)		// target函数调用时绑定的this对象。
+	Reflect.apply(Math.floor, undefined, [1.75]); // 1
+	Reflect.apply(String.fromCharCode, undefined, [104, 101, 108, 108, 111]); // "hello"
 	
-	
+	var obj = Reflect.construct(Foo, args[, newTarget]);
+	var d = Reflect.construct(Date, [1776, 6, 4]);
+	// target 被运行的目标函数
+	// argumentsList 调用构造函数的数组或者伪数组
+	// newTarget 该参数为构造函数， 参考 new.target 操作符，如果没有newTarget参数， 默认和target一样
+	// 同于 var obj = new Foo(...args); 
 	
 	
 	

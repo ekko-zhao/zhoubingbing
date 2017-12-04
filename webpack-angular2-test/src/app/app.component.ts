@@ -7,29 +7,21 @@ import { Component, ViewChild } from '@angular/core';
 
 export class AppComponent {
     constructor() {
-        'hello'[Symbol.iterator]();
-
-        for(let value of 'hello'){
-            console.log(value)
+        function someConstructor() {
+            this.name = 'saf'
         }
+        var result = Reflect.construct(Array, [], someConstructor);
 
-        /* class MySearch {
-            constructor(value) {
-                this.value = value;
-            }
-            value;
-            [Symbol.search](string) {
-                console.log(string)
-                return string.indexOf(this.value)
-            }
-        } */
+        var a  = Reflect.getPrototypeOf(result); // 输出：someConstructor.prototype
+        console.log(a)
+        var b  = Array.isArray(result); // true
+        console.log(b)
+        /*
+            console.log('===============================')
+        console.log(obj)
 
-        console.log('===============================')
-        /* console.log(new MySearch('foo'));
-        console.log('foobar'.search(new MySearch('foo'))); */
-
-
-        console.log('===============================')
+            console.log('===============================')
+         */
     }
 }
 
