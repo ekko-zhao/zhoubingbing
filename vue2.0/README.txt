@@ -339,7 +339,7 @@ Vue.filter('my-filter', function (value) {
 
 
 
-
+组件-------------------------------------------------------------
 #Vue.component( id, [definition] )
 
 .参数：
@@ -372,17 +372,34 @@ Vue.filter('my-filter', function (value) {
 	  }
 	})
 	
-.局部注册
-var Child = {
-  template: '<div>A custom component!</div>'
-}
-new Vue({
-  // ...
-  components: {
-    // <my-component> 将只在父模板可用
-    'my-component': Child
-  }
-})
+	.全局组件
+	Vue.component(tagName, options)
+
+	.局部注册
+	var Child = {
+	  template: '<div>A custom component!</div>'
+	}
+	new Vue({
+	  // ...
+	  components: {
+		// <my-component> 将只在父模板可用
+		'my-component': Child
+	  }
+	})
+	
+DOM 模板解析注意事项
+	<ul>、<ol>、<table>、<select> 这样的元素里允许包含的元素有限制，而另一些像 <option> 这样的元素只能出现在某些特定元素的内部。
+	
+
+	<table>
+	  <tr is="my-row"></tr>
+	</table>
+	
+	/* 无效
+		<table>
+		  <my-row>...</my-row>
+		</table>
+	*/
 
 
 //构成组件
@@ -910,8 +927,11 @@ v-html
 
 
 #v-show
-类型： any
-用法： 根据表达式之真假值，切换元素的 display CSS 属性。
+	类型： any
+	用法： 根据表达式之真假值，切换元素的 display CSS 属性。
+	<h1 v-show="ok">Hello!</h1>
+	v-show 不支持 <template> 元素，也不支持 v-else。
+
 
 
 #v-if
@@ -930,7 +950,20 @@ v-html
 		<p>Paragraph 2</p>
 	</template>
 
-
+# 用 key 管理可复用的元素
+	<template v-if="loginType === 'username'">
+	  <label>Username</label>
+	  <input placeholder="Enter your username" key="username-input">
+	</template>
+	<template v-else>
+	  <label>Email</label>
+	  <input placeholder="Enter your email address" key="email-input">
+	</template>
+	// 如果这里没有key 属性， 俩个 input 是公用的， if 切换的时候表单已有的值不会被清空
+	
+	
+	
+	
 
 #v-else
 限制： 前一兄弟元素必须有 v-if 或 v-else-if。
@@ -996,10 +1029,25 @@ v-for 默认行为试着不改变整体，而是替换元素。迫使其重新�
 事件修饰符:
 	.stop - 调用 event.stopPropagation()
 	.prevent - 调用 event.preventDefault()
-	.capture - 添加事件侦听器时使用 capture 模式
+	
+	// 即内部元素触发的事件先在此处处理，然后才交由内部元素自身进行处理
+	.capture - 添加事件侦听器时使用 capture 模式 
+	
 	.self - 只当事件是从侦听器绑定的元素本身触发时才触发回调
 	.native - 监听组件根元素的原生事件  // $element.addEventListener(click, callback);
 	.once - 只触发一次回调 //2.1.4 新增
+	
+	<!-- 使用修饰符时，顺序很重要； @click.prevent.self 会阻止所有的点击，而 @click.self.prevent 只会阻止对元素自身的点击 -->
+	
+	.exact 修饰符 2.5.0 新增
+	.exact 修饰符应与其他系统修饰符组合使用，以指示处理程序只在精确匹配该按键组合时触发。
+	
+	<!-- 即使 Alt 或 Shift 被一同按下时也会触发 -->
+	<button @click.ctrl="onClick">A</button>
+	
+	<!-- 仅在只有 Ctrl 被按下的时候触发 -->
+	<button @click.ctrl.exact="onCtrlClick">A</button>
+	
 	
 按键修饰符:
 	.{keyCode | keyAlias} - 只当事件是从特定键触发时才触发回调
@@ -1116,8 +1164,11 @@ v-for 默认行为试着不改变整体，而是替换元素。迫使其重新�
 	
 修饰符：
 	.lazy - 取代 input 监听 change 事件 // 在默认情况下， v-model 在 input 事件中同步输入框的值与数据 (除了 上述 IME 部分)，但你可以添加一个修饰符 lazy ，从而转变为在 change 事件中同步
+		<input v-model.lazy="msg" >
 	.number - 输入字符串转为数字
+		<input v-model.number="age" type="number">
 	.trim - 输入首尾空格过滤
+		<input v-model.trim="msg">
 
 用法： 在表单控件或者组件上创建双向绑定。
 	<input v-model="message" placeholder="edit me">
