@@ -13,9 +13,6 @@ npm install vue-router
 
 	Vue.use(VueRouter)
 
-
-
-
 	
 const router = new VueRouter({
 	routes: [
@@ -215,8 +212,8 @@ JavaScript:
 		// pathToRegexp.parse(path)
 		// pathToRegexp.compile(path)
 
-		.path 一个字符表达式， 字符串数组， 或一个正则表达式
-		。keys 一个对象为成员的数组通过 name 属性对应到路径中 
+		path 一个字符表达式， 字符串数组， 或一个正则表达式
+		keys 一个对象为成员的数组通过 name 属性对应到路径中 
 			var keys = []
 			var re = pathToRegexp('/foo/:bar', keys)
 			// re = /^\/foo\/([^\/]+?)\/?$/i
@@ -643,7 +640,7 @@ const Foo = resolve => require(['./Foo.vue'], resolve)
 *有时候我们想把某个路由下的所有组件都打包在同个异步 chunk 中,只需要 给 chunk 命名。
  提供 require.ensure 第三个参数作为 chunk 的名称:
 const Foo = r => require.ensure([], () => r(require('./Foo.vue')), 'group-foo')
-const Bar = r => require.ensure([], () => r(require('./Bar.vue')), 'group-foo')
+const Bar = r => require.ensure([], () => r(require('./Bar.vue')), 'group-bar')
 
 
 

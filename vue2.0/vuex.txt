@@ -305,7 +305,7 @@ actions: {
 	const moduleA = {
 		// ...
 		getters: {
-		sumWithRootCount (state, getters, rootState, rootGetters) {
+			sumWithRootCount (state, getters, rootState, rootGetters) {
 				return state.count + rootState.count
 			}
 		}

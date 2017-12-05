@@ -16,41 +16,40 @@ Vue.use(Vuex);
 Vue.use(VueRouter);
 Vue.use(vueResource);
 
-var MyPlugin ={ }
+var MyPlugin = {}
 
 MyPlugin.install = function (Vue, options) {
-	
+
 }
 
 
-Vue.use(MyPlugin,{name:'bingbing'});
+Vue.use(MyPlugin, { name: 'bingbing' });
 
 
 const store = new Vuex.Store({
-  state: {
-    count: 0
-  },
-  mutations: {
-    increment (state,m=12) {
-		
-		alert(m)
-      state.count++
+    state: {
+        count: 0
+    },
+    mutations: {
+        increment(state, m = 12) {
+            alert(m)
+            state.count++
+        }
     }
-  }
 })
 
 
 
 var vm = new Vue({
-	el: '#app',
-	store,
-	template: `
+    el: '#app',
+    store,
+    template: `
 		<div style="padding-left:100px;padding-top:50px;">
 			<p> </p>
 			<my-component :message="message"><p>123</p></my-component>
-			
+
 			<p >----</p>
-			
+
 			<button type="button" @click="updateMessage">button</button>
 			<br/>
 			<div style="height:100px;"></div>
@@ -60,28 +59,27 @@ var vm = new Vue({
 			</transition>
 		</div>
 	`,
-	data:{
-		name: 'bingbing',
-		show: true,
-		message: 'msg',
-		price: 23
-	},
-	components:{
-		'my-component': MyComponent
-	},
-	
-	methods: {
-		updateMessage: function () {
-			this.show = !this.show
-		}
-	},
-	MyPlugin: {
-		age:23
-	}
+    data: {
+        name: 'bingbing',
+        show: true,
+        message: 'msg',
+        price: 23
+    },
+    components: {
+        'my-component': MyComponent
+    },
+
+    methods: {
+        updateMessage: function () {
+            this.show = !this.show
+        }
+    },
+    MyPlugin: {
+        age: 23
+    }
 })
 
-
-store.commit('increment',3)
+store.commit('increment', 3)
 
 
 

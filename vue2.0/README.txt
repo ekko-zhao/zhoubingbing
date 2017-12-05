@@ -96,10 +96,13 @@ var vm = new Vue({
 // 之后设置 `message` 
 vm.message = 'Hello!'
 
+# v-bind 缩写----------------------------------------------
+<a v-bind:href="url">...</a>
+<a :href="url">...</a>
 
-
-
-
+# v-on 缩写----------------------------------------------
+	<a v-on:click="doSomething">...</a>
+	<a @click="doSomething">...</a>
 
 //Class 与 Style 绑定 ---------------------------------------------------------------
 
@@ -207,15 +210,6 @@ example1.items = example1.items.filter(function (item) {
 #Vue.delete( object, key )
 
 
-
-
-
-
-
-
-
-
-	
 #devtools
 	类型： boolean
 	默认值： true (生产版为 false)
@@ -408,7 +402,6 @@ new Vue({
 <my-component v-bind:propName="message" /> message 是 data 中的 message 属性
 <my-component :propName="1" /> // message 是 number 1
 
-
 //My.component.vue
 <template>
 	<div>
@@ -445,8 +438,6 @@ new Vue({
 			
 			}
 		}
-			
-		
 		*/
 	}
 </script>
@@ -457,9 +448,9 @@ new Vue({
 	用法： <child my-message="hello!"></child>
 	
 		Vue.component('child', {
-		  // camelCase in JavaScript
-		  props: ['myMessage'],
-		  template: '<span>{{ myMessage }}</span>'
+			// camelCase in JavaScript
+			props: ['myMessage'],
+			template: '<span>{{ myMessage }}</span>'
 		})
 
 
@@ -480,7 +471,9 @@ Vue.component('button-counter', {
 	},
 	methods: {
 		increment: function () {
-			this.counter += 1
+			this.counter += 1;
+			
+			// 触发父组件事件
 			this.$emit('increment')
 		}
 	}
@@ -536,7 +529,6 @@ Vue.component('currency-input', {
 		}
 	
 	}
-	
 	
 })
 
@@ -750,7 +742,7 @@ var vm = new Vue({
 			set: function (v) {
 				this.a = v - 1
 			}
-		}	
+		}
 	}
 })
 vm.aPlus   // -> 2

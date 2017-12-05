@@ -138,8 +138,14 @@ new HtmlWebpackPlugin({
         filename: '[name].bundle.js'
 	},
 	plugins: [
+		// 默认会把所有入口节点的公共代码提取出来,生成一个common.js
+			new webpack.optimize.CommonsChunkPlugin('common.js'), 
+		
+		// 默认会把所有入口节点的公共代码提取出来,生成一个common.js, 只提取main节点和index节点
+			new webpack.optimize.CommonsChunkPlugin('common.js',['main','index']), 
+		
 		new webpack.optimize.CommonsChunkPlugin({
-            name: 'common'
+            name: 'common' // 注意不要.js后缀
 		}),
 
 		/* new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' })
