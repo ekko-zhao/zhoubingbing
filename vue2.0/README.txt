@@ -192,7 +192,8 @@ example1.items = example1.items.filter(function (item) {
 	类型： { [key: string]: Function }
 
 	默认值： {}
-
+	var strategies = Vue.config.optionMergeStrategies
+	strategies.myOption = strategies.methods
 #Vue.set( object, key, value )
 	参数：
 	{Object} object
@@ -311,6 +312,7 @@ Vue.filter('my-filter', function (value) {
 #Vue.mixin
 选项合并
 	//同名钩子函数将混合为一个数组，因此都将被调用。
+	// 另外，混合对象的 钩子将在组件自身钩子 之前 调用 
 	// 值为对象的选项，例如 methods, components 和 directives，将被混合为同一个对象。 两个对象键名冲突时，取组件对象的键值对。
 	var mixin = {
 	  created: function () {
@@ -325,6 +327,7 @@ Vue.filter('my-filter', function (value) {
 	})
 
 全局混合
+	// 谨慎使用全局混合对象，因为会影响到每个单独创建的 Vue 实例 (包括第三方模板)。
 	Vue.mixin({
 	  created: function () {
 	    var myOption = this.$options.myOption
@@ -334,7 +337,7 @@ Vue.filter('my-filter', function (value) {
 	  }
 	})
 	new Vue({
-	
+		myOption: 'hello!'
 	})
 
 
@@ -612,6 +615,9 @@ Vue.component('currency-input', {
   
   
 	父组件模版：
+	// 在父级中，具有特殊特性 slot-scope 的 <template> 元素必须存在，表示它是作用域插槽的模板。
+	// slot-scope 的值将被用作一个临时变量名，此变量接收从子组件传递过来的 prop 对象
+	// 在 2.5.0+，slot-scope 能被用在任意元素或组件中而不再局限于 <template>。
 	<div class="parent">
 		<child>
 			<template scope="props">
@@ -689,9 +695,47 @@ Vue.component('currency-input', {
 		// 最长等待时间。超出此时间则渲染 error 组件。默认：Infinity
 		timeout: 3000
 	})
+	
+// 当一个异步组件被作为 vue-router 的路由组件使用时，这些高级选项都是无效的，因为在路由切换前就会提前加载所需要的异步组件。另外，如果你要在路由组件中使用上述写法，需要使用 vue-router 2.4.0 以上的版本。
+	
+# 组件命名约定
+	// 可以使用 kebab-case (短横线分隔命名)、camelCase (驼峰式命名) 或 PascalCase (单词首字母大写命名)。
+	// 在组件定义中
+		components: {
+		  // 使用 kebab-case 注册
+		  'kebab-cased-component': { /* ... */ },
+		  // 使用 camelCase 注册
+		  'camelCasedComponent': { /* ... */ },
+		  // 使用 PascalCase 注册
+		  'PascalCasedComponent': { /* ... */ }
+		}
+		
+	<!-- 在 HTML 模板中始终使用 kebab-case -->
+		<kebab-cased-component></kebab-cased-component>
+		<camel-cased-component></camel-cased-component>
+		<pascal-cased-component></pascal-cased-component>
 
 
 #组件间的循环引用Circular References Between Components
+	假设你正在构建一个文件目录树，像在 Finder 或资源管理器中。
+		tree-folder 组件：
+		<p>
+		  <span>{{ folder.name }}</span>
+		  <tree-folder-contents :children="folder.children"/>
+		</p>
+	
+	tree-folder-contents 组件：
+		<ul>
+		  <li v-for="child in children">
+			// 引用 tree-folder
+			<tree-folder v-if="child.children" :folder="child"/>
+			<span v-else>{{ child.name }}</span>
+		  </li>
+		</ul>
+		
+		
+	// 在我们的例子中，可以选择让 tree-folder 组件中来做这件事。
+	// 我们知道引起矛盾的子组件是 tree-folder-contents，所以我们要等到 beforeCreate 生命周期钩子中才去注册它：
 
 	beforeCreate: function () {
 		this.$options.components.TreeFolderContents = require('./tree-folder-contents.vue')
@@ -1172,8 +1216,50 @@ v-for 默认行为试着不改变整体，而是替换元素。迫使其重新�
 
 用法： 在表单控件或者组件上创建双向绑定。
 	<input v-model="message" placeholder="edit me">
-	
+	/*
+		这不过是以下示例的语法糖：
+		<input v-bind:value="something" v-on:input="something = $event.target.value">
+	*/
 	在文本区域插值( <textarea></textarea> ) 并不会生效，应用 v-model 来代替
+
+	v-model 自定义
+	<currency-input v-model="price"></currency-input>
+	Vue.component('currency-input', {
+	  template: '\
+		<span>\
+		  $\
+		  <input\
+			ref="input"\
+			v-bind:value="value"\
+			v-on:input="updateValue($event.target.value)"\
+		  >\
+		</span>\
+	  ',
+	  props: ['value'],
+	  methods: {
+		// 不是直接更新值，而是使用此方法来对输入值进行格式化和位数限制
+		updateValue: function (value) {
+		  var formattedValue = value
+			// 删除两侧的空格符
+			.trim()
+			// 保留 2 位小数
+			.slice(
+			  0,
+			  value.indexOf('.') === -1
+				? value.length
+				: value.indexOf('.') + 3
+			)
+		  // 如果值尚不合规，则手动覆盖为合规的值
+		  if (formattedValue !== value) {
+			this.$refs.input.value = formattedValue
+		  }
+		  // 通过 input 事件带出数值
+		  this.$emit('input', Number(formattedValue))
+		}
+	  }
+	})
+	
+	
 
 复选框:
 
