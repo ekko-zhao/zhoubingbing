@@ -1,0 +1,5 @@
+dependencies是运行时依赖，
+	npm install –save vue
+
+devDependencies是开发时的依赖
+	npm install –save-dev gulp-uglify 

@@ -1,47 +1,43 @@
 {
-  "name": "nodestart",
-  "version": "1.0.0",
-  "description": "nodestart",
-  "keywords": [
-    "关键字数组"
-  ],
-  "maintainers": [
-    {
-      "name": "zhoubingbing",
-      "emial": "zhoubbmls@sina.com",
-      "web": "url"
-    }
-  ],
-  "contributors": [
-    {
-      "name": "zhoubingbing",
-      "emial": "zhoubbmls@sina.com",
-      "web": "url"
-    }
-  ],
-  "bugs": "url or email",
-  "main": "index.js",
-  "scripts": {
-    "web": "node ./webServer.js",
-    "preinstall0": "",
-    "install": "",
-    "uninstall": "",
-    "test": ""
-  },
-  "author": "",
-  "license": "ISC",
-  "repository": {
-    "type": "git or svn",
-    "url": "https://github.com/npm/npm.git"
-  },
-  "dependencies": {
-    "async": "^2.3.0",
-    "connect": "^3.6.0",
-    "eventproxy": "^0.3.5",
-    "heapdump": "^0.3.9",
-    "q": "^1.5.0",
-    "step": "^1.0.0"
-  },
-  "devDependencies": {},
-  "homepage": "url"
+    "name": "nodestart",
+    "version": "1.0.0",
+    "description": "nodestart",
+    "keywords": [
+        "关键字数组"
+    ],
+    "maintainers": [{
+        "name": "zhoubingbing",
+        "emial": "zhoubbmls@sina.com",
+        "web": "url"
+    }],
+    "contributors": [{
+        "name": "zhoubingbing",
+        "emial": "zhoubbmls@sina.com",
+        "web": "url"
+    }],
+    "bugs": "url or email",
+    "main": "index.js",
+    "scripts": {
+        "web": "node ./webServer.js",
+        "preinstall0": "",
+        "install": "",
+        "uninstall": "",
+        "test": ""
+    },
+    "author": "",
+    "license": "ISC",
+    "repository": {
+        "type": "git or svn",
+        "url": "https://github.com/npm/npm.git"
+    },
+    "dependencies": {
+        "async": "^2.3.0",
+        "connect": "^3.6.0",
+        "eventproxy": "^0.3.5",
+        "heapdump": "^0.3.9",
+        "q": "^1.5.0",
+        "step": "^1.0.0"
+    },
+    "devDependencies": {},
+    "homepage": "url"
 }

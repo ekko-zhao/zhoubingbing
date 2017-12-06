@@ -18,13 +18,14 @@ Vue.use(vueResource);
 
 var MyPlugin = {}
 
-MyPlugin.install = function (Vue, options) {
+MyPlugin.install = function(Vue, options) {
 
 }
 
 
-Vue.use(MyPlugin, { name: 'bingbing' });
-
+Vue.use(MyPlugin, {
+    name: 'bingbing'
+});
 
 const store = new Vuex.Store({
     state: {
@@ -70,7 +71,7 @@ var vm = new Vue({
     },
 
     methods: {
-        updateMessage: function () {
+        updateMessage: function() {
             this.show = !this.show
         }
     },
@@ -80,16 +81,3 @@ var vm = new Vue({
 })
 
 store.commit('increment', 3)
-
-
-
-
-
-
-
-
-
-
-
-
-

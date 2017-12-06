@@ -23,7 +23,10 @@ git commit -m "" --author=""
 //删除  git rm *.file
 
 // 重新拉取文件
-git checkout .
+	git checkout .
+
+// 如果想放弃本地的文件修改，可以使用
+	git reset --hard FETCH_HEAD
 
 // 添加环境变量
 set PATH=%PATH%;C:\Program Files\Git\bin
