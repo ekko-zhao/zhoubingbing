@@ -17,7 +17,7 @@ o => {
 }
 
 // 这里不用 { }
-export defualt var b = {
+export defualt  {
     name:'is b'
 }
-import b from 'obj.js'
+import any from 'obj.js'

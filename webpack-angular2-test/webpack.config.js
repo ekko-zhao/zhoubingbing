@@ -47,8 +47,20 @@ module.exports = {
                 'awesome-typescript-loader'
             ],
             exclude: /node_modules/
-        }
-        ]
+        }, {
+            test: /\.(gif|svg|woff|woff2|eot|ttf|otf)$/,
+            use: [
+                'file-loader?name=[path][name].[ext]'
+            ]
+        }, {
+            test: /\.(png|jpg)$/,
+            use: 'url-loader?limit=8192'
+        }, {
+            test: /\.html?$/,
+            use: [
+                'html-loader'
+            ]
+        }]
     },
     node: {
         fs: 'empty'
