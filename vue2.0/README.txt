@@ -97,8 +97,8 @@ var vm = new Vue({
 vm.message = 'Hello!'
 
 # v-bind 缩写----------------------------------------------
-<a v-bind:href="url">...</a>
-<a :href="url">...</a>
+	<a v-bind:href="url">...</a>
+	<a :href="url">...</a>
 
 # v-on 缩写----------------------------------------------
 	<a v-on:click="doSomething">...</a>
@@ -118,20 +118,22 @@ vm.message = 'Hello!'
 
 	
 //数组更新检测	------------------------------------------------------------
-Vue 包含一组观察数组的变异方法，所以它们也将会触发视图更新。
-.push()
-.pop()
-.shift()
-.unshift()
-.splice()
-.sort()
-.reverse()
+	Vue 包含一组观察数组的变异方法，所以它们也将会触发视图更新。
+	.push()
+	.pop()
+	.shift()
+	.unshift()
+	.splice()
+	.sort()
+	.reverse()
 
-filter(), concat(), slice() 这些不会改变原始数组，但总是返回一个新数组。
+	filter(), concat(), slice() 这些不会改变原始数组，但总是返回一个新数组。
+	
+	
 //当使用非变异方法时，可以用新数组替换旧数组：
-example1.items = example1.items.filter(function (item) {
-	return item.message.match(/Foo/)
-})
+	example1.items = example1.items.filter(function (item) {
+		return item.message.match(/Foo/)
+	})
 
 //由于 JavaScript 的限制， Vue 不能检测以下变动的数组：
 	1.当你利用索引直接设置一个项时，例如： vm.items[indexOfItem] = newValue
@@ -148,7 +150,6 @@ example1.items = example1.items.filter(function (item) {
 	example1.items.splice(newLength)
 
 
-	
 插件---------------------------------------------------------------
 	Vue.js 的插件应当有一个公开方法 install 。这个方法的第一个参数是 Vue 构造器 , 第二个参数是一个可选的选项对象:
 	MyPlugin.install = function (Vue, options) {
@@ -252,10 +253,6 @@ example1.items = example1.items.filter(function (item) {
 
 
 
-
-
-
-
 全局 API---------------------------------------------------------------
 ＃Vue.filter
 示例：
@@ -306,8 +303,6 @@ Vue.filter('my-filter', function (value) {
 		console.log(binding.value.text)  // => "hello!"
 	})
 
-	
-	
 	
 #Vue.mixin
 选项合并
@@ -774,10 +769,6 @@ Vue.component('currency-input', {
 
 
 
-
-
-
-
 选项---------------------------------------------------------------
 
 
@@ -848,8 +839,6 @@ computed: {
 
 
 
-
-
 #watch
 类型: { [key: string]: string | Function | Object }
 详细: 一个对象，键是需要观察的表达式，值是对应回调函数。值也可以是方法名，或者包含选项的对象。Vue 实例将会在实例化时调用 $watch()，遍历 watch 对象的每一个属性。
@@ -894,70 +883,64 @@ filters: {
 
 
 
+选项 / 生命周期钩子---------------------------------------------
 
-
-
-
-
-选项 / 生命周期钩子---------------
-
-.所有的生命周期钩子自动绑定 this 上下文到实例中，因此你可以访问数据，对属性和方法进行运算。这意味着 你不能使用箭头函数来定义一个生命周期方法 (例如 created: () => this.fetchTodos())。这是因为箭头函数绑定了父上下文，因此 this 与你期待的 Vue 实例不同， this.fetchTodos 的行为未定义。
-.钩子函数在服务器端渲染期间不被调用。
+	.所有的生命周期钩子自动绑定 this 上下文到实例中，因此你可以访问数据，对属性和方法进行运算。这意味着 你不能使用箭头函数来定义一个生命周期方法 (例如 created: () => this.fetchTodos())。这是因为箭头函数绑定了父上下文，因此 this 与你期待的 Vue 实例不同， this.fetchTodos 的行为未定义。
+	.钩子函数在服务器端渲染期间不被调用。
 
 #beforeCreate
-详细：在实例初始化之后，数据观测(data observer) 和 event/watcher 事件配置之前被调用
+	详细：在实例初始化之后，数据观测(data observer) 和 event/watcher 事件配置之前被调用
 
 #created
-详细：实例已经创建完成之后被调用。在这一步，实例已完成以下的配置：数据观测(data observer)，属性和方法的运算， watch/event 事件回调。然而，挂载阶段还没开始，$el 属性目前不可见。
+	详细：实例已经创建完成之后被调用。在这一步，实例已完成以下的配置：数据观测(data observer)，属性和方法的运算， watch/event 事件回调。然而，挂载阶段还没开始，$el 属性目前不可见。
 
 #beforeMount
-详细：在挂载开始之前被调用：相关的 render 函数首次被调用。 
+	详细：在挂载开始之前被调用：相关的 render 函数首次被调用。 
 
 #mounted
-详细：el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。如果 root 实例挂载了一个文档内元素，当 mounted 被调用时 vm.$el 也在文档内。
+	详细：el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。如果 root 实例挂载了一个文档内元素，当 mounted 被调用时 vm.$el 也在文档内。
 
 #beforeUpdate
-详细： 数据更新时调用，发生在虚拟 DOM 重新渲染和打补丁之前。
+	详细： 数据更新时调用，发生在虚拟 DOM 重新渲染和打补丁之前。
 	你可以在这个钩子中进一步地更改状态，这不会触发附加的重渲染过程。
 
 #updated
-详细：由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。
+	详细：由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。
 	当这个钩子被调用时，组件 DOM 已经更新，所以你现在可以执行依赖于 DOM 的操作。然而在大多数情况下，你应该避免在此期间更改状态，因为这可能会导致更新无限循环。
 
 #activated
-详细：keep-alive 组件激活时调用。
+	详细：keep-alive 组件激活时调用。
 
 #deactivated
-详细： keep-alive 组件停用时调用。
+	详细： keep-alive 组件停用时调用。
 
-	
 #beforeDestroy
-详细：实例销毁之前调用。在这一步，实例仍然完全可用。
+	详细：实例销毁之前调用。在这一步，实例仍然完全可用。
 
 #destroyed
-详细：Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。
+	详细：Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。
 
 
 
 
 //指令-------------------------------------------------------------------------------------------
 
-对于所有的数据绑定， Vue.js 都提供了完全的 JavaScript 表达式支持。
-{{ number + 1 }}
-{{ ok ? 'YES' : 'NO' }}
-{{ message.split('').reverse().join('') }}
-<div v-bind:id="'list-' + id"></div>
+	对于所有的数据绑定， Vue.js 都提供了完全的 JavaScript 表达式支持。
+	{{ number + 1 }}
+	{{ ok ? 'YES' : 'NO' }}
+	{{ message.split('').reverse().join('') }}
+	<div v-bind:id="'list-' + id"></div>
 
 
 #v-text
-类型： string
-示例： <span v-text="msg"></span>  or   <span>{{msg}}</span>
+	类型： string
+	示例： <span v-text="msg"></span>  or   <span>{{msg}}</span>
 
 
 v-html
-类型： string
-更新元素的 innerHTML 。注意：内容按普通 HTML 插入 - 不会作为 Vue 模板进行编译 。
-#在网站上动态渲染任意 HTML 是非常危险的，因为容易导致 XSS 攻击。只在可信内容上使用 v-html，永不用在用户提交的内容上。
+	类型： string
+	更新元素的 innerHTML 。注意：内容按普通 HTML 插入 - 不会作为 Vue 模板进行编译 。
+	#在网站上动态渲染任意 HTML 是非常危险的，因为容易导致 XSS 攻击。只在可信内容上使用 v-html，永不用在用户提交的内容上。
 
 示例： <div v-html="html"></div>
 
@@ -971,8 +954,8 @@ v-html
 
 
 #v-if
-类型： any
-用法：根据表达式的值的真假条件渲染元素。在切换时元素及它的数据绑定 / 组件被销毁并重建。如果元素是 <template> ，将提出它的内容作为条件块。
+	类型： any
+	用法：根据表达式的值的真假条件渲染元素。在切换时元素及它的数据绑定 / 组件被销毁并重建。如果元素是 <template> ，将提出它的内容作为条件块。
 
 //在字符串模板中，如 Handlebars ，我们得像这样写一个条件块：
 	{{#if ok}}
@@ -1002,47 +985,47 @@ v-html
 	
 
 #v-else
-限制： 前一兄弟元素必须有 v-if 或 v-else-if。
-用法：
-<div v-if="Math.random() > 0.5">
-	Now you see me
-</div>
-<div v-else>
-	 Now you don't
-</div>
+	限制： 前一兄弟元素必须有 v-if 或 v-else-if。
+	用法：
+	<div v-if="Math.random() > 0.5">
+		Now you see me
+	</div>
+	<div v-else>
+		 Now you don't
+	</div>
 
 
 #v-else-if
-类型: any
-限制: 前一兄弟元素必须有 v-if 或 v-else-if。
-用法:
-<div v-if="type === 'A'">
-	A
-</div>
-<div v-else-if="type === 'B'">
-	B
-</div>
-<div v-else>
-	Not A/B
-</div>
+	类型: any
+	限制: 前一兄弟元素必须有 v-if 或 v-else-if。
+	用法:
+	<div v-if="type === 'A'">
+		A
+	</div>
+	<div v-else-if="type === 'B'">
+		B
+	</div>
+	<div v-else>
+		Not A/B
+	</div>
 
 
 #v-for
-类型： Array | Object | number | string
-用法：基于源数据多次渲染元素或模板块。 此指令之值，必须使用特定语法 alias in expression ，为当前遍历的元素提供别名：
-<div v-for="item in items">
-	{{ item.text }}
-</div>
+	类型： Array | Object | number | string
+	用法：基于源数据多次渲染元素或模板块。 此指令之值，必须使用特定语法 alias in expression ，为当前遍历的元素提供别名：
+	<div v-for="item in items">
+		{{ item.text }}
+	</div>
 
-另外也可以为数组索引指定别名（或者用于对象的键）：
-<div v-for="(item, index) in items"></div>
-<div v-for="(val, key) in object"></div>
-<div v-for="(val, key, index) in object"></div>
+	另外也可以为数组索引指定别名（或者用于对象的键）：
+	<div v-for="(item, index) in items"></div>
+	<div v-for="(val, key) in object"></div>
+	<div v-for="(val, key, index) in object"></div>
 
-v-for 默认行为试着不改变整体，而是替换元素。迫使其重新排序的元素,您需要提供一个 key 的特殊属性:
-<div v-for="item in items" :key="item.id">
-	{{ item.text }}
-</div>
+	v-for 默认行为试着不改变整体，而是替换元素。迫使其重新排序的元素,您需要提供一个 key 的特殊属性:
+	<div v-for="item in items" :key="item.id">
+		{{ item.text }}
+	</div>
 
 // Template v-for
 	如同 v-if 模板，你也可以用带有 v-for 的 <template> 标签来渲染多个元素块。
@@ -1058,9 +1041,9 @@ v-for 默认行为试着不改变整体，而是替换元素。迫使其重新�
 	
 
 #v-on
-缩写： @
-类型： Function | Inline Statement  // handle or handle('ok', $event)
-参数： event (required)
+	缩写： @
+	类型： Function | Inline Statement  // handle or handle('ok', $event)
+	参数： event (required)
 
 事件修饰符:
 	.stop - 调用 event.stopPropagation()
@@ -1184,8 +1167,6 @@ v-for 默认行为试着不改变整体，而是替换元素。迫使其重新�
 
 .camel 修饰符允许在使用 DOM 模板时将 v-bind 属性名称驼峰化，例如 SVG 的 viewBox 属性：
 <svg :view-box.camel="viewBox"></svg>
-
-
 
 
 
@@ -1331,28 +1312,27 @@ v-for 默认行为试着不改变整体，而是替换元素。迫使其重新�
 </div>
 
 
-
 #v-once
-不需要表达式
-详细：只渲染元素和组件一次。随后的重新渲染,元素/组件及其所有的子节点将被视为静态内容并跳过。
-	
-只渲染元素和组件一次。随后的重新渲染,元素/组件及其所有的子节点将被视为静态内容并跳过。这可以用于优化更新性能
-<!-- 单个元素 -->
-<span v-once>This will never change: {{msg}}</span>
+	不需要表达式
+	详细：只渲染元素和组件一次。随后的重新渲染,元素/组件及其所有的子节点将被视为静态内容并跳过。
+		
+	只渲染元素和组件一次。随后的重新渲染,元素/组件及其所有的子节点将被视为静态内容并跳过。这可以用于优化更新性能
+	<!-- 单个元素 -->
+	<span v-once>This will never change: {{msg}}</span>
 
-<!-- 有子元素 -->
-<div v-once>
-	<h1>comment</h1>
-	<p>{{msg}}</p>
-</div>
+	<!-- 有子元素 -->
+	<div v-once>
+		<h1>comment</h1>
+		<p>{{msg}}</p>
+	</div>
 
-<!-- 组件 -->
-<my-component v-once :comment="msg"></my-component>
+	<!-- 组件 -->
+	<my-component v-once :comment="msg"></my-component>
 
-<!-- v-for 指令-->
-<ul>
-	<li v-for="i in list" v-once>{{i}}</li>
-</ul>
+	<!-- v-for 指令-->
+	<ul>
+		<li v-for="i in list" v-once>{{i}}</li>
+	</ul>
 
 
 

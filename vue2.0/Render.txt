@@ -12,7 +12,7 @@ module.exports = {
 		}
 	},
 	directives:{
-		focus: {
+		my-custom-directive: {
 			inserted: function (el) {
 				console.log(el)
 				// 聚焦元素
@@ -25,7 +25,7 @@ module.exports = {
 		// this.message -> props 中的 message
 	
 		// this.$data.mg 相当于 {{ this.$data.mg }}
-		// this.$data.mg 不可再render 中赋值
+		// this.$data.mg 不可再render 中赋值, 只能获取值
 		
 		var s =  createElement('p', {},'this is p' + this.$data.mg)
 		
@@ -44,6 +44,7 @@ module.exports = {
 			attrs: {
 				id:'foo'
 			},
+			// 组件 props
 			props: {
 				myProp: 'bar'
 			},
@@ -51,11 +52,15 @@ module.exports = {
 			domProps: {
 				 //innerHTML: 'baz' 
 			},
+			
+			// 事件监听器基于 `on`
+		    // 所以不再支持如 `v-on:keyup.enter` 修饰器
+		    // 需要手动匹配 keyCode。
 			on: {
 				//click: this.clickHandler
 			},
 			
-			
+			// 仅对于组件，用于监听原生事件，而不是组件内部使用 `vm.$emit` 触发的事件。
 			nativeOn: {
 				// $element.addEventListener(click, callback);
 				//click: this.nativeClickHandler
@@ -63,12 +68,22 @@ module.exports = {
 			
 			/*
 			//只能识别 对象中定义的 directives:{}
+			// 自定义指令。注意事项：不能对绑定的旧值设值
+			// Vue 会为您持续追踪
 			directives: [
 				{
-					name: 'focus'
+					name: 'my-custom-directive',
+					  value: '2',
+					  expression: '1 + 1',
+					  arg: 'foo',
+					  modifiers: {
+						bar: true
+					 }
 				}	
 			],
 			
+			// Scoped slots in the form of
+			// { name: props => VNode | Array<VNode> }
 			scopedSlots: {
 				default: props => h('span', props.text)
 			},
@@ -81,9 +96,10 @@ module.exports = {
 			ref: 'myRef'
 			
 			*/
-			}, [this.$slots.default, s, 'node'])
-			
-			// this.$slots.default －> 父组件 <p>123</p>
+		}, 
+		[this.$slots.default, s, 'node'])
+		
+		// this.$slots.default －> 父组件 <p>123</p>
 	},
 	props:{
 		message:[String]
@@ -118,24 +134,39 @@ createElement(
 	[]
 )
 
+#v-if 和 v-for
+	render: function (createElement) {
+	  if (this.items.length) {
+		return createElement('ul', this.items.map(function (item) {
+		  return createElement('li', item.name)
+		}))
+	  } else {
+		return createElement('p', 'No items found.')
+	  }
+	}
+
+
+
 
 #v-model -----------------------------------------
-
-	createElement('input', {
-		domProps: {
-		  value: self.value
-		},
-		on: {
-		  input: function (event) {
-			self.value = event.target.value;
-			
-			//改变data中的值, 实现 {{mg}} 绑定
-			vm.$data.mg = self.value
-		  }
-		}
-	})
-
-
+	render: function (createElement) {
+		var self = this
+		return createElement('input', {
+			domProps: {
+			  value: self.value
+			},
+			on: {
+			  input: function (event) {
+				self.value = event.target.value;
+				self.$emit('input', event.target.value);
+				
+				//改变data中的值, 实现 {{mg}} 绑定
+				vm.$data.mg = self.value
+			  }
+			}
+		})
+	}
+	
 ＃事件 & 按键修饰符-------------------------------
 
 	.capture	!
@@ -200,9 +231,82 @@ props: 提供props 的对象:
 
 
 
+// 样例
+	
+	<body>  
+		<div class="" id="app">  
+		<myslot>  
+			<div>this is slot</div>  
+		</myslot>  
+	  
+	  
+		</div>  
+		<script>  
+		Vue.component('myslot',{  
+			render:function(createElement){  
+				 var he=createElement('div',{domProps:{innerHTML:'this child div'}});  
+				return createElement('div',[he, this.$slots.default])  
+				}  
+		});  
+		var app=new Vue({  
+			el:'#app'  
+		})  
+		</script>  
+    </body>  
+
+#多个slot的使用
+	<body>  
+		<div class="" id="app">  
+		<myslot>  
+			<div slot="name1">this is slot</div>  
+			<div slot="name2">The position is slot2 </div>  
+		</myslot>  
+	  
+	  
+		</div>  
+		<script>  
+		Vue.component('myslot',{  
+			render:function(createElement){  
+				 var he=createElement('div',{domProps:{innerHTML:'this child div'}});  
+				return createElement('div',[he,this.$slots.name2,this.$slots.name1])  
+				}  
+		});  
+		var app=new Vue({  
+			el:'#app'  
+		})  
+		</script>  
+    </body>  
 
 
 
+	<body>  
+		<div class="" id="app">  
+		<myslot>  
+			/// props 从 render 函数中带过来的 
+			<template scope="props">  
+				<div>{{props.text}}</div>  
+			</template>  
+	  
+		</myslot>  
+	  
+	  
+		</div>  
+		<script>  
+		Vue.component('myslot',{  
+			render:function(createElement){  
+				 var he=createElement('div',{domProps:{innerHTML:'this child div'}});  
+				return createElement('div',[he,this.$scopedSlots.default({  
+					text:'hello scope'  
+				})])  
+				}  
+		});  
+		var app=new Vue({  
+			el:'#app'  
+		})  
+		</script>  
+    </body>  
+
+#多个$scopedSlot的使用
 
 
 
