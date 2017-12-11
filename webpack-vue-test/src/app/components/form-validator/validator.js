@@ -1,4 +1,4 @@
-export var MyVueValidator = function(context) {
+export var Validator = function(context) {
     if (!context.$attrs.name) throw "form no nama property";
     var classarr = ['pristine', 'dirty', 'valid', 'invalid'];
     var infoname = {
@@ -27,6 +27,9 @@ export var MyVueValidator = function(context) {
 
     // form 中所有的表单的 name
     this.formkeys = [];
+    // 记录 表单中的 v-model
+    this.vmodels = [];
+
 
     // form 中所有的表单
     this.forminputs = [];
@@ -43,12 +46,24 @@ export var MyVueValidator = function(context) {
                     if (!name) continue;
                     this.formkeys.push(name);
                     this.forminputs.push(child.elm);
+
+                    if (child.data.directives) {
+                        for (let directive of child.data.directives) {
+                            if (directive.rawName === 'v-model') {
+                                this.vmodels.push(directive.expression);
+                                break;
+                            };
+                        }
+                    }
                 }
             }
         }
         // 数组去重
         let set = new Set(this.formkeys);
         this.formkeys = [...set];
+
+        let models = new Set(this.vmodels);
+        this.vmodels = [...models];
     };
 
     // form 和 input的状态
@@ -132,6 +147,7 @@ export var MyVueValidator = function(context) {
             let flag = true;
             for (let input of this.forminputs) {
                 flag = this.inputvalidator(input);
+                if (!flag) break;
             }
             $parent.$set($parent[this.formname], 'valid', flag);
             $parent.$set($parent[this.formname], 'invalid', !flag);
@@ -140,7 +156,7 @@ export var MyVueValidator = function(context) {
 
     // 初始化表单
     this.inputsinit = function() {
-        // 设置 表单 pristine dirty 状态
+        // 设置 input pristine dirty 状态
         for (let c of this.formkeys) {
             var objinput = $parent[this.formname][c];
             $parent.$set(objinput, 'pristine', true);
@@ -189,11 +205,62 @@ export var MyVueValidator = function(context) {
         }
     }
 
+    this.subscribe = function() {
+        var obj = $parent.$children[0].$slots;
+        console.log(obj)
+
+        /* var formComponent = {
+            o: obj
+        }; */
+
+
+        Object.defineProperty($parent.$children[0], '$slots', {
+            set: function() {
+                /* obj = $parent.$children[0].$slots;
+
+                console.log(2222222222); */
+            },
+            get: function() {
+                /* console.log(333333);
+                console.log(obj)
+                return obj; */
+            }
+        })
+        console.log(111)
+        console.log($parent)
+        console.log(obj)
+
+
+
+        setTimeout(() => {
+            console.log($parent.$children[0].$slots)
+        }, 2000);
+    }
+
+    // this.subscribe()
+
+
+    // 初始化 函数------------------------------------------------------------
+    this.initialize = function() {
+        this.childloop(this.children);
+        this.inputsinit();
+        this.statuswatch();
+
+        /* console.log($parent)
+        setTimeout(() => {
+            console.log($parent)
+        }, 8000); */
+    }
+    this.initialize();
+
+
+
+    // 重置表单------------------------------------------------------------
     var contract = function($scope, array) {
         var form;
         if (array.length > 1) {
             if (!$scope[array[0]]) {
-                $scope[array[0]] = {};
+                $scope[array[0]] = $scope;
             };
             form = $scope[array[0]];
             for (var i = 1; i < array.length - 1; i++) {
@@ -203,37 +270,18 @@ export var MyVueValidator = function(context) {
         } else {
             form = $scope;
         }
-        console.log(999);
-        console.log(form);
         return form;
     }
 
     this.restForm = function() {
-        var obj = {}
-        var a = ['form', 'input6', 'name']
-        var c = contract(obj, a);
-        console.log(222);
-        console.log(obj);
-        c.name = 'zhoubingbing'
-        console.log(c === obj.input6);
-        console.log(obj);
-        console.log(222);
-
-        for (let c of this.formkeys) {
-
-            /* var objinput = $parent[this.formname][c];
-            $parent.$set(objinput, 'pristine', true);
-            $parent.$set(objinput, 'dirty', false); */
+        for (let vmodel of this.vmodels) {
+            let v = vmodel.split('.');
+            var obj = contract($parent, v);
+            $parent.$set(obj, v[v.length - 1], '');
         }
-    }
-
-    this.initialize = function() {
-        this.childloop(this.children);
         this.inputsinit();
-        this.statuswatch();
-        this.restForm()
-    }
+    }.bind(this);
+    $parent.$set($parent[this.formname], 'restForm', this.restForm);
 
-    this.initialize()
 
 }

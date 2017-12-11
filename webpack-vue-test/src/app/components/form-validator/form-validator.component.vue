@@ -1,5 +1,5 @@
 <script>
-import { MyVueValidator } from "components/com-test/my-vue-validator";
+import { Validator } from "components/form-validator/validator";
 export default {
     data: function() {
         return {
@@ -10,9 +10,10 @@ export default {
         return createElement("form", this.$slots.default);
     },
     mounted: function() {
-        this.validator = new MyVueValidator(this);
-        console.log(this.validator);
-        /* console.log(this.validator.formkeys); */
+        this.validator = new Validator(this);
+        console.log(this.validator.vmodels);
+        /* console.log(this.validator); */
+        console.log(this.validator.formkeys);
         /* console.log(this.validator.forminputs); */
     }
 };
