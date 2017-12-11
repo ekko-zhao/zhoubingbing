@@ -30,13 +30,13 @@ import {
 Vue.component('com-test', ComTestComponent)
 Vue.component('input-test', InputTestComponent)
 
-/* Vue.component('parent-com', {
-    functional: true,
-    render: function(createElement, context) {
-        console.log(this)
-        console.log(context)
-    }
-}) */
+Vue.component('parent-com', {
+    template: `
+    <div class="child">
+        <slot></slot>
+    </div>
+    `
+})
 
 Vue.config.silent = true;
 new Vue({
@@ -44,25 +44,31 @@ new Vue({
     template: `
         <div>
             <com-test name="editForm" novalidate>
-                <input type="text" name="input1" v-model="input1" />
-                <p>pp</p>
-                <div name="input2">
-                    <input type="text" name="input2" />
-                    <p>pp</p>
-                    <div><p>
-                        <input type="text" name="input2" min-length="3" max-length="10" pattern="/^[0-9]+$/"/>
-                        <input type="text" name="input3" />
-                    </p></div>
+                <div>
+                    <input type="text" name="input1" v-model="input1" min-length="5" max-length="8" pattern="/^[a-z]+$/"/>
+                    <p>valid:{{this.editForm.input1}}</p>
+                </div>
+                <div>
+                    <input type="text" name="input2" @change="change" v-model="input2" min-length="2" max-length="7" pattern="/^[0-9]+$/"/>
+                    <br/>valid:{{this.editForm.input2}}
+                </div>
+                <div>
+                    <input type="text" name="input3" v-model="form.name1" min-length="10" max-length="20" pattern="/^[a-z]+$/"/>
+                    <br/>valid:{{this.editForm.input3}}
                 </div>
             </com-test>
-            {{this.editForm.input2.pattern}}
-            {{this.editForm.invalid}}
-
+            <br/>
+            editForm.valid:{{this.editForm.valid}}
+            <br/>
+            editForm.invalid:{{this.editForm.invalid}}
         </div>
     `,
     data() {
         return {
-            input1: 'input1',
+            input2: '123',
+            form: {
+                name1: 'name1'
+            },
             editForm: {
                 input1: {},
                 input2: {},
@@ -74,11 +80,21 @@ new Vue({
         };
     },
     methods: {
-
+        change() {
+            console.log(12221)
+        }
     },
     mounted: function() {
         setTimeout(() => {
-            //console.log(this.editForm.input2);
+            this.input2 = '6555';
+        }, 2000)
+
+        setTimeout(() => {
+            this.input3 = '6';
+        }, 3000)
+
+        setTimeout(() => {
+            this.input3 = 'abcd';
         }, 4000)
     }
 });
