@@ -1,0 +1,262 @@
+﻿import Vue from 'vue';
+import VueOnsen from 'vue-onsenui';
+
+// 导航----------------------------------------------------------------------------------------
+#v-ons-navigator
+	.Props
+	animation: String
+		"slide" | "lift" | "fade" | "none"
+		"-ios" or "-md" 后缀 "lift-ios", "lift-md".
+		Defaults values are "slide-ios" and "fade-md" depending on the platform.
+		
+	animationOptions：Expression
+		{duration: 0.2, delay: 1, timing: 'ease-in'}
+	
+	callback:Function 
+		Function that is called when the transition has ended
+	
+	page-stack: Array
+		页面队列
+	
+	swipe-target-width： '*px'
+		可以touch 页面 ， 距离屏幕的距离
+	
+	swipe-threshold
+	
+	swipeable: Boolean
+		允许 touch 页面
+	
+	.Events 
+	@prepush="prepush"
+	
+	prepush		// 添加页面之前
+	prepop		// 返回页面之前
+	postpush
+	postpop
+		方法参数 event
+		event.navigator
+		event.currentPage
+		event.cancel 阻止
+	
+	deviceBackButton
+		方法参数 event
+		event.preventDefault
+		event.callParentHandler
+
+#demo
+	new Vue({
+		el: '#app',
+		template: `
+			<v-ons-navigator swipeable :page-stack="pageStack" @push-page="pageStack.push($event)" @pop-page="pageStack.pop()">
+			</v-ons-navigator>
+		`,
+		data() {
+			return {
+				pageStack: [MerchantNocomponent],
+			};
+		}
+	});
+
+	// merchant-no.component.vue
+	<template >
+	  <v-ons-page>
+		<v-ons-toolbar>
+		  <div class="center">Page 1</div>
+		</v-ons-toolbar>
+		<p style="text-align: center">
+		  This is the first page
+		  <v-ons-button @click="push">Push Page 2</v-ons-button>
+		</p>
+	  </v-ons-page>
+	</template>
+	<script>
+		export defaut {
+			methods:{
+				push(){
+					this.$emit('push-page', page1);
+				}
+			}
+		
+		}
+	</script>
+	
+	// page1.component.vue
+	代码同 merchant-no.component.vue
+	
+#v-ons-back-button -------------------------
+	用于返回页面
+	
+	<v-ons-back-button />
+	
+	Props
+	modifier： String // 显示返回箭头
+		material  // 返回箭头
+	
+	Events 
+	click
+		Parameters： event
+		event.preventDefault  // 组织跳转页面
+	
+	
+	
+// LIST -----------------------------------------------------------------------------------------------------------
+	<v-ons-list-title>title</v-ons-list-title>
+	<v-ons-list-item>
+		<v-ons-list-header>header</v-ons-list-header>
+		<div class="left">Left</div>
+		<div class="center">Center</div>
+		<div class="right">Right</div>
+	</v-ons-list-item>
+	
+	
+#v-ons-list-title
+	Props  
+		modifier: String
+			material // 原设计 显示
+
+#v-ons-list-header
+	Props  
+		modifier: String
+			material // 原设计 显示
+
+#v-ons-list
+	Props 
+		modifier: String
+			inset		// Inset列表，它不覆盖父类的整个宽度
+			noborder 	// 上下没边
+	
+	
+#v-ons-list-item
+	<v-ons-list-item>
+		<div class="left">Left</div>
+		<div class="center">Center</div>
+		<div class="right">Right</div>
+	</v-ons-list-item>
+	
+	.Props
+		tap-background-colo // 修改tap 颜色
+		modifier: String
+			tappable
+			longdivider		// 在列表之间显示一个长 隔线
+			nodivider  		列表之间没有 隔线
+			tappable		// 配合 tap-background-color 可以点击显示颜色
+			chevron			// 在列表右边显示 箭头 
+			material		// 显示原设计的 item
+	
+#v-ons-lazy-repeat
+	<v-ons-list>
+      <v-ons-lazy-repeat
+        :render-item="renderItem"
+        :length="1000">
+      </v-ons-lazy-repeat>
+    </v-ons-list>
+	
+	new Vue({
+  el: '#app',
+  template: ``,
+  data() {
+    return {
+      renderItem:
+        i => new Vue({
+          template: `
+            <v-ons-list-item :key="index">
+              #{{ index }}
+            </v-ons-list-item>
+          `,
+          data() {
+            return {
+              index: i
+            };
+          }
+        })
+    };
+  }
+});
+	
+	
+// GRID----------------------------------------------------------------------------------
+<v-ons-row>
+  <v-ons-col width="50px"><v-ons-icon icon="fa-twitter"></v-ons-icon></v-ons-col>
+  <v-ons-col>Text</v-ons-col>
+</v-ons-row>
+
+#v-ons-row
+	Props
+		vertical-align: “top”, “center”, and “bottom”
+		
+#v-ons-col
+	Props
+		vertical-align: “top”, “center”, and “bottom”
+		width: (“10%”, “50px”)
+	
+	
+//PAGE-----------------------------------------------------------------------------------------------------
+#v-ons-page
+	Props
+		infinite-scroll: Function 加载更多
+		modifier ：String
+			material
+	
+	Events
+		init
+		show
+		hide
+		destroy
+			Parameters: event
+		deviceBackButton
+			Parameters: event 
+			event.preventDefault
+			event.callParentHandler	
+	
+#v-ons-toolbar
+	<v-ons-toolbar>
+      <div class="center">{{ title }}</div>
+      <div class="right">
+        <v-ons-toolbar-button>
+          <v-ons-icon icon="ion-navicon, material: md-menu"></v-ons-icon>
+        </v-ons-toolbar-button>
+      </div>
+    </v-ons-toolbar>
+	
+	Props
+		inline:Boolean   // Display the toolbar as an inline componen
+		modifier ：String
+			material
+			transparent
+			noshadow
+			cover-content	// Displays the toolbar on top of the page’s content. 和 transparent 一起使用
+	
+#v-ons-bottom-toolbar
+	Props
+		modifier ：String
+			transparent
+			aligned
+	
+#v-ons-toolbar-button
+	<v-ons-toolbar-button>
+	  <v-ons-icon icon="ion-navicon, material: md-menu"></v-ons-icon>
+	</v-ons-toolbar-button>
+	Props
+		disabled
+			modifier ：String
+				material
+				outline
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

@@ -2,6 +2,7 @@ import AgreementListcomponent from "components/agreement-list/agreement-list.com
 import {
     regex
 } from "service/regex";
+import Vue from 'vue';
 
 export default {
     key: "merchantNo",
@@ -12,7 +13,20 @@ export default {
             visible: false,
             form: {
                 merchantNo: ''
-            }
+            },
+            renderItem:
+            i => new Vue({
+              template: `
+                <v-ons-list-item :key="index">
+                  #{{ index }}
+                </v-ons-list-item>
+              `,
+              data() {
+                return {
+                  index: i
+                };
+              }
+            })
         }
     },
     methods: {

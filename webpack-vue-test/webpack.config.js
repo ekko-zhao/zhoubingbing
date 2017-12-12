@@ -14,8 +14,8 @@ module.exports = {
     entry: {
         appcss: './src/appcss',
         polyfills: './src/polyfills',
-        index: './src/app.test'
-        //index: './src/app'
+        //index: './src/app.test'
+        index: './src/app'
     },
     output: {
         path: __dirname + '/dist',
