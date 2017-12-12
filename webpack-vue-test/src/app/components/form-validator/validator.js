@@ -1,5 +1,5 @@
 export var Validator = function(context) {
-    if (!context.$attrs.name) throw "form no nama property";
+    if (!context.$attrs.name) throw "form no name property";
     var classarr = ['pristine', 'dirty', 'valid', 'invalid'];
     var infoname = {
         pristine: 'pristine',
@@ -9,15 +9,25 @@ export var Validator = function(context) {
         required: 'required',
         min: 'minlength',
         max: 'maxlength',
-        pattern: 'pattern'
+        minchar: 'mincharlength',
+        maxchar: 'maxcharlength',
+        pattern: 'pattern',
+        restForm: 'restForm'
     }
-    var status = ['$error']
-
-    // 父组件
-    var $parent = this.$parent = context.$parent;
 
     // form 名字
     this.formname = context.$attrs.name;
+
+    // 父组件
+    var $parent = context.$parent;
+    var whileflag = true;
+    while (whileflag) {
+        if (!$parent[this.formname] && $parent) {
+            $parent = $parent.$parent
+        } else {
+            whileflag = false;
+        }
+    }
 
     // 获取引用对象
     this.obj = $parent[this.formname];
@@ -29,7 +39,6 @@ export var Validator = function(context) {
     this.formkeys = [];
     // 记录 表单中的 v-model
     this.vmodels = [];
-
 
     // form 中所有的表单
     this.forminputs = [];
@@ -66,11 +75,24 @@ export var Validator = function(context) {
         this.vmodels = [...models];
     };
 
+    var chkstrlen = function(str) {
+        var strlen = 0;
+        for (var i = 0; i < str.length; i++) {
+            if (str.charCodeAt(i) > 255)
+                strlen += 2;
+            else
+                strlen++;
+        }
+        return strlen;
+    }
+
     // form 和 input的状态
     this.inputvalidator = function(input) {
         var required = input.getAttribute('required');
         var minlength = parseInt(input.getAttribute('min-length'));
         var maxlength = parseInt(input.getAttribute('max-length'));
+        var mincharlength = parseInt(input.getAttribute('min-charlength'));
+        var maxcharlength = parseInt(input.getAttribute('max-charlength'));
         var pattern = eval(input.getAttribute('pattern'));
         var value = input.value;
         var valueempty = (value === '' || value.trim() === '');
@@ -85,72 +107,89 @@ export var Validator = function(context) {
         // 是否为空
         if (required && valueempty) {
             flag = false;
-            $parent.$set(objinput, 'required', true);
+            $parent.$set(objinput, infoname.required, true);
         } else if (required) {
-            $parent.$set(objinput, 'required', false);
+            $parent.$set(objinput, infoname.required, false);
         }
 
         // 设置 表单 pristine dirty 状态
         if (!valueempty) {
-            $parent.$set(objinput, 'pristine', false);
-            $parent.$set(objinput, 'dirty', true);
+            $parent.$set(objinput, infoname.pristine, false);
+            $parent.$set(objinput, infoname.dirty, true);
         }
-
+        // 最小长度
         if (minlength && value.length < minlength) {
             // 值不为空时 赋值
             if (!valueempty) flag = false;
-            $parent.$set(objinput, 'minlength', true);
+            $parent.$set(objinput, infoname.min, true);
         } else if (minlength) {
-            $parent.$set(objinput, 'minlength', false);
+            $parent.$set(objinput, infoname.min, false);
         }
         // 最大长度
         if (maxlength && value.length > maxlength) {
             if (!valueempty) flag = false;
-            $parent.$set(objinput, 'maxlength', true);
+            $parent.$set(objinput, infoname.max, true);
         } else if (maxlength) {
-            $parent.$set(objinput, 'maxlength', false);
+            $parent.$set(objinput, infoname.max, false);
         }
+        // 按字符最小长度
+        if (mincharlength && chkstrlen(value) < mincharlength) {
+            // 值不为空时 赋值
+            if (!valueempty) flag = false;
+            $parent.$set(objinput, infoname.minchar, true);
+        } else if (mincharlength) {
+            $parent.$set(objinput, infoname.minchar, false);
+        }
+        // 按字符最大长度
+        if (maxcharlength && chkstrlen(value) > maxcharlength) {
+            // 值不为空时 赋值
+            if (!valueempty) flag = false;
+            $parent.$set(objinput, infoname.maxchar, true);
+        } else if (maxcharlength) {
+            $parent.$set(objinput, infoname.maxchar, false);
+        }
+
         // 正则
         if (pattern && !pattern.test(value)) {
             if (!valueempty) flag = false;
-            $parent.$set(objinput, 'pattern', true);
+            $parent.$set(objinput, infoname.pattern, true);
         } else if (pattern) {
-            $parent.$set(objinput, 'pattern', false);
+            $parent.$set(objinput, infoname.pattern, false);
         }
 
         // flag 状态
         if (flag) {
-            input.classList.remove('invalid');
-            input.classList.add('valid');
+            input.classList.remove(infoname.invalid);
+            input.classList.add(infoname.valid);
         } else {
-            input.classList.remove('valid');
-            input.classList.add('invalid');
+            input.classList.remove(infoname.valid);
+            input.classList.add(infoname.invalid);
         }
         // input状态
-        $parent.$set(objinput, 'valid', flag);
-        $parent.$set(objinput, 'invalid', !flag);
+        $parent.$set(objinput, infoname.valid, flag);
+        $parent.$set(objinput, infoname.invalid, !flag);
         return flag;
     }
 
     var inputaddEvent = function(event) {
         let input = event.target;
-        input.classList.remove('pristine');
-        input.classList.add('dirty');
+        input.classList.remove(infoname.pristine);
+        input.classList.add(infoname.dirty);
 
         let flag = this.inputvalidator(input);
         // 表单状态
-        let valid = $parent[this.formname]['valid'];
+        let valid = $parent[this.formname][infoname.valid];
         if (valid && !flag) {
-            $parent.$set($parent[this.formname], 'valid', flag);
-            $parent.$set($parent[this.formname], 'invalid', !flag);
+            $parent.$set($parent[this.formname], infoname.valid, flag);
+            $parent.$set($parent[this.formname], infoname.invalid, !flag);
         } else if (!valid && flag) {
             let flag = true;
             for (let input of this.forminputs) {
                 flag = this.inputvalidator(input);
                 if (!flag) break;
             }
-            $parent.$set($parent[this.formname], 'valid', flag);
-            $parent.$set($parent[this.formname], 'invalid', !flag);
+            $parent.$set($parent[this.formname], infoname.valid, flag);
+            $parent.$set($parent[this.formname], infoname.invalid, !flag);
         }
     }.bind(this);
 
@@ -159,21 +198,21 @@ export var Validator = function(context) {
         // 设置 input pristine dirty 状态
         for (let c of this.formkeys) {
             var objinput = $parent[this.formname][c];
-            $parent.$set(objinput, 'pristine', true);
-            $parent.$set(objinput, 'dirty', false);
+            $parent.$set(objinput, infoname.pristine, true);
+            $parent.$set(objinput, infoname.dirty, false);
         }
         var flag = true;
         for (let input of this.forminputs) {
-            input.classList.remove('dirty');
-            input.classList.add('pristine');
+            input.classList.remove(infoname.dirty);
+            input.classList.add(infoname.pristine);
             input.removeEventListener('input', inputaddEvent);
             input.addEventListener('input', inputaddEvent);
 
             var f = this.inputvalidator(input);
             if (!f) flag = f;
         }
-        $parent.$set($parent[this.formname], 'valid', flag);
-        $parent.$set($parent[this.formname], 'invalid', !flag);
+        $parent.$set($parent[this.formname], infoname.valid, flag);
+        $parent.$set($parent[this.formname], infoname.invalid, !flag);
     }
 
     // 状态更新 $parent.$watch
@@ -189,71 +228,29 @@ export var Validator = function(context) {
                     };
                 }
                 // 表单状态
-                let valid = $parent[$this.formname]['valid'];
+                let valid = $parent[$this.formname][infoname.valid];
                 if (valid && !flag) {
-                    $parent.$set($parent[$this.formname], 'valid', flag);
-                    $parent.$set($parent[$this.formname], 'invalid', !flag);
+                    $parent.$set($parent[$this.formname], infoname.valid, flag);
+                    $parent.$set($parent[$this.formname], infoname.invalid, !flag);
                 } else if (!valid && flag) {
                     let flag = true;
                     for (let input of $this.forminputs) {
                         flag = $this.inputvalidator(input);
                     }
-                    $parent.$set($parent[$this.formname], 'valid', flag);
-                    $parent.$set($parent[$this.formname], 'invalid', !flag);
+                    $parent.$set($parent[$this.formname], infoname.valid, flag);
+                    $parent.$set($parent[$this.formname], infoname.invalid, !flag);
                 }
             })
         }
     }
-
-    this.subscribe = function() {
-        var obj = $parent.$children[0].$slots;
-        console.log(obj)
-
-        /* var formComponent = {
-            o: obj
-        }; */
-
-
-        Object.defineProperty($parent.$children[0], '$slots', {
-            set: function() {
-                /* obj = $parent.$children[0].$slots;
-
-                console.log(2222222222); */
-            },
-            get: function() {
-                /* console.log(333333);
-                console.log(obj)
-                return obj; */
-            }
-        })
-        console.log(111)
-        console.log($parent)
-        console.log(obj)
-
-
-
-        setTimeout(() => {
-            console.log($parent.$children[0].$slots)
-        }, 2000);
-    }
-
-    // this.subscribe()
-
 
     // 初始化 函数------------------------------------------------------------
     this.initialize = function() {
         this.childloop(this.children);
         this.inputsinit();
         this.statuswatch();
-
-        /* console.log($parent)
-        setTimeout(() => {
-            console.log($parent)
-        }, 8000); */
     }
     this.initialize();
-
-
 
     // 重置表单------------------------------------------------------------
     var contract = function($scope, array) {
@@ -281,7 +278,7 @@ export var Validator = function(context) {
         }
         this.inputsinit();
     }.bind(this);
-    $parent.$set($parent[this.formname], 'restForm', this.restForm);
-
+    console.log($parent[this.formname])
+    $parent.$set($parent[this.formname], infoname.restForm, this.restForm);
 
 }

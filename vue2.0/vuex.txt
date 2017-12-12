@@ -31,9 +31,12 @@ const store = new Vuex.Store({
 	* store.commit('key') 将会分发到 mutations 对象中的key
 	
 	
-	
-	
- 
+// 在组件中使用----------------------------------------------------------------------------------------------------
+	new Vue({
+		store: store,
+		el: '#app'
+	})
+
  
 现在，你可以通过 store.state 来获取状态对象，以及通过 store.commit 方法触发状态变更：
 	store.commit('increment')
