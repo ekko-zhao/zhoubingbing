@@ -1,7 +1,279 @@
 ﻿import Vue from 'vue';
 import VueOnsen from 'vue-onsenui';
 
-// 导航----------------------------------------------------------------------------------------
+Props 为指令的属性
+	<v-ons-directive :prop="data.property"  ><v-ons-directive> // 动态绑定
+	<v-ons-directive prop="value"  ><v-ons-directive>
+	
+Events 为指令的回调方法
+	<v-ons-directive @eventName ="methods.name"><v-ons-directive>
+
+	
+	
+	
+// 页面结构-----------------------------------------------------------------------------------------------------
+#v-ons-page
+	Props
+		infinite-scroll: Function 加载更多
+		modifier ：String
+			material
+	
+	Events
+		init
+		show
+		hide
+		destroy
+			Parameters: event
+		deviceBackButton
+			Parameters: event 
+			event.preventDefault
+			event.callParentHandler	
+	
+#v-ons-toolbar
+	页面顶部栏
+	<v-ons-toolbar>
+      <div class="center">{{ title }}</div>
+      <div class="right">
+        <v-ons-toolbar-button>
+          <v-ons-icon icon="ion-navicon, material: md-menu"></v-ons-icon>
+        </v-ons-toolbar-button>
+      </div>
+    </v-ons-toolbar>
+	
+	Props
+		inline:Boolean   // Display the toolbar as an inline componen
+		modifier ：String
+			material
+			transparent
+			noshadow
+			cover-content	// Displays the toolbar on top of the page’s content. 和 transparent 一起使用
+	
+#v-ons-bottom-toolbar
+	页面底部栏
+	Props
+		modifier ：String
+			transparent
+			aligned
+	
+#v-ons-toolbar-button
+	用于 顶部栏 底部栏
+	<v-ons-toolbar-button>
+	  <v-ons-icon icon="ion-navicon, material: md-menu"></v-ons-icon>
+	</v-ons-toolbar-button>
+	Props
+		disabled
+			modifier ：String
+				material
+				outline
+				
+				
+				
+// 分栏 ---------------------------------------------------------------------------------------------------
+	<v-ons-row>
+	  <v-ons-col width="50px"><v-ons-icon icon="fa-twitter"></v-ons-icon></v-ons-col>
+	  <v-ons-col>Text</v-ons-col>
+	</v-ons-row>
+
+#v-ons-row
+	Props
+		vertical-align: “top”, “center”, and “bottom”
+		
+#v-ons-col
+	Props
+		vertical-align: “top”, “center”, and “bottom”
+		width: (“10%”, “50px”)
+	
+	
+	
+	
+// 列表 -----------------------------------------------------------------------------------------------------------
+	<v-ons-list-title>title</v-ons-list-title>
+	<v-ons-list-item>
+		<v-ons-list-header>header</v-ons-list-header>
+		<div class="left">Left</div>
+		<div class="center">Center</div>
+		<div class="right">Right</div>
+	</v-ons-list-item>
+	
+	
+#v-ons-list-title
+	Props  
+		modifier: String
+			material // 原设计 显示
+
+#v-ons-list-header
+	Props  
+		modifier: String
+			material // 原设计 显示
+
+#v-ons-list
+	Props 
+		modifier: String
+			inset		// Inset列表，它不覆盖父类的整个宽度
+			noborder 	// 上下没边
+	
+	
+#v-ons-list-item
+	<v-ons-list-item>
+		<div class="left">Left</div>
+		<div class="center">Center</div>
+		<div class="right">Right</div>
+	</v-ons-list-item>
+	
+	.Props
+		tap-background-colo // 修改tap 颜色
+		modifier: String
+			tappable
+			longdivider		// 在列表之间显示一个长 隔线
+			nodivider  		列表之间没有 隔线
+			tappable		// 配合 tap-background-color 可以点击显示颜色
+			chevron			// 在列表右边显示 箭头 
+			material		// 显示原设计的 item
+	
+#v-ons-lazy-repeat
+	<v-ons-list>
+      <v-ons-lazy-repeat
+        :render-item="renderItem"
+        :length="1000">
+      </v-ons-lazy-repeat>
+    </v-ons-list>
+	
+	new Vue({
+  el: '#app',
+  template: ``,
+  data() {
+    return {
+      renderItem:
+        i => new Vue({
+          template: `
+            <v-ons-list-item :key="index">
+              #{{ index }}
+            </v-ons-list-item>
+          `,
+          data() {
+            return {
+              index: i
+            };
+          }
+        })
+    };
+  }
+});
+
+
+
+
+
+// FORM--------------------------------------------------------------------------------------------------------------------
+	
+#v-ons-button
+	<v-ons-button style="margin: 6px 0">Normal</v-ons-button>
+	Props
+		disabled：Boolean
+		ripple：Boolean   	// 点击按钮时发生连锁反应 （显示内置 圆圈放大效果）
+		modifier： String
+			outline
+			quiet	
+			light			// 不显眼的按钮
+			cta				// 非常显眼的按钮	
+			large			// covers the width of the screen
+			large--quiet
+			large--cta
+			material
+			material--flat	// 单调的，
+
+			
+#v-ons-checkbox
+	<v-ons-checkbox :input-id="'checkbox-id'" :value="'color'" v-model="checkedColors" />
+	input-id
+	material
+	noborder
+
+	
+#v-ons-fab
+	<v-ons-fab position="bottom right" :visible="fabVisible">
+		<v-ons-icon icon="md-face"></v-ons-icon>
+    </v-ons-fab>
+	Props
+		disabled
+		modifier
+			mini
+		position		
+			 like "bottom right" or "top left"
+		ripple: Boolean	// 点击按钮时发生连锁反应 （显示内置 圆圈放大效果）
+
+
+#v-ons-input
+	<v-ons-input placeholder="Input your name" float v-model="name" />
+	Props
+		float
+		input-id
+		placeholder
+		type
+		modifier： String
+			material
+			underbar
+			transparent
+
+			
+#v-ons-radio			
+<v-ons-radio input-id="" value="" />
+	Props
+		input-id
+		modifier		
+			material
+
+#v-ons-range
+	<v-ons-range v-model="volume" style="width: 100%;"></v-ons-range>
+	Props
+		disabled	
+		modifier		
+			material
+	
+	
+#v-ons-search-input
+	<v-ons-search-input placeholder="Search something"></v-ons-search-input>
+	Props
+		input-id
+		modifier		
+			material
+	
+	
+#v-ons-select
+	<v-ons-select style="width: 40%" v-model="selectedItem" >
+		<option v-for="item in items" :value="item.value">
+		  {{ item.text }}
+		</option>
+    </v-ons-select>
+	Props
+		autofocus: Boolean
+		disabled: Boolean
+		form:	String			// 将一个select组件关联到页面上的现有表单，即使没有嵌套
+		multiple:	Boolean	
+		multiple:	Boolean
+		name:	String
+		required:	Boolean
+		select-id
+		size
+		modifier
+			material
+			underbar
+	
+	
+	
+	
+#v-ons-switch
+	<v-ons-switch input-id="switch1" v-model="switchOn">
+	Props
+		checked: Boolean
+		disabled:	Boolean
+		input-id:	String
+		modifier	String
+	
+	
+	
+	
+// 导航---------------------------------------------------------------------------------------------------------------------
 #v-ons-navigator
 	.Props
 	animation: String
@@ -96,167 +368,685 @@ import VueOnsen from 'vue-onsenui';
 	click
 		Parameters： event
 		event.preventDefault  // 组织跳转页面
-	
-	
-	
-// LIST -----------------------------------------------------------------------------------------------------------
-	<v-ons-list-title>title</v-ons-list-title>
-	<v-ons-list-item>
-		<v-ons-list-header>header</v-ons-list-header>
-		<div class="left">Left</div>
-		<div class="center">Center</div>
-		<div class="right">Right</div>
-	</v-ons-list-item>
-	
-	
-#v-ons-list-title
-	Props  
-		modifier: String
-			material // 原设计 显示
 
-#v-ons-list-header
-	Props  
-		modifier: String
-			material // 原设计 显示
+		
+		
+// Tab -----------------------------------------------------------------------------------------------------------
+	<v-ons-tabbar swipeable position="auto"
+		:tabs="tabs"
+		:visible="true"
+		:index.sync="activeIndex"
+		>
+	</v-ons-tabbar>
+	
+	data() {
+        return {
+            activeIndex: 0,
+            tabs: [{
+                    icon: this.md() ? null : 'ion-home',
+                    label: 'Home',
+                    page: homePage,
+                    props: {
+                        myProp: 'This is a page prop!'
+                    },
+                    key: "homePage"
+                },
+                {
+                    icon: this.md() ? null : 'ion-ios-bell',
+                    label: 'News',
+                    page: newsPage,
+                    badge: 7,
+                    key: "newsPage"
+                }
+            ]
+        };
+    },
+	methods: {
+        md() {
+            return this.$ons.platform.isAndroid();
+        }
+    },
+    computed: {
+        title() {
+            return this.tabs[this.activeIndex].label;
+        }
+    }
 
-#v-ons-list
-	Props 
+	
+#v-ons-tabbar
+	Props
+		hide-tabs: Boolean			// 是否隐藏 最下面的 tabs ， 与 :visible="true" 冲突
+		ignore-edge-width: Number	// 两边像素的距离， 在这些区域上滑动将优先考虑父组件
+		index: Number				// :index.sync="activeIndex"
+		
+		swipeable: Boolean
+		on-swipe: Function			// swipe 时的回调
+		animation: String
+		animationOptions: Expression //{duration: 0.2, delay: 1, timing: 'ease-in'}
+		position: String			// "bottom" and "top". Use "auto"
+		tab-border: Boolean
+		tabbar-style: Boolean
 		modifier: String
-			inset		// Inset列表，它不覆盖父类的整个宽度
-			noborder 	// 上下没边
+			material
+			autogrow
+			top-border	// Shows a static border-bottom in tabs for iOS top tabbars
+		tabs: Array
+			// 见下面 #v-ons-tab 
+			Props
+				page
+				icon 
+				label 
+				active
+				badge
+			
+	Events
+		prechange	
+			Parameters: event
+				event.index
+				event.tabItem
+				event.cancel
+				
+		postchange
+		reactive
+			Parameters: event
+				event.index
+				event.tabItem
+				
+		update: index
+			// New value for index prop
+		
+
+#v-ons-tab 
+	Props
+		active: Boolean   //是否激活
+		active-icon: String	//激活时显示的图标
+		badge: String		// 显示右上标
+		icon：String
+		label：String		// tab 的标题
+
+	Events
+		click 
+			Parameters： event
+			event
+			event.preventDefault
+			
+
+			
+			
+// MENU 菜单 --------------------------------------------------------------------------------------------------
+	const customToolbar = {
+		template: `
+			<v-ons-toolbar>
+				<div class="left">
+					<v-ons-toolbar-button @click="action">
+						<v-ons-icon icon="ion-navicon, material:md-menu"></v-ons-icon>
+					</v-ons-toolbar-button>
+				</div>
+				<div class="center">{{ title }}</div>
+			</v-ons-toolbar>
+		`,
+		props: ['title', 'action']
+	};
+
+	const homePage = {
+		template: `
+			<v-ons-page>
+				<custom-toolbar title="Home" :action="toggleMenu"></custom-toolbar>
+				<p style="text-align: center">Welcome home.</p>
+			</v-ons-page>
+	  `,
+		props: ['toggleMenu'],
+		components: {
+			customToolbar
+		}
+	};
+
+	const newsPage = {
+		template: `
+			<v-ons-page>
+				<custom-toolbar title="News" :action="toggleMenu"></custom-toolbar>
+				<p style="text-align: center"> Some news here. </p>
+			</v-ons-page>
+		`,
+		props: ['toggleMenu'],
+		components: {
+			customToolbar
+		}
+	};
 	
-	
-#v-ons-list-item
-	<v-ons-list-item>
-		<div class="left">Left</div>
-		<div class="center">Center</div>
-		<div class="right">Right</div>
-	</v-ons-list-item>
-	
-	.Props
-		tap-background-colo // 修改tap 颜色
-		modifier: String
-			tappable
-			longdivider		// 在列表之间显示一个长 隔线
-			nodivider  		列表之间没有 隔线
-			tappable		// 配合 tap-background-color 可以点击显示颜色
-			chevron			// 在列表右边显示 箭头 
-			material		// 显示原设计的 item
-	
-#v-ons-lazy-repeat
-	<v-ons-list>
-      <v-ons-lazy-repeat
-        :render-item="renderItem"
-        :length="1000">
-      </v-ons-lazy-repeat>
-    </v-ons-list>
+	/*
+		<component :is="currentPage" :toggle-menu="() => openSide = !openSide"></component>
+		:is 动态获取组件
+		
+		homePage，newsPage 组件 通过 :toggle-menu 传递属性
+		
+		customToolbar 为 <custom-toolbar/> 定制组件， 传递属性 title action
+	*/
 	
 	new Vue({
-  el: '#app',
-  template: ``,
-  data() {
-    return {
-      renderItem:
-        i => new Vue({
-          template: `
-            <v-ons-list-item :key="index">
-              #{{ index }}
-            </v-ons-list-item>
-          `,
-          data() {
-            return {
-              index: i
-            };
-          }
-        })
-    };
-  }
-});
+		el: '#app',
+		template: `
+		<v-ons-page>
+			
+			<v-ons-splitter>
+				// 为左边隐藏菜单
+				<v-ons-splitter-side
+					swipeable width="150px" collapse="" side="left"
+					:open.sync="openSide"
+					>
+					<v-ons-page>
+						<v-ons-list>
+							<v-ons-list-item v-for="page in pages"
+								tappable modifier="chevron"
+								@click="currentPage = page; openSide = false"
+								>
+								<div class="center">{{ page }}</div>
+							</v-ons-list-item>
+						</v-ons-list>
+					</v-ons-page>
+				</v-ons-splitter-side>
+				
+				// page 内容
+				<v-ons-splitter-content>
+					// 动态组件
+					<component :is="currentPage" :toggle-menu="() => openSide = !openSide"></component>
+				</v-ons-splitter-content>
+			</v-ons-splitter>
+		</v-ons-page>
+		`,
+		data() {
+			return {
+				currentPage: 'home',
+				pages: ['home', 'news'],
+				openSide: false
+			};
+		},
+		components: {
+			home: homePage,
+			news: newsPage
+		}
+	});
 	
-	
-// GRID----------------------------------------------------------------------------------
-<v-ons-row>
-  <v-ons-col width="50px"><v-ons-icon icon="fa-twitter"></v-ons-icon></v-ons-col>
-  <v-ons-col>Text</v-ons-col>
-</v-ons-row>
-
-#v-ons-row
+#v-ons-splitter
+	Events
+		deviceBackButton	// 当点击设备返回按钮时， 默认默认关闭所有的 splitter， Otherwise, calls parent handler.
+		event.callParentHandler
+		event.preventDefault
+				
+#v-ons-splitter-side
 	Props
-		vertical-align: “top”, “center”, and “bottom”
+		swipe-target-width: '*px''
+		width: '*px''
+		swipeable: Boolean
+		side: String 		// left | right
+		animationv: String 	// overlay | push | reveal | default		
+		animationOptions: Expression	{duration: 0.2, delay: 1, timing: 'ease-in'}
+		open: Boolean		// 是否默认开启	 :open.sync="openSide"
+		open-threshold: Number 	// A value between 0 and 1.
+		mode: String 		// Possible values are "collapse" or "split". This attribute is read only
 		
-#v-ons-col
-	Props
-		vertical-align: “top”, “center”, and “bottom”
-		width: (“10%”, “50px”)
+	Events
+		modechange
+			event.side
+			event.mode
+			
+		preopen
+		preclose
+			event.cancel
+			event.side
+			
+		postopen
+		postclose
+			event.side
+		
+		update:open
+			Parameters： Number		// New value for open prop.
+	
+#v-ons-splitter-content
+	
+
 	
 	
-//PAGE-----------------------------------------------------------------------------------------------------
-#v-ons-page
+// 滑块轮播 -----------------------------------------------------------------------------------------
+
+	<v-ons-page>
+		<v-ons-toolbar>
+			<div class="left"><ons-toolbar-button @click="carouselIndex > 0 && carouselIndex--">i--</ons-toolbar-button></div>
+			<div class="center">Index: {{carouselIndex}}</div>
+			<div class="right"><ons-toolbar-button @click="carouselIndex < 2 && carouselIndex++">i++</ons-toolbar-button></div>
+		</v-ons-toolbar>
+
+		<v-ons-carousel fullscreen swipeable auto-scroll overscrollable
+			:index.sync="carouselIndex">
+			<v-ons-carousel-item v-for="(value, key) in items" :style="{backgroundColor: value}">
+				<div style="text-align: center; font-size: 30px; margin-top: 20px; color: #fff;">{{key}}</div>
+			</v-ons-carousel-item>
+		</v-ons-carousel>
+
+		<div :style="dots">
+			<span :index="dotIndex - 1" v-for="dotIndex in Object.keys(items).length" :key="dotIndex" style="cursor: pointer" @click="carouselIndex = dotIndex - 1">
+				{{ carouselIndex === dotIndex - 1 ? '\u25CF' : '\u25CB' }}
+			</span>
+		</div>
+	</v-ons-page>
+	
+	data() {
+		return {
+			carouselIndex: 0,
+			items: {
+				BLUE: '#085078',
+				DARK: '#373B44',
+				ORANGE: '#D38312'
+			},
+			dots: {
+				textAlign: 'center',
+				fontSize: '30px',
+				color: '#fff',
+				position: 'absolute',
+				bottom: '40px',
+				left: 0,
+				right: 0
+			}
+		};
+	}
+#v-ons-carousel
 	Props
-		infinite-scroll: Function 加载更多
-		modifier ：String
-			material
+		auto-refresh: Boolean	// 当子节点的数量发生变化时 , 自动刷新
+		auto-scroll: Boolean	// 为true ，touch结束时时自动地 把slide 与屏幕边缘对齐
+		auto-scroll-ratio		// 0.0 and 1.0 specifies how much the user must drag the carousel in order for it to auto scroll to the next item
+		centered: Boolean		// will be in the center of the carousel instead of the beginning. 
+									Useful only when the items are smaller than the carousel 
+		direction: String		// vertical | horizontal
+		disabled: Boolean
+		fullscreen: Boolean
+		index: Number
+		item-height				// v-ons-carousel-item’s height. Only works when the direction is set to “vertical”.
+		item-width				// v-ons-carousel-item’s width. Only works when the direction is set to “horizontal
+		animation: String		// none
+		animationOptions		// {duration: 0.2, delay: 1, timing: 'ease-in'}
+		overscrollable: Boolean	// If this attribute is set the carousel will be scrollable over the edge. It will bounce back when released.
+		swipeable: Boolean		// 允许拖动
+		
+		on-swipe: Function
+		
+	Events
+		postchange	
+			Parameters：event
+				event.carousel
+				event.activeIndex
+				event.lastActiveIndex
+				
+		refresh
+				event.carousel
+			
+		overscroll
+				event.carousel
+				event.activeIndex
+				event.direction
+				event.waitToReturn
+				
+		update:index
+			index 	New value for index prop.
+		
+#v-ons-carousel-item
+
+
+// 控制工具-----------------------------------------------------------------------------------------
+
+#v-ons-pull-hook
+	下拉更新
+	<v-ons-pull-hook
+		:action="loadItem"
+		@changestate="state = $event.state"
+		>
+		<span v-show="state === 'initial'"> Pull to refresh </span>
+		<span v-show="state === 'preaction'"> Release </span>
+		<span v-show="state === 'action'"> Loading... </span>
+    </v-ons-pull-hook>
+	
+	new Vue({
+	  el: '#app',
+	  template: '#main',
+	  data() {
+		return {
+		  state: 'initial',
+		  items: [1, 2, 3]
+		};
+	  },
+	  methods: {
+		loadItem(done) {
+		  setTimeout(() => {
+			this.items = [...this.items, this.items.length + 1];
+			done();
+		  }, 400);
+		}
+	  }
+	});
+	
+	Props
+		action: Function		// 更新时 触发的回调函数， 参数 done, 异步请求后 执行 done();
+		disabled: Boolean
+		fixed-content: Boolean	// 如果这个属性被设置，页面的内容在拉拽时不会移动
+		height: String			// The default value is “64px”, 下拉距离触发 action
+		on-pull: Function		// 每当组件被拉出时，钩子就会被调用。它得到了拉远比和一个动画选项对象作为参数
+		threshold-height: String  // 下拉大于该值时， 自动执行 action	
 	
 	Events
-		init
-		show
-		hide
-		destroy
-			Parameters: event
-		deviceBackButton
-			Parameters: event 
-			event.preventDefault
-			event.callParentHandler	
+		changestate
+			Parameters： event
+				event.pullHook		// Component object.
+				event.state			// 	Current state.
 	
-#v-ons-toolbar
+	
+	
+#v-ons-segment
 	<v-ons-toolbar>
-      <div class="center">{{ title }}</div>
-      <div class="right">
-        <v-ons-toolbar-button>
-          <v-ons-icon icon="ion-navicon, material: md-menu"></v-ons-icon>
-        </v-ons-toolbar-button>
+      <div class="center">
+        <v-ons-segment tabbar-id="tabbar" :index.sync="segmentIndex" style="width: 180px">
+          <button>Page 1</button>
+          <button>Page 2</button>
+          <button>Page 3</button>
+        </v-ons-segment>
       </div>
     </v-ons-toolbar>
 	
+	<v-ons-tabbar id="tabbar"
+      :tabs="tabs"
+      :index.sync="tabbarIndex"
+      @postchange="log('postchange event', $event)"
+    ></v-ons-tabbar>
+	
+	const homePage = {
+	  template: `
+		<v-ons-page>
+		  <h2>Page1</h2>
+		  <v-ons-button @click="changeTab">Change tab via tabbar</v-ons-button>
+		  <v-ons-button @click="changeButton">Change tab via segment</v-ons-button>
+		</v-ons-page>
+	  `,
+	  props: ['changeTab', 'changeButton', 'logIndexes']
+	};
+
+	const tabPage = {
+	  template: `
+		<v-ons-page>
+		  <h2>{{title}}</h2>
+		</v-ons-page>
+	  `,
+	  props: ['title', 'logIndexes']
+	};
+	
+	new Vue({
+	  el: '#app',
+	  template: '#main',
+	  data() {
+		return {
+		  segmentIndex: 0,
+		  tabbarIndex: 0,
+		  tabs: [
+			{
+			  page: homePage,
+			  props: {
+				changeTab: this.changeTab,
+				changeButton: this.changeButton,
+				logIndexes: this.logIndexes
+			  },
+			  key: "homePage"
+			},
+			{
+			  page: tabPage,
+			  props: {
+				title: 'Page2',
+				logIndexes: this.logIndexes
+			  },
+			  key: "page2"
+			},
+			{
+			  page: tabPage,
+			  props: {
+				title: 'Page3',
+				logIndexes: this.logIndexes
+			  },
+			  key: "page3"
+			}
+		  ]
+		};
+	  },
+	  methods: {
+		changeTab() {
+		  this.tabbarIndex = 1
+		},
+		changeButton() {
+		  this.segmentIndex = 1
+		}
+	  }
+	});
+	
 	Props
-		inline:Boolean   // Display the toolbar as an inline componen
-		modifier ：String
+		active-index: Number
+		disabled: Boolean
+		index: String			// If exists, specifies the current active button’s index. 
+								// It is also used as the initially active button index. Must be modified on update:index event.
+			
+		tabbar-id: String		// ID of the tabbar component to “connect” to the segment. Must be inside the same page.
+		modifier
 			material
-			transparent
-			noshadow
-			cover-content	// Displays the toolbar on top of the page’s content. 和 transparent 一起使用
 	
-#v-ons-bottom-toolbar
-	Props
-		modifier ：String
-			transparent
-			aligned
+	Events
+		postchange
+		update:index
+			Events: Events
+				event.index
+				event.segmentItem
 	
-#v-ons-toolbar-button
-	<v-ons-toolbar-button>
-	  <v-ons-icon icon="ion-navicon, material: md-menu"></v-ons-icon>
-	</v-ons-toolbar-button>
+
+
+#v-ons-speed-dial
+	快捷菜单
+	<p style="text-align: center">
+		<label>Show FAB <input type="checkbox" v-model="spdVisible" /></label>
+		<br><br>
+		<label>Show items <input type="checkbox" v-model="spdOpen" /></label>
+	</p>
+
+	<v-ons-speed-dial position="bottom right" direction="up"
+		:visible="spdVisible"
+		:open.sync="spdOpen"
+		>
+		<v-ons-fab>
+			<v-ons-icon icon="md-face"></v-ons-icon>
+		</v-ons-fab>
+
+		<v-ons-speed-dial-item v-for="(icon, name) in shareItems"
+			@click="$ons.notification.confirm(name)"
+			>
+			<v-ons-icon :icon="icon"></v-ons-icon>
+		</v-ons-speed-dial-item>
+	</v-ons-speed-dial>
+	
+	
+	data() {
+        return {
+            spdVisible: true,
+            spdOpen: true,
+            shareItems: {
+                'Twitter': 'md-twitter',
+                'Facebook': 'md-facebook',
+                'Google+': 'md-google-plus'
+            }
+        };
+    }
+	
 	Props
+		direction: String		// up | down left | right
+		disabled: Boolean
+		open: Boolean
+		position: String		// right top | right | left | top | bottom
+		ripple: Boolean			// default true, 当点击按钮时，该按钮会产生连锁反应
+		visible: Boolean
+	
+	Events
+		open
+		close
+		update:open
+		
+		click
+			Parameters: event
+				event.preventDefault
+	
+#v-ons-speed-dial-item	
+	Props
+		modifier: String
+		ripple: Boolean
+	
+	
+// 会话框-----------------------------------------------------------------------------------------
+#v-ons-action-sheet
+	<v-ons-action-sheet
+		:visible.sync="actionSheetVisible"
+		cancelable
+		title="Description"
+		>
+		<v-ons-action-sheet-button icon="md-square-o">Label 1</v-ons-action-sheet-button>
+		<v-ons-action-sheet-button icon="md-square-o" modifier="destructive">Label 2</v-ons-action-sheet-button>
+		<v-ons-action-sheet-button icon="md-square-o">Label 3</v-ons-action-sheet-button>
+    </v-ons-action-sheet>
+	Props
+		cancelable：	Boolean 	// 如果设置了这个属性，可以通过点击后台或者按下Android设备上的后退按钮来关闭动作表单
+		disabled：	Boolean
+		mask-color： 	String
+		
+		animation： 	String   	// "none" or "default"
+		animationOptions			//  {duration: 0.2, delay: 1, timing: 'ease-in'}
+		title： 	String
+		modifier：	String
+			material
+		
+	Events
+		preshow
+		postshow
+			event
+			event.actionSheet
+			
+		prehide
+		posthide
+			event
+			event.actionSheet
+			event.cancel
+		
+		
+#v-ons-action-sheet-button
+	Props
+		icon
+		modifier
+			destructive  // 特殊标记 红色显示
+			material
+	
+#v-ons-alert-dialog
+	// alert 
+		$ons.notification.alert('Hello, world!')
+	
+	// confirm 
+		$ons.notification.confirm('Are you ready?')
+
+	// confirm 带信息录入
+		this.$ons.notification.prompt('What is your name?')
+	
+	// 在页面底部 提示 结果信息， 一般用于用户操作完成后的提示
+		this.$ons.notification.toast('Hello, world!', {timeout: 2000})"
+	
+	
+	// confirm 
+	<v-ons-list-item tappable @click="alertDialog2Visible = true" >
+		<div class="center">
+			Alert Dialog (slots)
+		</div>
+	</v-ons-list-item>
+
+	<v-ons-alert-dialog modifier="rowfooter" :title="'Title props'"
+		:footer="{
+			Cancel: () => alertDialog2Visible = false,
+			Ok: () => alertDialog2Visible = false
+		}"
+		:visible.sync="alertDialog2Visible">
+		Lorem ipsum
+	</v-ons-alert-dialog>
+	
+	
+	// confirm 
+	<v-ons-list-item tappable @click="alertDialog1Visible = true" >
+		<div class="center">
+			Alert Dialog (slots)
+		</div>
+	</v-ons-list-item>
+	<v-ons-alert-dialog modifier="rowfooter" :visible.sync="alertDialog1Visible" >
+		<span slot="title">Title slots</span>
+			Lorem ipsum
+		<template slot="footer">
+			<div class="alert-dialog-button" @click="alertDialog1Visible = false">Cancel</div>
+			<div class="alert-dialog-button" @click="alertDialog1Visible = false">Ok</div>
+		</template>
+    </v-ons-alert-dialog>
+	
+	data() {
+        return {
+            dialogVisible: false,
+            alertDialog1Visible: false,
+            alertDialog2Visible: false
+        };
+    }
+	
+	Props
+		cancelable：	Boolean 
 		disabled
-			modifier ：String
-				material
-				outline
+		footer	Object				// :footer="{
+											Cancel: () => alertDialog2Visible = false,
+											Ok: () => alertDialog2Visible = false
+										}"
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		mask-color
+		animation
+		animationOptions
+		title
+		visible	// 控制显示
+		
+		modifier
+			material
+			rowfooter
+
+	Events
+		preshow
+		prehide
+			event.alertDialog
+			event.cancel
+		
+		postshow
+		posthide
+			event.alertDialog
+		
+		update:visible
+			event  // Number	New value for visible prop.
+			
+		deviceBackButton
+			event.preventDefault
+			event.callParentHandler
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	
 	
 	
