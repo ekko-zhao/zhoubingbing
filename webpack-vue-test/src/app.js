@@ -67,72 +67,32 @@ new Vue({
                 <div class="center">center</div>
             </v-ons-toolbar>
 
-            <v-ons-list-item tappable
-            @click="dialogVisible = true"
-          >
-            <div class="center">
-              Simple Dialog
-            </div>
-          </v-ons-list-item>
-
-          <v-ons-dialog cancelable
-            :visible.sync="dialogVisible"
-            >
-          <p style="text-align: center">Lorem ipsum</p>
-        </v-ons-dialog>
-
-
-        <v-ons-list-item tappable  @click="$ons.notification.prompt('What is your name?')" >
-            <div class="center"> Prompt </div>
-        </v-ons-list-item>
-
-        <v-ons-list-item @click="$ons.notification.toast('Hello, world!', {timeout: 2000})" >
-            <div class="center"> Toast </div>
-        </v-ons-list-item>
-
-
-            <v-ons-alert-dialog modifier="rowfooter" :visible.sync="alertDialog1Visible" >
-                <span slot="title">Title slots</span>
-                    Lorem ipsum
-                <template slot="footer">
-                    <div class="alert-dialog-button" @click="alertDialog1Visible = false">Cancel</div>
-                    <div class="alert-dialog-button" @click="alertDialog1Visible = false">Ok</div>
-                </template>
-           </v-ons-alert-dialog>
-
-
-        <v-ons-list-item tappable @click="alertDialog1Visible = true" >
-            <div class="center">
-                Alert Dialog (slots)
-            </div>
-        </v-ons-list-item>
-
-        <v-ons-alert-dialog modifier="rowfooter" :title="'Title props'"
-            :footer="{
-                Cancel: () => alertDialog2Visible = false,
-                Ok: () => alertDialog2Visible = false
-            }"
-            :visible.sync="alertDialog2Visible">
-            Lorem ipsum
-        </v-ons-alert-dialog>
-
-
-
         </v-ons-page>
     `,
     data() {
         return {
-            dialogVisible: false,
-            alertDialog1Visible: false,
-            alertDialog2Visible: false
+            modalVisible: false,
+            timeoutID: 0
         };
     },
-    mounted: function() {
-        this.$ons.notification.prompt('What is your name?', {
-            Ok: function(e) {
-                console.log(e)
-            }
+    mounted() {
+        console.log(this)
+        var $this = this;
+        var gesture = this.$ons.GestureDetector($this.$el);
+        gesture.on('swipeleft', function(e) {
+            console.log(e)
+            console.log(111)
         })
+
+
+        console.log(gesture)
+        /* this.$ons.on('swipe', function() {
+            console.log(1)
+        }) */
+
+        // console.log( touch )
+
+
     }
 });
 

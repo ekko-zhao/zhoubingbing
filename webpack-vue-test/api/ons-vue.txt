@@ -945,18 +945,72 @@ Events 为指令的回调方法
 #v-ons-alert-dialog
 	// alert 
 		$ons.notification.alert('Hello, world!')
-	
+		alert(message [, options] | options)
+			message: String   // message | messageHTML 
+			options:{
+				message: String  // Notification message
+				messageHTML: String		// Notification message in HTML.	
+				buttonLabels: String | Array // Default is "OK"
+				primaryButtonIndex: Number		// ndex of primary button. Default is the last one.
+				cancelable
+				animation: 'fade' | 'none'
+				id: String
+				class: String
+				title: String
+				modifier: String
+				callback: Function
+			}
+		
+		
 	// confirm 
 		$ons.notification.confirm('Are you ready?')
+		prompt(message [, options] | options)
+			message: String   // message | messageHTML 
+			options:{
+				buttonLabels:  Array    // default ['cancel','ok']
+				primaryButtonIndex： Number	// Index of primary button. Default is the last one.
+				callback : Function 	// 回掉函数 ，参数点击按钮的 index
+			}
+			
+			
 
 	// confirm 带信息录入
 		this.$ons.notification.prompt('What is your name?')
+		
+		prompt(message [, options] | options)
+			message: String   // message | messageHTML 
+			options:{
+				buttonLabels: String | Array    // ['cancel','ok']可以是多个按钮
+				primaryButtonIndex： Number		// Index of primary button. Default is the last one.
+				placeholder
+				defaultValue
+				inputType
+				autofocus
+				submitOnEnter
+				callback : Function 			// 回掉函数 ，参数为input 的值，如果 值为 nul ，则点击的不是 primary button
+			}
+		
+		
 	
 	// 在页面底部 提示 结果信息， 一般用于用户操作完成后的提示
 		this.$ons.notification.toast('Hello, world!', {timeout: 2000})"
+		toast(message [, options] | options)
+			message: String   // message | messageHTML 
+			options:{
+				message
+				buttonLabel
+				animation: none, fade, ascend, lift and fall
+				timeout
+				force			// If true, the toast skips the notification queue and is shown immediately. Defaults to false.
+				id: String
+				class: String
+				title: String
+				modifier: String
+				callback: Function
+			}
+		
 	
-	
-	// confirm 
+	// confirm html 版代码 ， 个人觉得这样增加工作量，
 	<v-ons-list-item tappable @click="alertDialog2Visible = true" >
 		<div class="center">
 			Alert Dialog (slots)
@@ -1033,20 +1087,126 @@ Events 为指令的回调方法
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+#v-ons-modal
+	模态框
+	<v-ons-modal :visible="modalVisible" @click="modalVisible = false">
+      <p style="text-align: center">
+        Loading <v-ons-icon icon="fa-spinner" spin></v-ons-icon>
+        <br><br>
+        Click or wait
+      </p>
+    </v-ons-modal>
 	
+
+	Props
+		animation： none", "fade" or "lift".
+		animationOptions：{duration: 0.2, delay: 1, timing: 'ease-in'}
+		visible: Boolean
+			
+	Events	
+		preshow
+		prehide
+			event.modal
+			event.cancel
+			
+		postshow
+		posthide
+			event.modal
+			
+		deviceBackButton
+			event.preventDefault
+			event.callParentHandler
+		
+		
+#v-ons-popover
+	<v-ons-button @click="showPopover($event, 'right')" style="align-self: flex-start">Click me</v-ons-button>
+	
+	<v-ons-popover cancelable
+      :visible.sync="popoverVisible"
+      :target="popoverTarget"
+      :direction="popoverDirection"
+      :cover-target="coverTarget"
+    >
+	
+	data() {
+    return {
+		  popoverVisible: false,
+		  popoverTarget: null,
+		  popoverDirection: 'up',
+		  coverTarget: false
+		};
+	  },
+	methods: {
+		showPopover(event, direction, coverTarget = false) {
+		  this.popoverTarget = event;
+		  this.popoverDirection = direction;
+		  this.coverTarget = coverTarget;
+		  this.popoverVisible = true;
+		}
+	}
+
+	Props
+		cancelable: Boolean		  
+		cover-target: Boolean     // If set the popover will cover the target on the screen
+		direction: up", "down", "left" and "right".
+		mask-color:	"rgba(0, 0, 0, 0.2)"
+		modifier	String
+		animation: none", "default", "fade-ios" or "fade-md
+		animationOptions:  {duration: 0.2, delay: 1, timing: 'ease-in'}.
+		target: Ref|String|Event|HTMLElement	
+		visible: Boolean
+		
+
+
+// 手势识别
+
+#$ons.GestureDetector
+	
+	$ons.GestureDetector
+		constructor(element[, options])
+	var gesture = $ons.GestureDetector(this.$el);
+	在控制台中 .log(gesture) 可看到全部的 options
+	
+	gesture.methods
+		on(gestures, handler)
+		off(gestures, handler)
+		trigger(gesture, eventData)
+		enable(state)
+		dispose()
+			gestures:
+				drag, dragleft, dragright, dragup, dragdown, 
+				hold, release, 
+				swipe, swipeleft, swiperight, swipeup, swipedown,
+				tap, doubletap, touch, transform, 
+				pinch, pinchin, pinchout and rotate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
