@@ -1,0 +1,715 @@
+// 自定义样式 --------------------------------------------------------------------------------------
+.no-highlight {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.no-select {
+  user-select: none;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.overflow-touch {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.text-ellipsis {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-default {
+  cursor: default;
+}
+
+.break-all {
+  word-break: break-all;
+}
+
+.v-top {
+  vertical-align: top;
+}
+
+.v-middle {
+  vertical-align: middle;
+}
+
+.v-bottom {
+  vertical-align: bottom;
+}
+
+// position-------------------------------------------------------------
+.pos-rlt {
+  position: relative
+}
+
+.pos-abt {
+  position: absolute
+}
+
+.pos-fix {
+  position: fixed
+}
+
+// background-color-------------------------------------------------------------
+.bg-primary {
+  color: #ffffff;
+  background-color: @brand-primary;
+}
+
+.bg-success {
+  color: #ffffff;
+  background-color: @brand-success;
+}
+
+.bg-info {
+  color: #ffffff;
+  background-color: @brand-info;
+}
+
+.bg-warning {
+  color: #ffffff;
+  background-color: @brand-warning;
+}
+
+.bg-danger {
+  color: #ffffff;
+  background-color: @brand-danger;
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+.no-bg {
+  background-color: transparent;
+}
+
+.transparent {
+  opacity: 0;
+}
+
+// shadow-------------------------------------------------------------
+.no-shadow {
+  box-shadow: none;
+}
+
+// display-------------------------------------------------------------
+.block {
+  display: block;
+}
+
+.inline {
+  display: inline;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+// 表单校验 --------------------------------------------------------------------------------------
+.invalid.dirty {
+  border-color: #ff7200;
+}
+
+.error {
+  color: #FF7100;
+}
+
+// 圆角 --------------------------------------------------------------------------------------
+.round {
+  border-radius: 50%;
+}
+
+.r {
+  border-radius: @border-radius-base;
+}
+
+.r-2x {
+  border-radius: @border-radius-base * 2;
+}
+
+.r-3x {
+  border-radius: @border-radius-base * 3;
+}
+
+.no-radius {
+  border-radius: 0;
+}
+
+// 行高 --------------------------------------------------------------------------------------
+.l-h-xs {
+  line-height: 1em;
+}
+
+.l-h-sm {
+  line-height: 1.2em;
+}
+
+.l-h {
+  line-height: 1.4em;
+}
+
+.l-h-md {
+  line-height: 1.6em;
+}
+
+.l-h-lg {
+  line-height: 1.8em;
+}
+
+.l-h-xl {
+  line-height: 2.0em;
+}
+
+.l-h-xxl {
+  line-height: 2.4em;
+}
+
+// 字体 --------------------------------------------------------------------------------------
+.font-normal {
+  font-weight: normal;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.text-lg {
+  font-size: @font-size-base + 4;
+}
+
+.text-md {
+  font-size: @font-size-base + 2;
+}
+
+.text-base {
+  font-size: @font-size-base;
+}
+
+.text-sm {
+  font-size: @font-size-base - 2;
+}
+
+.text-xs {
+  font-size: @font-size-base - 4;
+}
+
+// 颜色
+.text-muted {
+  color: #666666
+}
+
+.text-primary {
+  color: @brand-primary
+}
+
+.text-success {
+  color: @brand-success
+}
+
+.text-info {
+  color: @brand-info
+}
+
+.text-warning {
+  color: @brand-warning
+}
+
+.text-danger {
+  color: @brand-danger
+}
+
+// border -----------------------------------------------------------
+.b {
+  border: 1px @border-color solid;
+}
+
+.b-t {
+  border-top: 1px @border-color solid;
+}
+
+.b-r {
+  border-right: 1px @border-color solid;
+}
+
+.b-l {
+  border-left: 1px @border-color solid;
+}
+
+.b-b {
+  border-bottom: 1px @border-color solid;
+}
+
+.b-primary {
+  border-color: @brand-primary;
+}
+
+.b-success {
+  border-color: @brand-success;
+}
+
+.b-info {
+  border-color: @brand-info;
+}
+
+.b-warning {
+  border-color: @brand-warning;
+}
+
+.b-danger {
+  border-color: @brand-danger;
+}
+
+.b-dashed {
+  border-style: dashed;
+}
+
+.b-t-dashed {
+  border-top-style: dashed;
+}
+
+.b-r-dashed {
+  border-right-style: dashed;
+}
+
+.b-b-dashed {
+  border-bottom-style: dashed;
+}
+
+.b-l-dashed {
+  border-left-style: dashed;
+}
+
+.b-dotted {
+  border-style: dotted;
+}
+
+.b-t-dotted {
+  border-top-style: dotted;
+}
+
+.b-r-dotted {
+  border-right-style: dotted;
+}
+
+.b-b-dotted {
+  border-bottom-style: dotted;
+}
+
+.b-l-dotted {
+  border-left-style: dotted;
+}
+
+.b-color-ligth {
+  border-color: lighten(@border-color, 10%)
+}
+
+.b-color-base {
+  border-color: @border-color
+}
+
+.b-color-dark {
+  border-color: darken(@border-color, 10%)
+}
+
+.no-border {
+  border-color: transparent;
+  border-width: 0
+}
+
+// padding ------------------------------------------------------------------------------
+.padder {
+  padding: 15px;
+}
+
+.no-padder {
+  padding: 0;
+}
+
+.p-t-xl {
+  padding-top: 40px;
+}
+
+.p-t-lg {
+  padding-top: 30px;
+}
+
+.p-t-md {
+  padding-top: 20px;
+}
+
+.p-t {
+  padding-top: 15px;
+}
+
+.p-t-sm {
+  padding-top: 10px;
+}
+
+.p-t-xs {
+  padding-top: 5px;
+}
+
+.p-t-none {
+  padding-top: 0;
+}
+
+.p-r-xl {
+  padding-right: 40px;
+}
+
+.p-r-lg {
+  padding-right: 30px;
+}
+
+.p-r-md {
+  padding-right: 20px;
+}
+
+.p-r {
+  padding-right: 15px;
+}
+
+.p-r-sm {
+  padding-right: 10px;
+}
+
+.p-r-xs {
+  padding-right: 5px;
+}
+
+.p-r-none {
+  padding-right: 0;
+}
+
+.p-b-xl {
+  padding-bottom: 40px;
+}
+
+.p-b-lg {
+  padding-bottom: 30px;
+}
+
+.p-b-md {
+  padding-bottom: 20px;
+}
+
+.p-b {
+  padding-bottom: 15px;
+}
+
+.p-b-sm {
+  padding-bottom: 10px;
+}
+
+.p-b-xs {
+  padding-bottom: 5px;
+}
+
+.p-b-none {
+  padding-bottom: 0;
+}
+
+.p-l-xl {
+  padding-left: 40px;
+}
+
+.p-l-lg {
+  padding-left: 30px;
+}
+
+.p-l-md {
+  padding-left: 20px;
+}
+
+.p-l {
+  padding-left: 15px;
+}
+
+.p-l-sm {
+  padding-left: 10px;
+}
+
+.p-l-xs {
+  padding-left: 5px;
+}
+
+.p-l-none {
+  padding-left: 0;
+}
+
+// margin ---------------------------------------------------------------------------------------
+.margin {
+  margin: 15px;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+// left
+.m-l-none {
+  margin-left: 0;
+}
+
+.m-l-xxs {
+  margin-left: 1px;
+}
+
+.m-l-xs {
+  margin-left: 5px;
+}
+
+.m-l-sm {
+  margin-left: 10px;
+}
+
+.m-l {
+  margin-left: 15px
+}
+
+.m-l-md {
+  margin-left: 20px;
+}
+
+.m-l-lg {
+  margin-left: 30px;
+}
+
+.m-l-xl {
+  margin-left: 40px;
+}
+
+.m-l-n-xxs {
+  margin-left: -1px
+}
+
+.m-l-n-xs {
+  margin-left: -5px
+}
+
+.m-l-n-sm {
+  margin-left: -10px
+}
+
+.m-l-n {
+  margin-left: -15px
+}
+
+.m-l-n-md {
+  margin-left: -20px
+}
+
+.m-l-n-lg {
+  margin-left: -30px
+}
+
+.m-l-n-xl {
+  margin-left: -40px
+}
+
+// top
+.m-t-none {
+  margin-top: 0;
+}
+
+.m-t-xxs {
+  margin-top: 1px;
+}
+
+.m-t-xs {
+  margin-top: 5px;
+}
+
+.m-t-sm {
+  margin-top: 10px;
+}
+
+.m-t {
+  margin-top: 15px
+}
+
+.m-t-md {
+  margin-top: 20px;
+}
+
+.m-t-lg {
+  margin-top: 30px;
+}
+
+.m-t-xl {
+  margin-top: 40px;
+}
+
+.m-t-n-xxs {
+  margin-top: -1px
+}
+
+.m-t-n-xs {
+  margin-top: -5px
+}
+
+.m-t-n-sm {
+  margin-top: -10px
+}
+
+.m-t-n {
+  margin-top: -15px
+}
+
+.m-t-n-md {
+  margin-top: -20px
+}
+
+.m-t-n-lg {
+  margin-top: -30px
+}
+
+.m-t-n-xl {
+  margin-top: -40px
+}
+
+// right
+.m-r-none {
+  margin-right: 0;
+}
+
+.m-r-xxs {
+  margin-right: 1px;
+}
+
+.m-r-xs {
+  margin-right: 5px
+}
+
+.m-r-sm {
+  margin-right: 10px
+}
+
+.m-r {
+  margin-right: 15px
+}
+
+.m-r-md {
+  margin-right: 20px
+}
+
+.m-r-lg {
+  margin-right: 30px
+}
+
+.m-r-xl {
+  margin-right: 40px
+}
+
+.m-r-n-xxs {
+  margin-right: -1px
+}
+
+.m-r-n-xs {
+  margin-right: -5px
+}
+
+.m-r-n-sm {
+  margin-right: -10px
+}
+
+.m-r-n {
+  margin-right: -15px
+}
+
+.m-r-n-md {
+  margin-right: -20px
+}
+
+.m-r-n-lg {
+  margin-right: -30px
+}
+
+.m-r-n-xl {
+  margin-right: -40px
+}
+
+// bottom
+.m-b-none {
+  margin-bottom: 0;
+}
+
+.m-b-xxs {
+  margin-bottom: 1px;
+}
+
+.m-b-xs {
+  margin-bottom: 5px;
+}
+
+.m-b-sm {
+  margin-bottom: 10px;
+}
+
+.m-b {
+  margin-bottom: 15px;
+}
+
+.m-b-md {
+  margin-bottom: 20px;
+}
+
+.m-b-lg {
+  margin-bottom: 30px;
+}
+
+.m-b-xl {
+  margin-bottom: 40px;
+}
+
+.m-b-n-xxs {
+  margin-bottom: -1px
+}
+
+.m-b-n-xs {
+  margin-bottom: -5px
+}
+
+.m-b-n-sm {
+  margin-bottom: -10px
+}
+
+.m-b-n {
+  margin-bottom: -15px
+}
+
+.m-b-n-md {
+  margin-bottom: -20px
+}
+
+.m-b-n-lg {
+  margin-bottom: -30px
+}
+
+.m-b-n-xl {
+  margin-bottom: -40px
+}
+
+// 高度和宽度  -----------------------------------------
+.h-full {
+  height: 100%;
+}
+
+.w-full {
+  width: 100%;
+}
