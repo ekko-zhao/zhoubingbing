@@ -1,0 +1,750 @@
+
+
+
+在组件中通过 this.$router  来获得 router 实例
+
+
+
+npm install vue-router
+
+如果在一个模块化工程中使用它，必须要通过 Vue.use() 明确地安装路由功能：
+	import Vue from 'vue'
+	import VueRouter from 'vue-router'
+
+	Vue.use(VueRouter)
+
+	
+const router = new VueRouter({
+	routes: [
+		{ path: '*', component: NotFoundComponent },
+		{ path: '/user/:id', 
+			component: User, 
+				/*
+					//组件内的钩子
+					.beforeRouteEnter
+					.beforeRouteUpdate (2.2 新增)
+					.beforeRouteLeave
+					
+					User = {
+						 template: `...`,
+						 beforeRouteEnter (to, from, next) {}
+						 ...
+					}
+					
+				*/	
+			
+			
+			children: [
+				{
+					// 当 /user/:id/profile 匹配成功，
+					// UserProfile 会被渲染在 User 的 <router-view> 中
+					path: 'profile',
+					component: UserProfile
+				},
+				{
+					// 当 /user/:id/posts 匹配成功，
+					// UserPosts 会被渲染在 User 的 <router-view> 中
+					path: 'posts',
+					component: UserPosts
+				}	
+			],
+				
+			//匹配多个视图
+			components:{ },
+			
+			//重定向
+			redirect: '/b',
+			/*
+				重定向的目标也可以是一个命名的路由：
+				{ path: '/a', redirect: { name: 'foo' }}
+				
+				甚至是一个方法，动态返回重定向目标：
+				{ path: '/a', redirect: to => {
+			      // 方法接收 目标路由 作为参数
+			      // return 重定向的 字符串路径/路径对象
+				}
+			*/
+			
+			//别名 当用户访问 /b 时，URL 会保持为 /b，但是路由匹配则为 /a，就像用户访问 /a 一样。
+			alias: '/b',
+			
+			//钩子
+			beforeEnter: (to, from, next) => {
+	        	// ...
+			},
+			
+			路由元信息
+			meta: { requiresAuth: true, ... }	
+			
+			
+			
+			
+			
+		}
+	],
+	
+	/*
+	
+		mode: 'history'
+		当你使用 history 模式时，URL 就像正常的 url，例如 http://yoursite.com/user/id，也好看！
+		不过这种模式要玩好，还需要后台配置支持。
+		你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 index.html 页面，这个页面就是你 app 依赖的页面。
+		
+		//Apache
+		<IfModule mod_rewrite.c>
+			  RewriteEngine On
+			  RewriteBase /
+			  RewriteRule ^index\.html$ - [L]
+			  RewriteCond %{REQUEST_FILENAME} !-f
+			  RewriteCond %{REQUEST_FILENAME} !-d
+			  RewriteRule . /index.html [L]
+		 </IfModule>
+		
+		  //nginx
+		  location / {
+		  	try_files $uri $uri/ /index.html;
+		  }
+		  
+		
+	*/
+})
+	
+	
+	
+	
+#Getting Started-----------------------------------------
+	将组件(components)映射到路由(routes)，然后告诉 vue-router 在哪里渲染它们。
+
+HTML:
+	<div>
+		<p>
+			<!-- 使用 router-link 组件来导航. -->
+			<!-- 通过传入 `to` 属性指定链接. -->
+			<!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+			<router-link to="/foo">Go to Foo</router-link>
+			<router-link to="/bar">Go to Bar</router-link>
+			
+			*当 <router-link> 对应的路由匹配成功，将自动设置 class 属性值 .router-link-active
+			
+		</p>
+		<!-- 路由出口 -->
+		<!-- 路由匹配到的组件将渲染在这里 -->
+		<router-view></router-view>
+	<div>
+
+JavaScript:
+
+	// 1. 定义（路由）组件。
+	// 可以从其他文件 import 进来
+	const Foo = { template: '<div>foo</div>' }
+	const Bar = { template: '<div>bar</div>' }
+	
+	
+	// 2. 定义路由
+	// 每个路由应该映射一个组件。 其中"component" 可以是
+	// 通过 Vue.extend() 创建的组件构造器，
+	// 或者，只是一个组件配置对象。
+	// 我们晚点再讨论嵌套路由。
+	const routes = [
+	  { path: '/foo', component: Foo },
+	  { path: '/bar', component: Bar }
+	]
+	
+	/*
+	const routes = [
+	  { path: '/foo', component: import() },
+	  { path: '/bar', component: import() }
+	]
+	*/
+	
+
+	// 3. 创建 router 实例，然后传 `routes` 配置
+	// 你还可以传别的配置参数, 不过先这么简单着吧。
+	const router = new VueRouter({
+	  routes // （缩写）相当于 routes: routes
+	})
+	
+	
+	// 4. 创建和挂载根实例。
+	// 记得要通过 router 配置参数注入路由，
+	// 从而让整个应用都有路由功能
+	const app = new Vue({
+	  router
+	}).$mount('#app')
+	
+
+
+#动态路由匹配-----------------------------------------
+
+	模式: 			/user/:username  
+	匹配路径:			/user/evan  
+	$route.params: 	{ username: 'evan' }
+
+	模式: 			/user/:username/post/:post_id
+	匹配路径:			/user/evan/post/123	
+	$route.params: 	{ username: 'evan', post_id: 123 }
+	
+
+	//复用组件时，想对路由参数的变化作出响应的话，你可以简单地 watch（监测变化） $route 对象
+	const User = {
+		template: '...',
+		watch: {
+			'$route' (to, from) {
+				// 对路由变化作出响应...
+			}
+		}
+	}
+
+
+#高级匹配模式
+	vue-router 使用 path-to-regexp 作为路径匹配引擎
+
+	/*
+		
+		vue 无需在安装	
+	
+		安装： npm install path-to-regexp --save
+		使用： var pathToRegexp = require('path-to-regexp')
+		
+	*/
+		
+		// pathToRegexp(path, keys, options)
+		// pathToRegexp.parse(path)
+		// pathToRegexp.compile(path)
+
+		path 一个字符表达式， 字符串数组， 或一个正则表达式
+		keys 一个对象为成员的数组通过 name 属性对应到路径中 
+			var keys = []
+			var re = pathToRegexp('/foo/:bar', keys)
+			// re = /^\/foo\/([^\/]+?)\/?$/i
+			// keys = [{ name: 'bar', prefix: '/', delimiter: '/', optional: false, repeat: false, pattern: '[^\\/]+?' }]
+			{
+				name:  令牌的名称 (字符串命名 或 索引号)
+				prefix: 分段的分隔符 (/ or .)
+				delimiter: 表示令牌是可选的 (same as prefix or /)
+				optional:  表示令牌是可选的 (boolean)
+				repeat: 表示令牌重复 (boolean) // 比如说一个* 匹配多个令牌（/bar/baz/dfsdf）
+				partial: 表示此令牌是部分路径段 (boolean)
+				pattern: RegEx用于匹配此令牌 (string)
+				asterisk: 表示令牌是*匹配 (boolean)
+				
+			}	
+		
+		options:{
+			sensitive: Boolean  //(default: false)  区分大小写
+			strict: Boolean //(default: false) 当为false时，尾部斜杠是可选的
+			end:  Boolean //(default: true, 带 /g) 是否是全局匹配 相当于，带不带 /g 标识符
+			delimiter:   (default: '/') 为重复的参数 设置分隔符, 对于 pathname 匹配时，使用默认就好。
+		}
+
+	＃匹配规则：
+		var re = pathToRegexp('/:foo/:bar', keys)
+		// keys = [{ name: 'foo', prefix: '/', ... }, { name: 'bar', prefix: '/', ... }]
+		
+		re.exec('/test/route')
+		//=> ['/test/route', 'test', 'route']
+	
+	
+		
+		var re = pathToRegexp('/(apple-)?icon-:res(\\d+).png', keys)
+		// keys = [{ name: 0, prefix: '/', ... }, { name: 'res', prefix: '', ... }]
+		
+		re.exec('/icon-76.png')
+		//=> ['/icon-76.png', undefined, '76']
+	
+		
+	Modified Parameters:
+		//参数可以带有问号（？），使参数可选。 这也将使前缀可选。
+		var re = pathToRegexp('/:foo/:bar?', keys)
+		// keys = [{ name: 'foo', ... }, { name: 'bar', delimiter: '/', optional: true, repeat: false }]
+		
+		re.exec('/test')
+		//=> ['/test', 'test', undefined]
+		
+		re.exec('/test/route')
+		//=> ['/test', 'test', 'route']
+	
+	
+	Zero or more
+	*参数可以带有一个星号（*），表示零个或多个参数匹配。
+		var re = pathToRegexp('/:foo*', keys)
+		// keys = [{ name: 'foo', delimiter: '/', optional: true, repeat: true }]
+		
+		re.exec('/')
+		//=> ['/', undefined]
+		
+		re.exec('/bar/baz')
+		//=> ['/bar/baz', 'bar/baz']
+		
+		
+	One or more
+	*参数可以加上加号（+）来表示一个或多个参数匹配
+		var re = pathToRegexp('/:foo+', keys)
+		// keys = [{ name: 'foo', delimiter: '/', optional: false, repeat: true }]
+		
+		re.exec('/')
+		//=> null
+		
+		re.exec('/bar/baz')
+		//=> ['/bar/baz', 'bar/baz']
+		
+		
+	自定义匹配参数
+	*可以为所有参数提供自定义正则表达式，覆盖默认值([^\/]+)
+		var re = pathToRegexp('/:foo(\\d+)', keys)
+		// keys = [{ name: 'foo', ... }]
+		
+		re.exec('/123')
+		//=> ['/123', '123']
+		
+		re.exec('/abc')
+		//=> null
+			
+		
+	未命名参数
+		var re = pathToRegexp('/:foo/(.*)', keys)
+		// keys = [{ name: 'foo', ... }, { name: 0, ... }]
+		
+		re.exec('/test/route')
+		//=> ['/test/route', 'test', 'route']
+		
+		
+	Asterisk
+	*星号可用于匹配所有内容。 它相当于一个未命名的匹配组（.*）
+		var re = pathToRegexp('/foo/*', keys)
+		// keys = [{ name: '0', ... }]
+		
+		re.exec('/foo/bar/baz')
+		//=> ['/foo/bar/baz', 'bar/baz']
+		
+	#Parse
+	*解析函数通过pathToRegexp.parse公开。 这将返回一个字符串和键的数组。
+		var tokens = pathToRegexp.parse('/route/:foo/(.*)')
+		
+		console.log(tokens[0])
+		//=> "/route"
+		
+		console.log(tokens[1])
+		//=> { name: 'foo', prefix: '/', delimiter: '/', optional: false, repeat: false, pattern: '[^\\/]+?' }
+		
+		console.log(tokens[2])
+		//=> { name: 0, prefix: '/', delimiter: '/', optional: false, repeat: false, pattern: '.*' }
+			
+	
+	#Compile ("Reverse" Path-To-RegExp)
+	
+		toPath({ id: 123 }) //=> "/user/123"
+		toPath({ id: 'café' }) //=> "/user/caf%C3%A9"
+		toPath({ id: '/' }) //=> "/user/%2F"
+		
+		toPath({ id: ':' }) //=> "/user/%3A"
+		toPath({ id: ':' }, { pretty: true }) //=> "/user/:"
+	
+	
+		var toPathRepeated = pathToRegexp.compile('/:segment+')
+	
+		toPathRepeated({ segment: 'foo' }) //=> "/foo"
+		toPathRepeated({ segment: ['a', 'b', 'c'] }) //=> "/a/b/c"
+		
+		var toPathRegexp = pathToRegexp.compile('/user/:id(\\d+)')
+		
+		toPathRegexp({ id: 123 }) //=> "/user/123"
+		toPathRegexp({ id: '123' }) //=> "/user/123"
+		toPathRegexp({ id: 'abc' }) //=> Throws `TypeError`.
+
+
+
+		
+
+		
+#匹配优先级
+	*有时候，同一个路径可以匹配多个路由，此时，匹配的优先级就按照路由的定义顺序：谁先定义的，谁的优先级就最高。
+
+
+
+
+//路由嵌套--------------------------------------------
+
+<div id="app">
+	<router-view></router-view>
+</div>
+
+const User = {
+	template: `
+		<div class="user">
+		<h2>User {{ $route.params.id }}</h2>
+		<router-view></router-view>
+		</div>
+	`
+}
+
+const router = new VueRouter({
+	routes: [
+		{ path: '/user/:id', component: User,
+			children: [
+				{
+					// 当 /user/:id/profile 匹配成功，
+					// UserProfile 会被渲染在 User 的 <router-view> 中
+					path: 'profile',
+					component: UserProfile
+				},
+				{
+					// 当 /user/:id/posts 匹配成功，
+					// UserPosts 会被渲染在 User 的 <router-view> 中
+					path: 'posts',
+					component: UserPosts
+				}	
+			]
+		}
+	]
+})
+
+
+//编程式的导航--------------------------------------------
+当你点击 <router-link> 时，这个方法会在内部调用，所以说，点击 <router-link :to="..."> 等同于调用 router.push(...)。
+
+#router.push(location)
+	声明式								编程式
+	<router-link :to="...">				router.push(...)
+	
+	
+	// 字符串
+	router.push('home')
+	
+	// 对象
+	router.push({ path: 'home' })
+	
+	// 命名的路由
+	router.push({ name: 'user', params: { userId: 123 }})
+	
+	// 带查询参数，变成 /register?plan=private
+	router.push({ path: 'register', query: { plan: 'private' }})
+
+	
+
+#router.replace(location)
+*跟 router.push 很像，唯一的不同就是，它不会向 history 添加新记录，而是跟它的方法名一样 —— 替换掉当前的 history 记录。
+
+	声明式								编程式
+	<router-link :to="..." replace>		router.replace(...)
+
+
+#router.go(n)
+	// 在浏览器记录中前进一步，等同于 history.forward()
+	router.go(1)
+	
+	// 后退一步记录，等同于 history.back()
+	router.go(-1)
+	
+	// 前进 3 步记录
+	router.go(3)
+	
+	// 如果 history 记录不够用，那就默默地失败呗
+	router.go(-100)
+	router.go(100)
+	
+	
+#append
+	<router-link :to="{ path: 'relative/path'}" append></router-link>
+	设置 append 属性后，则在当前（相对）路径前添加基路径。例如，我们从 /a 导航到一个相对路径 b，如果没有配置 append，则路径为 /b，如果配了，则为 /a/b
+#tag 	
+	<router-link to="/foo" tag="li">foo</router-link>
+	有时候想要 <router-link> 渲染成某种标签，例如 <li>。 于是我们使用 tag prop 类指定何种标签，同样它还是会监听点击，触发导航。
+	
+#active-class
+	默认值: "router-link-active"
+	设置 链接激活时使用的 CSS 类名。默认值可以通过路由的构造选项 linkActiveClass 来全局配置。
+	
+	
+	
+	
+#events 2.1.0+
+	
+	类型: string | Array<string>
+	默认值: 'click'
+	声明可以用来触发导航的事件。可以是一个字符串或是一个包含字符串的数组。
+	
+#将"激活时的CSS类名"应用在外层元素
+
+有时候我们要让 "激活时的CSS类名" 应用在外层元素，而不是 <a> 标签本身，那么可以用 <router-link> 渲染外层元素，包裹着内层的原生 <a> 标签：
+<router-link tag="li" to="/foo">
+  <a>/foo</a>
+</router-link>
+	
+	
+	
+	
+	
+	
+	
+	
+//命名视图--------------------------------------------
+*例如创建一个布局，有 sidebar（侧导航） 和 main（主内容） 两个视图，这个时候命名视图就派上用场了。
+你可以在界面中拥有多个单独命名的视图，而不是只有一个单独的出口。如果 router-view 没有设置名字，那么默认为 default。
+<router-view class="view one"></router-view>
+<router-view class="view two" name="a"></router-view>
+<router-view class="view three" name="b"></router-view>
+
+const router = new VueRouter({
+	routes: [
+		{
+			path: '/',
+			components: {
+				default: Foo,
+				a: Bar,
+				b: Baz
+			}
+		}
+	]
+})
+
+
+//导航钩子--------------------------------------------
+
+正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。
+有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。
+
+//全局钩子
+	const router = new VueRouter({ ... })
+	
+	router.beforeEach((to, from, next) => {
+	    // ...
+	})
+	
+	router.afterEach( (to, from) => {
+		// ...
+	})
+	
+	每个钩子方法接收三个参数：
+	.to: Route: 即将要进入的目标 路由对象
+	.from: Route: 当前导航正要离开的路由
+	.next: Function: 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数。
+		next(): 进行管道中的下一个钩子。如果全部钩子执行完了，则导航的状态就是 confirmed （确认的）。
+		next(false): 中断当前的导航。如果浏览器的 URL 改变了（可能是用户手动或者浏览器后退按钮），那么 URL 地址会重置到 from 路由对应的地址。
+		next('/') 或者 next({ path: '/' }): 跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航。
+
+	*确保要调用 next 方法，否则钩子就不会被 resolved。
+
+//某个路由独享的钩子	
+
+//组件内的钩子
+
+	.beforeRouteEnter
+	.beforeRouteUpdate (2.2 新增)
+	.beforeRouteLeave
+
+	const User = {
+	  template: `...`,
+	  beforeRouteEnter (to, from, next) {
+	    // 在渲染该组件的对应路由被 confirm 前调用
+	    // 不！能！获取组件实例 `this`
+	    // 因为当钩子执行前，组件实例还没被创建
+	  },
+	  beforeRouteUpdate (to, from, next) {
+	    // 在当前路由改变，但是该组件被复用时调用
+	    // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
+	    // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
+	    // 可以访问组件实例 `this`
+	  },
+	  beforeRouteLeave (to, from, next) {
+	    // 导航离开该组件的对应路由时调用
+	    // 可以访问组件实例 `this`
+	  }
+	}
+
+	*beforeRouteEnter 钩子 不能 访问 this，因为钩子在导航确认前被调用,因此即将登场的新组件还没被创建。
+
+
+
+//路由元信息--------------------------------------------
+*一个路由匹配到的所有路由记录会暴露为 $route 对象（还有在导航钩子中的 route 对象）的 $route.matched 数组。
+因此，我们需要遍历 $route.matched 来检查路由记录中的 meta 字段。
+
+	meta: { requiresAuth: true }
+
+	router.beforeEach((to, from, next) => {
+	  if (to.matched.some(record => record.meta.requiresAuth)) {
+	    // this route requires auth, check if logged in
+	    // if not, redirect to login page.
+	    if (!auth.loggedIn()) {
+	      next({
+	        path: '/login',
+	        query: { redirect: to.fullPath }
+	      })
+	    } else {
+	      next()
+	    }
+	  } else {
+	    next() // 确保一定要调用 next()
+	  }
+	})
+
+
+//过渡动效--------------------------------------------
+
+<router-view> 是基本的动态组件，所以我们可以用 <transition> 组件给它添加一些过渡效果
+<transition>
+	<router-view></router-view>
+</transition>
+
+
+//单个路由的过渡
+	const Foo = {
+	  template: `
+	    <transition name="slide">
+	      <div class="foo">...</div>
+	    </transition>
+	  `
+	}
+
+
+
+//基于路由的动态过渡
+	还可以基于当前路由与目标路由的变化关系，动态设置过渡效果：
+
+	<!-- 使用动态的 transition name -->
+	<transition :name="transitionName">
+	  <router-view></router-view>
+	</transition>
+	// 接着在父组件内
+	// watch $route 决定使用哪种过渡
+	watch: {
+	  '$route' (to, from) {
+	    const toDepth = to.path.split('/').length
+	    const fromDepth = from.path.split('/').length
+	    this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+	  }
+	}
+
+
+
+//路由懒加载--------------------------------------------
+
+*当打包构建应用时，Javascript 包会变得非常大，影响页面加载。
+如果我们能把不同路由对应的组件分割成不同的代码块，然后当路由被访问的时候才加载对应组件，这样就更加高效了。
+
+const Foo = resolve => {
+  // require.ensure 是 Webpack 的特殊语法，用来设置 code-split point
+  // （代码分块）
+  require.ensure(['./Foo.vue'], () => {
+    resolve(require('./Foo.vue'))
+  })
+  }
+
+这里还有另一种代码分块的语法，使用 AMD 风格的 require，于是就更简单了：
+
+const Foo = resolve => require(['./Foo.vue'], resolve)
+
+
+把组件按组分块
+*有时候我们想把某个路由下的所有组件都打包在同个异步 chunk 中,只需要 给 chunk 命名。
+ 提供 require.ensure 第三个参数作为 chunk 的名称:
+const Foo = r => require.ensure([], () => r(require('./Foo.vue')), 'group-foo')
+const Bar = r => require.ensure([], () => r(require('./Bar.vue')), 'group-bar')
+
+
+
+//滚动行为---------------------------------------------
+
+
+const router = new VueRouter({
+	routes: routes,
+	scrollBehavior(to, from, savedPosition) {
+		
+		//{ x: number, y: number }
+		//{ selector: string } 
+	
+		//返回 savedPosition，在按下 后退/前进 按钮时，就会像浏览器的原生表现那样：
+		/*if (savedPosition) {
+			return savedPosition
+		} else {
+			return { x: 0, y: 0 }
+		}*/
+		
+		
+		//模拟『滚动到锚点』的行为：
+		/*if (to.hash) {
+			return {
+				selector: to.hash
+			}
+		  }*/
+		// return 期望滚动到哪个的位置
+	}
+})
+
+
+
+
+//API文档----------------------------------------------
+
+
+//路由信息对象
+
+router.beforeEach((to, from, next) => { })
+router.scrollBehavior((to, from, savedPosition) => { })
+	
+.$route.path
+	类型: string
+	字符串，对应当前路由的路径，总是解析为绝对路径，如 "/foo/bar"。
+
+.$route.params
+	类型: Object
+	一个 key/value 对象，包含了 动态片段 和 全匹配片段，如果没有路由参数，就是一个空对象。
+	
+.$route.query
+	
+.$route.hash
+	
+.$route.fullPath
+	类型: string
+	完成解析后的 URL，包含查询参数和 hash 的完整路径。	
+		
+.$route.matched
+	类型: Array<RouteRecord>
+	一个数组，包含当前路由的所有嵌套路径片段的 路由记录 。路由记录就是 routes 配置数组中的对象副本（还有在 children 数组）。
+	
+.$route.name
+	当前路由的名称，如果有的话。
+	
+	
+	
+	
+	
+//Router 构造配置
+	
+declare type RouteConfig = {
+  mode: 'hash | history'
+  path: string;
+  component?: Component;
+  name?: string; // for named routes (命名路由)
+  components?: { [name: string]: Component }; // for named views (命名视图组件)
+  redirect?: string | Location | Function;
+  alias?: string | Array<string>;
+  children?: Array<RouteConfig>; // for nested routes
+  beforeEnter?: (to: Route, from: Route, next: Function) => void;
+  meta?: any;
+ }
+	
+mode:
+	类型: string
+	默认值: "hash" (浏览器环境) | "abstract" (Node.js 环境)
+	可选值: "hash" | "history" | "abstract"
+	配置路由模式:
+		hash: 使用 URL hash 值来作路由。支持所有浏览器，包括不支持 HTML5 History Api 的浏览器。
+		history: 依赖 HTML5 History API 和服务器配置。查看 HTML5 History 模式.
+		abstract: 支持所有 JavaScript 运行环境，如 Node.js 服务器端。如果发现没有浏览器的 API，路由会自动强制进入这个模式。
+			
+base:
+类型: string
+默认值: "/"
+应用的基路径。例如，如果整个单页应用服务在 /app/ 下，然后 base 就应该设为 "/app/"。
+	
+linkActiveClass
+类型: string
+默认值: "router-link-active"
+
+scrollBehavior
+
+
+
+
