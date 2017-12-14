@@ -8,9 +8,11 @@ Props 为指令的属性
 Events 为指令的回调方法
 	<v-ons-directive @eventName ="methods.name"><v-ons-directive>
 
-	
-	
-	
+
+图标库网址：	http://ionicons.com/
+				http://fontawesome.io/icons/
+
+
 // 页面结构-----------------------------------------------------------------------------------------------------
 #v-ons-page
 	Props
@@ -347,39 +349,39 @@ Events 为指令的回调方法
 // 导航---------------------------------------------------------------------------------------------------------------------
 #v-ons-navigator
 	.Props
-	animation: String
-		"slide" | "lift" | "fade" | "none"
-		"-ios" or "-md" 后缀 "lift-ios", "lift-md".
-		Defaults values are "slide-ios" and "fade-md" depending on the platform.
+		animation: String
+			"slide" | "lift" | "fade" | "none"
+			"-ios" or "-md" 后缀 "lift-ios", "lift-md".
+			Defaults values are "slide-ios" and "fade-md" depending on the platform.
+			
+		animationOptions：Expression
+			{duration: 0.2, delay: 1, timing: 'ease-in'}
 		
-	animationOptions：Expression
-		{duration: 0.2, delay: 1, timing: 'ease-in'}
-	
-	callback:Function 
-		Function that is called when the transition has ended
-	
-	page-stack: Array
-		页面队列
-	
-	swipe-target-width： '*px'
-		可以touch 页面 ， 距离屏幕的距离
-	
-	swipe-threshold
-	
-	swipeable: Boolean
-		允许 touch 页面
+		callback:Function 
+			Function that is called when the transition has ended
+		
+		page-stack: Array
+			页面队列
+		
+		swipe-target-width： '*px'
+			可以touch 页面 ， 距离屏幕的距离
+		
+		swipe-threshold
+		
+		swipeable: Boolean
+			允许 touch 页面
 	
 	.Events 
-	@prepush="prepush"
-	
-	prepush		// 添加页面之前
-	prepop		// 返回页面之前
-	postpush
-	postpop
-		方法参数 event
-		event.navigator
-		event.currentPage
-		event.cancel 阻止
+		@prepush="prepush"
+		
+		prepush		// 添加页面之前
+		prepop		// 返回页面之前
+		postpush
+		postpop
+			方法参数 event
+			event.navigator
+			event.currentPage
+			event.cancel 阻止
 	
 	deviceBackButton
 		方法参数 event

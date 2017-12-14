@@ -2,7 +2,6 @@ import AgreementListcomponent from "components/agreement-list/agreement-list.com
 import {
     regex
 } from "service/regex";
-import Vue from 'vue';
 
 export default {
     key: "merchantNo",
@@ -13,26 +12,14 @@ export default {
             visible: false,
             form: {
                 merchantNo: ''
-            },
-            renderItem:
-            i => new Vue({
-              template: `
-                <v-ons-list-item :key="index">
-                  #{{ index }}
-                </v-ons-list-item>
-              `,
-              data() {
-                return {
-                  index: i
-                };
-              }
-            })
+            }
         }
     },
     methods: {
         push() {
             this.$emit("push-page", AgreementListcomponent);
         },
+        // 表单值改变 隐藏查询结果
         input() {
             this.visible = false;
         },
@@ -47,9 +34,21 @@ export default {
                 "respCode": "100001"
                 //100002 商户号不存在
             }
+
+            // 状态管理
+            if (response['respCode'] === '100001' && response.isSigned) {
+                /* 已签约 */
+                this.$store.commit('signStatus', true);
+            } else if (response['respCode'] === '100001') {
+                /* 未签约 */
+                this.$store.commit('signStatus', false);
+            }
+
             if (response['respCode'] === '100001' || response['respCode'] === '100002') {
                 this.visible = true;
                 this.item = response;
+
+
             } else {
                 this.item = {};
                 alert(response['respMsg']);

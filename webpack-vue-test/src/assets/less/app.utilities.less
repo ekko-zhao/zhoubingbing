@@ -1,3 +1,57 @@
+// 自定义样式 --------------------------------------------------------------------------------------
+.no-highlight {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.no-select {
+  user-select: none;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.overflow-touch {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.text-ellipsis {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-default {
+  cursor: default;
+}
+
+.break-all {
+  word-break: break-all;
+}
+
+.v-top {
+  vertical-align: top;
+}
+
+.v-middle {
+  vertical-align: middle;
+}
+
+.v-bottom {
+  vertical-align: bottom;
+}
+
+// position-------------------------------------------------------------
 .pos-rlt {
   position: relative
 }
@@ -10,6 +64,7 @@
   position: fixed
 }
 
+// background-color-------------------------------------------------------------
 .bg-primary {
   color: #ffffff;
   background-color: @brand-primary;
@@ -39,31 +94,20 @@
   background-color: #ffffff;
 }
 
-.transparent {
-  opacity: 0;
-}
-
-.break-all {
-  word-break: break-all;
-}
-
-.no-border {
-  border-color: transparent;
-  border-width: 0
-}
-
-.no-radius {
-  border-radius: 0;
-}
-
 .no-bg {
   background-color: transparent;
 }
 
+.transparent {
+  opacity: 0;
+}
+
+// shadow-------------------------------------------------------------
 .no-shadow {
   box-shadow: none;
 }
 
+// display-------------------------------------------------------------
 .block {
   display: block;
 }
@@ -76,13 +120,7 @@
   display: inline-block;
 }
 
-// 用于移动端 dom 点击
-.el-click {
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
-}
-
-// 表单校验
+// 表单校验 --------------------------------------------------------------------------------------
 .invalid.dirty {
   border-color: #ff7200;
 }
@@ -91,37 +129,7 @@
   color: #FF7100;
 }
 
-.no-select {
-  user-select: none;
-}
-
-.overflow-hidden {
-  overflow: hidden;
-}
-
-.text-ellipsis {
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.point-default {
-  cursor: default;
-}
-
-.v-middle {
-  vertical-align: middle;
-}
-
-.font-normal {
-  font-weight: normal;
-}
-
-.font-bold {
-  font-weight: bold;
-}
-
+// 圆角 --------------------------------------------------------------------------------------
 .round {
   border-radius: 50%;
 }
@@ -138,7 +146,48 @@
   border-radius: @border-radius-base * 3;
 }
 
-// 字体大小
+.no-radius {
+  border-radius: 0;
+}
+
+// 行高 --------------------------------------------------------------------------------------
+.l-h-xs {
+  line-height: 1em;
+}
+
+.l-h-sm {
+  line-height: 1.2em;
+}
+
+.l-h {
+  line-height: 1.4em;
+}
+
+.l-h-md {
+  line-height: 1.6em;
+}
+
+.l-h-lg {
+  line-height: 1.8em;
+}
+
+.l-h-xl {
+  line-height: 2.0em;
+}
+
+.l-h-xxl {
+  line-height: 2.4em;
+}
+
+// 字体 --------------------------------------------------------------------------------------
+.font-normal {
+  font-weight: normal;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
 .text-lg {
   font-size: @font-size-base + 4;
 }
@@ -159,7 +208,7 @@
   font-size: @font-size-base - 4;
 }
 
-// 字体颜色
+// 颜色
 .text-muted {
   color: #666666
 }
@@ -184,7 +233,7 @@
   color: @brand-danger
 }
 
-// border 颜色
+// border -----------------------------------------------------------
 .b {
   border: 1px @border-color solid;
 }
@@ -265,6 +314,10 @@
   border-left-style: dotted;
 }
 
+.b-color-ligth {
+  border-color: lighten(@border-color, 10%)
+}
+
 .b-color-base {
   border-color: @border-color
 }
@@ -273,7 +326,12 @@
   border-color: darken(@border-color, 10%)
 }
 
-// padding
+.no-border {
+  border-color: transparent;
+  border-width: 0
+}
+
+// padding ------------------------------------------------------------------------------
 .padder {
   padding: 15px;
 }
@@ -394,7 +452,7 @@
   padding-left: 0;
 }
 
-// margin-----------------------------
+// margin ---------------------------------------------------------------------------------------
 .margin {
   margin: 15px;
 }
@@ -647,7 +705,7 @@
   margin-bottom: -40px
 }
 
-// -----------------------------------------
+// 高度和宽度  -----------------------------------------
 .h-full {
   height: 100%;
 }

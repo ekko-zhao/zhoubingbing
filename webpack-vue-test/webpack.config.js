@@ -13,9 +13,7 @@ var ExtractTextPlugin = new ETP({
 module.exports = {
     entry: {
         appcss: './src/appcss',
-        polyfills: './src/polyfills',
-        //index: './src/app.test'
-        index: './src/app'
+        index: './src/app',
     },
     output: {
         path: __dirname + '/dist',
@@ -34,8 +32,7 @@ module.exports = {
             // favicon: './src/favicon.ico',
             template: __dirname + '/src/app.html',
             inject: true,
-            chunks: ['appcss', 'index'],
-            chunksSortMode: 'manual'
+            //  chunks: ['appcss', 'index']
         }),
         new TransferWebpackPlugin([{
             from: 'static',
