@@ -161,10 +161,81 @@ Events 为指令的回调方法
 });
 
 
+// VISUAL 视觉上的 --------------------------------------------------------------------------------------------------------------------
+#v-ons-card
+	卡片
+	<v-ons-card>
+      <img src="https://monaca.io/img/logos/download_image_onsenui_01.png" alt="Onsen UI" style="width: 100%">
+      <div class="title">
+        Awesome framework
+      </div>
+      <div class="content">
+        <v-ons-list>
+          <v-ons-list-header>Bindings</v-ons-list-header>
+          <v-ons-list-item>Vue</v-ons-list-item>
+          <v-ons-list-item>Angular</v-ons-list-item>
+          <v-ons-list-item>React</v-ons-list-item>
+        </v-ons-list>
+      </div>
+    </v-ons-card>
+		
+	Props
+		modifier
+			material
+	
+#v-ons-icon
+	图标
+	<v-ons-icon icon="md-face"></v-ons-icon>
+		Props
+			icon: String		// "md-" prefix for Material Icons, "fa-" for Font Awesome and "ion-" prefix for Ionicons. 
+			rotate: Number
+			size: String		// size="32px, material:24px"
+			fixed-width: Boolean	// 你想让这些图标具有相同的宽度这样它们就可以通过定义这个属性来垂直对齐
+			spin: Boolean		// 指定图标是否应该旋转
+			
+#v-ons-ripple
+	泛起涟漪
+	<v-ons-ripple
+        color="rgba(255, 0, 0, 0.4)"
+        background="rgba(0, 0, 255, 0.4)"
+		>
+    </v-ons-ripple>
+	
+	Props 
+		background:	String		// Color of the background
+		center： Boolean		// 如果该属性出现，则将波浪效应的位置更改为目标组件的中心位置
+		color：:	String		// Color of the ripple effect.	
+		disabled： Boolean
+		size:	String			// Sizing of the wave on ripple effect. Set “cover” or “contain”. Default is “cover”.
+		
+		modifier
+			light-gray
+		
+# v-ons-progress-bar
+	进度条
+	<v-ons-progress-bar :value="progress"></v-ons-progress-bar>
+		
+	Props 
+		indeterminate:	Boolean				// 将显示一个无限循环动画
+		secondary-value:	Number			// 当前中等进展 0-100
+		value:	Number
+		modifier:	String					// Current progress
+	
+	
+
+#v-ons-progress-circular
+	圆形进度条
+	<v-ons-progress-bar :value="progress"></v-ons-progress-bar>
+		
+	Props 
+		indeterminate:	Boolean				// 将显示一个无限循环动画
+		secondary-value:	Number			// 当前中等进展 0-100
+		value:	Number
+		modifier:	String	
 
 
-
-// FORM--------------------------------------------------------------------------------------------------------------------
+		
+// FORM --------------------------------------------------------------------------------------------------------------------
 	
 #v-ons-button
 	<v-ons-button style="margin: 6px 0">Normal</v-ons-button>
@@ -1184,7 +1255,90 @@ Events 为指令的回调方法
 
 
 
+// $on 属性 ----------------------------------------------------------------------------------------------------------------------------
+	isReady()				// 返回 Onsen UI 是否被初始化
+	ready(callback)	
+	isWebView()				// 需在	ready 方法的回调函数中使用
+	setDefaultDeviceBackButtonListener(listener)		// Set default handler for device back button.
+	
+	disableDeviceBackButtonHandler()					// 禁用设备后退按钮事件处理程序		Must be called on $ons.ready.
+	enableDeviceBackButtonHandler()						
+	
+	enableAutoStatusBarFill()							// 启用状态栏填充功能		on iOS7 and above (except for iPhone X).  ready(callback)	
+	disableAutoStatusBarFill()	
+	
+	mockStatusBar()			// 创建一个类似于iOS状态的静态组件	只对浏览器测试有用 ready(callback)
+	
+	disableAnimations()		// 禁用所有动画	对于测试和旧设备来说，可能是很方便的。
+	
+	disableAutoStyling()	// 禁用自动样式
+	enableAutoStyling()
+	
+	disableIconAutoPrefix()	// 禁用自动添加fa-前缀	, 在包含定制图标包时有用
+	
+	forcePlatformStyling(platform)		// 为给定的平台刷新样式。只用于演示； 	$ons.platform.select(...)  取代开发和生产。
+	preload(templatePaths)	// 需要按需请求分开的文件，这可能会稍微延迟新页面的推出	该方法请求并缓存模板供以后使用。
+		templatePaths	String|Array	Set of HTML file paths containing ‘ons-page’ components.
+		
+		
+		
+	createElement(template, options)	// 从模板中创建一个新组件, 虽然返回值不同，但支持内联HTML和外部文件
+		template：	String
+			Either an HTML file path, an <v-ons-template> id or an HTML string such as '<div id="foo">hoge</div>'.
+		options：{
+			append：Object		// 组件是否应该自动添加到DOM中。Defaults to false . If true value is given, document.body will be used as the target.
+			insertBefore		// 引用节点成为新节点的下一个兄弟节点
+		}
 
+	createPopover(page, [options])		// Create a popover instance from a template.
+	createDialog(page, [options])
+	createAlertDialog(page, [options])
+	openActionSheet(options)			// 显示一个即时动作表单，让用户选择一个动作。
+	
+	
+	resolveLoadingPlaceholder(page)		// 如果page没有指定 ons-loading-placeholder 属性， 则loading 中显示该页面
+	getScriptPage()
+	
+	
+#$ons.orientation
+	on(eventName, listener)			// Add an event listener
+	once(eventName, listener)
+	off(eventName, [listener])
+		eventName：change 
+			event.isPortrait
+	
+	isPortrait()					// 返回当前的屏幕朝向是否为竖屏
+	isLandscape()					// 返回当前的屏幕朝向是否为横屏
+	
+	
+$ons.platform
+	select(platform)		// 设置用于呈现组件的平台， 用于测试
+	isWebView()				// 返回应用程序是否在Cordova的运行。
+	isIPhone()
+	isIPhoneX()
+	isIPad()
+	isIOS()
+	isIOS7above()
+	isIOSSafari()
+	isWKWebView()
+	isUIWebView()
+	
+	isAndroidPhone()
+	isAndroidTablet()		// Returns whether the device is Android tablet.
+	isAndroid()
+	isBlackBerry()
+	isOpera()
+	isFirefox()
+	isSafari()
+	isChrome()
+	isIE()
+	isEdge()
+	
+	
+	
+	
+	
+	
 
 
 
