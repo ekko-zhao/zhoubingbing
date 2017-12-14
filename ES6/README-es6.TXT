@@ -650,45 +650,65 @@ Map 和 Set 结构Generator 函数
 	
 	
 	
-//Set---------------------------------------------------------------------------------------------------
-Set { 's1', 's2'}
+// Set---------------------------------------------------------------------------------------------------
+	类似与数组， 但是成员的值都是唯一的， 没有重复的值。 Set 本身是一个构造函数， 用来生成Set 数据结构
+	
+	Set { 's1', 's2'}
 
-var set = new Set();
-可以接受一个数组或类似数组的对象作为参数
+	var set = new Set();
+	可以接受一个数组或类似数组的对象作为参数
 
-var set = new Set([1,2,2,3,3]); //{1,2,3} 没有重复值
+	var set = new Set([1,2,2,3,3]); // {1,2,3}  去重
 
-Array.from(set) //[1,2,3]
+	Array.from(set) 				// [1,2,3]
 
-//方法
-size() 返回长度
-add(value) Set
-delete(value) Boolean
-has(value) 判断有没有改成员 Boolean
-clear() 清空 null
+	//方法
+	size() 							// 返回长度
+	add(value) 		: Set			// 返回set 本身
+	delete(value) 	：Boolean
+	has(value) 		：Boolean       // 判断有没有改成员 
+	clear() 						// 清空 null
 
-//遍历操作
-keys() //返回一个键名的遍历器
-for( let i of set.keys() ){}
+	//遍历操作
+	keys() 							//返回一个键名的遍历器
+	for( let i of set.keys() ){}
 
-values() //返回一个键值的遍历器
-entries() //返回一个键值对的遍历器
-forEach() //使用回调函数遍历每个成员
-set.forEach(i => { })
+	values() 	// 返回一个键值的遍历器
+	entries() 	// 返回一个键值对的遍历器
+	forEach() 	// 使用回调函数遍历每个成员
+	set.forEach(i => { })
 
-[…set] 返回一个数组
-//并集
-let union = new Set([…a, …b])
+	[…set] 返回一个数组
+	//并集
+	let union = new Set([…a, …b])
 
-//交集
-let intersect = new Set([…a].filter(x>= b.has(x)))
+	//交集
+	let intersect = new Set([…a].filter(x>= b.has(x)))
 
-//差集
-let interence = new Set([…a].filter(x>= !b.has(x)))
+	//差集
+	let interence = new Set([…a].filter(x>= !b.has(x)))
 
-//WeakSet———————————
-Set相似 不过成员只能是对象， 没有size属性， 不能遍历
+	
+	
+#WeakSet---------------------------------------------------------------------------------------------------
 
+	与 Set 相似，不过成员只能是对象，因为没有size属性，不能遍历
+	methods:
+		add(value) 		：Set
+		delete(value) 	：Boolean
+		has(value) 		：Boolean 
+		
+	区别：
+		WeakSet 的成员只能是对象， 而不能是其它类型的值
+		WeakSet 中的对象都是弱引用，垃圾回收机制不考虑 WeakSet 对该对象的引用。
+		
+		因为是弱引用类型， 无法保证成员的存在， 很有可能刚刚结束遍历，成员就取不到了
+	
+	
+	
+	
+	
+	
 //Map---------------------------------------------------------------------------------------------------
 
 Map { 's1' => 's1value', 's2' => 's2value' }
