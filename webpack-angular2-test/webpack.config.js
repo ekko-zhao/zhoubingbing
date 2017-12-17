@@ -55,12 +55,12 @@ module.exports = {
         }, {
             test: /\.(png|jpg)$/,
             use: 'url-loader?limit=8192'
-        }, {
+        }/* , {
             test: /\.html?$/,
             use: [
                 'html-loader'
             ]
-        }]
+        } */]
     },
     node: {
         fs: 'empty'

@@ -7,7 +7,7 @@ import { Component, ViewChild } from '@angular/core';
 
 export class AppComponent {
     constructor() {
-        function someConstructor() {
+        /* function someConstructor() {
             this.name = 'saf'
         }
         var result = Reflect.construct(Array, [], someConstructor);
@@ -15,7 +15,14 @@ export class AppComponent {
         var a  = Reflect.getPrototypeOf(result); // 输出：someConstructor.prototype
         console.log(a)
         var b  = Array.isArray(result); // true
-        console.log(b)
+        console.log(b) */
+
+        var map = new Map();
+        map.set(['b'], 'aaa');
+        map.set(['b'], 'fsdf');
+
+        console.log(map.get(['b']));
+
         /*
             console.log('===============================')
         console.log(obj)
@@ -24,4 +31,3 @@ export class AppComponent {
          */
     }
 }
-
