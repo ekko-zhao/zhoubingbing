@@ -699,7 +699,7 @@ Map 和 Set 结构Generator 函数
 		has(value) 		：Boolean 
 		
 	区别：
-		WeakSet 的成员只能是对象， 而不能是其它类型的值
+		WeakSet 的成员只能是对象，数组或类似数组的对象 是其它类型的值
 		WeakSet 中的对象都是弱引用，垃圾回收机制不考虑 WeakSet 对该对象的引用。
 		
 		因为是弱引用类型， 无法保证成员的存在， 很有可能刚刚结束遍历，成员就取不到了
@@ -711,25 +711,59 @@ Map 和 Set 结构Generator 函数
 	
 //Map---------------------------------------------------------------------------------------------------
 
-Map { 's1' => 's1value', 's2' => 's2value' }
+	Map { 's1' => 's1value', 's2' => 's2value' }
 
-var map = new Map();
-可以接受 [[key1,value1],[key2,value2]] 作为参数
+	var map = new Map();
+	可以接受 [[key1,value1],[key2,value2]] 作为参数
+	
+	如果Map 的键是一个简单类型的值（数字 字符串 布尔值）。则只要俩个值严格相等， Map就将其视为一个键， 包括 0和-0 ，NaN;
+	如果是键为对象， 则只要是统一应引用，Map就将其视为一个键
+ 
 
-size() 返回长度
-set(key,value) Map
-delete(key) Boolean
-has(key) 判断有没有改成员 Boolean
-clear() 清空 null
+	size() 返回长度
+	set(key,value) Map
+	get(key)
+	delete(key) Boolean
+	has(key) 判断有没有改成员 Boolean
+	clear() 清空 null
 
-//遍历操作
-keys() //返回一个键名的遍历器
-for( let i of map.keys() ){}
-values() //返回一个键值的遍历器
-entries() //返回一个键值对的遍历器
-forEach() //使用回调函数遍历每个成员
-
-
+	//遍历操作
+	keys() //返回一个键名的遍历器
+	for( let i of map.keys() ){}
+	values() //返回一个键值的遍历器
+	entries() //返回一个键值对的遍历器
+	forEach() //使用回调函数遍历每个成员
+	
+	Map 转为数组
+		[...map]
+	
+	Map 转为对象
+		如果键都是为字符串， 则其可以转为对象
+	
+	for(let [k,v] of map){
+		obj[k] = v;
+	}
+	
+	
+	对象 转为Map
+		for(let k of Object.keys(obj) ){
+			map.set(k, obj[k])
+		}
+	
+	
+	
+	Map 转 json
+		分两种情况， 1是Map 的键名都是字符串。只是可以转换为对象json. 和普通的对象转json 一致
+		
+		2是 Map的键名有非字符串时，这是可以选择转为数组json
+			function mapToArrayJson( map ){
+				return JSON.stringify([...map])
+			}
+	JSON 转 Map
+		JSON.parse(str)
+	
+	
+	
 //WeakMap——————————————
 .没有size属性
 .没有遍历
@@ -738,9 +772,13 @@ forEach() //使用回调函数遍历每个成员
 
 
 set(key,value) Map
+get(key,value)
 delete(key) Boolean
 has(key) 判断有没有改成员 Boolean
-clear() 清空 null
+
+
+
+
 
 // Iterator & for...of循环---------------------------------------------------------------------------------------------------
 continue break return; 跳出循环
