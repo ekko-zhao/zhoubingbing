@@ -238,7 +238,7 @@ Map 和 Set 结构Generator 函数
 	Array.prototype.find();
 		接受一个回调函数作为参数 function(v, i, arr):boolean{}; 知道找到第一个返回true 的成员；然后返回该成员
 
-	Array.prototype.find();
+	Array.prototype.findIndex();
 		接受一个回调函数作为参数 function(v, i, arr):boolean{}; 知道找到第一个返回true 的成员；然后返回该成员的位置， 找不到为 -1
 
 	Array.prototype.fill();
@@ -618,7 +618,7 @@ Map 和 Set 结构Generator 函数
 	Reflect.getOwnPropertyNames(target);			
 	Reflect.setPrototypeOf(target, prototype);		// 同于 Object.setPrototypeOf(target, prototype); 设置 __proto__ 	
 	Reflect.getPrototypeOf(target);
-	Reflect.deletePrototype(target, prototype);     // 同于 delete target.prototype
+	Reflect.deleteProperty(target, property);     // 同于 delete target.property
 	
 	Reflect.freeze(target)							// 同于 Object.freeze(target) 完全冻结对象， 不能新增和删除 属性，不可以修改已有属性值
 	Reflect.isFreezen(target)
