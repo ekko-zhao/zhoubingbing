@@ -534,7 +534,7 @@ Map 和 Set 结构Generator 函数
 
 	
 	Symbol.iterator
-		对象的 Symbol.iterator 属性指向其默认的遍历器方法， 即对象在进行 for...of 循环时ihui调用这个方法， 返回该对象的默认遍历器
+		对象的 Symbol.iterator 属性指向其默认的遍历器方法， 即对象在进行 for...of 循环时会调用这个方法， 返回该对象的默认遍历器
 		
 		class Collection {
 			*[Symbol.iterator](){
@@ -707,8 +707,6 @@ Map 和 Set 结构Generator 函数
 	
 	
 	
-	
-	
 //Map---------------------------------------------------------------------------------------------------
 
 	Map { 's1' => 's1value', 's2' => 's2value' }
@@ -781,48 +779,122 @@ has(key) 判断有没有改成员 Boolean
 
 
 // Iterator & for...of循环---------------------------------------------------------------------------------------------------
-continue break return; 跳出循环
+	
+	数组和类似数组的对象，set,Map 3类数据结构具备Iterator接口
+	字符串也是类似数组的对象 具备Iterator接口
 
-[...iterator] = [agr0,agr1]
+	｛
+		0:'a',
+		1:'b',
+		2:'c',
+		length:3,
+		[Symbol.iterator]:Array.prototype[Symbol.iterator]
+	｝
+	
+	continue break return; 跳出循环
+	[...iterator] // => [agr0,agr1]
 
-数组和类似数组的对象，set,Map 3类数据结构具备Iterator接口
-字符串也是类似数组的对象 具备Iterator接口
-
-｛
-    0:’a’,
-    1:’b’,
-    2:’c’,
-    length:3,
-    [Symbol.iterator]:Array.prototype[Symbol.iterator]
-｝
-
-//对象添加 Symbol.iterator
-{
-	name: ’name’,
-    [Symbol.iterator](){
+	//对象添加 Symbol.iterator
+	{
+		name: 'name',
+		[Symbol.iterator](){
+			var iterator ={
+				next: next
+			}
+			
+			function next(){
+				return {value:any, done:Boolean}
+			}
+			return iterator;
+			/*
+				return {
+					next(){
+						return { next:any, done:boolean }
+					}
+				}
+			*/
+		}
+	}
+	//构造函数添加 Symbol.iterator
+	var Obj(){ }
+	Obj.prototype[Symbol.iterator] = function(){
 		var iterator ={
-		    next: next
+			next: next
 		}
 		function next(){
-		    return {value:any, done:Boolean}
+			return {value:any, done:Boolean}
 		}
-        return iterator;
-    }
-}
-//构造函数添加 Symbol.iterator
-var Obj(){ }
-Obj.prototype[Symbol.iterator] = function(){
-    var iterator ={
-	next: next
-    }
-    function next(){
-	return {value:any, done:Boolean}
-    }
-    return iterator;
-}
+		return iterator;
+	}
 
-
-
+# 调用Iterator 接口的场合
+	解构赋值
+	let [x,y] = set;
+	let [x, ...rest] = set
+	
+	扩展运算符
+	var str = hello;
+	[...str] // ['h', 'e', 'l', 'l', 'o']
+	
+	yield* 函数
+	
+	其它场合
+	for ...of
+	Array.form()
+	Map(), Set()  WeakMap() 和 WeakSet()  // 比如 new Map([ ['a', 1], ['b', 2] ])
+	Promise.all()
+	Promise.race()
+	
+#Iterator 与 Generator 函数
+	var obj={}；
+	obj[Symbol.iterator] = function*(){
+		yield 1;
+		yield 2;
+		yield 3;
+	}
+	/*
+		ar obj={
+			*[Symbol.iterator](){
+				yield 1;
+				yield 2;
+				yield 3;
+			}
+		}；
+	*/
+	
+	for (let x of obj){
+		console.log(x)
+	}
+	// 1
+	// 2
+	// 3
+	
+#遍历器对象的return() throw()
+	遍历器对象除了具有 next 方法，还具有 return 和throw 方法 
+	
+	自己写遍历器对象生成函数， next 方法是必须部署的 ，  return 和throw 方法 可选
+	调用return 方法会提前退出 for ...of循环
+	throw 主要配合 Generator 函数使用
+	return {
+		next(){
+			return{ value:any, done:boolean}
+		}
+		
+		return(){
+			return{ done:true}
+		}
+	}
+	 
+# 与其它遍历语法的比较
+	for( var i=0; i<arr.length; i++){} // 这种写法比较麻烦
+	
+	arr.forEach(function(value){ })   // 不能使用 break return continue
+	
+	for( let x in obj) {}		// 没有顺序 ， 还会放回对象的原型上的键
+	
+	
+	
+	
 
 // Generator---------------------------------------------------------------------------------------------------
 function* flat(){
