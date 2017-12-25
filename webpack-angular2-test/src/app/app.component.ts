@@ -7,15 +7,24 @@ import { Component, ViewChild } from '@angular/core';
 
 export class AppComponent {
     constructor() {
-        var a = [1,2];
-        a[Symbol.iterator]
-        //  console.log(a['']())
+        function* objectentries() {
+            let keys = Reflect.ownKeys(this);
+            for (let key of keys) {
+                yield [key, obj[key]];
+            }
+        }
+        var obj: any = { name: 'zhangsan', age: 23 };
+        obj[Symbol.iterator] = objectentries;
 
-        /*
-            console.log('===============================')
-        console.log(obj)
+        for (let [key, value] of obj) {
+            console.log(key, value)
+        }
 
-            console.log('===============================')
-         */
+
+        /* var a = objectentries(obj);
+        console.log(a);
+        console.log(a.next());
+        console.log(a.next());
+        console.log(a.next()); */
     }
 }
