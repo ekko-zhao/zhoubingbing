@@ -1255,7 +1255,10 @@ export class AppComponent{
 			/*
 				//不改变url 跳转页面
 				_router.navigate(['/footer',23], {skipLocationChange:true});
-
+				
+				// 查询参数 
+				_router.navigate(['/footer',23], {queryParams:{'name':'yxman'}});
+				
 			*/
 
 			/*
