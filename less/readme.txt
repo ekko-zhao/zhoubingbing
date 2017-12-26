@@ -267,8 +267,8 @@ Outputs
 
 // Loops ---------------------------
 	.loop(@counter) when (@counter > 0) {
-	.loop((@counter - 1));    // next iteration
 		width: (10px * @counter); // code for each iteration
+		.loop((@counter - 1));    // next iteration
 	}
 	
 	div {

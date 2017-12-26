@@ -67,7 +67,6 @@ Sass 有两种语法格式
 	
 	#{var} 插值语句将变量包裹
 	
-	
 
 # 变量 $
 	$width: 5em;
@@ -190,7 +189,7 @@ Sass 有两种语法格式
 	color: hsl(0, 100%, 50%);
 
 # & in SassScript
-	和 less一样 表示夫选择器
+	和 less一样 表示选择器
 
 
 
@@ -310,7 +309,8 @@ Sass 有两种语法格式
 	
 	// 编译为:
 	.comment a.user:hover, .comment .user.hoverlink {
-	font-weight: bold; }
+		font-weight: bold;
+	}
 
 # @extend-Only 选择器 
 	// Sass 引入了“占位符选择器” (placeholder selectors)，看起来很像普通的 id 或 class 选择器，只是 # 或 . 被替换成了 %。
@@ -361,9 +361,9 @@ Sass 有两种语法格式
 	 }
 	// 编译为:
 	@media print {
-	.page {
-    	width: 8in;
-	  }
+		.page {
+			width: 8in;
+		}
 	}
 	.page {
 	  color: red;
@@ -371,7 +371,6 @@ Sass 有两种语法格式
 
 
 # @warn
-
 	@mixin adjust-location($x, $y) {
 	  @if unitless($x) {
 	    @warn "Assuming #{$x} to be in pixels";
@@ -427,7 +426,7 @@ Sass 有两种语法格式
 	而使用 to 时条件范围只包含 <start> 的值不包含 <end> 的值。
 	
 	@for $var from 1 through 3 {
-	.item-#{$var} { width: 2em * $var; }
+		.item-#{$var} { width: 2em * $var; }
 	}
 	编译为:
 	.item-1 {
@@ -592,7 +591,7 @@ Sass 有两种语法格式
 	  #logo {
 	    background-image: url(/logo.gif);
 	  }
-	  }
+	}
 
 	编译为：
 	* html #logo {
@@ -615,35 +614,8 @@ Sass 有两种语法格式
 	编译为:
 	
 	#sidebar {
-	width: 240px; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		width: 240px;
+	}
 
 
 
