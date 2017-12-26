@@ -763,16 +763,16 @@ Map 和 Set 结构Generator 函数
 	
 	
 //WeakMap——————————————
-.没有size属性
-.没有遍历
-.只能用对象作为键名
-.键名是对象的弱引用，其对应的对象可能会被自动回收， 当被自动回收后，WeakMap自动移除对应的键值对
+	.没有size属性
+	.没有遍历
+	.只能用对象作为键名
+	.键名是对象的弱引用，其对应的对象可能会被自动回收， 当被自动回收后，WeakMap自动移除对应的键值对
 
 
-set(key,value) Map
-get(key,value)
-delete(key) Boolean
-has(key) 判断有没有改成员 Boolean
+	set(key,value) Map
+	get(key,value)
+	delete(key) Boolean
+	has(key) 判断有没有改成员 Boolean
 
 
 
@@ -780,7 +780,7 @@ has(key) 判断有没有改成员 Boolean
 
 // Iterator & for...of循环---------------------------------------------------------------------------------------------------
 	
-	数组和类似数组的对象，set,Map 3类数据结构具备Iterator接口
+	数组和类似数组的对象，set,Map 3类数据结构具备Iterator接口, generator 函数
 	字符串也是类似数组的对象 具备Iterator接口
 
 	｛
@@ -897,161 +897,206 @@ has(key) 判断有没有改成员 Boolean
 	
 
 // Generator---------------------------------------------------------------------------------------------------
-function* flat(){
-    yield 'hello';
-	var agr =  yield 'world';
+	Generator函数 的 Symbol.iterator 属性是一个 遍历器对象生成函数， 所以Generator函数 可用于 for ...of 循环
+	在普通函数中不能使用 Generator函数， 比如在 array.forEach(function(){  })
+	
+	
+	function* flat(){
+		yield 'hello';
+		var agr =  yield 'world';
+		
+		if(agr === 'value') return 'ending';
+	}
+	var f = flat();
+	f == f[Symbol.iterator]() //true
 
-    return 'ending';
-}
-var f = flat();
-f == f[Symbol.iterator]() //true
-
-//next参数的传递————————————
-f.next();
-f.next('agr');
-第一次传递的参数不能带有参数，传递的参数会 传递给 agr；(上一次 next()  的结果 )
-
-
-
-//Generator.prototype.throw()————————————
-
-var g = function* (){
-	while(true){
-		try{
-			yield 12;
-		}catch(e){
-			if(e != 'a') throw e;
-			console.log('内部捕获',e);
+	//next参数的传递————————————
+	f.next();
+	f.next('value');
+	第一次传递的参数不能带有参数，传递的参数会 传递给 agr；(上一次 next()  的结果 )
+	
+	
+#普通对象添加 遍历接口；
+	function* objectentries(obj) {
+		let keys = Reflect.ownKeys(obj);
+		for (let key of keys) {
+			yield [key, obj[key]];
 		}
 	}
-}
+	var obj = { name: 'zhangsan', age: 23 };
+	for (let [key, value] of objectentries(obj)) {
+		console.log(key, value)
+    }
+// 或者
+	function* objectentries() {
+		let keys = Reflect.ownKeys(this);
+		for (let key of keys) {
+			yield [key, obj[key]];
+		}
+	}
+	var obj: any = { name: 'zhangsan', age: 23 };
+	obj[Symbol.iterator] = objectentries;
 
-var i = g();
-i.next();
-try{
-	i.throw('a');
-	i.throw('b');
-}catch(e){
-	console.log('外部捕获',e);
-}
+	for (let [key, value] of obj) {
+		console.log(key, value)
+	}
+	
+	// 在 .ts 中暂不支持 对 Generator函数 for ...of循环, 需要改成如下方式
+	function objectentries(obj): any {
+		let keys = Reflect.ownKeys(obj);
+		var arr = [];
+		for (let key of keys) {
+			arr.push([key, obj[key]])
+		}
+		return arr;
+	}
+	var obj = { name: 'zhangsan', age: 23 };
+	for (let [key, value] of objectentries(obj)) {
+		console.log(key, value)
+	}
+	
+	
 
-//内部捕获 a
-//外部捕获 b
 
-.如果遍历器函数中没有部署try...catch代码块，抛出的错误直接被外部的代码块捕获。
-.如果遍历器函数中没有部署try...catch代码块，抛出错误后终止遍历
+#Generator.prototype.throw()————————————
 
-//函数内部抛出的错误会被外部捕获，
-function* g(){
-    yield 1;
-    throw new Error(‘generator an exception’);
-    yield 2;
-    yield 2;
-}
-g.next();
-g.next(); //抛出异常
+	var g = function* (){
+		while(true){
+			try{
+				yield 12;
+			}catch(e){
+				if(e != 'a') throw e;
+				console.log('内部捕获',e);
+			}
+		}
+	}
+
+	var i = g();
+	i.next();
+	try{
+		i.throw('a');
+		i.throw('b');
+	}catch(e){
+		console.log('外部捕获',e);
+	}
+
+	//内部捕获 a
+	//外部捕获 b
+
+	.如果遍历器函数中没有部署try...catch代码块，抛出的错误直接被外部的代码块捕获。
+	.如果遍历器函数中没有部署try...catch代码块，抛出错误后终止遍历
+
+	//函数内部抛出的错误会被外部捕获，
+	function* g(){
+		yield 1;
+		throw new Error(‘generator an exception’);
+		yield 2;
+		yield 2;
+	}
+	g.next();
+	g.next(); //抛出异常
 
 
 //Generator.prototype.return()————————————
 
-function* g(){
-    yield 1;
-    yield 2;
-    yield 3;
-}
-var a = g();
-a.return(‘value’) //{value:’value’, done:true}
-
-.如果函数内部署了try...finally代码块，那么return 方法会推迟到finally代码块中在执行
-
-function* g(){
-    try{
-	yield 1;
-	yield 2;
-    }finally{
+	function* g(){
+		yield 1;
+		yield 2;
 		yield 3;
-		yield 4;
-    }
-}
-var a = g();
-a.return(5) //{value:3, done:false}
-a.next(); //{value:4, done:false}
-a.next(); //{value:5, done:true}
+	}
+	var a = g();
+	a.return(‘value’) //{value:’value’, done:true}
+
+	.如果函数内部署了try...finally代码块，那么return 方法会推迟到finally代码块中在执行
+
+	function* g(){
+		try{
+		yield 1;
+		yield 2;
+		}finally{
+			yield 3;
+			yield 4;
+		}
+	}
+	var a = g();
+	a.return(5) //{value:3, done:false}
+	a.next(); //{value:4, done:false}
+	a.next(); //{value:5, done:true}
 
 
 //yield* 语句
-function* foo(){
+	function* foo(){
 
-}
-function* f(){
-	// 调用 generator函数
-	yield* foo();
-}
+	}
+	function* f(){
+		// 调用 generator函数
+		yield* foo();
+	}
 
 
-// 在Generator 函数内部调用一个 Generator 函数， yield* generator();
-//yield* 后面跟遍历器
-.遍历嵌套数组的所有成员
-function* iterTree(tree){
-	if(Array.isArray(tree)){
-		for(let i=0; i<tree.length; i++){
-			yield* iterTree(tree[i]);
+	// 在Generator 函数内部调用一个 Generator 函数， yield* generator();
+	//yield* 后面跟遍历器
+	.遍历嵌套数组的所有成员
+	function* iterTree(tree){
+		if(Array.isArray(tree)){
+			for(let i=0; i<tree.length; i++){
+				yield* iterTree(tree[i]);
+			}
+		}else{
+			yield tree;
 		}
-	}else{
-		yield tree;
 	}
-}
 
-const tree = [ 'a',['b', 'c'],['d', 'e'] ]
+	const tree = [ 'a',['b', 'c'],['d', 'e'] ]
 
-for(let x of iterTree(tree)){
-	console.log(x)
-}
-
-
-
-
-
-支持遍历器的成员 都可以跟在 yield* 后面
-yield*  ['a', 'v', 'c'] //返回的是 iterator 对象
-
-
-
-//作为对象属性的 Generator 函数
-var o = {
-	* g() {
-
+	for(let x of iterTree(tree)){
+		console.log(x)
 	}
-}
-var o = {
-	g:function*() {
 
+
+
+
+
+	支持遍历器的成员 都可以跟在 yield* 后面
+	yield*  ['a', 'v', 'c'] //返回的是 iterator 对象
+
+
+
+	//作为对象属性的 Generator 函数
+	var o = {
+		* g() {
+
+		}
 	}
-}
+	var o = {
+		g:function*() {
 
-// 应用--------------------------------------
-yield 语句是同步运行， 不是异步运行 ； 包括读取文件  ， 异步请求
+		}
+	}
 
-function delay(t){
-	var q = new Promise( (resolve,reject)=> {
-		setTimeout(function(){
-			resolve('ok')
-		},t);
+	// 应用--------------------------------------
+	yield 语句是同步运行， 不是异步运行 ； 包括读取文件  ， 异步请求
 
-	});
-	return q;
-}
+	function delay(t){
+		var q = new Promise( (resolve,reject)=> {
+			setTimeout(function(){
+				resolve('ok')
+			},t);
 
-function* f(){
-	yield delay(2000)
-}
-f().next().value.then(function (data) {
-	console.log(data)
-}, function (data) {
-	console.log(data)
-})
+		});
+		return q;
+	}
 
-// 2秒后 ok
+	function* f(){
+		yield delay(2000)
+	}
+	f().next().value.then(function (data) {
+		console.log(data)
+	}, function (data) {
+		console.log(data)
+	})
+
+	// 2秒后 ok
 
 
 //Promise---------------------------------------------------------------------------------------------------
