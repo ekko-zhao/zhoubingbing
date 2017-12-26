@@ -1011,8 +1011,8 @@ Map 和 Set 结构Generator 函数
 
 	function* g(){
 		try{
-		yield 1;
-		yield 2;
+			yield 1;
+			yield 2;
 		}finally{
 			yield 3;
 			yield 4;
@@ -1026,15 +1026,43 @@ Map 和 Set 结构Generator 函数
 
 //yield* 语句
 	function* foo(){
-
+		yield 'aa';
+		yield 'bb';
 	}
 	function* f(){
+		yield 'a';
+		yield 'b';
+		
 		// 调用 generator函数
 		yield* foo();
+		
+		yield 'c';
+		yield 'd';
 	}
+	/*
+		相当于
+		function* f(){
+		yield 'a';
+		yield 'b';
+		
+		yield 'aa';
+		yield 'bb';
+		
+		yield 'c';
+		yield 'd';
+	}
+		
+	*/
+	
+	function* foo(){
+		yield 'a';
+		yield 'b';
+		return 'result'
+	}
+	var re = foo(); // result
 
 
-	// 在Generator 函数内部调用一个 Generator 函数， yield* generator();
+#在Generator 函数内部调用一个 Generator 函数， yield* generator();
 	//yield* 后面跟遍历器
 	.遍历嵌套数组的所有成员
 	function* iterTree(tree){
@@ -1053,16 +1081,11 @@ Map 和 Set 结构Generator 函数
 		console.log(x)
 	}
 
-
-
-
-
-	支持遍历器的成员 都可以跟在 yield* 后面
+#支持遍历器的成员 都可以跟在 yield* 后面
 	yield*  ['a', 'v', 'c'] //返回的是 iterator 对象
 
 
-
-	//作为对象属性的 Generator 函数
+#作为对象属性的 Generator 函数
 	var o = {
 		* g() {
 
@@ -1074,7 +1097,29 @@ Map 和 Set 结构Generator 函数
 		}
 	}
 
-	// 应用--------------------------------------
+# generator函数 的this
+	function* g(){
+		this.x = 'x'
+	}
+	g.prototype.hello = function(){}
+	
+	let obj = g();
+	obj instanceof g //true
+	obj.hello();
+	
+	但是 generator函数 中this 指向 obj
+	g 是一个构造函数， 又是一个Generator 函数。 这时，使用 new 命令就无法生存F 的实例了， 因为F 返回的是一个内部指针
+	
+	// 需要如下变通
+	function* F(){
+		this.x = 'x'
+	}
+	let obj = {};
+	var f = F.bind(obj)()
+	
+	
+	
+#应用
 	yield 语句是同步运行， 不是异步运行 ； 包括读取文件  ， 异步请求
 
 	function delay(t){
@@ -1201,40 +1246,6 @@ Promise.reject(‘reject’)
 new Promise(
 	function(resolve, reject){  reject(‘reject’) }
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
