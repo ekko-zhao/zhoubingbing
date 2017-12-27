@@ -6,7 +6,7 @@ npm install --save-dev jasmine-core
 <html>
 <head>
 <meta charset="utf-8">
-<title>Jasmine µ¥Ôª²âÊÔ</title>
+<title>Jasmine å•å…ƒæµ‹è¯•</title>
 <link rel="stylesheet" href="node_modules/jasmine-core/lib/jasmine-core/jasmine.css" >
 <script src="node_modules/jasmine-core/lib/jasmine-core/jasmine.js"></script>
 <script src="node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
@@ -25,33 +25,38 @@ npm install --save-dev jasmine-core
 		it("and so2 is a spec2", function(){
 			expect(3).toBe(5);
 		})
-		
+
 		/*
-			Ê¹ÓÃdescribe() ºÍit() º¯Êı¼¯ºÏÊ¹ÓÃ
-			ÔÚitº¯ÊıÖĞĞèÒªÓÃexpect()¶ÏÑÔº¯ÊıÀ´ÅĞ¶¨²âÊÔÓÃÀı²âÊÔ½á¹û
-			
+			ä½¿ç”¨describe() å’Œit() å‡½æ•°é›†åˆä½¿ç”¨
+			åœ¨itå‡½æ•°ä¸­éœ€è¦ç”¨expect()æ–­è¨€å‡½æ•°æ¥åˆ¤å®šæµ‹è¯•ç”¨ä¾‹æµ‹è¯•ç»“æœ
+
 		*/
-		
+
 	})
 </script>
 </body>
 </html>
 
 
-//expectµÄÆ¥ÅäÆ÷--------------------------
-toBe  			Ê¹ÓÃ === ±È½Ï½á¹û
-toEqual 		±È½ÏÁ©¸ö¶ÔÏóÊÇ·ñÏàµÈ
-toMatch			ÕıÔò±í´ïÊ½Æ¥Åä
-toBeNull		ÑéÖ¤ÊÇ·ñÎªnull
-toBeTruthy		ÑéÖ¤ÊÇ·ñÎªtrue
-toBeFalsy		ÑéÖ¤ÊÇ·ñÎªfalse
-toBeLessThan	ÑéÖ¤½á¹ûÊÇ·ñĞ¡ÓÚÖ¸¶¨Öµ
-toBeGreaterThan	ÑéÖ¤½á¹ûÊÇ·ñ´óÓÚÖ¸¶¨Öµ
-toContain		ÑéÖ¤Êı×éÊÇ·ñ°üº¬Ö¸¶¨Öµ
-toBeCloseTo		½«Öµ½øĞĞËÄÉáÎåÈëºó±È½ÏÊÇ·ñÏàµÈ£¬toBeCloseTo (e, 2) 2±íÊ¾¾«¶È
-toThrow			ÑéÖ¤º¯ÊıÊÇ·ñÅ×³öÒ»¸ö´íÎó
-toThrowError	ÑéÖ¤º¯ÊıÊÇ·ñÅ×³öÖ¸¶¨µÄ´íÎó
-toBeDefined		ÑéÖ¤¶ÔÏóÊÇ²»Îªundefined
+//expectçš„åŒ¹é…å™¨--------------------------
+	toBe  			ä½¿ç”¨ === æ¯”è¾ƒç»“æœ
+	toEqual 		æ¯”è¾ƒä¿©ä¸ªå¯¹è±¡æ˜¯å¦ç›¸ç­‰
+	toMatch			æ­£åˆ™è¡¨è¾¾å¼åŒ¹é…
+
+	toBeNull		éªŒè¯æ˜¯å¦ä¸ºnull
+	toBeTruthy		éªŒè¯æ˜¯å¦ä¸ºtrue
+	toBeFalsy		éªŒè¯æ˜¯å¦ä¸ºfalse
+	toBeDefined		éªŒè¯å¯¹è±¡æ˜¯ä¸ä¸ºundefined
+
+	toBeLessThan	éªŒè¯ç»“æœæ˜¯å¦å°äºæŒ‡å®šå€¼
+	toBeGreaterThan	éªŒè¯ç»“æœæ˜¯å¦å¤§äºæŒ‡å®šå€¼
+
+	toContain		éªŒè¯æ•°ç»„æ˜¯å¦åŒ…å«æŒ‡å®šå€¼
+	toBeCloseTo		å°†å€¼è¿›è¡Œå››èˆäº”å…¥åæ¯”è¾ƒæ˜¯å¦ç›¸ç­‰ï¼ŒtoBeCloseTo (e, 2) 2è¡¨ç¤ºç²¾åº¦
+
+	toThrow			éªŒè¯å‡½æ•°æ˜¯å¦æŠ›å‡ºä¸€ä¸ªé”™è¯¯
+	toThrowError	éªŒè¯å‡½æ•°æ˜¯å¦æŠ›å‡ºæŒ‡å®šçš„é”™è¯¯
+
 
 
 

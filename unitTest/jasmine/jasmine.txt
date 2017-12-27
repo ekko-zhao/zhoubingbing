@@ -1,0 +1,128 @@
+
+# 安装 jasmine
+	npm install -g jasmine
+
+# 初始化 配置
+	jasmine init
+
+// CLI Options
+	JASMINE_CONFIG_PATH=spec/config/jasmine.json	// 指定配置文件
+	
+	--no-color		// cmd 代码没有颜色区分
+	
+	--filter		// 匹配指定的 specs, 可以指定 string 或 一个 字符串数组；  --filter ="one", --filter ="[one, two]"
+		/*
+			describe("A suite is jsut a function", function(){
+				it("one", function(){
+					expect(1).toBe(2);
+				})
+				it("two", function(){
+					expect(1).toBe(3);
+				})
+			})
+		*/
+		
+	--random=[true|false]		// jasmine 半随机顺序 执行断言
+	
+	--stop-on-failure=true		// 当设置为true时，第一个期望失败后，停止执行规范
+	
+	--seed=4321					// 设置随机种子 if --random=true
+	
+
+	
+// Using the library--------------------------------------------------
+	var Jasmine = require('jasmine');
+	var jasmine = new Jasmine();
+	
+	
+	jasmine.loadConfigFile('spec/support/jasmine.json');
+	jasmine.loadConfig({
+		spec_dir: 'spec',
+		spec_files: [
+			'appSpec.js',
+			'requests/**/*[sS]pec.js',
+			'utils/**/*[sS]pec.js'
+		],
+		helpers: [
+			'helpers/**/*.js'
+		]
+	});
+	
+	
+# Custom onComplete	 完成后的回调函数， passed 为 所有的断言是否通过
+	jasmine.onComplete(function(passed) {
+		if(passed) {
+			console.log('All specs have passed');
+		}
+		else {
+			console.log('At least one spec has failed');
+		}
+	});
+
+#Reporters
+	jasmine.configureDefaultReporter({
+		// The `timer` passed to the reporter will determine the mechanism for seeing how long the suite takes to run.
+		timer: new jasmine.jasmine.Timer(),
+		// The `print` function passed the reporter will be called to print its results.
+		print: function() {
+			process.stdout.write(arguments);
+		},
+		// `showColors` determines whether or not the reporter should use ANSI color codes.
+		showColors: true
+	});
+	
+#Run the tests
+	jasmine.execute();
+	jasmine.execute(['fooSpec.js'], 'a spec name');
+	
+	
+	
+#样例 run.js
+	var Jasmine = require('jasmine');
+	var jasmine = new Jasmine();
+
+	jasmine.loadConfigFile('spec/support/jasmine.json');
+	jasmine.configureDefaultReporter({
+		showColors: false
+	});
+	jasmine.execute();
+	
+	// node run.js
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
