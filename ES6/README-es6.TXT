@@ -1,4 +1,3 @@
-
 // 对象的解构---------------------------------------------------------------------------------------------------
 # 数组
 	适用于 var let const
@@ -1120,8 +1119,35 @@ Map 和 Set 结构Generator 函数
 	
 	
 #应用
-	yield 语句是同步运行， 不是异步运行 ； 包括读取文件  ， 异步请求
+	function request(url){
+		makeAjaxCall(url,function(){
+			it.next(response)
+		})
+	}
+	function *(){
+		var result = yield request('url');
+		// result 等于 response  参数
+		var resp = JSON.parse(result);
+	}
+	var it = main();
+	it.next();
 
+	
+	function* f(){
+		let [text1, text2] = yield [task()1,task2()];
+		// done , do anything
+	}
+	
+	// 作为数据结构
+	function* f(){
+		yield fs.readFile.bind(null,'hello.txt');
+		yield fs.readFile.bind(null,'hello2.txt');
+		yield fs.readFile.bind(null,'hello3.txt');
+		// done , do anything
+	}
+	
+	
+	// yield 语句是同步运行， 不是异步运行 ； 包括读取文件  ， 异步请求
 	function delay(t){
 		var q = new Promise( (resolve,reject)=> {
 			setTimeout(function(){
@@ -1142,128 +1168,130 @@ Map 和 Set 结构Generator 函数
 	})
 
 	// 2秒后 ok
+	
+	
 
 
 //Promise---------------------------------------------------------------------------------------------------
-
+	Pending
+	Resolved
+	Rejected
 
 #Promise构造函数接受一个函数作为参数 该函数接受俩个参数 resolve 和 reject , resolve 和 reject 有JavaScript引擎提供，不用用户自己部署
-var promise = new Promise((resolve,reject)=>{
-	 if(false){
-		 resolve('ok')
-	 }else{
-		 reject('cansle')
-	 }
- })
-promise.then(function(data){
-	 console.log(data)
- },function(data){
-	 console.log(data)
- })
+	var promise = new Promise((resolve,reject)=>{
+		 if(false){
+			 resolve('ok')
+		 }else{
+			 reject('cansle')
+		 }
+	 })
+	promise.then(function(data){
+		 console.log(data)
+	 },function(data){
+		 console.log(data)
+	 })
 
 
 ＃resolve 可以接受一个 Promise实例对象以更改 该Promise状态
-#resolve(promise1)
+	/* resolve(promise1) */
+	
+	var promise1 = new Promise((resolve, reject) => {
+		setTimeout(function () {
+			if (false) {
+				resolve('ok')
+			} else {
+				reject('cansle')
+			}
+		}, 3000)
+	})
 
-var promise1 = new Promise((resolve, reject) => {
-	setTimeout(function () {
-		if (false) {
-			resolve('ok')
-		} else {
-			reject('cansle')
-		}
-	}, 3000)
-})
-
-var promise2 = new Promise((resolve, reject) => {
-	setTimeout(function () {
-		resolve(promise1)
-	}, 1000)
-})
-promise2.then(function (data) {
-	console.log(data)
-}, function (data) {
-	console.log(data)
-})
-//  输出 cansle
-
-
-//Promise.prototype.then()———————
-#Promise实例的then方法返回一个 新的 Promise实例（new Promise()） ,因此可以链式调用
-
-promise.then(function(data){
-	return promise3;
-}, function(error){
-
-})
-#等待promise3状态改变（pending to resolved or rejected） 在执行下面代码
-.then(function(data){}, function(error){})
+	var promise2 = new Promise((resolve, reject) => {
+		setTimeout(function () {
+			resolve(promise1)
+		}, 1000)
+	})
+	promise2.then(function (data) {
+		console.log(data)
+	}, function (data) {
+		console.log(data)
+	})
+	//  输出 cansle
 
 
-//Promise.prototype.catch()———————
-#在promise状态改变之前发生的异常捕获，若果在 promise状态改变之后发生 将在函数体外抛出异常
-var promise = new Promise((resolve,reject)=>{
-	throw new Error('test');
-	resolve('ok');
- })
+#Promise.prototype.then()———————
+	// Promise实例的then方法返回一个 新的 Promise实例( new Promise() ) , 因此可以链式调用
+	promise.then(function(data){
+		return promise3;
+	}, function(error){
 
-promise.then()
-.catch(function(e){ console.log(e)})
-
-//or
-＃捕获2个promise 抛出的异常
-promise.then()
-.then()
-.catch(function(e){ console.log(e)})
-
-//or
-＃捕获3个promise 抛出的异常
-promise.then(function(){ return  promise})
-.then()
-.catch(function(e){ console.log(e)})
-
-//Promise.all()———————
-Promise.all() 的参数不一定是数组， 但必须有iterator 接口
-var pall = Promise.all( [ p1, p2, p3, p4 ] )
-
-pall.then(
-	function(resolve){},
-	//p1, p2, p3, p4 只要有一个 rejected， pall的状态都会变成 rejected
-	function(reject){},
-)
-.catch(function(e){ console.log(e)})
-
-//Promise.race()———————
-#p1, p2, p3, p4 只要有一个状态 改变fulfilled， race的状态都会改变
-var race = Promise.race( [ p1, p2, p3, p4 ] )
-
-//Promise.reject()———————
-
-Promise.reject() 返回一个 Promise实例 状态为 rejected,
-
-Promise.reject(‘reject’)
-同等于
-new Promise(
-	function(resolve, reject){  reject(‘reject’) }
-)
+	})
+	// 等待promise3状态改变（pending to resolved or rejected） 在执行下面代码
+	.then(function(data){}, function(error){})
 
 
+#Promise.prototype.catch()———————
+	// 在promise状态改变之前发生的异常捕获，若果在 promise状态改变之后发生 将在函数体外抛出异常
+	var promise = new Promise((resolve,reject)=>{
+		throw new Error('test');
+		resolve('ok');
+	 })
 
+	promise.then()
+	.catch(function(e){ console.log(e)})
 
+	//or
+	＃捕获2个promise 抛出的异常
+	promise.then()
+	.then()
+	.catch(function(e){ console.log(e)})
 
+	//or
+	＃捕获3个promise 抛出的异常
+	promise.then(function(){ return  promise})
+	.then()
+	.catch(function(e){ console.log(e)})
 
+#Promise.all()———————
+	Promise.all() 的参数不一定是数组， 但必须有iterator 接口
+	var pall = Promise.all( [ p1, p2, p3, p4 ] )
 
+	pall.then(
+		function(resolve){},
+		//p1, p2, p3, p4 只要有一个 rejected， pall的状态都会变成 rejected
+		function(reject){},
+	)
+	.catch(function(e){ console.log(e)})
 
+#Promise.race()———————
+	#p1, p2, p3, p4 只要有一个状态 改变fulfilled， race的状态都会改变
+	var race = Promise.race( [ p1, p2, p3, p4 ] )
+	race.then(function(response){
+		
+	})
+	
+	
+#Promise.reject()———————
+	Promise.reject() 返回一个 Promise实例 状态为 rejected,
 
+	Promise.reject('reject')
+	同等于
+	new Promise(
+		function(resolve, reject){  reject('reject') }
+	)
 
-
-
-
-
-
-
-
-
-
-
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
