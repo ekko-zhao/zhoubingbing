@@ -30,7 +30,7 @@
 */
 
 # Run Karma:
-	npde ./node_modules/karma/bin/karma start	
+	node ./node_modules/karma/bin/karma start
 	
 	
 module.exports = function(config) {
