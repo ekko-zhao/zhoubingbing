@@ -5,14 +5,14 @@
 # Install plugins that your project needs:
 	npm install karma-jasmine karma-chrome-launcher jasmine-core --save-dev
 
-	
-/*
+
 	//全局安装 karma-cli
 	npm install -g karma-cli
 
-	//生成karma.conf.js
-		cmd: karma init
-
+	
+# 生成karma.conf.js
+	cmd: karma init
+	
 	//package.json
 	{
         "script":{
@@ -26,8 +26,10 @@
             "karma-jasmine": "^1.1.0"
         }
     }
-
-*/
+	
+	$ karma start my.conf.js // 指定配置文件名称 
+	karma start my.conf.js --log-level debug --single-run  // 覆盖配置文件配置
+	
 
 # Run Karma:
 	node ./node_modules/karma/bin/karma start
@@ -73,10 +75,133 @@ module.exports = function(config) {
 		// Default: 9876
 		--port 9876
 		
-		
-		
 	})
 }
+
+
+
+// API 文档---------------------------------------------------------------------------------------
+
+#配置文件
+	最简单的方式是使用命令行创建文件， $ karma init
+	该文件可以是 JavaScript, CoffeeScript, or TypeScript and is loaded as a regular Node.js module
+	
+	./karma.conf.js
+	./karma.conf.coffee
+	./karma.conf.ts
+	
+	/*
+		// karma.conf.js
+			module.exports = function(config) {
+			  config.set({
+				basePath: '../..',
+				frameworks: ['jasmine'],
+				//...
+			  });
+			};
+		
+		# karma.conf.coffee
+			module.exports = (config) ->
+			  config.set
+				basePath: '../..'
+				frameworks: ['jasmine']
+				# ...
+		
+		// karma.conf.ts
+			module.exports = (config) => {
+			  config.set({
+				basePath: '../..',
+				frameworks: ['jasmine'],
+				//...
+			  });
+			}
+	*/
+	
+# 文件匹配
+	exclude
+	files
+	preprocessors
+		Examples:
+			**/*.js
+			**/!(jquery).js
+			**/(foo|bar).js
+# 配置选项
+	autoWatch: Boolean				// 监听匹配文件改动时， 是否执行测试
+		Default: true
+		CLI: --auto-watch, --no-auto-watch
+	
+	autoWatchBatchDelay: Number		// 改动文件后，尝试批处理 进行测试
+		Default: 250
+
+	basePath: String				// 被用于解析路径, 明确files and exclude. 如果是相对路径 则依赖__dirname
+		Default: ''
+	
+	browserDisconnectTimeout: Number		
+		Default: 2000				// karma与浏览器的断开是正常的，karma 会在设置的时间后重新连接
+
+	browserConsoleLogOptions: Object
+		Default: {level: "debug", format: "%b %T: %m", terminal: true}
+		{
+		  level:  string,		
+		  format: string,		// %b, %t, %T, and %m 分别对应 浏览器字符串、 小写、大写 和 log message
+		  path:   string,		// 输出文件的路径
+		  terminal: boolean		// 表示 log 是否被写在 终端
+		}
+	
+	browserDisconnectTolerance: Number	// 被允许的不连接的数量
+		Default: 0
+
+	browserNoActivityTimeout: Number	// 从浏览器 多久 没有得到信息后，断开连接
+		Default: 10000			
+
+
+	browsers: Array
+		Default: []
+		CLI: --browsers Chrome,Firefox, --no-browsers
+			Chrome (launcher requires karma-chrome-launcher plugin)
+			ChromeCanary (launcher requires karma-chrome-launcher plugin)
+			PhantomJS (launcher requires karma-phantomjs-launcher plugin)
+			Firefox (launcher requires karma-firefox-launcher plugin)
+			Opera (launcher requires karma-opera-launcher plugin)
+			IE (launcher requires karma-ie-launcher plugin)
+			Safari (launcher requires karma-safari-launcher plugin)
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
