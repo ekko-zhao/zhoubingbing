@@ -1225,10 +1225,17 @@ Map 和 Set 结构Generator 函数
 	}, function(error){
 
 	})
-	// 等待promise3状态改变（pending to resolved or rejected） 在执行下面代码
-	.then(function(data){}, function(error){})
-
-
+	
+	// 如果 在success 或 error 函数中返回 Promise实例, 则直到该 primise 状态改变才执行下一个 then(fn(success){}, fn(error){}),  
+	.then(function(success){
+		// 参数 success  为 promise3 中传递的参数， 如 resolve('ok');
+	}, function(error){
+		// 参数 error 为 promise3 中传递的参数， 如 reject('error');
+	})
+	
+	// 如果 上一个 then 有return 普通类型的值 value, 下一个then() 执行success方法-则参数为 value， 没有则为 undefined.
+	
+	
 #Promise.prototype.catch()———————
 	// 在promise状态改变之前发生的异常捕获，若果在 promise状态改变之后发生 将在函数体外抛出异常
 	var promise = new Promise((resolve,reject)=>{
@@ -1278,19 +1285,48 @@ Map 和 Set 结构Generator 函数
 	new Promise(
 		function(resolve, reject){  reject('reject') }
 	)
+	
+	
+	
+	
 
+// 异步操作和 async 函数————————————————————————————————————————————————————————————————————————
+
+# Promise 
+	// 可以看到， Promise 的写法只是回调函数的改进， 使用then 方法后，异步任务的俩段执行看的更清楚，除此之外并没有其它新意
+	var readFile = require('filename');
 	
+	readFile('fileA')
+	.then(function(data){
+		console.log(data.toString())
+	})
+	.then(function(data){
+		return readFile('fileB')
+	})
+	.then(function(data){
+		console.log(data.toString())
+	})
+	.catch(function(error){
+	})
 	
+# Generator
+	var fetch = require('node-fetch')
 	
+	function* fen(){
+		var url = 'http://api/users/github';
+		var result = yield fetch(url);
+		console.log(result); // result 为 g.next(data)的data参数；
+	}
 	
+	var g = fen();
+	var result = g.next();
+	result.value.then(function(data){
+		return data.json();
+	}).then(function(data){
+		g.next(data)
+	})
 	
-	
-	
-	
-	
-	
-	
-	
+#co 模块
 	
 	
 	
