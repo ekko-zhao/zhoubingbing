@@ -89,10 +89,83 @@
 	
 	// node run.js
 	
+
+//expect的匹配器--------------------------
+	toBe  			使用 === 比较结果
+	toEqual 		比较俩个对象是否相等
+	toMatch			正则表达式匹配
+
+	toBeNull		验证是否为null
+	toBeTruthy		验证是否为true
+	toBeFalsy		验证是否为false
+	toBeDefined		验证对象是不为undefined
+
+	toBeLessThan	验证结果是否小于指定值
+	toBeGreaterThan	验证结果是否大于指定值
+
+	toContain		验证数组是否包含指定值
+	toBeCloseTo		将值进行四舍五入后比较是否相等，toBeCloseTo (e, 2) 2表示精度
+
+	toThrow			验证函数是否抛出一个错误
+	toThrowError	验证函数是否抛出指定的错误
+
+# beforEach、afterEach 函数
+
+	describe('app.component', () => {
+		// 每个用例执行前， 所需要执行的初始化函数
+		beforeEach(() => {
+			this.name = 'zhoubb';
+		})
+		// 每个用例结束执行后 执行
+		beforeEach(() => {
+			
+		})
+		
+		it('a to b', () => {
+			expect(this.name).toEqual('zhoubingbings')
+		})
+	})
 	
-	
-	
-	
+
+// jasmine.test.html ------------------------------------------------------------------------------
+npm install --save-dev jasmine-core
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Jasmine 单元测试</title>
+<link rel="stylesheet" href="node_modules/jasmine-core/lib/jasmine-core/jasmine.css" >
+<script src="node_modules/jasmine-core/lib/jasmine-core/jasmine.js"></script>
+<script src="node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
+<script src="node_modules/jasmine-core/lib/jasmine-core/boot.js"></script>
+</head>
+
+<body>
+<script>
+	describe("A suite is jsut a function", function(){
+		var a;
+		it("and so is a spec", function(){
+			a=false;
+			expect(a).toBe(false);
+			expect('4').toBe(4);
+		})
+		it("and so2 is a spec2", function(){
+			expect(3).toBe(5);
+		})
+
+		/*
+			使用describe() 和it() 函数集合使用
+			在it函数中需要用expect()断言函数来判定测试用例测试结果
+
+		*/
+
+	})
+</script>
+</body>
+</html>
+
+
+
 	
 	
 	

@@ -9,8 +9,10 @@ var co = require('co');
 })
 
 export class AppComponent {
+    public name: string;
     constructor() {
-        var promise1 = new Promise(function (resolve, reject) {
+        this.name = 'zhoubingbing'
+        /* var promise1 = new Promise(function (resolve, reject) {
             resolve('resolve1');
         })
 
@@ -29,15 +31,13 @@ export class AppComponent {
             console.log(66)
             return 'abc';
         }
-
-
         co(f).then(function (data) {
             console.log(data)
             console.log('resolve')
         }, function (data) {
             console.log(data)
             console.log('reject')
-        })
+        }) */
 
 
         /* var a = objectentries(obj);

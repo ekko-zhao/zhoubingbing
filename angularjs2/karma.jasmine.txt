@@ -19,9 +19,7 @@ npm install -g karma-cli
     }
 }
 
-// npm install -g karma
-// npm install -g karma-jasmine karma-chrome-launcher
-
+// npm install --save-dev karma-webpack  @types/jasmine
 
 //运行测试用例
 cmd: npm test
