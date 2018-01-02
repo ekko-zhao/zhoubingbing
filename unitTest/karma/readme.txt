@@ -119,7 +119,31 @@ module.exports = function(config) {
 	
 # 文件匹配
 	exclude
-	files
+	files:[]
+	/*
+		pattern: String
+			No Default.
+			
+		type: String	// css | html | js | dart | module
+			Default. Will attempt to determine type based on file extension. If that fails, defaults to js.
+			
+		watched: Boolean
+			Default. true
+			
+		included: Boolean
+			Default. true
+			
+		served: Boolean
+			Default. true
+			
+		nocache: Boolean
+			Default. false
+			
+		// Complete example
+		{pattern: 'compiled/app.js.map', included: false, served: true, watched: false, nocache: true}
+		
+	*/
+	
 	preprocessors
 		Examples:
 			**/*.js
@@ -166,20 +190,22 @@ module.exports = function(config) {
 			IE (launcher requires karma-ie-launcher plugin)
 			Safari (launcher requires karma-safari-launcher plugin)
 	
+	captureTimeout: Number
+		Default: 60000
+	
+
+	colors：Boolean					// 是否允许在控制台输出 有颜色区分
+		Default: true
+		CLI: --colors, --no-colors
+		
+	concurrency: Number
+		Default: Infinity
+
+	crossOriginAttribute: Boolean	
+		Default: true
 	
 	
-	
-
-
-
-
-
-
-
-
-
-
-
+	...
 
 
 

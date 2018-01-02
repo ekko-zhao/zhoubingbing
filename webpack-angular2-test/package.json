@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "set NODE_ENV=development&& webpack-dev-server --colors --progress",
         "build": "set NODE_ENV=production&& webpack --colors --progress",
-        "test": "set NODE_ENV=test&& webpack-dev-server --colors --progress"
+        "test": "karma start"
     },
     "author": "",
     "license": "ISC",
@@ -42,5 +42,12 @@
         "webpack-dev-server": "~2.7.1",
         "zone.js": "^0.8.18"
     },
-    "dependencies": {}
+    "dependencies": {
+        "jasmine": "^2.6.0",
+        "jasmine-core": "^2.6.2",
+        "karma": "^1.7.0",
+        "karma-chrome-launcher": "^2.1.1",
+        "karma-jasmine": "^1.1.0",
+        "karma-webpack": "^2.0.9"
+    }
 }
