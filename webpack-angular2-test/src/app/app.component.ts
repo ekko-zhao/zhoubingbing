@@ -11,34 +11,19 @@ var co = require('co');
 export class AppComponent {
     public name: string;
     constructor() {
-        this.name = 'zhoubingbing'
-        /* var promise1 = new Promise(function (resolve, reject) {
-            resolve('resolve1');
-        })
-
-        var promise2 = new Promise(function (resolve, reject) {
+        var promise1 = new Promise((resolve, reject) => {
             setTimeout(function () {
-                console.log(3)
-                resolve('resolve2');
+                if (1) {
+                    resolve('ok')
+                } else {
+                    reject('cansle')
+                }
             }, 2000)
         })
 
-        var f = function* () {
-            var a = yield 1;
-            console.log(a)
-            console.log(55)
-            yield promise2;
-            console.log(66)
-            return 'abc';
-        }
-        co(f).then(function (data) {
-            console.log(data)
-            console.log('resolve')
-        }, function (data) {
-            console.log(data)
-            console.log('reject')
-        }) */
-
+        Promise.resolve('promise1').then(function(){
+            console.log(2222)
+        })
 
         /* var a = objectentries(obj);
         console.log(a);

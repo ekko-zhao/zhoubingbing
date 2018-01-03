@@ -1277,6 +1277,34 @@ Map 和 Set 结构Generator 函数
 	})
 	
 	
+#Promise.resolve()———————
+	Promise.reject() 返回一个 Promise实例 状态为 resolve,
+
+	Promise.resolve('resolve')
+	同等于
+	new Promise(
+		function(resolve, reject){  resolve('resolve') }
+	)
+	/*	
+		参数可以为 promise
+		
+		var promise1 = new Promise((resolve, reject) => {
+            setTimeout(function () {
+                if (1) {
+                    resolve('ok')
+                } else {
+                    reject('cansle')
+                }
+            }, 2000)
+        })
+		Promise.resolve(promise1)
+			.then(function(){
+				console.log(2222)
+			})
+		过俩秒 // 2222
+	*/
+	
+	
 #Promise.reject()———————
 	Promise.reject() 返回一个 Promise实例 状态为 rejected,
 
@@ -1327,6 +1355,102 @@ Map 和 Set 结构Generator 函数
 	})
 	
 #co 模块
+	var co = require('co');
+	Generator 函数直接传入 co, 该函数就会自动执行
+	
+	
+	
+	var promise1 = new Promise(function (resolve, reject) {
+		resolve('resolve1');
+	})
+	var promise2 = new Promise(function (resolve, reject) {
+		setTimeout(function () {
+			resolve('resolve2');
+		}, 2000)
+	})
+	
+	var f = function* () {
+		yield promise1;
+		yield promise2;
+		return 'abc';
+	}
+	
+	co(f).then(function (success) {
+		console.log('resolve');
+	}, function (error) {
+		console.log('reject');
+	})
+	
+	/*
+		这里 f 被当作参数传入co ，自动执行
+		yield 后面需要跟 Promise ,Generator 或者部署 Iterator接口对象
+		
+		yield 按顺序执行， 其中有 reject 的， 直接 交出执行权，到 error 函数中参数为 agr， reject('agr')
+		否则 f 到执行完毕 到 success函数， 该参数为 f 返回的值 
+	*/
+	
+# 应用
+	function* f(){
+		var f1 = yield readFile('url');
+		var f2 = yield readFile('url');
+		return [f1,f2];
+	}
+
+	数组的写法
+	function* f(){
+		yield [
+			Promise.resolve('1'),
+			Promise.resolve('2')
+		]
+	}
+	
+	co(f).catch(onerror)
+	
+	/*
+		function* f(){
+			var n = [n0,n1,n2]
+			yield n.map(f2)
+		}
+		
+		function* f2(){
+			// do something
+			return y
+		}
+		
+		co(f).catch(onerror)
+	*/
+	
+	对象的写法
+	function* f(){
+		yield {
+			0：Promise.resolve('1'),
+			1：Promise.resolve('2')
+		}
+	}
+	co(f).catch(onerror)
+	
+	
+#async 函数
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
