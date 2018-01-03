@@ -78,7 +78,7 @@ module.exports = function (config) {
 		],
 
 		proxies: {
-			"/src/": "http://localhost:3089/src/"
+			"/src/": "http://localhost:3089/"
 		}
 
 	})
