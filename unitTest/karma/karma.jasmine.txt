@@ -1,0 +1,50 @@
+﻿
+//全局安装 karma-cli
+npm install -g karma-cli
+
+//生成karma.conf.js
+    cmd: karma init
+
+//package.json
+{
+    "script":{
+        "test": "karma start karma.conf.js"
+    },
+    "devDependencies": {
+        "jasmine": "^2.6.0",
+        "jasmine-core": "^2.6.2",
+        "karma": "^1.7.0",
+        "karma-chrome-launcher": "^2.1.1",
+        "karma-jasmine": "^1.1.0"
+    }
+}
+
+// npm install --save-dev karma-webpack  @types/jasmine
+
+//运行测试用例
+cmd: npm test
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
