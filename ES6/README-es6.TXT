@@ -1431,15 +1431,50 @@ Map 和 Set 结构Generator 函数
 	
 	
 #async 函数
+	属于es7。 目前处于提案阶段 支持转码器的有Babel 和 regenerator
+	var asyncReadfile = async function (){
+		var f1 = await readFile('file1')
+		var f2 = await readFile('file2')
+		return [f1, f2]
+	}
+	var result = asyncReadfile(); 
+	// 	async 自带函数执行体， 不需要通过 co 来执行， 它的执行与普通函数一模一样， asyncReadfile()
+		async 和 await 比起 * 和 yield 语义更清楚；
+		async 表示 函数中 有异步操作；
+		await 表示紧跟在后面的表达式需要等待结果
+		
+		await 后面可以跟 Promise 对象 和原始类型的值（数值 字符串 布尔值 不过这时相当于 同步操作）
+		async 返回的是 Pormise 对象， 而await 命令内部就是 then命令的糖语法
+		
+		await 不能用于普通函数中
 	
+#用法
+	async 和 Genetator 返回的是 Pormise 对象
+
+	function timeout(ms){
+		return new Pormise(function(r,e){
+			setTimeout(r,ms)
+		})
+	}
+
+	async function asyncPrint(value, ms){
+		await timeout(ms);
+		console.log(value)
+	}
+	asyncPrint('hello', 2000)
 	
-	
-	
-	
-	
-	
-	
-	
+	await 后面的Promise 对象。 运行结果可能是 Rejected, 所以最好把 await 命令放在 try...catch 代码块中
+	var ay = async function (){
+		try{
+			var f1 = await promise1
+		}.catch(err){
+			console.log(err)
+		}	
+	}
+	或者
+	var ay = async function (){
+		var f1 = await promise1.catch(err){ console.log(err) }
+	}
 	
 	
 	
