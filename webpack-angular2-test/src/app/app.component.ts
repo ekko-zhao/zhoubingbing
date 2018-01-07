@@ -9,26 +9,14 @@ var co = require('co');
 })
 
 export class AppComponent {
-    public name: string;
+    public names: string = 'zhoubingbign';
+    public name() { };
     constructor() {
-        var promise1 = new Promise((resolve, reject) => {
-            setTimeout(function () {
-                if (1) {
-                    resolve('ok')
-                } else {
-                    reject('cansle')
-                }
-            }, 2000)
-        })
 
-        Promise.resolve('promise1').then(function(){
-            console.log(2222)
-        })
+        class MyArray extends Array{}
 
-        /* var a = objectentries(obj);
-        console.log(a);
-        console.log(a.next());
-        console.log(a.next());
-        console.log(a.next()); */
+
+         var a = new MyArray()
+        console.log(a)
     }
 }

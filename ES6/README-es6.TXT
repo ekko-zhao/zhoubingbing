@@ -1478,6 +1478,152 @@ Map 和 Set 结构Generator 函数
 	
 	
 	
+# Class --------------------------------------------------------------
+	// 	类的所有方法都定义在类的prototype 属性上
+		可以显性的将方法 定义在 其本身（this）上，否则都是定义在原型上的
+		由于本质上 es6 的class 只是 ES5 的构造函数的一层包装， 所以函数的许多特性 都被Class 继承，包括 name属性
+		不存在变量提升， 在 var a = new A(); 语句之前要先申明 class A{}
+		
+	class A{
+		age = 30;
+		smmethod(){}
+		
+		constructor(){
+			// 显性定义
+			this.x = function(){
+			
+			}
+		}
+	}
+	/*
+		// 同等于
+		function A(){
+			this.age = 30;
+			this.x = function(){}
+		}
+		A.prototype.smmethod = function(){}
+	*/
+	A === A.prototype.constructor // true
+	A.name // => 'A'
+	
+	var a = new A();
+	a.constructor === A.prototype.constructor // true
+	
+# Class 的继承 
+	
+	// 子类 constructor方法必须 调用 super 方法才能返回父类实例 this，否则将无法使用 this;
+
+	class A{
+		age = 23;
+		constructor() {}
+	}
+	class B extends A{
+		x:any;
+		constructor(){
+			super()
+			this.x = '1122'
+		}
+	}
+	
+	类 B 的 prototype 属性和 __proto__ 属性。
+	Class 同时具有 prototype 和 __proto__ 属性， 因此同时存在俩条继承链
+	子类 的 __proto__ 属性表示构造函数的继承，总是指向父类
+	子类的prototype 属性的 __proto__属性表示继承的方法 ，总是指向父类的prototype属性。
+	
+	B['__proto__'] = A() {
+						this.age = 23;
+						this.abc = function () { };
+					}
+	
+	B.prototype['__proto__'] = {
+		// A.prototype
+	}
+	
+	var objb = new B();
+	objb['__proto__'] 表示继承到的属性
+	objb['__proto__']['prototype'] 指向 B的构造函数
+	objb['__proto__']['__proto__'] 指向 B 的 父级                               
+	
+# 原生构造函数的继承
+	function MyArray(){
+		Array.apply(this,agrs);
+	}
+	var a = new MyArray();
+	
+	// 	这里 a 的行为和 Array 的行为不一样，
+		ES5 是先创建子类的实例对象 this, 再将父类的属性添加到子类上， 由于父类的属性无法获取，导致无法继承原生的构造函数
+		
+		
+	class MyArray extends Array{}
+	var a = new MyArray()
+    console.log(a)
+	// 	这里 a 的行为和 Array 的行为一致，
+		ES6 是先创建父类对象的this, 然后再用子类的构造函数修饰 父类对象的this.
+	
+	
+# Class 的取值函数 （getter） 和存值函数（setter）
+	
+	class A{
+		cage
+		constructor() {}
+		
+		get age(){
+			return this.cage
+		}
+		
+		set age(v){
+			this.cage = v
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
