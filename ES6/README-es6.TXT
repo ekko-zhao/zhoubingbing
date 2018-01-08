@@ -1576,16 +1576,76 @@ Map 和 Set 结构Generator 函数
 		}
 	}
 	
+# Class 的静态方法， 静态属性
+	class A{
+		// 静态方法
+		static method(){}
+	}
+	// 静态属性
+	A.age = 23;
 	
+# 类的修饰 ---------------------------------------------------------------
+	function decorate(target){
+		console.log(target)
+		/*
+			target === function foo(){ }
+		*/
+		
+		// 向构造函数prototype添加 属性
+		target.prototype.method = 'method';
+		
+		// 添加私有属性
+		target.first = 'first'
+	}
+
+	@decorate
+	class foo{ }
 	
+#方法或属性 的修饰
+	function decorate(target, name, descriptor){
+		/*
+			target ==== foo.prototype
+			name === 'method'
+			descriptor === {
+				ritable: true, 
+				enumerable: true, 
+				configurable: true, 
+				value: ƒ
+			}
+		*/
+		
+		// 这里可以修改 descriptor 的值， 并return descriptor
+		
+		descriptor.ritable = false;
+		return descriptor;
+	}
 	
+	class foo{
+		@decorate
+		property = 'property'
+		
+		@decorate
+		method(){
+		}
+	}
 	
+# 使用修时期实现自动发布事件
+
+	function decorate(target, name, descriptor) {
+		var value = descriptor.value
+		descriptor.value = function(){
+			value.apply(target)
+			// this === undefined
+			// do something ...
+		}
+	}
 	
-	
-	
-	
-	
-	
+	class foo {
+		@decorate
+		getname() {
+			console.log(this)
+		}
+	}
 	
 	
 	
