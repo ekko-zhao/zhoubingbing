@@ -7,6 +7,6 @@ describe('app.component', () => {
     })
     it('a to b', () => {
 
-        expect(this.com.name).toEqual('zhoubingbing')
+        expect(this.com.names).toEqual('zhoubingbing')
     })
 })

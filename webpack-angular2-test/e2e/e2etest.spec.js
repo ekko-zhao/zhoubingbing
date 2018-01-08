@@ -1,9 +1,6 @@
-
-describe('app.component', () => {
-    beforeEach(() => {
-        browser.get('http://localhost:3089/')
-    })
-    it('a to b', () => {
-        expect(this.com.name).toEqual('zhoubingbing')
-    })
-})
+describe('angularjs homepage', function () {
+    it('should have a title', function () {
+        // browser.get('http://juliemr.github.io/protractor-demo/');
+        expect(13).toEqual('Super Calculator');
+    });
+});

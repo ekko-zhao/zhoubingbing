@@ -1,5 +1,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> 
 
+<!--[if IE 7]> 仅IE7可识别 <![endif]-->  
+<!--[if lte IE 7]> IE7以及IE7以下版本可识别 <![endif]-->  
+<!--[if gte IE 7]> IE7以及IE7以上版本可识别 <![endif]-->  
+
+
 IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome Frame 
 
 
