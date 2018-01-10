@@ -7,6 +7,9 @@ import { Component, ViewChild } from '@angular/core';
 
 export class AppComponent {
     constructor() {
+        let someValue: any = "this is a string";
+        let strLength: number = (<string>someValue).length;
 
+        console.log(strLength)
     }
 }
