@@ -2,6 +2,7 @@
     "compileOnSave": false,
     "compilerOptions": {
         "outDir": "./dist/",
+        "baseUrl": ".",
         "module": "commonjs",
         "sourceMap": false,
         "declaration": false,
@@ -19,6 +20,10 @@
         "lib": [
             "es2016",
             "dom"
+        ],
+        "rootDirs": [
+            "src/app",
+            "src/rootDirs"
         ]
     },
     "exclude": [

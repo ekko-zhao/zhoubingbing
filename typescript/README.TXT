@@ -1,12 +1,18 @@
 npm install -g typescript
-tsc greeter.ts
+$ tsc
 
+// 基础类型 --------------------------------------------------------------------------------------------
 
-
-
-
-
-
+	boolean | number | string | number[] | [string, number] | Any
+	
+	
+	
+#string	
+	模版字符串 ` `，它可以定义多行文本和内嵌表达式
+	`
+		Hello, my name is ${ name }.
+		I'll be ${ age + 1 } years old next month.
+	`
 
 
 
