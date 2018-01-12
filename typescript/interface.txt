@@ -1,0 +1,147 @@
+﻿
+属性接口------------------------------
+
+	interface SquareConfig {
+		color?: string; 	// 可选
+		width: number;		
+	}
+	
+	function createSquare(config: SquareConfig){ }
+	
+	// 函数参数必须满足接口 ， 可选除外; 
+	// 不允许接口非定义的属性
+	let mySquare = createSquare({width: "black"});
+	
+	/*
+		绕开这些检查, 最简便的方法是使用类型断言
+		let mySquare = createSquare({ other: "red", width: 100 } as SquareConfig);
+	*/
+	
+	interface SquareConfig {
+		color?: string; 	// 可选
+		width: number;
+		/*
+			允许定义其他属性
+			[propName: string]: any;
+		*/
+	}
+		
+
+
+只读属性------------------------------
+
+	一些对象属性只能在对象刚刚创建的时候修改其值。 
+	你可以在属性名前用 readonly来指定只读属性:
+	
+	interface Point {
+	    readonly x: number;
+	    readonly y: number;
+	}
+	
+	let p1: Point = { x: 10, y: 20 };
+	p1.x = 5; // error!
+	
+#ReadonlyArray<T>类型
+	它与Array<T>相似，只是把所有可变方法去掉了，因此可以确保数组创建后再也不能被修改
+	let a: number[] = [1, 2, 3, 4];
+	let ro: ReadonlyArray<number> = a;
+	
+	ro[0] = 12; // error!
+	ro.push(5); // error!
+	ro.length = 100; // error!
+	a = ro; // error!
+	
+#readonly vs const
+	做为变量使用的话用 	const，
+	若做为属性则使用	readonly。
+	
+	
+函数类型------------------------------
+
+	interface SearchFunc {
+		(source: string, subString: string): boolean;
+	}
+
+	let mySearch: SearchFunc;
+	mySearch = function(source: string, subString: string) {
+		let result = source.search(subString);
+		return result > -1;
+	}
+	
+	//or
+	
+	let mySearch = <SearchFunc>function(source: string, subString: string) {
+		let result = source.search(subString);
+		return result > -1;
+	}
+
+
+可索引的类型 ------------------------------
+	共有支持两种索引签名：字符串和数字。
+	可以同时使用两种类型的索引，但是数字索引的返回值必须是字符串索引返回值类型的子类型、或相同类型 
+		这是因为当使用 number来索引时，JavaScript会将它转换成string然后再去索引对象。 
+		也就是说用 100（一个number）去索引等同于使用"100"（一个string）去索引，因此两者需要保持一致。
+		
+	[index: number]: Child
+	[index: string]: Parent
+	
+1.
+	interface StringArray {
+		[index: number]: string;
+	}
+	let myArray: StringArray;
+	myArray = ["Bob", "Fred"];
+	
+2.
+	class Animal {
+		name: string;
+	}
+	class Dog extends Animal {
+		breed: string;
+	}
+
+	// 错误：Animal 不是 Dog 的子类型
+	interface NotOkay {
+		[x: number]: Animal;
+		[x: string]: Dog;
+	}
+	
+	// 正确 Dog 是 Animal 的子类型
+	interface NotOkay {
+		[x: number]: Dog;
+		[x: string]: Animal;
+	}
+
+
+	
+# 类类型
+	interface ClockInterface {
+		// 属性
+		currentTime: Date;
+		
+		// 方法
+		setTime(d: Date): any;
+	}
+	
+	class Clock implements ClockInterface {
+		currentTime: Date;
+		setTime(d: Date) {
+			this.currentTime = d;
+		}
+		
+		constructor(h: number, m: number) { }
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

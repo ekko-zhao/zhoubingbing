@@ -1,4 +1,4 @@
-npm install -g typescript
+﻿npm install -g typescript
 $ tsc
 
 // 基础类型 --------------------------------------------------------------------------------------------
@@ -7,6 +7,8 @@ $ tsc
 	
 	数组
 		number[] 
+		string[]
+		[string]
 		[string, number]
 	
 	数组泛型

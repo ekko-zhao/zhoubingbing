@@ -7,9 +7,18 @@ import { Component, ViewChild } from '@angular/core';
 
 export class AppComponent {
     constructor() {
-        let someValue: any = "this is a string";
-        let strLength: number = (<string>someValue).length;
+        interface SearchFunc {
+            (source: string, subString: string): boolean;
+        }
 
-        console.log(strLength)
+        let mySearch: SearchFunc;
+        mySearch = function (source: string, subString: string) {
+            let result = source.search(subString);
+            return result > -1;
+        }
+
+
+
+
     }
 }
