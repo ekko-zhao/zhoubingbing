@@ -1,0 +1,91 @@
+﻿
+npm install -g nodemon
+npm install --save-dev nodemon
+
+用于检测代码改写，// "watch-css": "nodemon --ignore js/ --ignore dist/ -e scss -x \"npm run css\""
+
+默认配置文件读取 nodemon.json， 也可以通过命令行指定配置文件 --config config.json
+
+	{
+	  "restartable": "rs",
+	  "ignore": [
+		".git",
+		"node_modules/**/node_modules"
+	  ],
+	  "verbose": true,
+	  "execMap": {
+		"js": "node --harmony"
+	  },
+	  "watch": [
+		"test/fixtures/",
+		"test/samples/"
+	  ],
+	  "env": {
+		"NODE_ENV": "development"
+	  },
+	  "ext": "js json"
+	}
+
+	/*
+		 support for ruby files and processing files, and I can simply run nodemon demo.pde and nodemon will automatically know how to run the script even though out of the box support for processing scripts.
+		 
+		 A further example of options can be seen in sample-nodemon.md
+	*/
+	
+#commond line:
+	--config file ............ alternate nodemon.json config file to use
+	-e, --ext ................ extensions to look for, ie. js,jade,hbs. // 扩展名
+	-x, --exec app ........... execute script with "app", ie. -x "python -v".
+	-w, --watch dir........... watch directory "dir" or files. use once for
+						 each directory or file to watch.
+	-i, --ignore ............. ignore specific files or directories.
+	-V, --verbose ............ show detail on what is causing restarts.
+	
+	// 排除文件夹
+	nodemon --ignore lib/ --ignore tests/
+	// 排除文件
+	nodemon --ignore lib/app.js
+	// 也可用于匹配模式， 但必须用 'lib/*.js'
+	nodemon --ignore 'lib/*.js'
+	
+	
+	// 延迟 执行
+	nodemon --delay 2.5
+	
+
+gulp-nodemon
+grunt-nodemon
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
