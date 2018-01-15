@@ -7,14 +7,12 @@ import { Component, ViewChild } from '@angular/core';
 
 export class AppComponent {
     constructor() {
-        interface SearchFunc {
-            (source: string, subString: string): boolean;
-        }
-
-        let mySearch: SearchFunc;
-        mySearch = function (source: string, subString: string) {
-            let result = source.search(subString);
-            return result > -1;
+        class Animal {
+            public name: string;
+            public constructor(theName: string) { this.name = theName; }
+            public move(distanceInMeters: number) {
+                console.log(`${this.name} moved ${distanceInMeters}m.`);
+            }
         }
 
 
