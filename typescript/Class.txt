@@ -1,1 +1,45 @@
 ﻿
+
+#修饰符
+	public
+		可在类自身中或子类中通过this 访问属性
+		可在类自身中或子类的实例中 访问属性
+	private
+		私有属性，只能通过类自身 this 访问属性
+	protected
+		可在类自身中或子类中通过this 访问属性
+	static
+		类的静态属性
+		
+	readonly 关键字将属性设置为只读的。 只读属性必须在声明时或构造函数里被初始化
+		可以和其它修饰符一起使用，默认 public readonly name: string;
+		class Octopus {
+			readonly name: string;
+			readonly numberOfLegs: number = 8;
+			constructor (theName: string) {
+				this.name = theName;
+			}
+		}
+	
+#存取器
+	class Employee {
+		get fullName(): string {}
+		set fullName(newName: string) {}
+	}
+	
+#抽象类
+	抽象类做为其它派生类的基类使用。 
+	不同于接口，抽象类可以包含成员的实现细节
+	abstract关键字是用于定义抽象类和在抽象类内部定义抽象方法。
+
+	abstract class Animal {
+		abstract makeSound(): void;
+		move(): void {
+			console.log('roaming the earch...');
+		}
+	}
+	
+	let department: Animal; 
+		允许创建一个对抽象类型的引用
+		不能创建一个抽象类的实例
+	

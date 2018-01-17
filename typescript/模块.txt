@@ -1,0 +1,44 @@
+﻿
+# export = 和 import = require()
+	TypeScript模块支持 export =语法以支持传统的CommonJS和AMD的工作流模型。
+	它可以是类，接口，命名空间，函数或枚举。
+	
+	class ZipCodeValidator {}
+	export = ZipCodeValidator;
+	
+	当文件已 export = ; 形式导出的时候需要用一下形式 import
+	import zip = require("./ZipCodeValidator");
+	
+	
+	SimpleModule.ts
+		import m = require("mod");
+		export let t = m.something + 1;
+		
+	
+	AMD / RequireJS SimpleModule.js
+		define(["require", "exports", "./mod"], function (require, exports, mod_1) {
+			exports.t = mod_1.something + 1;
+		});
+	
+	CommonJS / Node SimpleModule.js
+	let mod_1 = require("./mod");
+	exports.t = mod_1.something + 1;
+	
+	System SimpleModule.js
+		System.register(["./mod"], function(exports_1) {
+			let mod_1;
+			let t;
+			return {
+				setters:[
+					function (mod_1_1) {
+						mod_1 = mod_1_1;
+					}],
+				execute: function() {
+					exports_1("t", t = mod_1.something + 1);
+				}
+			}
+		});
+		
+	Native ECMAScript 2015 modules SimpleModule.js
+		import { something } from "./mod";
+		export let t = something + 1;
