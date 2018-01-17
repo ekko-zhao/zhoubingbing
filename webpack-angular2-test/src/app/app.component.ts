@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-
+import { Component } from '@angular/core';
+import * as Rx from 'rxjs';
 @Component({
     selector: 'app-root',
     template: '<p>app-root</p>'
@@ -7,16 +7,6 @@ import { Component, ViewChild } from '@angular/core';
 
 export class AppComponent {
     constructor() {
-        class Animal {
-            public name: string;
-            public constructor(theName: string) { this.name = theName; }
-            public move(distanceInMeters: number) {
-                console.log(`${this.name} moved ${distanceInMeters}m.`);
-            }
-        }
-
-
-
-
+        console.log(Rx.Observable);
     }
 }

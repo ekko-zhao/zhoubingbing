@@ -1,0 +1,31 @@
+
+bindCallback
+	bindCallback(func: function, selector?: function, scheduler?: Scheduler): function(...params: *): Observable
+	
+	bindCallback 方法返回一个函数 参数与func去除callback 参数保持一致
+	func函数的最后一个参数为 回掉函数， subscribe 的第一个参数会被当作 callback 执行
+	selector 为一个函数 return 的值 可以改变 subscribe( x=>{ console.log(x) }), x 的值；
+	
+	var json = function (url, agr2, callback) {
+		callback('result')
+	}
+	
+	const boundSomeFunction = Rx.Observable.bindCallback(json,function(){
+		return 'result2'
+	});
+	// ('api/*', 'agr2') 参数要保持一致
+	boundSomeFunction('api/*', 'agr2').subscribe(
+		values => console.log(values) , // 的第一个参数会被当作 func函数的 callback参数 执行
+		error => console.log(error),
+		complete => console.log(complete)
+	)
+
+from
+	from(ish: ObservableInput<T>, scheduler?: Scheduler): Observable<T>
+		ObservableInput 可以是 数组 | iterable | generate | promise
+	
+	var result = Rx.Observable.from(array);
+	result.subscribe(
+		x => console.log([10, 20, 30])
+	);
+	// 10 20 30
