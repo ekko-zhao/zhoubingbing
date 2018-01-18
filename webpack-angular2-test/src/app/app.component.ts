@@ -1,6 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
-import * as Rx from 'rxjs';
 
+import { Component } from '@angular/core';
+import * as Rx from 'rxjs';
 @Component({
     selector: 'app-root',
     template: `
@@ -8,22 +8,9 @@ import * as Rx from 'rxjs';
         <button>button</button>
     `
 })
-
 export class AppComponent {
-    constructor() { }
-    ngOnInit() {
-        function loggingIdentity<T>(arg: T): T {
-            console.log(23)
-            console.log(arg)
-            return arg;
-        }
-
-
-
-        var el = Rx.Observable.fromEvent(document.querySelector('button'), 'click', true, loggingIdentity);
-        el.subscribe(x => {
-            console.log(x)
-        });
+    constructor() {
+        console.log(Rx.Observable);
     }
 }
 // loggingIdentity<string>('bingbing')
