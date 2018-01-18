@@ -1,42 +1,85 @@
 
 
-//observable可观察对象——————————————————
-var observable = Rx.Observable.create(function (observer) { 
-	observer.next(1); 
-	observer.next(2);
-	observer.next(3); 
-	setTimeout(() => { observer.next(4); observer.complete(); }, 1000); 
-});
+// 安装 ------------------------------------------------------------
+	npm install --save rxjs
 
-observable.subscribe({
-	next: x => console.log('got value ' + x),
-	error: err => console.error('something wrong occurred: ' + err),
-	complete: () => console.log('done')
-})
+	import * as Rx from 'rxjs';
+	import { Observable } as Rx from 'rxjs';
+	
+	http://reactivex.io/rxjs/manual/overview.html#introduction
+	
+// 兼容性
+	gte ie9
 
-//处理可观察对象的执行
-var observable = Rx.Observable.from([10, 20, 30]); 
-var subscription = observable.subscribe(x => console.log(x));
-// Later:
-subscription.unsubscribe();
+//observable————————————————————————————————————————————————————————————————————————
+	它是一个描述 未来订阅值或事件的调用的集合
+	var observable = Rx.Observable.create(function (observer) { 
+		observer.next(1); 
+		observer.next(2);
+		observer.next(3); 
+		setTimeout(() => { observer.next(4); observer.complete(); }, 1000); 
+	});
 
+	observable.subscribe({
+		next: x => console.log('got value ' + x),
+		error: err => console.error('something wrong occurred: ' + err),
+		complete: () => console.log('done')
+	})
+	
 
+#处理可观察对象的执行
+	var observable = Rx.Observable.from([10, 20, 30]); 
+	var subscription = observable.subscribe(x => console.log(x));
+	// Later:
+	subscription.unsubscribe();
+	
+#静态方法
+
+fromEvent
+	fromEvent(target: EventTargetLike, eventName: string, options?: EventListenerOptions, selector?: SelectorMethodSignature<T>): Observable<T>
+		EventListenerOptions: boobean| { capture?:boobean; passive?:boobean; once?:boobean;  }
+		
+		SelectorMethodSignature
+			function fnName<T>(agr: T): T {
+				// do something ...
+				return arg;
+			}
+	
+	
+	var el = Rx.Observable.fromEvent(document.querySelector('button'), 'click');
+	el.subscribe(event => console.log(event));
+	
+
+	
+	
+	Rx.observable.of('foo','bar');  //一个或多个值->可观察对象
+	Rx.Observable.from([1,2,3]);  //数组->可观察对象	//事件->可观察对象
+	Rx.Observable.fromPromise(fetch('/users'))  //promise->可观察对象
+	
+
+	
 //observer观察者——————————————————
-#观察者是可观察对象所发送数据的消费者，观察者简单而言是一组 回调函数 ， 分别对应一种被可观察对象发送的通知的类型:next, error和 complete。
+	观察者是可观察对象所发送数据的消费者，观察者简单而言是一组 回调函数 ，
+	分别对应一种被可观察对象发送的通知的类型:next, error和 complete。
 
-var observer={ 
-	next:x=>console.log('Observer got a next value: ' + x), 
-	error: err => console.error('Observer got an error: ' + err), 
-	complete: () => console.log('Observer got a complete notificatio n') 
-}
+	var observer = { 
+		next:x=>console.log('Observer got a next value: ' + x), 
+		error: err => console.error('Observer got an error: ' + err), 
+		complete: () => console.log('Observer got a complete notificatio n') 
+	}
 
-#在observable.subscribe内部，它将使用第一个回调参数作为next的处理句柄创建一 个观察者对象。也可以通过将三个函数作为参数提供三种回调:
-#分别对应 next error  complete 函数
-observable.subscribe(
-	 x => console.log('Observer got a next value: ' + x), 
-	err => console.error('Observer got an error: ' + err),
-	 () => console.log('Observer got a complete notification')
-);
+	在observable.subscribe内部，它将使用第一个回调参数作为next的处理句柄创建一 个观察者对象。
+	也可以通过将三个函数作为参数提供三种回调:
+	分别对应 next error  complete 函数
+	observable.subscribe(
+		 x => console.log('Observer got a next value: ' + x), 
+		err => console.error('Observer got an error: ' + err),
+		 () => console.log('Observer got a complete notification')
+	);
+	
+	
+	
+	
 
 
 //Subscription订阅——————————————————
@@ -189,10 +232,7 @@ var observable = Rx.Observable.create(function (observer) {
 #The basics 基础
 转换为可观察对象
 
-Rx.observable.of('foo','bar');  //一个或多个值->可观察对象
-Rx.Observable.from([1,2,3]);  //数组->可观察对象
-Rx.Observable.fromEvent(document.querySelector('button'),'click' );  //事件->可观察对象
-Rx.Observable.fromPromise(fetch('/users'))  //promise->可观察对象
+
 
 //回调函数->可观察对象
 var exists = Rx.Observable.bindCallback(fs.exists); 

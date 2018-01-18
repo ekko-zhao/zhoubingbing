@@ -1,19 +1,24 @@
 <!doctype html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>rxjs</title>
-	<script src="https://cdn.bootcss.com/rxjs/5.4.0/Rx.min.js"></script>
-	
+    <meta charset="UTF-8">
+    <title>rxjs</title>
+    <script src="https://cdn.bootcss.com/rxjs/5.4.0/Rx.min.js"></script>
+
 </head>
 
 <body>
-	<p>afasdf<p>
-	<button>button</button>
-	<script>
-		var Rx2 = Rx;
-		var require = function(){}
-	</script>
-	<script src="./src/rx5.js"></script>
+    <p>afasdf</p>
+    <button>button</button>
+    <script>
+        var button = document.querySelector('button');
+        Rx.Observable.fromEvent(button, 'click')
+            .subscribe(function () {
+                console.log('Clicked!')
+            })
+
+    </script>
 </body>
+
 </html>
