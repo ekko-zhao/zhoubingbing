@@ -11,51 +11,6 @@
 // 兼容性
 	gte ie9
 
-//observable————————————————————————————————————————————————————————————————————————
-	它是一个描述 未来订阅值或事件的调用的集合
-	var observable = Rx.Observable.create(function (observer) { 
-		observer.next(1); 
-		observer.next(2);
-		observer.next(3); 
-		setTimeout(() => { observer.next(4); observer.complete(); }, 1000); 
-	});
-
-	observable.subscribe({
-		next: x => console.log('got value ' + x),
-		error: err => console.error('something wrong occurred: ' + err),
-		complete: () => console.log('done')
-	})
-	
-
-#处理可观察对象的执行
-	var observable = Rx.Observable.from([10, 20, 30]); 
-	var subscription = observable.subscribe(x => console.log(x));
-	// Later:
-	subscription.unsubscribe();
-	
-#静态方法
-
-fromEvent
-	fromEvent(target: EventTargetLike, eventName: string, options?: EventListenerOptions, selector?: SelectorMethodSignature<T>): Observable<T>
-		EventListenerOptions: boobean| { capture?:boobean; passive?:boobean; once?:boobean;  }
-		
-		SelectorMethodSignature
-			function fnName<T>(agr: T): T {
-				// do something ...
-				return arg;
-			}
-	
-	
-	var el = Rx.Observable.fromEvent(document.querySelector('button'), 'click');
-	el.subscribe(event => console.log(event));
-	
-
-	
-	
-	Rx.observable.of('foo','bar');  //一个或多个值->可观察对象
-	Rx.Observable.from([1,2,3]);  //数组->可观察对象	//事件->可观察对象
-	Rx.Observable.fromPromise(fetch('/users'))  //promise->可观察对象
-	
 
 	
 //observer观察者——————————————————
@@ -76,9 +31,6 @@ fromEvent
 		err => console.error('Observer got an error: ' + err),
 		 () => console.log('Observer got a complete notification')
 	);
-	
-	
-	
 	
 
 
