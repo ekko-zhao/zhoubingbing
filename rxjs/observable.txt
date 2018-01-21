@@ -150,20 +150,27 @@ interval
 	)
 	
 	// ob.unsubscribe()
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+merge
+	// 把多个 observable 或有 iterator 接口的 对象合并一个 observable；
+	merge(observables: ...ObservableInput, concurrent: number, scheduler: Scheduler): Observable
+		concurrent: 允许最大合并 observable 个数， 剩余的则无效， 默认无限大
+		
+never：
+	// Creates an Observable that emits no items to the Observer
+	function info() {
+		console.log('Will not be called');
+	}
+	var result = Rx.Observable.never().startWith(7);
+	result.subscribe(x => console.log(x), info, info);
+
+
+
+
+
+
+
+
 	Rx.observable.of('foo','bar');  //一个或多个值->可观察对象
 	Rx.Observable.from([1,2,3]);  //数组->可观察对象	//事件->可观察对象
 	Rx.Observable.fromPromise(fetch('/users'))  //promise->可观察对象
