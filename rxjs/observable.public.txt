@@ -25,6 +25,8 @@ auditTime(duration: number, scheduler: Scheduler): Observable<T>
 buffer(closingNotifier: Observable<any>): Observable<T[]>
 缓冲
 	interval 缓冲 emit, clicks.next() 时， buffered.subscribe 执行参数为 [0,1,2] 类似的数组
+	缓冲原Observable值， 直到被通知 emit, 这里 interval 为原Observable
+	
 	var clicks = Rx.Observable.fromEvent(document, 'click');
 	var interval = Rx.Observable.interval(1000);
 	var buffered = interval.buffer(clicks);
@@ -49,21 +51,37 @@ bufferCount(bufferSize: number, startBufferEvery: number): Observable<T[]>
 	// 如果 bufferSize=4 startBufferEvery=6  前4次next() emit一次， 然后以 每6 emit一次。
 	
 	
+	
 bufferTime(bufferTimeSpan: number, bufferCreationInterval: number, maxBufferSize: number, scheduler: Scheduler): Observable<T[]>
 	
+	bufferTimeSpan			// 填充每个缓冲区的时间
+	bufferCreationInterval	// 设置时间间隔开始新的 buffers
+	maxBufferSize			// 每个 buffer 数组最大的个数
+	
+	var clicks = Rx.Observable.fromEvent(document, 'click');
+	var buffered = clicks.bufferTime(5000, 5000, 5);
+	buffered.subscribe(x => console.log(x));
 	
 	
+bufferToggle(openings: SubscribableOrPromise<O>, closingSelector: function(value: O): SubscribableOrPromise): Observable<T[]>
+	// 切换通知者
+	
+	var clicks = Rx.Observable.fromEvent(document, 'click');
+	var openings = Rx.Observable.interval(1000);
+	var buffered = clicks.bufferToggle(openings, i =>
+	  i % 2 ? Rx.Observable.interval(500) : Rx.Observable.empty()
+	);
+	buffered.subscribe(x => console.log(x));
 	
 	
+bufferWhen(closingSelector: function(): Observable): Observable<T[]>
+	// 在函数中 closingSelector 决定每次延时时间
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	var clicks = Rx.Observable.fromEvent(document, 'click');
+	var buffered = clicks.bufferWhen(() =>
+	  Rx.Observable.interval(1000 + Math.random() * 4000)
+	);
+	buffered.subscribe(x => console.log(x));
 	
 	
 	

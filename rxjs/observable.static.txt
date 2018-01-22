@@ -78,7 +78,9 @@ defer
 	defer(observableFactory: function(): SubscribableOrPromise): Observable
 	
 empty
+	// Creates an Observable that emits no items to the Observer and immediately emits a complete notification.
 	empty(scheduler: Scheduler): Observable
+	
 	
 forkJoin
 	forkJoin(sources: *): any
