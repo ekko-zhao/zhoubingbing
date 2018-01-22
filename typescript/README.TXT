@@ -92,7 +92,7 @@ $ tsc
 //方法装饰器--------------------------------------------------------------------------------------------
 
 /*
-	target 为 TestClass类实例，
+	target 为 TestClass 类实例，
 	propertyKey 为 'testMethod' 方法名;
 	descriptor 为 descriptor 描述 
 	descriptor.value 可以重新定义 方法 testMethod； 如果有返回值将会作为 testMethod的返回值；
@@ -142,9 +142,7 @@ class Person{
 		this.secondName = secondName;
 	}
 	function.prototype = {
-		methods: () = {
-		
-		}
+		methods: () = { }
 	}
 */
 function Component(component){
@@ -184,18 +182,14 @@ function inject(target: any, propertyKey: string, parameterIndex: number){
 }
 
 class UserService {
-	login(age: number, @inject name:string){
-		
-	}
+	login(age: number, @inject name:string){ }
 }
 
 //属性装饰器---------------------------------------------------------------------------------
-function fn()(target: any, propertyKey: string){
-	
-}
+function fn()(target: any, propertyKey: string){ }
 
 class Person{
-	@aa 
+	@aa
 	public name: string;
 }
 

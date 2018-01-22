@@ -10,20 +10,8 @@ import * as Rx from 'rxjs';
 })
 export class AppComponent {
     constructor() {
-        interface Shape {
-            color: string;
-        }
-
-        interface Square extends Shape {
-            sideLength: number;
-        }
-
-        let square: Square = {
-            color: '',
-            sideLength: 12
-        };
-
-        /* square.color = "blue";
-        square.sideLength = 10; */
+        var clicks = Rx.Observable.fromEvent(document, 'click');
+        var result = clicks.audit(ev => Rx.Observable.interval(1000));
+        result.subscribe(x => console.log(x));
     }
 }

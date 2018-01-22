@@ -1,0 +1,78 @@
+
+audit(durationSelector: function(value: T): SubscribableOrPromise): Observable<T>
+审计
+	从Observable另一个 决定了延时原始 Observable 值一段时间 emit;
+	
+	// 点击延时1s执行
+	var clicks = Rx.Observable.fromEvent(document, 'click');
+		/*
+			var clicks = Rx.Observable.create(o => {
+				o.next()
+				setTimeout(function () {
+					o.next()
+				}, 3050)
+			})
+		*/
+	var result = clicks.audit(ev => Rx.Observable.interval(1000));
+    result.subscribe(x => console.log(x));
+	
+	
+auditTime(duration: number, scheduler: Scheduler): Observable<T>
+	// 点击延时1s执行
+	var clicks = Rx.Observable.fromEvent(document, 'click').auditTime(1000);
+	
+	
+buffer(closingNotifier: Observable<any>): Observable<T[]>
+缓冲
+	interval 缓冲 emit, clicks.next() 时， buffered.subscribe 执行参数为 [0,1,2] 类似的数组
+	var clicks = Rx.Observable.fromEvent(document, 'click');
+	var interval = Rx.Observable.interval(1000);
+	var buffered = interval.buffer(clicks);
+	buffered.subscribe(x => console.log(x));
+	// 如果过 5s next() ，参数为[0,1,2,3,4], 再过2s 点击 参数为[5,6]
+	/*
+		var clicks = Rx.Observable.create(o => {
+            o.next()
+            setTimeout(function () {
+                o.next()
+            }, 3050)
+        })
+	*/
+	
+	
+bufferCount(bufferSize: number, startBufferEvery: number): Observable<T[]>
+	var clicks = Rx.Observable.fromEvent(document, 'click');
+	var buffered = clicks.bufferCount(2);
+	buffered.subscribe(x => console.log(x));
+	
+	// 每2次点击 emit 一个数组。 [value1, value2]
+	// 如果 bufferSize=4 startBufferEvery=6  前4次next() emit一次， 然后以 每6 emit一次。
+	
+	
+bufferTime(bufferTimeSpan: number, bufferCreationInterval: number, maxBufferSize: number, scheduler: Scheduler): Observable<T[]>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

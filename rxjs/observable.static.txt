@@ -21,18 +21,16 @@
 
 bindCallback
 	转变一个具有 callback 函数为一个函数(该函数参数 去除callback, 该函数返回一个Observable)
-	bindCallback(func: function, selector?: function, scheduler?: Scheduler):		function(...params: *): Observable
+	bindCallback(func: function, selector?: function, scheduler?: Scheduler): function(...params: *): Observable
+		func		函数的最后一个参数为 回掉函数， subscribe 的第一个参数会被当作 callback 执行
+		selector 	该函数参数为callback(agr1,agr2) 传入的参数， 它return 的值 可以改变 subscribe( x=>{ console.log(x) }), x 的值；
+		scheduler	// 为调试程序，用于测试
 	
-	bindCallback 方法返回一个函数 参数与func去除callback 参数保持一致
-	func		函数的最后一个参数为 回掉函数， subscribe 的第一个参数会被当作 callback 执行
-	selector 	该函数参数为callback(agr1,agr2) 传入的参数， 它return 的值 可以改变 subscribe( x=>{ console.log(x) }), x 的值；
-	scheduler	// 为调试程序，用于测试
 	
 	var json = function (url, agr2, callback) {
 		callback('value')
 	}
-	
-	const boundSomeFunction = Rx.Observable.bindCallback(json,function(value){
+	const boundSomeFunction = Rx.Observable.bindCallback(json, function(value){
 		return 'result2'
 	});
 	// ('api/*', 'agr2') 参数要保持一致
@@ -61,7 +59,7 @@ combineLatest
 	)
 	
 concat
-	返回 Observable ， 把iterator generate接口的值，逐个输出
+	返回一个 Observable ， 把iterator generate接口的值，逐个输出
 	concat(input1: ObservableInput, input2: ObservableInput, scheduler: Scheduler): Observable
 	
 	var ob = Rx.Observable.concat([11, 22, 33], [1, 2, 3], [7, 8])
@@ -76,7 +74,6 @@ concat
 create
 	create(onSubscription: function(observer: Observer): TeardownLogic): Observable
 	
-	
 defer
 	defer(observableFactory: function(): SubscribableOrPromise): Observable
 	
@@ -86,7 +83,15 @@ empty
 forkJoin
 	forkJoin(sources: *): any
 	
-
+from
+	from(ish: ObservableInput<T>, scheduler?: Scheduler): Observable<T>
+		ObservableInput 可以是 数组 | iterator | generate | promise
+	
+	var result = Rx.Observable.from(array); // <T> 是对 array 参数的限定
+	result.subscribe(
+		x => console.log(x)
+	);
+	// 10 20 30
 	
 fromEvent
 	给dom元素 指定事件，订阅后即绑定事件
@@ -104,16 +109,6 @@ fromEvent
 	el.subscribe(event => console.log(event));
 
 
-from
-	from(ish: ObservableInput<T>, scheduler?: Scheduler): Observable<T>
-		ObservableInput 可以是 数组 | iterator | generate | promise
-	
-	var result = Rx.Observable.from(array);
-	result.subscribe(
-		x => console.log([10, 20, 30])
-	);
-	// 10 20 30
-	
 fromEventPattern
 	fromEventPattern(addHandler: function(handler: Function): any, removeHandler: function(handler: Function, signal?: any): void, selector: function(...args: any): T): Observable<T>
 	
@@ -140,17 +135,25 @@ fromPromise
 	)
 
 interval
+	// 返回一个能够发射0， 1， 2， 3...， n数字的Observable 
 	interval(period: number, scheduler: Scheduler): Observable
 		period 为时间间隔
 		
-	// 返回一个能够发射(返回)0， 1， 2， 3...， n数字的Observable 
+	
 	var ob = Rx.Observable.interval(1000)
 	ob.subscribe(
 		x => console.log(x)
 	)
 	
 	// ob.unsubscribe()
-
+	
+timer
+	// 返回一个能够延时发射0， 1， 2， 3...， n数字的Observable 
+	timer(initialDelay: number | Date, period: number, scheduler: Scheduler): Observable
+		initialDelay 延时
+		period 为时间间隔
+	
+	
 merge
 	// 把多个 observable 或有 iterator 接口的 对象合并一个 observable；
 	merge(observables: ...ObservableInput, concurrent: number, scheduler: Scheduler): Observable
@@ -164,16 +167,51 @@ never：
 	var result = Rx.Observable.never().startWith(7);
 	result.subscribe(x => console.log(x), info, info);
 
+of
+	返回一个 Observable， 订阅后逐个 emit value 参数直到结束
+	of(values: ...T, scheduler: Scheduler): Observable<T>
 
+range
+	返回一个 Observable， 订阅后逐个 emit value 参数（start为起始数，count为总数）  直到结束 
+	range(start: number, count: number, scheduler: Scheduler): Observable
+	
+throw(error: any, scheduler: Scheduler): Observable
 
+webSocket
+	webSocket(urlConfigOrSource: string | WebSocketSubjectConfig): WebSocketSubject
 
+zip
+	返回一个 Observable，他的值分别是 从每个参数计算出来的， 
+	zip(observables: *): Observable<R>
+		let age$ = Observable.of<number>(27, 25, 29);
+        let name$ = Observable.of<string>('Foo', 'Bar', 'Beer');
+        let isDev$ = Observable.of<boolean>(true, true, false);
 
-
-
-
-	Rx.observable.of('foo','bar');  //一个或多个值->可观察对象
-	Rx.Observable.from([1,2,3]);  //数组->可观察对象	//事件->可观察对象
-	Rx.Observable.fromPromise(fetch('/users'))  //promise->可观察对象
+        Observable
+            .zip(age$,
+            name$,
+            isDev$,
+            (age: number, name: string, isDev: boolean) => ({ age, name, isDev }))
+            .subscribe(x => console.log(x));
+			
+			// outputs
+			// {age: 27, name: "Foo", isDev: true}
+			// {age: 25, name: "Bar", isDev: true}
+			// {age: 29, name: "Beer", isDev: false}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
