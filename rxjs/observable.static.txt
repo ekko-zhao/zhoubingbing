@@ -174,7 +174,7 @@ of
 	of(values: ...T, scheduler: Scheduler): Observable<T>
 
 range
-	返回一个 Observable， 订阅后逐个 emit value 参数（start为起始数，count为总数）  直到结束 
+	返回一个 Observable， 订阅后逐个 emit value 参数（start为起始数，count为总数）  直到结束
 	range(start: number, count: number, scheduler: Scheduler): Observable
 	
 throw(error: any, scheduler: Scheduler): Observable

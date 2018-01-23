@@ -1,0 +1,81 @@
+mvn clean install -Dmaven.test.skip=true
+mvn eclipse:clean
+mvn eclipse:eclipse
+
+http://10.7.111.52/svn/cloudpos/clouddoor/trunk
+
+<app.home>C:/mainPart/workspaces2.0/cpweb-11-28/assembly</app.home>
+
+svn: 账号和密码
+zhoubingbing@lakala.com BcKtArsObi5H
+
+wifi guest: Da4Yebushuo123
+
+open.lakala.com
+	svn地址: http://10.7.111.52/svn/cloudpos/clouddoor/trunk
+
+会员 ------------------------------------------------
+	svn://10.7.111.46/Project/nodejs/trunk/mobile
+	http://localhost:8111/lakala/center?storeId=4de4367a-c3c2-43e4-a592-053bc698ca5f&loginWeixin=oF5THwfC8MJJTAp5FoQE6rzFwMlY&loginExpire=1494480727615&loginToken=a4045c250d75c29064d15109b96fc76c
+
+	node index.js
+	先会员登陆
+	http://127.0.0.1:8111/lakala/center?storeId=4de4367a-c3c2-43e4-a592-053bc698ca5f&loginWeixin=oF5THwUy5R2TMm5frfExmP-ihLKU&loginExpire=1513736478261&loginToken=ae9046dc598e003000dd6b5bd4a4d215
+	
+	再打开页面
+	http://127.0.0.1:8111/lakala/invoicHead?storeId=4de4367a-c3c2-43e4-a592-053bc698ca5f
+	
+	发票管家注册页面
+	http://127.0.0.1:8111/invoice/addHeader?weixinId=oF5THwUy5R2TMm5frfExmP-ihLKU&merchantId=92200000001455199014552
+	
+	发票管家注册页面
+	http://127.0.0.1:8111/invoice/merchantReg
+	
+	
+外包商服务网站
+	CPS是一个综合服务与代理商的平台，代理商只需通过此平台即可查询商户在拉卡拉产生的所有信息，主要包括进件，交易，D0 报表等主要功能。
+	http://10.7.111.52/svn/ocsp2/branches/ocsp-20171011
+	zhangfeifei
+	Zhangfeifei@123
+
+	http://10.7.111.205:8090/ocsp/
+	yanjianxing
+	19933635iiu
+
+收银员 ------------------------------------------------
+	svn:http://10.7.111.52/svn/cloudpos/cashier/trunk
+	repertory:<url>http://10.7.111.52:9001/mvn/content/groups/public</url>
+
+	openid=oz867uICkP1sYQFef0VhHMeKCcsM&no=YP610000017484
+
+	netstat   -ano|findstr 8888
+	taskkill  /pid  7644  /f
+
+
+新商服网站 ------------------------------------------------
+‘商户服务中心网站’，是面向我司特约商户的服务性网站。限于多年前的架构设计，我司商户增长速度快，交易量也成倍增长，且越来越多是中大型商户，商服的问题也越来越突出，2017年5月业务部决定对商服网站进行重构建设，为商户提供更加简洁、方便的对账体验和清晰、直观的操作使用体验。
+	http://10.7.111.164:8071/bmmp4/index.html
+	http://10.7.34.174:8071/bmmp4/index.html
+	测试用户名 : adminbmmp4
+	测试密码: 2Qaz@1wsx
+
+	ReceiveOrderType4   / 2Qaz@1wsx
+	2017.11.01
+
+	// 1级
+	zhuangyiceshi001/1829170zy！
+	
+	java -jar bmmp4-0.0.1-SNAPSHO.jar
+	http://localhosdt:8071/
+	
+	生产环境
+	https://s.lakala.com/bmmp4/index.html#/login 
+	bmmp40110/2Qaz@1wsx
+	https://s.lakala.com/bmmp4/adminLogin.html
+	admin/2Qaz@bmmp40109
+	
+
+友盟统计平台的官方网站为： www.umeng.com  ------------------------------------------------
+	wangyuzhu@lakala.com 
+	123456a
+

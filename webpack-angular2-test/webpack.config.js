@@ -23,7 +23,8 @@ module.exports = {
             filename: './index.html',
             template: __dirname + '/src/index.html',
             inject: true,
-            chunks: ['polyfills', 'app']
+            chunks: ['polyfills', 'app'],
+            chunksSortMode: 'manual'
         }),
         // 如果没有该插件，在 devtool: 'inline-source-map' 的情况下 sourceMap 是有的
         /*  new webpack.optimize.UglifyJsPlugin({

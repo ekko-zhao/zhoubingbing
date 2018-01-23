@@ -1,6 +1,7 @@
 
 import { Component } from '@angular/core';
 import * as Rx from 'rxjs';
+
 @Component({
     selector: 'app-root',
     template: `
@@ -10,10 +11,18 @@ import * as Rx from 'rxjs';
 })
 export class AppComponent {
     constructor() {
-        var clicks = Rx.Observable.fromEvent(document, 'click');
-var buffered = clicks.bufferWhen(() =>
-  Rx.Observable.interval(1000 + Math.random() * 4000)
-);
-buffered.subscribe(x => console.log(x));
+        var subject = new Rx.ReplaySubject(3); // buffer 3 values for ne w subscribers ，注:缓存了三个值。
+        subject.subscribe({ next: (v) => console.log('observerA: ' + v) });
+        subject.next(1);
+        subject.next(2);
+        subject.next(3);
+        subject.next(4);
+
+        subject.subscribe({
+            next: (v) => console.log('observerB: ' + v)
+        });
+
+        subject.next(5);
+
     }
 }

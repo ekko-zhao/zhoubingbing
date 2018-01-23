@@ -84,8 +84,116 @@ bufferWhen(closingSelector: function(): Observable): Observable<T[]>
 	buffered.subscribe(x => console.log(x));
 	
 	
+catch(selector: function): Observable
+	// 捕获 observable 异常后返回一个新的 observable， 或者返回一个新的异常
+	
+	Observable.of(1, 2, 3, 4, 5)
+		.map(n => {
+			if (n == 4) {
+				throw 'four!';
+			}
+			return n;
+		})
+		.catch(err => Observable.of('I', 'II', 'III', 'IV', 'V'))
+		.subscribe(x => console.log(x));
 	
 	
+	/*
+		var t = Observable.create(ob => {
+            ob.next(1);
+            ob.next(6);
+        }).map(x => {
+            return x;
+        })
+	*/
+	
+	
+	
+combineAll(project: function): Observable
+联合
+	// clicks 2次next() 后执行 Rx.Observable.interval(2000).take(5) , interval 的值和 take 数组map匹配，
+		0	[0,0]
+		1   [1,0] [1,1]
+		2   [2,1] [2,2]
+		3	[3,2] [3,3]
+		4	[4,3] [4,4]
+		
+		
+	var clicks = Rx.Observable.fromEvent(document, 'click');
+	var higherOrder = clicks.map(ev =>
+		Rx.Observable.interval(2000).take(5)
+	).take(2)
+	var result = higherOrder.combineAll();
+	result.subscribe(x => console.log(x));
+	
+	
+combineLatest(other: ObservableInput, project: function): Observable
+	other 的最后一个值，和 height每个值比较 计算结果
+	
+	var weight = Rx.Observable.of(0, 0, 4, 4, 16);
+	var height = Rx.Observable.of(2, 2, 4);
+	var bmi = weight.combineLatest(height, (w, h) => w / (h * h));
+	bmi.subscribe(x => console.log('BMI is ' + x));
+	
+	
+	
+concat(other: ObservableInput, scheduler: Scheduler): Observable
+链接
+	timer next() 执行完后， sequence 再 emit 全部
+	
+	var timer = Rx.Observable.interval(1000).take(4);
+	var sequence = Rx.Observable.range(1, 10);
+	var result = timer.concat(sequence);
+	result.subscribe(x => console.log(x));
+	
+	
+concatAll(): Observable
+	var clicks = Rx.Observable.fromEvent(document, 'click');
+	var higherOrder = clicks.map(ev => Rx.Observable.interval(1000).take(4));
+	var firstOrder = higherOrder.concatAll();
+	firstOrder.subscribe(x => console.log(x));
+	
+	
+map(project: function(value: T, index: number): R, thisArg: any): Observable<R>
+	var ob = Rx.Observable.create(x => {
+		x.next('n')
+		x.next('e')
+	}).map(x => {
+		return x + 1;
+	})
+	ob.subscribe(x => console.log(x))
+	// n1 e1
+
+
+mapTo(value: any): Observable
+	// greetings emit 一个不变的值，没当 clicks next时
+	
+	var clicks = Rx.Observable.fromEvent(document, 'click');
+	var greetings = clicks.mapTo('Hi');
+	greetings.subscribe(x => console.log(x));
+
+	// 'Hi'
+	
+filter(predicate: function(value: T, index: number): boolean, thisArg: any): Observable
+	var clicks = Rx.Observable.fromEvent(document, 'click');
+	var clicksOnDivs = clicks.filter(ev => ev.target.tagName === 'DIV');
+	clicksOnDivs.subscribe(x => console.log(x));
+	
+	
+find(predicate: function(value: T, index: number, source: Observable<T>): boolean, thisArg: any): Observable<T>
+	// 返回 第一个值
+	var clicks = Rx.Observable.fromEvent(document, 'click');
+	var result = clicks.find(ev => ev.target.tagName === 'DIV');
+	result.subscribe(x => console.log(x));
+	
+	
+findIndex(predicate: function(value: T, index: number, source: Observable<T>): boolean, thisArg: any): Observable
+	// 返回 第一个索引值
+	var clicks = Rx.Observable.fromEvent(document, 'click');
+	var result = clicks.findIndex(ev => ev.target.tagName === 'DIV');
+	result.subscribe(x => console.log(x));
+	
+
 	
 	
 	
