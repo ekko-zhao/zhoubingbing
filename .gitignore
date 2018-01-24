@@ -7,7 +7,7 @@
 */.DS_Store
 
 # java 
-*/*/.metadata/
+**/.metadata/
 */*/.recommenders/
 */*/RemoteSystemsTempFiles/
 
