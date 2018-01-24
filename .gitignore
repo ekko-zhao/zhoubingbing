@@ -8,8 +8,8 @@
 
 # java 
 **/.metadata/
-*/*/.recommenders/
-*/*/RemoteSystemsTempFiles/
+**/.recommenders/
+**/RemoteSystemsTempFiles/
 
 */java/*/target/
 */java/*/test/
