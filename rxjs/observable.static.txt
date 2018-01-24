@@ -26,7 +26,6 @@ bindCallback
 		selector 	该函数参数为callback(agr1,agr2) 传入的参数， 它return 的值 可以改变 subscribe( x=>{ console.log(x) }), x 的值；
 		scheduler	// 为调试程序，用于测试
 	
-	
 	var json = function (url, agr2, callback) {
 		callback('value')
 	}

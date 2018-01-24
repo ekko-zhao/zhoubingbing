@@ -203,7 +203,7 @@ Map 和 Set 结构Generator 函数
 
 		能把只要有 length 属性的的对象转换成数组
 		Array.from({ length:3 }); 	//["undefined", "undefined", "undefined"];
-		rray.from('hello'); 		// ["h", "e", "l", "l", "o"];
+		Array.from('hello'); 		// ["h", "e", "l", "l", "o"];
 
 		字符串 Set 都具有 Iterator 接口 都能转换成真正的数组
 		let nameSet = new Set(['a', 'b']);
@@ -223,7 +223,7 @@ Map 和 Set 结构Generator 函数
 		new Array(3); // [undefined, undefined, undefined]  参数只有一个的时候返回 长度的数组
 		new Array(3,4,5); // [3,4,5]  只有参数不少于2个的时候才返回参数组成的数组
 
-		Array.of(1,2, ,4); // 始终返回参数组成的数组
+		Array.of(1,2,null,4); // 始终返回参数组成的数组 [1,2,null,4]
 
 	数组实例的 copyWithin() 方法， 从数据内部中制定成员 替换到其它位置
 		Array.prototype.copyWithin(target, start, end);
@@ -243,14 +243,14 @@ Map 和 Set 结构Generator 函数
 	Array.prototype.fill();
 		填充给定的数组，  第二个 第三个参数表示 填充的位置
 		[1,2,3,4].fill(7) // [7,7,7,7]
-		[1,2,3,4].fill(7,2,4) // [7,7,7,7]
+		[1,2,3,4].fill(7,2,4) // [1,2,7,7]
 
 	Array.prototype.keys();		// 对键名的遍历
 	Array.prototype.values();	// 对键值的遍历
 	Array.prototype.entries();	// 对键值对的遍历
 	for(let index of [0, 1, 2].keys())
 	for(let value of [0, 1, 2].values())
-	for(let [index, value] of [0, 1, 2].entries())
+	for(let [index, value] of [0, 1, 2].entries())	// typescript 暂不支持
 
 	Array.prototype.includes(); // 返回一个布尔值 ， 第二个参数 是搜索的起始位置, 属于es7, 只有babel转码器支持
 	
@@ -286,7 +286,7 @@ Map 和 Set 结构Generator 函数
 	}
 	
 # 属性名表达式
-	 var pro = 'name';
+	var pro = 'name';
 	var obj = {
 		[pro]: 'zhangsan'
 	}

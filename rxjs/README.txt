@@ -10,7 +10,7 @@
 // 兼容性
 	gte ie9
 
-//Subscription订阅——————————————————
+//Subscription订阅------------------------------------------------------------
 	var observable = Rx.Observable.interval(1000); 
 	var subscription = observable.subscribe(x => console.log(x));
 	subscription.unsubscribe();
@@ -31,7 +31,42 @@
 	#订阅也有一个remove(otherSubscription)方法,用于解除被add添加的子订阅。
 
 
-//Subject主题 ——————————————————
+#Observable ------------------------------------------------------------
+	外部产生新事件
+		var my = new Rx.Subject(); 
+		myObservable.subscribe(value => console.log(value)); 
+		myObservable.next('foo');
+
+	内部产生新事件
+		var myObservable = Rx.Observable.create(observer => { observer.next('foo'); setTimeout(() => observer.next('bar'), 1000); }); myObservable.subscribe(value => console.log(value));
+	
+//Observer ------------------------------------------------------------
+	var observer = {
+	  next: x => console.log('Observer got a next value: ' + x),
+	  error: err => console.error('Observer got an error: ' + err),
+	  complete: () => console.log('Observer got a complete notification'),
+	};
+ 
+// Subscription ------------------------------------------------------------
+	var observable = Rx.Observable.interval(1000);
+	var subscription = observable.subscribe(x => console.log(x));
+	subscription.unsubscribe();
+	/*
+		.add(childSubscription);
+		.remove(otherSubscription)
+		
+		
+		var observable1 = Rx.Observable.interval(400);
+		var observable2 = Rx.Observable.interval(300);
+
+		var subscription = observable1.subscribe(x => console.log('first: ' + x));
+		var childSubscription = observable2.subscribe(x => console.log('second: ' + x));
+
+		subscription.add(childSubscription);
+	*/
+
+//Subject主题 ------------------------------------------------------------
+
 #Subject是允许值被多播到多个观察者的一种特殊的Observable。 然而纯粹的可观察对象是单播的(每一个订阅的观察者拥有单独的可观察对象的执 行)。
 
 	var subject = new Rx.Subject();
@@ -47,35 +82,49 @@
 	subject.next(1);
 	subject.next(2);
 
-	//由于Subject也是一个观察者，这就意味着你可以提供一个Subject当做 observable.subscribe()的参数
+	// 由于Subject也是一个观察者，这就意味着你可以提供一个Subject当做 observable.subscribe()的参数
 	var subject = new Rx.Subject()
 	subject.subscribe({ next: (v) => console.log('observerA: ' + v) }); 
 	subject.subscribe({ next: (v) => console.log('observerB: ' + v) });
 	var observable = Rx.Observable.from([1, 2, 3]);
 	observable.subscribe(subject); 
-
-#多播的可观察对象
-#multicast方法返回一个看起来很像普通的可观察对象的可观察对象，但是在订阅时 		却有着和Subject一样的行为，multicast返回一个ConnectableObservable，它只 是一个具有connect（）方法的Observable。
+	
+	// 	observerA: 1
+		observerB: 1
+		observerA: 2
+		observerB: 2
+		observerA: 3
+		observerB: 3
+	
+	
+#多播的可观察对象-Multicasted Observables
+	multicast方法返回一个看起来很像普通的可观察对象的可观察对象，但是在订阅时 		却有着和Subject一样的行为，multicast返回一个ConnectableObservable，它只 是一个具有connect（）方法的Observable。
 
 	var source=Rx.Observable.from([1,2,3]);
+		/*
+			var source = Rx.Observable.interval(500)
+		*/
 	var subject=new Rx.Subject();
 	var multicasted=source.multicast(subject);
-	multicasted.subscribe({ next:(v)=>console.log('observerA:' +v); });
+	multicasted.subscribe({ next:(v)=>console.log('observerA:' +v) });
 	multicasted.subscribe({ next: (v) => console.log('observerB: ' + v) });
 	multicasted.connect();
 
 	#connect()方法对于在决定何时开始分享可观察对象的执行是非常重要的。 返回一个 Subscription，你可以取消订阅，以取消共享的Observable执行。
 
-#refCount使得多播可观察对象在其第一个观察者开始订阅时自动的开始执行， 在其最后一个订阅者取消的时候终止执行
-	#不需要显示的执行 multicasted.connect(); 和取消订阅了
-	var refCounted = source.multicast(subject).refCount();
-
-
-BehaviorSubject
-Subjects的一个变体是BehaviorSubject,其有"当前值"的概念。它储存着要发射给消 费者的最新的值。无论何时一个新的观察者订阅它，都会立即接受到这个来自 BehaviorSubject的"当前值"。
-BehaviorSubject对于表示"随时间的值"是很有用的。举个例子，人的生日的事件流是一个Subject,然而人的年龄的流是一个BehaviorSubject。
 	
-	var subject = new Rx.BehaviorSubject(0);  // 0 is the initial val ue
+	
+#refCount使得多播可观察对象在其第一个观察者开始订阅时自动的开始执行， 在其最后一个订阅者取消的时候终止执行
+	#不需要显示的执行 multicasted.connect();
+	var refCounted = source.multicast(subject).refCount();
+	refCounted.subscribe({ next: (v) => console.log('observerB: ' + v) });
+
+	
+#BehaviorSubject
+	Subjects的一个变体是BehaviorSubject,其有"当前值"的概念。它储存着要发射给消 费者的最新的值。无论何时一个新的观察者订阅它，都会立即接受到这个来自 BehaviorSubject的"当前值"。
+	BehaviorSubject对于表示"随时间的值"是很有用的。举个例子，人的生日的事件流是一个Subject,然而人的年龄的流是一个BehaviorSubject。
+	
+	var subject = new Rx.BehaviorSubject(0);  // 0 is the initial value
 
 	subject.subscribe({ next: (v) => console.log('observerA: ' + v) });
 	subject.next(1);
@@ -125,12 +174,13 @@ BehaviorSubject对于表示"随时间的值"是很有用的。举个例子，人
 	observerA: 5
 	observerB: 5
 
-#除了缓存值得个数之外，你也可以指定一个以毫秒为单位的时间，来决定过去多久 出现的值可以被重发。在下面的例子中指定一百个缓存值，但是时间参数仅为 500ms。
-var subject = new Rx.ReplaySubject(100, 500 /* windowTime */);
+	除了缓存值参数之外，你也可以指定一个以毫秒为单位的时间，来决定过去多久 出现的值可以被重发。在下面的例子中指定一百个缓存值，但是时间参数仅为 500ms。
+	var subject = new Rx.ReplaySubject(100, 500 /* windowTime */);
 
 
 #AsyncSubject
-AsyncSubject是另一个变体，它只发送给观察者可观察对象执行的最新值，并且仅 在执行结束时。
+	AsyncSubject是另一个变体，它只发送给观察者可观察对象执行的最新值，并且仅 在执行结束时。
+	只有在 subject.complete(); 后才emit 最后一个值
 
 	var subject = new Rx.AsyncSubject();
 	subject.subscribe({
@@ -149,7 +199,12 @@ AsyncSubject是另一个变体，它只发送给观察者可观察对象执行�
 	subject.complete();
 	输出:
 	observerA: 5
-	observerA: 5
+	observerB: 5
+	
+#Operators--------------------------------------------------------------------
+操作
+	such as .map(...), .filter(...), .merge(...)
+	当被调用的时候 不改变当前 Observable 实例， 返回一个新的 Observable 实例。但是它的订阅逻辑是基于第一个（当前）Observable 实例
 
 
 #Scheduler调度者
@@ -160,59 +215,64 @@ AsyncSubject是另一个变体，它只发送给观察者可观察对象执行�
 		observer.next(2);
 		observer.next(3);
 		observer.complete();
-	})
-	.observeOn(Rx.Scheduler.async);
+	}) 
+	.observeOn(Rx.Scheduler.async); // 异步执行
+	
+	console.log('just before subscribe');
+	observable.subscribe({
+	  next: x => console.log('got value ' + x),
+	  error: err => console.error('something wrong occurred: ' + err),
+	  complete: () => console.log('done'),
+	});
+	console.log('just after subscribe');
+	
+	
+	// just before subscribe
+		just after subscribe
+		got value 1
+		got value 2
+		got value 3
+		done
+		
+	
+	Rx.Scheduler.queue
+	Rx.Scheduler.asap
+	Rx.Scheduler.async
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 
-//回调函数->可观察对象
-	var exists = Rx.Observable.bindCallback(fs.exists); 
-	exists('file.txt').subscribe(exists => console.log('Does file ex ist?', exists));
 
-#Creating observables创建可观察对象
+	
 
-外部产生新事件
-	var myObservable = new Rx.Subject(); 
-	myObservable.subscribe(value => console.log(value)); 
-	myObservable.next('foo');
-
-内部产生新事件
-	var myObservable = Rx.Observable.create(observer => { observer.next('foo'); setTimeout(() => observer.next('bar'), 1000); }); myObservable.subscribe(value => console.log(value));
-
-#Controlling the flow 控制流
-	var input = Rx.Observable.fromEvent(document.querySelector('inpu t'), 'keypress');
-
-	// Filter out target values less than 3 characters long
-	input.filter(event => event.target.value.length > 2) .subscribe(value => console.log(value)); 
-
-	// Delay the events
-	input.delay(200) .subscribe(value => console.log(value)); 
-
-	// Only let through an event every 200 ms
-	input.throttleTime(200) .subscribe(value => console.log(value));
-
-	// Let through latest event after 200 ms
-	input.debounceTime(200) .subscribe(value => console.log(value));
-
-	// Stop the stream of events after 3 events
-	input.take(3) .subscribe(value => console.log(value)); 
-
-#producing values 生产值
-	// typing "hello world" 
-	var input = Rx.Observable.fromEvent(document.querySelector('inpu t'), 'keypress');
-
-	// Pass on a new value
-	input.map(event => event.target.value) .subscribe(value => console.log(value));  // "h"
-
-	// Pass on a new value by plucking it
-	input.pluck('target', 'value') .subscribe(value => console.log(value)); // "h"
-
-	// Pass the two previous values
-	input.pluck('target', 'value').pairwise() .subscribe(value => console.log(value)); // ["h", “e]
-
-	// Only pass unique values through
-	input.pluck('target', 'value').distinct() .subscribe(value => console.log(value)); // "helo wrd"
-
-	// Do not pass repeating values through
-	input.pluck('target', 'value').distinctUntilChanged() .subscribe(value => console.log(value)); // "helo world"
-
+	
+	
+	
+	
+	
+	
+	
+	
