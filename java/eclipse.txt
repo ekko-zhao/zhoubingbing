@@ -1,0 +1,6 @@
+
+
+server runtime  没有tomcat
+	indows->preferences->Server->RuntimeEnvironments点击Add按钮找到tomcat安装路径确定即可
+
+	

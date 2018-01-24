@@ -1,7 +1,15 @@
-/**/node_modules/
-/*/*.log
-/*/build/
-/*/dist/
-/*/target/
-/java/*/test/
-/**.DS_Store
+*/node_modules/
+*/*.log
+*/build/
+*/dist/
+
+# mac file
+*/.DS_Store
+
+# java 
+*/.metadata/
+*/.recommenders/
+*/RemoteSystemsTempFiles/
+
+*/java/*/target/
+*/java/*/test/
