@@ -46,7 +46,7 @@ git commit -m "" --author=""
 	
 	
 # 放弃本次 add commit
-	git reset HEAD
+	git rm -r --cache . 
 
 // 添加环境变量
 set PATH=%PATH%;C:\Program Files\Git\bin
