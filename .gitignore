@@ -10,5 +10,5 @@
 **/.metadata/
 **/.recommenders/
 **/RemoteSystemsTempFiles/
-/java/*/target/
+java/**/target/
 java/*/test/
