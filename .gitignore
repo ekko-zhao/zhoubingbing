@@ -11,4 +11,4 @@
 **/.recommenders/
 **/RemoteSystemsTempFiles/
 java/**/target/
-java/*/test/
+java/**/test/
