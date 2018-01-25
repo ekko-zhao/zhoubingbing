@@ -27,7 +27,8 @@
 	}while(contion)
 		·与javascript if语法一致
 	
-//	for循环
+//	for循环 
+	·与javascript if语法一致
 	for(initialization; condition; iteration){
 		
 	}

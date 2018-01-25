@@ -1,6 +1,7 @@
 
 
 server runtime  没有tomcat
-	indows->preferences->Server->RuntimeEnvironments点击Add按钮找到tomcat安装路径确定即可
+	windows->preferences->Server->RuntimeEnvironments点击Add按钮找到tomcat安装路径确定即可
 
-	
+maven 生成 test 目录
+	Build Path->Libraries->JRE System Library-> edit->Alternate JRE-> finish，自动出现src/main/java和src/test/java

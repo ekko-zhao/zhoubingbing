@@ -1,3 +1,124 @@
-﻿//  
+﻿
+# 类的一般形式
+	定义类时，需要申明她的准确形式和属性。
+	类的一般形式 包括 代码 或数据
+	大多数方法不会被指定为 static 或 public
+	类的属性和方法 在方法类内部是直接引用的， 不可在 static 申明的方法内使用；
+
+	class Classname {
+		type instance-variable1;
+		
+		type methodname1(parameter-list){
+		
+		}
+			
+		// 所有方法的一般形式都与main()方法相同
+		// 如果某个类是程序的入口点，则需要为类指定 main()方法 
+		public static void main(String[] args) {
+			// TODO Auto-generated method stub
+			System.out.println((byte)0177);
+		}
+	}
+	
+	/*
+		public class Box {
+			int width = 50;
+			int height = 50;
+			public int volume(){
+				// 类的属性和方法 在方法类可以访问
+				return width * height;
+			}
+		}
+	*/
+	
+	创建实例， 需要申明 和 new 运算符分配物理副本和内存
+	Classname instance = new Classname();
+	
+# 构造函数
+	构造函数的名称和包含它的类的名称相同，在语法上和方法相似。 在new 实例之前立即自动调用构造函数， 初始化类
+	
+	public class Box {
+		int width;
+		int height;
+		Box(int w, int h){
+			width = w;
+			height = h;
+		}
+		public volume(){
+			return width*height;
+		}
+	}
+	
+# this 关键字
+	在任何方法中使用 this 即引用当前对象， 总是引用调用方法的对象。
+	在static 方法类不能使用
+	构造函数的形参如果和 类的属性名相同， 局部变量会 隐藏实例变量 。这里需要用到 this ;
+	
+	public class Box {
+		int width;
+		int height;
+		Box(int width, int height){
+			this.width = width;
+			this.height = height;
+		}
+		public volume(){
+			return width*height;
+		}
+	}
+	
+	
+# finalize() 方法
+	在该实例对象被系统 回收前执行的方法。
+	
+	protected void finalize(){
+		// do something...
+	}
+	
+	
+# 方法重载
+	重载方法是依据 方法的形参来匹配的， 重载方法形参必须要有所区别
+	匹配不需要总是精确， 在某些情况下 类型转换在重载版本的判断中可以发挥作用。
+	
+	重载方法中
+	
+	class OverLoadDemo{
+		void test(){}
+		void test(int a, int b){}
+		void test(double a){}
+	}
+	
+	
+# 构造函数重载
+	public class Box {
+		int width;
+		int height;
+		Box(int width, int height){
+			this.width = width;
+			this.height = height;
+		}
+		Box(){
+			width = -1;
+			height = -1;
+		}
+		
+		public volume(){
+			return width*height;
+		}
+	}
+	
+# 方法或构造函数参数可以是 对象实例，
+	如果参数为 引用类型, 在对齐操作会影响到 实例对象的。
+	methodname(Box obj){ }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	

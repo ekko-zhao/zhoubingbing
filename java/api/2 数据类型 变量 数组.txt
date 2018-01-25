@@ -1,6 +1,7 @@
 ﻿
 // 数据类型
 	byte 	2^(8-1)-1
+			java不显示地支持二进制数字
 			01111111 为最大值 第一位0 为 +- 符号, (byte)0b10000001 为-127
 			/*
 				01111111
@@ -28,7 +29,22 @@
 	boolean	true/false
 			true 和 false 不能转换成任何数字表现形式
 			true 不等于 1， false 不等于 0
+
 			
+// 字符转义顺序
+	\ddd 八进制字符（ddd）
+	\uxxxx 十六进制 Unicode 字符（xxxx）
+	\'
+	\"
+	\\
+	\r 回车符
+	\n	换行符
+	\f	换页符
+	\t	制表符
+	\b 回格符
+	
+
+
 // 变量
 	type identifier [ = value ][, identifier [ = value ] ...];
 	int a,b;
