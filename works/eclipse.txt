@@ -38,9 +38,18 @@ open.lakala.com
 	zhangfeifei
 	Zhangfeifei@123
 
+	zhoubingbing Zhoubb123!
+	
+	wanghuhuwang Wanghu812826!
+	
+	
+	110113014195253 北京中金鼎商贸有限公司 谢珍珠
+	6222020200114580364 褚国国 420923197908204913
+	
+	
 	http://10.7.111.205:8090/ocsp/
-	yanjianxing
-	19933635iiu
+	yanjianxing 19933635iiu
+	
 
 收银员 ------------------------------------------------
 	svn:http://10.7.111.52/svn/cloudpos/cashier/trunk
