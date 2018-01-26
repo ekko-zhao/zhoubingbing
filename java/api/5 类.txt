@@ -52,7 +52,7 @@
 # this 关键字
 	在任何方法中使用 this 即引用当前对象， 总是引用调用方法的对象。
 	在static 方法类不能使用
-	构造函数的形参如果和 类的属性名相同， 局部变量会 隐藏实例变量 。这里需要用到 this ;
+	构造函数的形参如果和 类的属性名相同， 局部变量会 隐藏实例变量 。这里需要用到 this, 否则可以省略this;
 	
 	public class Box {
 		int width;
@@ -109,6 +109,122 @@
 # 方法或构造函数参数可以是 对象实例，
 	如果参数为 引用类型, 在对齐操作会影响到 实例对象的。
 	methodname(Box obj){ }
+	
+	
+# 访问控制- 访问控制修饰符 
+	
+	默认访问级别 - protected
+	
+	public		
+		该类的所有成员可以访问
+		“任何包”的该实例对象可以访问所有 public 属性，
+		
+	private		
+		只有该类的所有成员可以访问，实例对象不可访问
+		
+	protected	
+		该类的所有成员可以访问
+		“同包内”的实例可以访问 protected 成员，
+	
+# static
+	static 可以和其它修饰符并用， 以控制访问权限
+	当该类 生成实例时， static成员不会 生成副本， 所有的实例 都会共享该static成
+	static 成员内有几个限制
+		只能直接调用其它静态方法
+		只能直接访问直接静态数据
+		不能使用 this 或 super 关键字
+	
+	public | private | protected   static
+
+# final
+	将变量变成常量
+	final int FILE_NEW = 1;
+	
+# 嵌套类
+	定义类的成员为类, 
+	Outer 为包含类， Inner 为嵌套类， 
+	嵌套类可以方位内部类的任何成员， 
+	包含类不可以访问嵌套类成员
+	
+	如果是静态嵌套类 static class Outer{} ， 则只可以问 包含类的静态成员
+	
+	class Outer{
+		int outer_x = 100;
+		
+		void test(){
+			Inner inner = new Inner();
+		}
+		
+		class Inner{
+			viod display(){
+				System.out.println(outer_x)
+			}
+		}
+	}
+	
+	
+# 使用命令行参数
+	class CommandLine{
+		public static void main(String agrs[]){
+			for(int i; i< agrs.length; i++){
+				System.out.println(agrs[i])
+			}
+		}
+	}
+	
+	java CommandLine this is a test 100
+	
+	// 	this
+		is
+		a
+		test
+		100
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

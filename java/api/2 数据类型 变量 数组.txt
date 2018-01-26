@@ -82,7 +82,9 @@
 	continue;
 	return;
 
-
+# 可动态创建 数组长度
+	可以在 方法内部 或 构造函数中 定义 
+	varname = new int[i];
 
 
 
