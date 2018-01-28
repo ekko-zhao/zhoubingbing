@@ -113,7 +113,9 @@
 	
 # 访问控制- 访问控制修饰符 
 	
-	默认访问级别 - protected
+	默认访问级别- "没有修饰符"
+		该类的所有成员可以访问
+		“不同包”继承的子类不可以访问默认成员，相同包下的子类可以访问默认成员， 这是和 protected 访问控制修饰符 的区别
 	
 	public		
 		该类的所有成员可以访问
@@ -121,10 +123,12 @@
 		
 	private		
 		只有该类的所有成员可以访问，实例对象不可访问
+		不能被继承
 		
-	protected	
+	protected
 		该类的所有成员可以访问
 		“同包内”的实例可以访问 protected 成员，
+		所有继承的子类可以访问 protected 成员，不受包的限制
 	
 # static
 	static 可以和其它修饰符并用， 以控制访问权限
@@ -180,14 +184,18 @@
 		test
 		100
 	
+# 可变参数长度
+	只能位于参数最后一位， 不能同时存在俩个可变参数，
+	method(boolean a, int ...v){ }
 	
+	重载 可变参数 的方法
+	method(boolean a, int ...v){ }
+	method(int ...v){ }
+	method(String str, int ...v){ }
 	
-	
-	
-	
-	
-	
-	
+	重载方法的模糊性， 此时调用 method() 没有参数时都是合法的，因此这个调用时含糊不清
+	method(int ...v){ }
+	method(boolean ...v){ }
 	
 	
 	
