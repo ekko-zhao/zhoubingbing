@@ -197,22 +197,30 @@
 	method(int ...v){ }
 	method(boolean ...v){ }
 	
+# Object 类
+	Object clone()							创建一个和将要复制的对象完全相同的新对象
+		该方法是protected的作用域
+		继承Cloneable接口后要重写方法，然后在方法里调用父类的clone()的方法。
+		
+		public class A implements Cloneable{
+			protected A clone() throws CloneNotSupportedException {
+				return (A) super.clone();
+			}
+		}
 	
+	Class<?> get Class()					在运行时获取对象所属的类
 	
+	boolean  equals(Object obj)				判断一个对象是否和另外一个对象相等
+	void final()							在回收不再使用的对象之前调用
+	int hashCode()							返回与调用对象相关联的散列值
 	
+	void notify() 							恢复执行在调用对象上等待的某个线程
+	void notifyAll()						恢复执行在调用对象上等待的所有线程
+	String toString()						返回一个描述对象的字符串
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	void wait()								等待另一个线程的执行
+	void wait(long milliseconds)
+	void wait(long milliseconds,int nanoseconds)	
 	
 	
 	

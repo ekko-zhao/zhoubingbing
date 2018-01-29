@@ -1,7 +1,5 @@
 package start.ex;
 
-public class B extends A {
-	void method() {
-		a = 10;
-	}
+public class B extends A{
+	
 }

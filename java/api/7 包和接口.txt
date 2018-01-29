@@ -1,0 +1,77 @@
+﻿
+# 包
+	package pkg1;
+	第一处申明
+	用于保持类的命名空间相互隔离。不同包中的同名类不用冲突
+	
+	引入包
+		import pkg1[.pkg2].classname|*;
+
+		import java.util.Date;
+		import java.io.*;
+	
+# 接口
+	使用关键字 interface
+	
+# 定义接口
+	public static final type pro = type-value;
+	public abstract return-type method-name();
+	
+	属性的 变量申明 可以为 public | static & final,  必须初始化值，  默认为 public static & final。 其值不可被修改 
+	方法的 变量申明 可以为 public & abstract,  默认为 public abstract
+	
+	interface Classname{
+		public static final int a = 100;
+		public abstract void m();
+	}
+	/*
+		访问控制 可以被省略
+		interface Classname{
+			int a = 100;
+			void m();
+		}
+	*/
+	
+# 通过接口引用访问
+	因为与Java中的常规方法调用相比较，在运行时动态查询方法会造成严重的负担，所以在性能要求苛刻的代码中，应当谨慎小心，而不要随意使用接口
+	interface A{
+		void m();
+	}
+	
+	class B implements A{
+		void m(){}
+		void om(){}
+	}
+	
+	class C{
+		public static void main(String[] args) {
+			// 变量申明类型为接口 A， 而没有不是类的对象引用。 此时 a 只能访问 接口中 定义的 m 方法。
+			A a = new b();
+			a.m();
+		}
+	}
+	
+	如果实现了一个接口， 但是没有实现接口定义的全部方法，那么必须将类申明为 abstract.
+	
+	interface A{
+		void m();
+	}
+	abstract class B implements A{
+		int a,b;
+		void show(){}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

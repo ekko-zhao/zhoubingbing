@@ -20,3 +20,77 @@
 	class B extends A{
 		void m(int a){}
 	}
+	
+# 在继承中使用final 关键字
+	不允许被子类重写
+	class A{
+		final void m(){}
+	}
+	
+# 使用 final 关键字阻止继承, 即该类不能被继承
+	
+	final class A{
+	}
+	
+# 抽象类
+	在class 关键字的前面使用 关键字 abstract。 抽象类不存在对象，不能使用 new 运算符直接实例化抽象类。
+	抽象方法必须为public或者protected,  不能申明抽象的 static 静态方法。
+	
+	抽象类的所有子类， 要么实现超类中的所有抽象方法， 要么自己也申明为抽象的。
+	申明以知抽象内容的结构，而不提供每个方法的完整实现。
+	
+	public abstract class A {
+		public A(){};
+		
+		// m 方法必须被子类重写
+		abstract void m();
+		abstract return-type m();
+	}
+	
+	
+
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
