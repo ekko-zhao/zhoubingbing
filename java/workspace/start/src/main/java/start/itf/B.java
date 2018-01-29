@@ -1,6 +1,7 @@
 package start.itf;
 
-public abstract class B {
-	public B(){}
-	protected abstract void m();
+public class B {
+	protected interface AA{
+		boolean isnot(int x);
+	}
 }

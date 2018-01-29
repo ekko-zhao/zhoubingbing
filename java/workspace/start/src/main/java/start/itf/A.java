@@ -1,9 +1,7 @@
 package start.itf;
 
-public interface A {
-	// public, static & final
-	static int a = 100;
-	
-	//  public & abstract
-	abstract void m();
+public class A implements B.AA {
+	public boolean isnot(int x) {
+		return x < 0;
+	};
 }
