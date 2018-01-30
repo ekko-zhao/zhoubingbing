@@ -1,7 +1,9 @@
 
-
 server runtime  没有tomcat
 	windows->preferences->Server->RuntimeEnvironments点击Add按钮找到tomcat安装路径确定即可
 
 maven 生成 test 目录
 	Build Path->Libraries->JRE System Library-> edit->Alternate JRE-> finish，自动出现src/main/java和src/test/java
+
+修改 JDK 编译版本, 和web版本 3.0
+	项目中 .settings 文件夹下 org.eclipse.wst.common.project.facet.core.xml

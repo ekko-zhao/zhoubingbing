@@ -3,16 +3,16 @@ package start;
 import start.dome0.Box;
 
 public class Test {
-	
-	String str = "dfdfsf";
-	
-	void setStr(){
-		str = "sdfasf";
-	}
-	
 	public static void main(String[] args) {
-		
+		int a[] = new int[10];
 		// TODO Auto-generated method stub
-		System.out.println();
+		try{
+			System.out.println(a[50]);
+		}catch(Throwable e){
+			System.out.println(e);
+		}finally{
+			System.out.println(11);
+		}
+		
 	}
 }

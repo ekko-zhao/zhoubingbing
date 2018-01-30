@@ -15,7 +15,15 @@
 	使用关键字 interface
 	顶级接口 要么使用public ，要么使用默认访问级别
 	
+	接口不能有实例变量
+	接口与类之间决定性的区别是类可以维护状态信息，而接口不可以
+	接口不能创建本身的实例。接口必须被类实现。
 	
+	jdk 1.8
+	可以通过关键字 default 定义默认方法体， 
+	default void m(){ 
+		// do something...
+	}
 	
 # 定义接口
 	public static final type pro = type-value;
@@ -99,7 +107,61 @@
 			System.out.println(a.isnot(10));
 		}
 	}
+	
+# 接口的默认方法
+	默认方法的申明前面带有关键字 default, 默认方法不需要被要被重写
+	可以声明 static， 可以独立通过接口名条用静态方法
+	public interface A {
+		void m();
+		void c(){
+			// do something...
+		};
+	}
+	
+# 接口扩展
+	接口可以通过关键字 extends 继承另一个接口， 语法和继承相同
+	如果方法完全相同，被继承的接口方法 被隐藏
+	不同接口相同方法 可以重载方法，包括 default 方法。 实现类也必须实现这些重载方法
+	
+	public interface A {
+		void m();
+		void c();
+	}
+	public interface B extends A {
+		// 重载方法 参数要有所区别
+		int m(int x);
+	}
+	public class C implements A {
+		public void m() {
+		};
+		public void c() {
+		};
+		public int m(int x){
+			return (int)10;
+		};
+	}
+	
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

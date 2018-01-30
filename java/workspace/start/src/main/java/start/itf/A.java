@@ -1,7 +1,7 @@
 package start.itf;
 
-public class A implements B.AA {
-	public boolean isnot(int x) {
-		return x < 0;
-	};
+public interface A extends B {
+	default void cc() {
+		System.out.println('A');
+	}
 }

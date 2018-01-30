@@ -1,7 +1,7 @@
 package start.itf;
 
-public class B {
-	protected interface AA{
-		boolean isnot(int x);
+public interface B {
+	default void cc() {
+		System.out.println('B');
 	}
 }
