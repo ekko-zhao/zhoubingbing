@@ -33,23 +33,287 @@
 		例如在一个线程读取 表的时候，就必须阻止另外一个线程向该数据机构写入数据。
 	
 
+# Thread 类和 Runnable 接口 -------------------------------------------------------
+	由于不能直接引用正在运行的线程的细微状态， 所以需要通过代理进行处理，
+	currentThread 方法可以获得其代理
+	Thread 实例就是线程的代理。 为了创建新线程，程序可以扩展Thread 类或实现 Runnable 接口
+	
+	.Thread 类定义的一些方法
+		currentThread()		获取主线程的代理
+			static Thread currentThread()
+		
+		setName()			设置线程的名称
+			final void setName(String threadName)
+			
+		getName()			获取线程的名称
+			final String getName();
+			
+		setPriority()		设置线程的优先级
+			final void setPriority(int lev)
+			
+		getPriority()		获取线程的优先级
+			final int getPriority()
+		
+		isAlive()			确定线程是否仍然在运行
+			final boolean isAlive()
+		
+		join()				等待线程终止
+			final void join() throws InterruptedException
+			final void join(long milliseconds) throws InterruptedException
+			final void join(long milliseconds, int nanoseconde) throws InterruptedException
+			
+		sleep()				挂起线程一段时间
+			如果其它线程视图终端这个正在睡眠的线程，就会发生 InterruptedException 异常
+			static void sleep(long milliseconds) throws InterruptedException						// 毫秒
+			static void sleep(long milliseconds, int nanoseconde) throws InterruptedException		// 毫秒+纳秒 
+		
+		run()				线程的入口点
+			public void run()
+			
+		start()				通过调用线程的run() 方法启动线程
+
+	
+	
+	.获取主线程
+	public class Test {
+		public static void main(String[] args) {
+			Thread t = Thread.currentThread();
+			System.out.println(t);
+			try {
+				for (int n = 5; n > 0; n--) {
+					t.sleep(1000);
+					System.out.println(n);
+				}
+			} catch (InterruptedException e) {
+				System.out.println(e);
+			}
+		}
+	}
+
+# 创建线程 的两种方式
+	实现 Runnable 接口
+	扩展 Thread 类本身
+	
+	.选择一种创建方式
+	在这两种创建方式中，只有run() 方法是必须被重写的。
+		run() 方法内部，定义组成新线程的代码， run() 方法可以调用其它方法其它类， 也可以申明变量，就像 main 线程一样，
+		/*
+			在run() 方法内部使用  Thread  Thread.currentThread()  在代表当前子线程
+			若是在其他方法中使用 Thread  Thread.currentThread()	 即获得当前主线程的代理
+		*/
+	在 extends Thread 中可以增强或修改 Thread 类， 
+	如果无需 增强或修改 Thread 类，实现 Runnable 接口是最好的创建线程方式，还可以继承 其它类。
+
+1.实现 Runnable 接口
+	实现 Runnable 接口, 类只需要实现run() 方法
+	
+		
+	唯一的区别是 run()方法为程序中另外一个并发线程的执行建立的入口点。当 run() 方法返回时，这个线程将结束
+	
+	在创建实现 Runnable 接口的类之后，可以在类中实例化 Thread 类型的对象。
+		Thread 定义了几个构造函数
+			Thread(Runnable threadOb, String threadName)
+				threadOb 是实现了 Runnable 接口的类的实例（或 this），这里定义了从何处开始执行线程。
+				threadName 定义新线程的名称
+			
+			#在实现类中创建 线程，只用调用线程的start(), 方法线程才会运行。 本质上start()方法的执行是对run()方法的调用
+			constructor(){
+				t = new Thread(this, "Demo Thread");
+				t.start();
+			}
+	
+	// 子线程
+	public class Test implements Runnable {
+		Thread t;
+		public Test() {
+			t = new Thread(this, "Doem thread");
+			System.out.println("child thread" + t);
+			t.start();
+		}
+		public void run() {
+			try {
+				for (int n = 5; n > 0; n--) {
+					System.out.println("child thread" + n);
+					t.sleep(1000);
+					// Thread.sleep(10000)
+				}
+			} catch (InterruptedException e) {
+				System.out.println("child thread InterruptedException");
+			}
+			System.out.println("Exiting child thread");
+		}
+	}
+	
+	// 主线程
+	public class Test2 {
+		public static void main(String[] args) {
+			Test test = new Test();
+			try {
+				for (int n = 5; n > 0; n--) {
+					System.out.println("main thread" + n);
+					Thread.sleep(5000);
+				}
+			} catch (InterruptedException e) {
+				System.out.println("main thread InterruptedException");
+			}
+			System.out.println("Exiting main thread");
+		}
+	}
+	
+	子线程 和 主线程 相互独立 不相互影响
+	如果 有线程没有结束， Java 运行系统会挂起
+	// log 如下
+		child threadThread[Doem thread,5,main]
+		main thread5
+		child thread5
+		child thread4
+		child thread3
+		child thread2
+		child thread1
+		main thread4
+		Exiting child thread
+		main thread3
+		main thread2
+		main thread1
+		Exiting main thread
+	
+2. 扩展 Thread 类创建线程
+	public class Test extends Thread {
+		public Test() {
+			super("Doem Thread");
+			System.out.println("child thread" + this);
+			start();
+		}
+		public void run() {
+			try {
+				for (int n = 5; n > 0; n--) {
+					System.out.println("child thread" + n);
+					Thread.sleep(1000);
+				}
+			} catch (InterruptedException e) {
+				System.out.println("child thread InterruptedException");
+			}
+			System.out.println("Exiting child thread");
+		}
+	}
+	
+# 使用 isAlive() 和 join() 方法
+	join() 方法会一直等待，知道调用线程终止。
+	join() 方法的另一种形式，允许指定希望等待指定线程终止的最长时间
+	
+	public class Test2 {
+		public static void main(String[] args) {
+			Test test = new Test();
+			try {
+				for (int n = 5; n > 0; n--) {
+					// 等待该线程结束， 才执行下一行 代码
+					test.t.join();
+					
+					System.out.println("main thread" + n);
+					Thread.sleep(5000);
+				}
+			} catch (InterruptedException e) {
+				System.out.println("main thread InterruptedException");
+			}
+			System.out.println("Exiting main thread");
+		}
+	}
+	
+# 线程优先级
+	final void setPriority(int level)
+	
+	level 指定了为调用线程设置新的优先级， level 的值必须在 MIN_PRIORITY 和 MAX_PRIORITY, 风别为0到10
+	默认优先级 NORM_PRIORITY  5， 这些优先级实在Thread static final 变量中定义的 
+	
+	
+	
+# 同步 和 synchronized语句
+	当俩个或更多的线程 访问共同资源时，他们需要某种方式确保每次只有一个线程使用资源。 实现这一过程的称为同步。
+	
+	同步方法为 synchronized 关键字修饰过的方法。
+	调用同一实例的 该同步方法（ 任何同步方法 ）的所有其他线程都必须等待。
+	为了退出监视器并将对象的控制权交给下一个等待线程，监视器的拥有者只需要简单地从同步方法放回；
+	
+	class Callme(){
+		// 使用 synchronized 关键字修饰
+		public synchronized void call(String msg){
+			System.out.print("[" + msg);
+			try{
+				Thread.sleep(1000);
+			} catch(InterruptedException e) {
+				
+			}
+			System.out.println("]");
+		}
+	}
+	
+	class Caller implements Runnable{
+		String msg;
+		Callme target;
+		Thread t;
+		
+		public Caller(Callme targ, String s){
+			target = targ;
+			msg = s;
+			t = new Thread(this);
+			t.start();
+		}
+		public void run(){
+			target.call(msg);
+			/*
+				如果 call() 方法没有被 synchronized 关键字修饰, 则需要 使用synchronized 语句
+				synchronized(target){
+					target.call(msg);
+				}
+			*/
+		}
+	}
+	
+	class Synch{
+		public static void main(String[] args) {
+			Callme target = new Callme();
+			Caller ob1 = new Caller(target, "Hello");
+			Caller ob2 = new Caller(target, "Synchronized");
+			Caller ob3 = new Caller(target, "World");
+			
+			try{
+				ob1.t.join();
+				ob2.t.join();
+				ob3.t.join();
+			} catch(InterruptedException e) {
+				
+			}
+		}
+		
+	}
+	
+	输出如下
+		[Hello]
+		[World]
+		[Synchronized ]
+	
+	/*
+		如果没有 synchronized 关键字 修饰
+		call() 方法 调用线程的sleep() 方法后，线程自动切换到另一个线程。 这回导致混合输出3个消息 字符串
+		call() 方法吮吸切换到另一个线程，这会导致混合输出 3 个消息字符串，没有阻止3个线程在相同的时间调用以一个对象的同一个方法
+		则：
+		[Synchronized[World[Hello]
+		]
+		]
+	*/
+
+# synchronized 语句
+	如果使用第三方的代码，并且该类方法没有 synchronized 关键字修饰
+	那么使用 synchronized 语句可以和 同步方法行为一致；
+	
+	synchronized(target){
+		target.call(msg);
+	}
+	target 为类的实例
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# 线程间通信
+	
 
 
 
