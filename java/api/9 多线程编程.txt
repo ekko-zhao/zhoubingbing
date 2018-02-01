@@ -34,8 +34,10 @@
 	
 
 # Thread 类和 Runnable 接口 -------------------------------------------------------
+	Thread 是当前线程的代理，Thread.sleep()  是当前线程休眠
+	
 	由于不能直接引用正在运行的线程的细微状态， 所以需要通过代理进行处理，
-	currentThread 方法可以获得其代理
+	currentThread 方法可以获得其代理, 当前线程
 	Thread 实例就是线程的代理。 为了创建新线程，程序可以扩展Thread 类或实现 Runnable 接口
 	
 	.Thread 类定义的一些方法
@@ -69,7 +71,7 @@
 		
 		run()				线程的入口点
 			public void run()
-			
+	
 		start()				通过调用线程的run() 方法启动线程
 
 	
@@ -135,7 +137,6 @@
 				for (int n = 5; n > 0; n--) {
 					System.out.println("child thread" + n);
 					t.sleep(1000);
-					// Thread.sleep(10000)
 				}
 			} catch (InterruptedException e) {
 				System.out.println("child thread InterruptedException");
@@ -313,32 +314,176 @@
 
 
 # 线程间通信
+	Java 通过 wait()、notify() 以及 notifyAll()方法，提供了一种巧妙地进程间通信机制
+	这些方法在Object 中是作为 final 方法实现的，这些方法都只能在同步上下文中调用
+	
+	.wait() wait 通知线程放弃监视器并进入休眠，知道其他一些线程进入同一个监视器并调用 notify() 或 notifyAll()
+		final void wait() throws InterruptedException
+	.notify() 方法唤醒调用相同对象的wait() 方法的一个等待线程
+		final void notify()
+	.notifyAll() 方法唤醒调用相同对象的 wait() 方法的所有等待线程（抢占式），其中的一个线程将得到访问授权
+		final void notifyAll()
+	
+	
+	public class T1 {
+		int n;
+		boolean valueSet = false;
+
+		synchronized int get() {
+			while (!valueSet)
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					System.out.println("InterruptedException caugth");
+				}
+			
+			System.out.println("Got:" + n);
+			valueSet = false;
+			notify();
+			return n;
+		}
+		synchronized void put(int n){
+			while(valueSet)
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					System.out.println("InterruptedException caugth");
+				}
+			this.n = n;
+			valueSet = true;
+			System.out.println("Put:" + n);
+			notify();
+		}
+	}
+
+
+	public class T2 implements Runnable {
+		T1 t1;
+
+		public T2(T1 t1) {
+			this.t1 = t1;
+			new Thread(this, "producer").start();
+		}
+
+		public void run() {
+			int i = 0;
+			while (true) {
+				t1.put(i++);
+			}
+		}
+	}
+
+	public class T3 implements Runnable {
+		T1 t1;
+
+		public T3(T1 t1) {
+			this.t1 = t1;
+			new Thread(this, "producer").start();
+		}
+
+		public void run() {
+			while (true) {
+				t1.get();
+			}
+		}
+	}
+
+	public class Test {
+		public static void main(String[] args) {
+			T1 t1 = new T1();
+			new T2(t1);
+			new T3(t1);
+		}
+	}
+
+# 死锁
+	当俩个线程循环依赖一对同步对象时，会发生这种情况。
+	假设一个线程进入对象X 的监视器，另一个线程进入对象Y 的监视器。如果X中的线程试图调用 Y的任何同步方法，那么会如您所期望的被堵塞
+	如果同时对象Y 中的线程也视图调用对象A 的对象的任何同步方法，那么回永远等下去
+	
+		这里的 ”等待“ 值 同步方法交出代码执行权
+		这里需要注意的是 任何同步方法
 		
+	public class T1 {
+		synchronized void foo(T2 t2) {
+			String name = Thread.currentThread().getName();
+			System.out.println(name + " entered A.foo");
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				System.out.println("InterruptedException caugth");
+			}
+
+			System.out.println(name + " call B.last()");
+			// t2.last();
+			/*
+				如果这里同时调用 t2.last() 方法， 则相互等待 线程之间永远等待下去
+			*/
+		}
+
+		synchronized void last() {
+			System.out.println("Inside A.last()");
+		}
+	}
+
+	public class T2 {
+		synchronized void foo(T1 t1) {
+			String name = Thread.currentThread().getName();
+			System.out.println(name + " entered B.foo");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				System.out.println("InterruptedException caugth");
+			}
+
+			System.out.println(name + " call A.last()");
+			t1.last();
+			/*
+				这里 调用t1 的last() 同步方法， 需要 t1 的同步方法 foo(), 交出代码执行权后才执行last()；
+				在这里需要等待 5s 才会 执行 t1 的 同步方法 foo();
+				如果调用的不是同步方法 就不需要等待 类中的其他同步方法的结束
+			*/
+		}
+
+		synchronized void last() {
+			System.out.println("Inside B.last()");
+		}
+	}
+
+	public class Test implements Runnable {
+		T1 t1 = new T1();
+		T2 t2 = new T2();
+
+		Test() {
+			Thread.currentThread().setName("MainThread");
+			Thread t = new Thread(this, "TacingThread");
+			t.start();
+
+			t1.foo(t2);
+		}
+
+		public void run() {
+			t2.foo(t1);
+		}
+
+		public static void main(String[] args) {
+			new Test();
+		}
+	}
 
 
+# 获取线程的状态
+	
+	BLOCKED 	线程因为正在等待需要的锁而挂起执行
+	NEW 		线程还没有开始运行
+	RUNNABLE	线程要么正在执行，要么在获得CPU 的访问权限之后执行
+	TERMINATED	线程已经完成执行
+	TIMED_WAITING	线程挂起一段指定的时间，例如当调整用 sleep() 方法时就会处于这种状态。 wait() 或 join() 方法的暂停时，也会进入这种状态
+	WAITING		线程因为等待某些动作而挂起执行。例如 因为非调用wait() 或 join() 方法 而等待时
+	
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	Thread.state ts = thrd.getState();
+	if(ts == Thread.state.RUNNABLE)
 
 
 

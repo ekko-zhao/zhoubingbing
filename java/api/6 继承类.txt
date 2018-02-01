@@ -44,7 +44,7 @@
 		
 		// m 方法必须被子类重写
 		abstract void m();
-		abstract return-type m();
+		abstract return-type m(type agr);
 	}
 	
 	
