@@ -125,7 +125,7 @@
 		
 
 # 注解（元数据）---------------------------------------------------------------
-	注解类型 前面必须要有@ 修饰，他自动扩展了 Annotation 接口，所以不能扩展其它接口
+	注解类型 前面必须要有@interface 修饰，他自动扩展了 Annotation 接口，所以不能扩展其它接口
 	Annotation 接口 是在java.lang.annotation 包中申明的， 它重写了Object类的 hashCode()、equals()、以及toString方法
 	另外还指定了annotationType() 方法，返回调用注解的Class 对象
 	所有类型的申明都可以有与之关联的注解，例如 类 方法 域变量 参数 以及枚举常量， 甚至注解本身也可以被注解
@@ -141,6 +141,22 @@
 			System.out.println();
 		}
 	}
+
+# 注解使用
+	@MyAnno(str="", int=12)
+	当注解没有参数是 圆括号不是必须的， 可省略
+	
+# 使用默认值
+	type member() default value;
+	
+	@interface MyAnno{
+		String str() default "test value";
+	}
+	
+# 单成员注解
+	如果注解只有一个成员时，应用注解时可以不指定成员的名称
+	@MyAnno("str")
+	
 
 # 注解的保留策略
 	SOURCE		只在源文件中保留，在编译期间会被抛弃
@@ -159,46 +175,133 @@
 
 # 在运行时 使用反射获取注解
 	反射是能够在运行时获取类相关信息的特性， 反射 API 位于 java.lang.reflect 包中。其中最简单的方式是调用 getClass() 方法
-	该方法是 Object 类定义的
 	
-	final Class<?> getClass()
+	该方法是 Object 类定义的： final Class<?> getClass()
+		/*
+			Obj obj = new Obj();
+			Class<?> c = obj.getClass();
+		*/
+		
 	
-	获取 Class 对象后， 可以使用其方法获取与类申明中各个条目相关的信息，包括注解。
-	Class 提供了 getMethod() getFild() 以及 getConstructor() 方法以及其它方法，这些对象返回 Method、Field以及 Constructor类型的对象
+	获取 Class 对象后，可以使用其方法获取与类申明中各个条目相关的信息，包括注解。
+	Class 提供了 getMethod()  getFiled() 以及 getConstructor() 方法以及其它方法，这些对象返回 Method、Field以及 Constructor类型的对象
+	
+	getMethod()	方法
+	getFiled() 域变量
 	
 	getMethod() 方法的一般形式如下
 		Method getMethod(String methName, Class<?> ...paramTypes)
-		/*
 			methName		方法名称
-			如果方法有参数，那么必须通过 paramTypes 指定表示这些参数类型的 Class 对象，可以是0 至多个参数
+			paramTypes		为要获取的方法的 参数类型
+		/*
+			
+			如果方法有参数，那么必须通过 paramTypes 指定表示这些参数类型的 Class 对象，可以是0 至多个参数, 可用于查找重载的不同方法
 			如果没有找到方法 就抛出 NoSuchMethodException 异常
+			
+			try {
+				Class<?> c = t.getClass();
+				Method m = c.getMethod("myMeth");
+				MyAnno anno = m.getAnnotation(MyAnno.class);
+				System.out.println(anno.str() + " " + anno.val());	// Annotation Example 100
+			} catch (NoSuchMethodException e) {
+				System.out.println("Method not find");
+			}
+			
 		*/
 
 	对 Method、Field以及 Constructor 对象调用 getAnnotation() 方法，可以获得与对象的特定注解
 	一般形式如下：
 		<A extends Annotation> getAnnotation(Class<A> annoType)
 		/*
-			annoType 是表示您感兴趣注解的Class 对象。该方法返回对注解的一个引用，使用这个引用亦可获取与注解成员关联的值。
+			MyAnno anno = m.getAnnotation(MyAnno.class);
+			
+			annoType 是表示您想要获取注解的对象（Class）。该方法返回对注解的一个引用，使用这个引用亦可获取与注解成员关联的值。
 			如果没有找到 注解 就返回null.
 			如果注解策略不是 RUNTIME， 就会出现这种情况
 		*/
 
 
+	import java.lang.reflect.*;
+	public class Test {
+		@MyAnno(str = "Annotation Example", val = 99)
+		public static void myMeth2() {}
+		
+		@MyAnno(str = "Annotation Example", val = 100)
+		public static void myMeth() {
+			Test t = new Test();
+			
+			try {
+				Class<?> c = t.getClass();
+				Method m = c.getMethod("myMeth2");
+				MyAnno anno = m.getAnnotation(MyAnno.class);
+				System.out.println(anno.str() + " " + anno.val());
+			} catch (NoSuchMethodException e) {
+				System.out.println("Method not find");
+			}
+		}
+
+		public static void main(String[] args) {
+			myMeth();
+		}
+	}
+	// Annotation Example 99
+
+#获取全部的注释
+	Annotation annos[] = ob.getClass.getAnnotations();
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+# AnnotationElement 接口
+	getAnnotation 和 getAnnotations 方法是有 AnnotationElement接口定义的。
+	Method Field Constructor Class 以及Package 也都实现了该接口
+	
+	Annotation getAnnotation(Class<A> annoType)
+	Annotation[] getAnnotations()
+	Annotation[] getDeclaredAnnotations() 		// 返回对象中所有非继承注解
+	getAnnotationsByType() 	
+	getDeclaredAnnotationsByType() 
+	booblean isAnntationPresent(Class<? extends Annotation> annoType))  // 指定的注解与调用对象相关联，返回true,否则false
+	
+@ 内置注解
+	Java 提供了许多内置注解。 大部分是专用注解，但是9个用于一般目的，
+	其中4个 来自 java.lang.annotation 包， 
+		@Retention  		// 只能用于注解其它注解，@Retention 用于保留策略
+		@Dcocumented		// 标记接口， 只能用于注解其它注解，用于通知某个工具-注解将被文档化
+		@Target				// 只能用于注解其它注解，用于注解申明的类型， 只有一个参数 必须是来自 ElementType 枚举的常量
+			ANNTATION_TYPE		另一个注解
+			CONSTRACTOR 		构造函数
+			Field				域变量
+			LOCAL_VARIABLE		局部变量
+			METHOD				方法
+			PACKAGE				包
+			PARAMETER			参数
+			TYPE				类、接口或枚举
+			TYPE_PARAMETER		参数类型
+			TYPE_USE			类型使用
+			
+			@Target({ ElementType.Field, ElementType.LOCAL_VARIABLE})
+			
+		@Inherited			// 标记注解，只能用于注解其它注解， 只影响用于类申明的注解，@Inherited 会导致超类的注解被子类继承
+								如果子类不存在， 就会检查超类
+			
+			
+			
+	另外5个来自 java.lang
+		@Override			// 只能用于方法， 必须是重写超类的方法。 而不是简单地重载
+		@Deprecated			// 标记注解， 指示申明是过时的，并且已经被更新的形式取代
+		
+		@FunctionalInterface // 标记注解，用于接口，指出被注解的接口是一个函数式接口，函数式接口是指仅包含一个抽象方法的接口
+		@SafeVarargs		// 标记注解， 只能用于方法和构造函数（ 只能用于varargs 方法或者申明为 static | final 的构造函数 ）
+		@SuppressWarnings	// 注解用于指定能抑制一个或多个编译器可能会报告的警告， 以字符串的形式来指定要被抑制的警告
+		
+		
+@ 类型注解
+	@TypeAnno			ElementType.TYPE_USE
+	@MaxLen				ElementType.TYPE_USE
+	@NotZerLen			ElementType.TYPE_USE
+	@Unique				ElementType.TYPE_USE
+	@What				ElementType.TYPE_PARAMETER
+	@EmptyOk			ElementType.FIELD
+	@Recommended		ElementType.METHOD
 
 
 
