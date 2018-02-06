@@ -283,8 +283,7 @@
 		@Inherited			// 标记注解，只能用于注解其它注解， 只影响用于类申明的注解，@Inherited 会导致超类的注解被子类继承
 								如果子类不存在， 就会检查超类
 			
-			
-			
+
 	另外5个来自 java.lang
 		@Override			// 只能用于方法， 必须是重写超类的方法。 而不是简单地重载
 		@Deprecated			// 标记注解， 指示申明是过时的，并且已经被更新的形式取代
@@ -294,7 +293,7 @@
 		@SuppressWarnings	// 注解用于指定能抑制一个或多个编译器可能会报告的警告， 以字符串的形式来指定要被抑制的警告
 		
 		
-@ 类型注解
+# 类型注解
 	@TypeAnno			ElementType.TYPE_USE
 	@MaxLen				ElementType.TYPE_USE
 	@NotZerLen			ElementType.TYPE_USE
@@ -303,16 +302,61 @@
 	@EmptyOk			ElementType.FIELD
 	@Recommended		ElementType.METHOD
 
+# 重复注解
+	在同一元素上重复应用注解，可重复注解必须使用@Repeatable 进行注解，
+	定义在 java.lang.annotation 中
+	其value 域指定了重复注解的容器类型， 因此要创建重复注解，必须创建容器注解，然后将注解的类型指定为 @Repeatable 注解的参数
+	
+	
+	@Retention(RetentionPolicy.RUNTIME)
+	@Repeatable(MyRepeatedAnnos.class)		// 将注解的类型指定为 @Repeatable 注解的参数
+	public @interface MyAnno {
+		String str();
 
+		int val();
+	}
+	
+	
+	// 创建容器注解
+	@Retention(RetentionPolicy.RUNTIME)			
+	@interface MyRepeatedAnnos {
+		MyAnno[] value();
+	}
 
+	public class Test {
+		@MyAnno(str = "Annotation Example", val = 99)
+		@MyAnno(str = "Annotation Example", val = 100)
+		public static void myMeth() {
+			Test t = new Test();
+			
+			try {
+				Class<?> c = t.getClass();
+				Method m = c.getMethod("myMeth");
+				Annotation anno = m.getAnnotation(MyRepeatedAnnos.class);
+				System.out.println(anno);
+			} catch (NoSuchMethodException e) {
+				System.out.println("Method not find");
+			}
+		}
 
+		public static void main(String[] args) {
+			myMeth();
+		}
+	}
+	
+	// 输出 
+	@start.MyRepeatedAnnos(value=[
+		@start.MyAnno(str=Annotation Example, val=99), 
+		@start.MyAnno(str=Annotation Example, val=100)
+	])
 
-
-
-
-
-
-
+# 一些限制
+	注解申明方法 不能带有参数，此外它们不能返回一下类型的值
+	基本类型
+	String 或 Class 类型的对象
+	枚举类型
+	其它注解类型
+	上述类型的数组
 
 
 

@@ -1,0 +1,226 @@
+﻿
+# I/O 的基础知识
+	输入：外部数据向 CPU 输入
+	输出：CPU 将数据输出到我们可见的地方，例如文件屏幕等。（读取数据）
+	
+	Java 程序通过执行 I/O。 流是一种抽象，要么产生信息，要么使用信息。流通过 Java 的I/O 系统链接到物理设备，
+	所有流的行为方式都是相同的，不论他们链接的物理设备是否相同。 （磁盘文件、键盘或网络socket 都可抽象为输入流）
+	
+# 字节流和 字符流
+	当读取和写入二进制数据时，使用的就是字节流。
+	字符流为处理字符的输入和输出提供了方便的方法。（不过在底层实现中都是 面向字节的， 基于字符的流只是为处理字符提供
+	了一种方便和高校的方法）
+	
+#字节流类
+	字节流是通过俩个类层次定义的， 在顶级是两个抽象类：InputStream 和 OutputStream。
+	为了使用类流，必须导入 java.io
+	
+	InputStream 和 OutputStream 抽象类定义了其它流类的一些关键方法， 其中最重要的两个方法是 read() 和 write(),
+	分别读取和写入字节数据
+	
+	InputStream					描述输入流的抽象类
+	OutputStream				描述输出流的抽象类
+	
+	BufferedInputStream			缓冲的输入流
+	BufferedOutputStream		缓冲的输出流
+	
+	ByteArrayInputStream		读取字节数组内容的输入流
+	ByteArrayOutputStream		向字节数组写入内容的输入流
+	
+	DataInputStream				包含读取 Java 标准数据类型的方法的输入流
+	DataOutputStream			包含写入 ...
+
+	FilterInputStream			实现 InputStream
+	FilterOutputStream			实现 OutputStream
+
+	ObjectInputStream			用于对象的输入流
+	ObjectOutputStream			用于对象的输出流
+
+	PipedInputStream			输入管道
+	PipedOutputStream			输出管道
+	
+	PrintStream					包含 print() 和 println() 输出流
+	
+	PushbackInputStream			支持1 字节“取消获取” 输入流， 这种流向输入流返回 1 个字节
+	SequenceInputStream			由俩个多个顺序依次读取的输入流组合而成的输入流
+
+
+# 字符流类
+	字符流类是通过两个类层次定义的。在顶层是两个抽象类：Reader 和Writer。 这俩个类处理 Unicode 字符流。
+	使用类流，必须导入 java.io
+	Reader 和Writer 抽象类定义了一些关键方法， 其中最重要的两个方法是 read() 和 write(),
+	
+	/*
+		Reader: 从外部设备读取数据，写入到 CPU
+		Writer: 从CPU 输出到 外部设备
+	*/
+	
+	Reader						描述字符流输入的抽象类
+	Writer						描述字符流输出的抽象类
+	
+	BufferedReader				缓冲的输入字符流
+	BufferedWriter				缓冲的输出字符流
+
+	CharArrayReader				从字符数组读取内容的输入流
+	CharArrayWriter				从字符数组读取内容的输出流
+
+	FileReader					从文件读取内容的输入流
+	FileWriter					向文件中写入内容的输出流
+
+	InputStreamReader			将字节转换成字符的输入流
+	OutputStreamReader			将字节转换成字符的输出流
+	
+	LineNumberReader			计算行数的输入流
+	
+	PipedReader					输入管道
+	PipedWriter					输出管道
+	
+	PrintWriter					包含 print() 和 println() 输出流
+	PushbackReader				允许字符返回到输入流的输入流
+	
+	StringReader				从字符串读取内容的输入流
+	StringWriter				向字符串读取内容的输出流
+
+
+# 读取控制台输入
+	在控制台输入信息
+	在Java 中，控制台输入是通过从 System.in 读取完成的。
+	为了获得与控制台关联的基于字符的流， 可以在BufferedReader 对象中封装 System.in。  BufferedReader支持 缓冲的输入流。
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));	
+		
+	BufferedReader 的构造函数：
+	BufferedReader(Reader inputReader)
+
+	把自己流转换成字符流 需要用药 InputStreamReader 的转换，InputStreamReader的构造函数
+	InputStreamReader(InputStream inputStream)
+
+# 读取字符
+	int read() throws IOException
+	
+	public class Test {
+		public static void main(String[] args) throws IOException {
+			// System.out.println();
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			char c;
+			do{
+				c = (char) br.read();
+				System.out.println(c);
+			}while(c != 'q');
+			
+		}
+	}
+
+	/*
+		缓冲类在循环语句中等待执行, br.read(); 每次 Enter 后执行一次
+		
+		当在控制台输入 信息，回车之后 就会在控制台打印信息
+		如果没有 q, 则程序不会退出运行 可以继续在控制台输入信息;
+		
+		在这个输出中， 看起来可能和你所期望的不同，因为默认情况下System.in 是按行缓冲的， 这意味着在按下 Enter 键之前，实际上没有输入被传递到程序。 这使得 read() 方法对于交互性的控制台输入不是很有价值
+	*/
+
+	123abq
+	1
+	2
+	3
+	a
+	b
+	q
+
+# 读取字符串
+	String readLine() throws IOException
+	
+	public class Test {
+		public static void main(String[] args) throws IOException {
+			// System.out.println();
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			String str;
+			do {
+				str = br.readLine();
+				// System.out.println(str);
+			} while (!str.equals("stop"));
+		}
+	}
+	
+	/*
+		readLine() 方法显示文本行
+		缓冲类在循环语句中等待执行, br.readLine(); 每次 Enter 后执行一次
+		
+		在该示例中直到输入 stop， 退出运行
+		
+	*/
+
+
+
+	示例2
+
+	public class Test {
+		public static void main(String[] args) throws IOException {
+			// System.out.println();
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			String str[] = new String[100];
+			for (int i = 0; i < 100; i++) {
+				str[i] = br.readLine();
+				if (str[i].equals("stop"))
+					break;
+			}
+			for (int i = 0; i < 100; i++) {
+				if (str[i].equals("stop"))
+					break;
+				System.out.println(str[i]);
+			}
+		}
+	}
+
+	/*
+		多行输入， 最多100行 或 stop 退出运行
+		缓冲类在循环语句中等待执行, br.readLine(); 每次 Enter 后执行一次
+	*/
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

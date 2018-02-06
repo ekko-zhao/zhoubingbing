@@ -208,7 +208,7 @@
 			}
 		}
 	
-	Class<?> get Class()					在运行时获取对象所属的类
+	Class<?> getClass()					在运行时获取对象所属的类
 	
 	boolean  equals(Object obj)				判断一个对象是否和另外一个对象相等
 	void final()							在回收不再使用的对象之前调用
