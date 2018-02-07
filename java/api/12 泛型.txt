@@ -1,0 +1,169 @@
+
+# 泛型 的意思是参数化类型， 可以用于 类、接口、方法
+	
+	
+	public class Test<T> {
+		Test(T str){
+		}
+	}
+	
+	Test<String> t =   new Test<String>("tt");
+	
+	泛型只能是应用类型，不能使用基本类型 int 或 char
+	多个类型参数，用 逗号将他们分开
+	
+# 类型的一般形式
+	class class-name<type-param-list>{}
+	
+	class-name<type-param-list> var-name = new class-name<type-param-list>(arg-list);
+	
+	
+# 有界类型
+	class Test<T extends Number>{
+		T[] nums;
+		double average(){
+			double d = nums[0].doubleValue();
+		}
+	}
+	
+	/*
+		class Test<T>{
+			T[] nums;
+			double average(){
+				double d = nums[0].doubleValue();
+			}
+		}
+		此时调用 Double 类的doubleValue() 方法，会报告错误； 此时T的类型是未知的 
+		
+	*/
+
+
+# 使用通配符参数
+	Test<T>{
+		void sameAvg(Test<?> ob){
+			if(average() == ob.average()){
+				return true;
+			}
+			return false;
+		}
+	}
+	/*
+		sameAvg() 方法可以比较 Test 对象的 不同泛型类型的对象的比较；
+		
+		Test<Integer>   Test<Double>
+		
+		
+		如果是 void sameAvg(Test<T> ob){}，只能传入 和调用对象相同的 泛型类型；
+	*/
+
+
+# 有界通配符参数
+	<? extends superclass>
+
+	
+# 创建泛型方法
+	public <T extends Comparable<T>, V extends T> boolean m(T x, V[] y){}
+
+# 泛型接口
+	interface MinMax<T>{
+		T min();
+		T max();
+	}
+
+# 强制转换
+	只有当两个泛型类实例的类型相互兼容并且它们的类型参数也相同时，才能将其中的一个实例转换为另一个实例
+	(Gen<Integer>) iOb2
+
+# 泛型的类型推断
+	MyClass<Integer, String> Ob = new MyClass<>(agr-list)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

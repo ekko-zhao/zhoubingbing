@@ -29,7 +29,10 @@
 	
 	DataInputStream				包含读取 Java 标准数据类型的方法的输入流
 	DataOutputStream			包含写入 ...
-
+	
+	FileInputStream				读取文件内容的输入流
+	FileOutputStream			向文件中写入内容的输出流
+	
 	FilterInputStream			实现 InputStream
 	FilterOutputStream			实现 OutputStream
 
@@ -91,10 +94,10 @@
 	BufferedReader 的构造函数：
 	BufferedReader(Reader inputReader)
 
-	把自己流转换成字符流 需要用药 InputStreamReader 的转换，InputStreamReader的构造函数
+	把自己流转换成字符流 需要用到 InputStreamReader 的转换，InputStreamReader的构造函数
 	InputStreamReader(InputStream inputStream)
 
-# 读取字符
+# 读取字符 
 	int read() throws IOException
 	
 	public class Test {
@@ -127,7 +130,7 @@
 	b
 	q
 
-# 读取字符串
+# 读取字符串 
 	String readLine() throws IOException
 	
 	public class Test {
@@ -149,7 +152,6 @@
 		在该示例中直到输入 stop， 退出运行
 		
 	*/
-
 
 
 	示例2
@@ -177,24 +179,117 @@
 		缓冲类在循环语句中等待执行, br.readLine(); 每次 Enter 后执行一次
 	*/
 	
+# 向控制台写输出
+	void write(int byteval)
+	
+	public class Test {
+		public static void main(String[] args) {
+			int b;
+			b = 'A';
+			System.out.write(b);
+			System.out.write('\n');
+		}
+	}
+	
+	/*
+		除了 print()  println()方法， System.out 还实现了 OutputStream 抽象类的 write() 方法
+		只能输入单个字符
+	*/
+
+# PrintWriter 类
+	尽管使用 System.out 向控制台输出是可以接受的， 但是最好将其用于调试或用于示例程序。
+	对于实际的程序，推荐使用 PrintWriter流，它是基于字符的类之一。为控制台输出使用基于字符的流，可以使程序国际化更容易
+	
+	PrintWriter 类定义了几个构造函数， 
+	PrintWriter(OutputStream outputStream, boolean flushingOn)
+	flushingOn  是否在调用println() 方法时自动刷新输出流
+
+	public static void main(String[] args) {
+		PrintWriter pw = new PrintWriter(System.out, true);
+		pw.println("1");
+		pw.println("2");
+	}
+	/*
+		如果参数flushingOn 为false
+		则需要手动调用 pw.close() 才会打印
+	*/
+
+# 读写文件
+	对于读/写文件， 俩个最常用的流类是 FileInputStream 和 FileOutputStream , 这俩个类创建于文件链接的字节流
+	这俩个类 支持多个构造函数， 一般形式如下：
+	
+	FileInputStream(String fileName) throws FileNotFoundException
+	FileOutputStream(String fileName) throws FileNotFoundException
+	
+	/*
+		fileName  文件名
+		FileNotFoundException 为 IOException 的子类
+		如果打开文件存在安全违规 则会抛出 SecurityException 异常
+		
+		文件使用完毕后必须关闭。 关闭文件是通过 close() 方法完成的。
+		关闭文件失败会导致“内存泄漏”， 因为未使用的资源没有被释放
+		
+		void close() throws IOException
+	*/
+	
+	示例：
+	public static void main(String[] args) throws IOException {
+		int i;
+		FileInputStream fin = null;
+		FileOutputStream fout = null；
+		
+		if(agrs.length !=2){
+			return;
+		}
+		
+		try{
+			fin = new FileInputStream(args[0]);
+			fout = new FileOutputStream(args[1]);
+			
+			do{
+				i = fin.read();
+				if(i != -1) font.write(i);
+			}while(i != -1)
+			
+		}catch(IOException e){
+			try{
+				if(fin != null) fin.close();
+			}catch(IOException e2){}
+			
+			try{
+				if(fout != null) fout.close();
+			}catch(IOException e3){}
+			
+		}
+		
+	}
+
+# 自动关闭文件
+	只有对于那些实现了 AutoCloseable 接口的资源，才能使用带资源的try 语句。
+	AutoCloseable 接口由 java.lang 包定义，该接口定义了 close() 方法。
+	java.io 包中的Closeable 接口继承自  AutoCloseable 接口
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	public static void main(String[] args){
+		int i;
+		if(agrs.length != 1){
+			return;
+		}
+		
+		try(FileInputStream fin = new FileInputStream(args[0])){
+			do{
+				i = fin.read();
+			}while(i != -1)
+		}
+		catch(FileNotFoundException e){}
+		catch(IOException e3){}
+		
+	}
+	/*
+		如果需要在try 创建多个资源变量时，只需要 用分号隔开
+		资源变量被隐式的申明为 final
+		
+	*/
 
 
 
