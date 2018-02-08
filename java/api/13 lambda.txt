@@ -1,0 +1,249 @@
+﻿
+# lambda 表达式
+	接口类中只有一个方法
+	在使用时 获取对该接口的引用，再实现该接口的箭头函数
+	
+	在箭头函数中返回的类型要和接口 中申明的类型一致
+	如果接口方法有参数时，箭头函数的参数类型 必须保持一致, 箭头函数参数的类型声明 可以省略，通过上下文推断来获得
+	如果函数体中是多条语句， 那么必须在代码块中显示的 return value;
+	
+	interface T1 {
+		double m(double a);
+	}
+
+	// 示例
+	public class Test<T> {
+		public static void main(String[] args) {
+		
+			// 获取对该接口的引用
+			T1 t;
+			
+			// 实现该接口的箭头函数
+			t = (double n) ->  n / 2;
+			
+			/*
+				// 箭头函数参数的类型声明 可以省略
+				// 如果函数体中是多条语句， 那么必须在代码块中显示的 return value;
+				t = (n) ->  {
+					// do something ...
+					return n / 2
+				};
+			*/
+			
+			System.out.println(t.m());
+		}
+	}
+
+# lambda 表达式 泛型接口
+	interface T1<T> {
+		void m(T a);
+	}
+	
+# 作为参数传递 lambda
+	
+	interface StringFunc<T> {
+		String func(String n);
+	}
+
+	class Test{
+		static String stringOp(StringFunc sf, String s){
+			// do something ...
+			return sf.func(s);
+		}
+		public static void main(String args[]){
+			String outStr = stringOp((str) -> {
+				// do something ...
+				return str;
+			},"str")
+		}
+	}
+
+# lambda 表达式 与异常
+	interface DoubleNumerFunc{
+		double func(double[] n) throws EmptyArrayException;
+	}
+	
+	class Test{
+		DoubleNumerFunc a = (n) - > {
+			if(n.length == 0){
+				throws new EmptyArrayException();
+			}
+		}
+	}
+
+# lambda 表达式和变量捕获
+
+	lambda 表达式只能访问 实质上final的局部变量， 如果在表达式内部或外部改变了 该变量值， num就会对视其实质上 final 的状态
+	在lambda 表达式中，可以访问其外层作用域内定义的变量和方法，也可以显示或隐式地访问 this 变量
+	在表达式中不能修改外层作用域内局部变量，修改局部变量会移除其实质上的final 状态，从而使捕获改变量不合法
+
+	示例：
+	
+	interface MyFunc{
+		int func(int n);
+	}
+	
+	class VarCapture{
+		public static void main(String args[]){
+			int num = 10;
+			
+			// 在表达式外部和内部改变 num 的值都会导致编译不通过
+			// num = 11;
+			MyFunc mylambda = (n) -> {
+				int v = num + n;
+				// num++;
+				return v;
+			}
+		}
+	}
+
+# 静态方法的方法引用
+	ClassName:: methodName
+	引用类的静态方法 格式需要和 lambda 接口保持一致
+	
+	
+	interface MyFunc{
+		int func(int n);
+	}
+	
+	class Test{
+		static int m(int n){
+			return n;
+		}
+	}
+
+	class Demo{
+		static int intOp(MyFunc func, int i){
+			// do something...
+			return i;
+		}
+		public static void main(String args[]){
+			// Test::m 为方法引用
+			int i = intOp(Test::m, 10);
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

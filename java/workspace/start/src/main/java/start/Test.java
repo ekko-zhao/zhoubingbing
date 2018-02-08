@@ -1,13 +1,17 @@
 package start;
 
 public class Test<T> {
-	void showType(String str) {
-		System.out.println(str.getClass().getName());
-	}
+	static double num = 10.00;
 
 	public static void main(String[] args) {
-		Test t = new Test();
-		t.showType("2323");
-		// System.out.println("22");
+		int i = 10;
+		
+		T1 m;
+		m = () -> {
+			Test.num = 1;
+			return Test.num;
+		};
+		
+		System.out.println(m.m());
 	}
 }

@@ -1,7 +1,5 @@
 
 # 泛型 的意思是参数化类型， 可以用于 类、接口、方法
-	
-	
 	public class Test<T> {
 		Test(T str){
 		}
@@ -78,14 +76,25 @@
 	MyClass<Integer, String> Ob = new MyClass<>(agr-list)
 
 
+# 泛型的使用限制
 
+	不能实例化类型参数, 因为 T的类型是未知的, 编译器无法知道T 的类型
+	new T();
+	
+	静态成员不能使用在类中声明的类型参数
+	static T m(){}
 
+	不能实例化元素类型参数的数组
+		T vals = new T()[10], 因为 T的类型是未知的, 编译器无法知道T 的类型
 
+	不能申明指向特定泛型类型的引用的数组
+		Gen<Integer> vals[] = new Gen<Integer>[10]
+		/*
+			但是可以使用通配符
+			Gen<?> vals[] = new Gen<?>[10]
+		*/
 
-
-
-
-
+	泛型类不能拓展 Throwsable, 这意味着不能穿件泛型异常类。
 
 
 
