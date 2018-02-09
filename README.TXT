@@ -10,9 +10,6 @@
 	*.zip		过滤所有.zip文件
 	/mtk/do.c	过滤某个具体文件
 
-
-
-
 git init
 git remote add origin https://github.com/zhoubbmls/zhoubingbing.git
 
@@ -31,29 +28,31 @@ git status
 git pull origin master
 git push -u origin master
 
-
 git commit -m "" --author=""
 
+# 删除  git rm *.file
 
-
-//删除  git rm *.file
-
-// 重新拉取文件
+# 重新拉取文件
 	git checkout .
 
-// 如果想放弃本地的文件修改，可以使用
+# 如果想放弃本地的文件修改，可以使用
 	git reset --hard FETCH_HEAD
-	
 	
 # 放弃本次 add commit
 	git rm -r --cache . 
 
-// 添加环境变量
-set PATH=%PATH%;C:\Program Files\Git\bin
+# 查看 提交log
+	git log
+
+# 恢复提交版本
+	git reset --head id
+
+# 添加环境变量
+	set PATH=%PATH%;C:\Program Files\Git\bin
 
 
-//Mac——————————
-$ssh-keygen -t rsa -C zhoubbmls@sina.com
+# Mac
+	$ssh-keygen -t rsa -C zhoubbmls@sina.com
 
 
 
