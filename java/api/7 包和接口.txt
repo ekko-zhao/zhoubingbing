@@ -30,7 +30,7 @@
 	public abstract return-type method-name();
 	
 	属性的 变量申明 可以为 public | static & final,  必须初始化值，  默认为 public static & final。 其值不可被修改 
-	方法的 变量申明 可以为 public & abstract,  默认为 public abstract
+	抽象方法的 变量申明 可以为 public & abstract,  默认为 public abstract
 	
 	interface Classname{
 		public static final int a = 100;
