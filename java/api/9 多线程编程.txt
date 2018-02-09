@@ -101,7 +101,7 @@
 		run() 方法内部，定义组成新线程的代码， run() 方法可以调用其它方法其它类， 也可以申明变量，就像 main 线程一样，
 		/*
 			在run() 方法内部使用  Thread  Thread.currentThread()  在代表当前子线程
-			若是在其他方法中使用 Thread  Thread.currentThread()	 即获得当前主线程的代理
+			若是在其他方法中使用  Thread  Thread.currentThread()	 即获得当前主线程的代理
 		*/
 	在 extends Thread 中可以增强或修改 Thread 类， 
 	如果无需 增强或修改 Thread 类，实现 Runnable 接口是最好的创建线程方式，还可以继承 其它类。
@@ -233,7 +233,7 @@
 	
 	同步方法为 synchronized 关键字修饰过的方法。
 	调用同一实例的 该同步方法（ 任何同步方法 ）的所有其他线程都必须等待。
-	为了退出监视器并将对象的控制权交给下一个等待线程，监视器的拥有者只需要简单地从同步方法放回；
+	为了退出监视器并将对象的控制权交给下一个等待线程，监视器的拥有者只需要简单地从同步方法返回；
 	
 	class Callme(){
 		// 使用 synchronized 关键字修饰
