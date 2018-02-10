@@ -1,34 +1,27 @@
 package start;
 
-public class Test implements Runnable {
-	private T1 t1;
+interface MyFunc<O, T> {
+	O[] func(T v);
+}
 
-	public Test(T1 t1) {
-		this.t1 = t1;
+class MyClass<T> {
+	public T val;
+
+	MyClass(T v) {
+		val = v;
 	}
 
-	public void run() {
-		t1.doSomthing();
+	T getVal() {
+		return val;
 	}
+}
 
+public class Test<T> {
 	public static void main(String[] args) {
-		T1 t0 = new T1(4, "DAVID");
+		MyFunc<MyClass<Integer>, Integer> f = MyClass[]::new;
 		
-		
-		System.out.println(new Test(t0).equals(new Test(t0)));
-		
-		
-		Thread t1 = new Thread(new Test(t0));
-		t1.setName("Thread1");
-		Thread t2 = new Thread(new Test(t0));
-		t2.setName("Thread2");
-		Thread t3 = new Thread(new Test(t0));
-		t3.setName("Thread3");
-		Thread t4 = new Thread(new Test(t0));
-		t4.setName("Thread4");
-		t1.start();
-		t2.start();
-		t3.start();
-		t4.start();
+		MyClass[] myClass = f.func(10);
+		myClass[0] = new MyClass(10);
+		myClass[1] = new MyClass(20);
 	}
 }

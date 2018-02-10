@@ -102,7 +102,7 @@
 	用于定义函数参数 参数默认值， 提取JSON对象
 
 	遍历 Map 结构
-	var map = new Set();
+	var map = new Map();
 	map.set('first','hello');
 	map.set('second','world');
 	for (let [key,value] of map){

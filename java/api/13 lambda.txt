@@ -1,0 +1,359 @@
+﻿
+# lambda 表达式
+	接口类中只有一个方法
+	在使用时 获取对该接口的引用，再实现该接口的箭头函数
+	
+	在箭头函数中返回的类型要和接口 中申明的类型一致
+	如果接口方法有参数时，箭头函数的参数类型 必须保持一致, 箭头函数参数的类型声明 可以省略，通过上下文推断来获得
+	如果函数体中是多条语句， 那么必须在代码块中显示的 return value;
+	
+	interface T1 {
+		double m(double a);
+	}
+
+	// 示例
+	public class Test<T> {
+		public static void main(String[] args) {
+		
+			// 获取对该接口的引用
+			T1 t;
+			
+			// 实现该接口的箭头函数
+			t = (double n) ->  n / 2;
+			
+			/*
+				// 箭头函数参数的类型声明 可以省略
+				// 如果函数体中是多条语句， 那么必须在代码块中显示的 return value;
+				t = (n) ->  {
+					// do something ...
+					return n / 2
+				};
+			*/
+			
+			System.out.println(t.m());
+		}
+	}
+
+# lambda 表达式 泛型接口
+	interface T1<T> {
+		void m(T a);
+	}
+	
+# 作为参数传递 lambda
+	
+	interface StringFunc<T> {
+		String func(String n);
+	}
+
+	class Test{
+		static String stringOp(StringFunc sf, String s){
+			// do something ...
+			return sf.func(s);
+		}
+		public static void main(String args[]){
+			String outStr = stringOp((str) -> {
+				// do something ...
+				return str;
+			},"str")
+		}
+	}
+
+# lambda 表达式 与异常
+	interface DoubleNumerFunc{
+		double func(double[] n) throws EmptyArrayException;
+	}
+	
+	class Test{
+		DoubleNumerFunc a = (n) - > {
+			if(n.length == 0){
+				throws new EmptyArrayException();
+			}
+		}
+	}
+
+# lambda 表达式和变量捕获
+
+	lambda 表达式只能访问 实质上final的局部变量， 如果在表达式内部或外部改变了 该变量值， num就会对视其实质上 final 的状态
+	在lambda 表达式中，可以访问其外层作用域内定义的变量和方法，也可以显示或隐式地访问 this 变量
+	在表达式中不能修改外层作用域内局部变量，修改局部变量会移除其实质上的final 状态，从而使捕获改变量不合法
+
+	示例：
+	
+	interface MyFunc{
+		int func(int n);
+	}
+	
+	class VarCapture{
+		public static void main(String args[]){
+			int num = 10;
+			
+			// 在表达式外部和内部改变 num 的值都会导致编译不通过
+			// num = 11;
+			MyFunc mylambda = (n) -> {
+				int v = num + n;
+				// num++;
+				return v;
+			}
+		}
+	}
+
+# 静态方法 和 实例的方法 引用
+	ClassName:: methodName
+	引用类的静态方法 格式需要和 lambda 接口保持一致
+	
+	/*
+		如果是非静态方法
+		需要实例化该类，在对其引用
+		Test test = new Test();
+		test::m
+	*/
+	
+	interface MyFunc{
+		int func(int n);
+	}
+	
+	class Test{
+		static int m(int n){
+			return n;
+		}
+	}
+
+	class Demo{
+		static int intOp(MyFunc f, int i){
+			// do something...
+			return f.func(i);
+		}
+		public static void main(String args[]){
+			// Test::m 为方法引用
+			int i = intOp(Test::m, 10);
+		}
+	}
+	
+	
+	/*
+		MyFunc f = Test::m;
+	*/
+
+# 泛型方法的应用
+	interface MyFunc<T>{
+		int func(T[] vals, T v);
+	}
+	class MyArrayOps{
+		static <T> int countMatching(T[] vals, T v){
+			// do something...
+			return result;
+		}
+	}
+
+	class Demo{
+		static <T> int myOp(MyFunc<T> f, T[] vals, T v){
+			return f.func(vals, v);
+		}
+		
+		public static void main(String args[]){
+			Integer a[] = { 12, 15, 16 };
+			myOp(MyArrayOps::<Integer>countMatching, a, 10);
+		}
+	}
+	
+	/*
+		也可以直接引用：
+		MyFunc<Integer> f = MyArrayOps::<Integer> countMatching;
+		Integer a[] = { 12, 15, 16 };
+		f.func(a,10);
+	
+	*/
+
+# 构造函数的引用
+	MyClass::new;
+	
+		interface MyFunc {
+		MyClass func(int v);
+	}
+
+	class MyClass {
+		public int val;
+
+		MyClass(int v) {
+			val = v;
+		}
+
+		int getVal() {
+			return val;
+		}
+	}
+
+	public class Test<T> {
+		public static void main(String[] args) {
+			// 构造函数的引用
+			MyFunc f = MyClass::new;
+			MyClass myClass = f.func(10);
+		}
+	}
+	
+	/*
+		// 泛型
+		interface MyFunc<T> {
+			MyClass func(T v);
+		}
+
+		class MyClass<T> {
+			public T val;
+
+			MyClass(T v) {
+				val = v;
+			}
+
+			T getVal() {
+				return val;
+			}
+		}
+
+		public class Test<T> {
+			public static void main(String[] args) {
+				MyFunc<Integer> f = MyClass::new;
+				MyClass myClass = f.func(10);
+				System.out.println(myClass.getVal());
+			}
+		}
+	*/
+
+# 数组构造函数的引用
+	MyFunc<MyClass<Integer>, Integer> f = MyClass[]::new;
+
+	interface MyFunc<O, T> {
+		O[] func(T v);
+	}
+
+	class MyClass<T> {
+		public T val;
+
+		MyClass(T v) {
+			val = v;
+		}
+
+		T getVal() {
+			return val;
+		}
+	}
+
+	public class Test<T> {
+		public static void main(String[] args) {
+			MyFunc<MyClass<Integer>, Integer> f = MyClass[]::new;
+			
+			MyClass[] myClass = f.func(10);
+			myClass[0] = new MyClass(10);
+			myClass[1] = new MyClass(20);
+		}
+	}
+
+# 预定义的函数式接口
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

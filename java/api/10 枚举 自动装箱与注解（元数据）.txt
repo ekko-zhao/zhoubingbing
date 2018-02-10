@@ -1,0 +1,387 @@
+﻿
+# 枚举 ------------------------------------------------------------------------------------------
+	创建枚举需要使用关键字 enum。
+	每个枚举常量被隐式申明为共有的，静态的 final 成员。 public static final
+	每个枚举常量都是所属枚举类型的对象
+	枚举是一种类类型，枚举可以有构造函数、方法以及实例变量，实现接口。
+	如果为枚举定义了构造函数，当创建每个枚举常量是都会调用该构造函数。
+	枚举不可以用 new 创建实例
+	最简单的枚举 enumeration 是一系列具有名称的常量
+	
+	public enum T1 {
+		Jonathan, GoldenDEL, RedDel, Winesap, Cortland
+	}
+
+# values() 和 valuesOf() 方法
+	public static enum-type[] values()
+	public static enum-type valuesOf(String str)
+	
+	T1.value(); // {Jonathan, GoldenDEL, RedDel, Winesap, Cortland}
+	T1.valueOf("GoldenDEL"); // GoldenDEL
+	
+	
+# 枚举类 作为声明类型
+	T1 v = T1.Jonathan;
+	// v == T1.Jonathan
+	
+# 枚举可以用于 switch 语句，所有 case 语句使用的常量的枚举类型，都必须与 switch 表达式使用的枚举类型相同。
+	
+	//  case 语句使用的常量, 不能是 T1 以外的值
+	switch (t1) {
+		case Winesap:
+			break;
+		case GoldenDEL:
+			break;
+
+	}
+	
+# Java 枚举是类类型
+	每个枚举常量都是所属枚举类型的对象
+	如果为枚举定义了构造函数，当创建每个枚举常量是都会调用该构造函数。
+	
+	构造函数可以重载
+	
+	// 每个常量都有着自己的 方法和方法
+	public enum T1 {
+		Jonathan(2), GoldenDEL(3), RedDel(4), Winesap(5), Cortland(6);
+		private int price;
+
+		T1(int p) {
+			price = p;
+		}
+
+		int getPrice() {
+			return price;
+		}
+	}
+
+	public class Test {
+		public static void main(String[] args) {
+			for (T1 a : T1.values()) {
+				System.out.println(a + ":" + a.getPrice());
+			}
+		}
+	}
+
+	// 输出
+	Jonathan:2
+	GoldenDEL:3
+	RedDel:4
+	Winesap:5
+	Cortland:6
+
+# 枚举继承自 Enum 类
+	final int ordinal()					// 返回枚举常量在列表中的位置， 称为枚举常量的序数值
+	final int compareTo(enum-type e)	
+										// 比较相同类型的俩个枚举常量序数值， 如果调用序数小于 e （参数）当前序数值 为负数， 等于为0， 大于为1。返回的值为  ： 调用序数 - e的序数 （参数）
+	
+	boolean equals()		
+										//  Enum类重写了 Object 类的equals 方法。只有引用类型为同一枚举 同一对象时才返回true
+
+# 类型封装器 -------------------------------------------------------------------------------
+	基本数据类型封装为类的形式
+		Double、Float、Long、Integer、Short、Byte、Character以及 Boolean
+	
+	Character封装器
+		Character(char ch)
+		
+		char a = 'a';
+		Character b = new Character(a);
+		
+		char charValue()	// 获取对象中char 值
+
+	Boolean 封装器
+		Boolean(boolean boolValue)			// true | false
+		Boolean(String boolString)			// "true" 其它都转换为false
+
+		boolean booleanValue()	// 获取对象的布尔值
+		
+	
+	Double、Float、Long、Integer、Short、Byte 封装器 都继承自抽象类 Number。
+	Number 申明了不同数字格式从对象放回数值的方法
+		byte 	byteVlaue()
+		double 	doubleVlaue()
+		float 	floatVlaue()
+		int		intVlaue()
+		long	longVlaue()
+		short	shortVlaue()
+
+	Integer(int num)
+	Integer(String str)
+
+# 自动装箱 拆箱
+	. 只需将声明类型设为 基本类型的对象，就自动将基本类型自动封装（装箱）到与之等价的类型封装器中，而不需要显示地构造对象
+	. 自动拆箱是当需要时自动抽取（拆箱）以装箱对象的数值的过程 ，不需要调用intValue()或doubleValue() 这类方法
+	. 在实际开发中， 尽量减少自动装箱/拆箱 的滥用， 提高代码执行效率
+	Integer iOb = 100; 
+
+	// 	无论何时，如果必须将基本类型转换为对象，就会发生自动装箱
+		无论何时，如果对象必须转换为基本类型， 就会发生自动拆箱
+
+
+	有助于防止错误
+		Integer iOb = 1000;
+		int i = iOb.byteVlaue();	// 自动拆箱的值会与 申明类型（int）相匹配，i的值不会是 -24
+		
+
+# 注解（元数据）---------------------------------------------------------------
+	注解类型 前面必须要有@interface 修饰，他自动扩展了 Annotation 接口，所以不能扩展其它接口
+	Annotation 接口 是在java.lang.annotation 包中申明的， 它重写了Object类的 hashCode()、equals()、以及toString方法
+	另外还指定了annotationType() 方法，返回调用注解的Class 对象
+	所有类型的申明都可以有与之关联的注解，例如 类 方法 域变量 参数 以及枚举常量， 甚至注解本身也可以被注解
+	
+	public @interface MyAnno {
+		String str();
+		int val();
+	}
+	
+	public class Test {
+		public static void main(String[] args) {
+			T1 t1 = new T1();
+			System.out.println();
+		}
+	}
+
+# 注解使用
+	@MyAnno(str="", int=12)
+	当注解没有参数是 圆括号不是必须的， 可省略
+	
+# 使用默认值
+	type member() default value;
+	
+	@interface MyAnno{
+		String str() default "test value";
+	}
+	
+# 单成员注解
+	如果注解只有一个成员时，应用注解时可以不指定成员的名称
+	@MyAnno("str")
+	
+
+# 注解的保留策略
+	SOURCE		只在源文件中保留，在编译期间会被抛弃
+	CLASS		在编译时被存储到.class 文件中，但是，在运行时通过 JVM 不能得到这些注解
+	RUNTIME		 在编译时被存储到.class 文件中，并且在运行是可以通过 JVM 获得这些注解。RUNTIME 提供了最永久的注解
+	
+	
+	/*
+		局部变量申明的注解不能存储在.class 文件中
+	*/
+	保留策略是通过 Java 的内置注解 @Retention 指定的, 默认级别 CLASS
+	@Retention(retention-policy)
+
+	@Retention(RetentionPolicy.RUNTIME)
+	public @interface MyAnno {}
+
+# 在运行时 使用反射获取注解
+	反射是能够在运行时获取类相关信息的特性， 反射 API 位于 java.lang.reflect 包中。其中最简单的方式是调用 getClass() 方法
+	
+	该方法是 Object 类定义的： final Class<?> getClass()
+		/*
+			Obj obj = new Obj();
+			Class<?> c = obj.getClass();
+		*/
+		
+	
+	获取 Class 对象后，可以使用其方法获取与类申明中各个条目相关的信息，包括注解。
+	Class 提供了 getMethod()  getFiled() 以及 getConstructor() 方法以及其它方法，这些对象返回 Method、Field以及 Constructor类型的对象
+	
+	getMethod()	方法
+	getFiled() 域变量
+	
+	getMethod() 方法的一般形式如下
+		Method getMethod(String methName, Class<?> ...paramTypes)
+			methName		方法名称
+			paramTypes		为要获取的方法的 参数类型
+		/*
+			
+			如果方法有参数，那么必须通过 paramTypes 指定表示这些参数类型的 Class 对象，可以是0 至多个参数, 可用于查找重载的不同方法
+			如果没有找到方法 就抛出 NoSuchMethodException 异常
+			
+			try {
+				Class<?> c = t.getClass();
+				Method m = c.getMethod("myMeth");
+				MyAnno anno = m.getAnnotation(MyAnno.class);
+				System.out.println(anno.str() + " " + anno.val());	// Annotation Example 100
+			} catch (NoSuchMethodException e) {
+				System.out.println("Method not find");
+			}
+			
+		*/
+
+	对 Method、Field以及 Constructor 对象调用 getAnnotation() 方法，可以获得与对象的特定注解
+	一般形式如下：
+		<A extends Annotation> getAnnotation(Class<A> annoType)
+		/*
+			MyAnno anno = m.getAnnotation(MyAnno.class);
+			
+			annoType 是表示您想要获取注解的对象（Class）。该方法返回对注解的一个引用，使用这个引用亦可获取与注解成员关联的值。
+			如果没有找到 注解 就返回null.
+			如果注解策略不是 RUNTIME， 就会出现这种情况
+		*/
+
+
+	import java.lang.reflect.*;
+	public class Test {
+		@MyAnno(str = "Annotation Example", val = 99)
+		public static void myMeth2() {}
+		
+		@MyAnno(str = "Annotation Example", val = 100)
+		public static void myMeth() {
+			Test t = new Test();
+			
+			try {
+				Class<?> c = t.getClass();
+				Method m = c.getMethod("myMeth2");
+				MyAnno anno = m.getAnnotation(MyAnno.class);
+				System.out.println(anno.str() + " " + anno.val());
+			} catch (NoSuchMethodException e) {
+				System.out.println("Method not find");
+			}
+		}
+
+		public static void main(String[] args) {
+			myMeth();
+		}
+	}
+	// Annotation Example 99
+
+#获取全部的注释
+	Annotation annos[] = ob.getClass.getAnnotations();
+
+
+# AnnotationElement 接口
+	getAnnotation 和 getAnnotations 方法是有 AnnotationElement接口定义的。
+	Method Field Constructor Class 以及Package 也都实现了该接口
+	
+	Annotation getAnnotation(Class<A> annoType)
+	Annotation[] getAnnotations()
+	Annotation[] getDeclaredAnnotations() 		// 返回对象中所有非继承注解
+	getAnnotationsByType() 	
+	getDeclaredAnnotationsByType() 
+	booblean isAnntationPresent(Class<? extends Annotation> annoType))  // 指定的注解与调用对象相关联，返回true,否则false
+	
+@ 内置注解
+	Java 提供了许多内置注解。 大部分是专用注解，但是9个用于一般目的，
+	其中4个 来自 java.lang.annotation 包， 
+		@Retention  		// 只能用于注解其它注解，@Retention 用于保留策略
+		@Dcocumented		// 标记接口， 只能用于注解其它注解，用于通知某个工具-注解将被文档化
+		@Target				// 只能用于注解其它注解，用于注解申明的类型， 只有一个参数 必须是来自 ElementType 枚举的常量
+			ANNTATION_TYPE		另一个注解
+			CONSTRACTOR 		构造函数
+			Field				域变量
+			LOCAL_VARIABLE		局部变量
+			METHOD				方法
+			PACKAGE				包
+			PARAMETER			参数
+			TYPE				类、接口或枚举
+			TYPE_PARAMETER		参数类型
+			TYPE_USE			类型使用
+			
+			@Target({ ElementType.Field, ElementType.LOCAL_VARIABLE})
+			
+		@Inherited			// 标记注解，只能用于注解其它注解， 只影响用于类申明的注解，@Inherited 会导致超类的注解被子类继承
+								如果子类不存在， 就会检查超类
+			
+
+	另外5个来自 java.lang
+		@Override			// 只能用于方法， 必须是重写超类的方法。 而不是简单地重载
+		@Deprecated			// 标记注解， 指示申明是过时的，并且已经被更新的形式取代
+		
+		@FunctionalInterface // 标记注解，用于接口，指出被注解的接口是一个函数式接口，函数式接口是指仅包含一个抽象方法的接口
+		@SafeVarargs		// 标记注解， 只能用于方法和构造函数（ 只能用于varargs 方法或者申明为 static | final 的构造函数 ）
+		@SuppressWarnings	// 注解用于指定能抑制一个或多个编译器可能会报告的警告， 以字符串的形式来指定要被抑制的警告
+		
+		
+# 类型注解
+	@TypeAnno			ElementType.TYPE_USE
+	@MaxLen				ElementType.TYPE_USE
+	@NotZerLen			ElementType.TYPE_USE
+	@Unique				ElementType.TYPE_USE
+	@What				ElementType.TYPE_PARAMETER
+	@EmptyOk			ElementType.FIELD
+	@Recommended		ElementType.METHOD
+
+# 重复注解
+	在同一元素上重复应用注解，可重复注解必须使用@Repeatable 进行注解，
+	定义在 java.lang.annotation 中
+	其value 域指定了重复注解的容器类型， 因此要创建重复注解，必须创建容器注解，然后将注解的类型指定为 @Repeatable 注解的参数
+	
+	
+	@Retention(RetentionPolicy.RUNTIME)
+	@Repeatable(MyRepeatedAnnos.class)		// 将注解的类型指定为 @Repeatable 注解的参数
+	public @interface MyAnno {
+		String str();
+
+		int val();
+	}
+	
+	
+	// 创建容器注解
+	@Retention(RetentionPolicy.RUNTIME)			
+	@interface MyRepeatedAnnos {
+		MyAnno[] value();
+	}
+
+	public class Test {
+		@MyAnno(str = "Annotation Example", val = 99)
+		@MyAnno(str = "Annotation Example", val = 100)
+		public static void myMeth() {
+			Test t = new Test();
+			
+			try {
+				Class<?> c = t.getClass();
+				Method m = c.getMethod("myMeth");
+				Annotation anno = m.getAnnotation(MyRepeatedAnnos.class);
+				System.out.println(anno);
+			} catch (NoSuchMethodException e) {
+				System.out.println("Method not find");
+			}
+		}
+
+		public static void main(String[] args) {
+			myMeth();
+		}
+	}
+	
+	// 输出 
+	@start.MyRepeatedAnnos(value=[
+		@start.MyAnno(str=Annotation Example, val=99), 
+		@start.MyAnno(str=Annotation Example, val=100)
+	])
+
+# 一些限制
+	注解申明方法 不能带有参数，此外它们不能返回一下类型的值
+	基本类型
+	String 或 Class 类型的对象
+	枚举类型
+	其它注解类型
+	上述类型的数组
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
