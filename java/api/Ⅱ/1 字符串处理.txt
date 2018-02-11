@@ -1,0 +1,180 @@
+﻿
+#	String、 StringBuffer、 StringBuilder 类 定义在 java.lang. 都实现 CharSequence 接口， 这些类都被申明 final ( 不能有子类 )
+	String 类型中的字符串是不可改变的，但是可以修改String 引用变量
+
+
+# 	String
+	String 的构造函数
+	
+	String s = new String(char chars[]);
+	String s = new String(char chars[], int startIndex, int lenght);
+	String s = new String(StringBuffer strBufObj);
+	String s = new String(StringBuilder strBuildObj);
+
+	/*
+		char chars = {'a', 'b', 'c'};
+		这里是复制 chars, 不会对 chars 有影响
+	*/
+	
+# 	String字面值
+	String s = "str";
+
+# toString 方法重写
+	在链式表达式或print() 调用中类实例对象中， 会自动调用 该类的 toString() 方法；
+
+
+# 提取字符
+	char charAt(int where)			// 获取单个字符
+	
+	void getChars(int sourceStart, int sourceEnd, char target[], int targetStart)
+		target 			为接受字符的数组
+		targetStart 	接受字符数组 的其实位置
+		/*
+			String s = "this ie a demo of the getChars method";
+			char buf[] = new char[14-10];
+			s.getChars(14, 10, buf, 0);
+		*/
+
+	byte[] getBytes()		将字符转换成字节数组
+
+	char[] toCharArray()	返回字符数组， 将字符转换为字符数组， 与 getBytes() 得到相同的结果
+
+	boolean equals(Object str)	比较俩个字符串是否相等
+	boolean equalsIgnoreCase(Object str)	忽略大小写
+	/*
+		equals() 与 == 是不同的
+		== 是比较俩个对象的引用
+	*/
+	
+
+	boolean regionMatches(int startIndex, String str2, int str2StartIndex, int length) 	// 比较俩个字符串指定位置是否相等
+	boolean regionMatches(boolean ingnoreCase,int startIndex, String str2, int str2StartIndex, int str2Length) // 是否忽略大小写
+	
+	boolean startWith(String str)		// 是否以特定的字符串开始
+	boolean endsWith(String str)			// 是否以特定的字符串结束
+
+	int compareTo(String str)	// 比较来个字符串大小
+
+	int indexOf(int char[, int startIndex ])		// 查找第一次出现时的索引
+	int lastIndexOd(String str[, int startIndex ])
+	
+# 修改字符串
+	因为 String 对象是不可改的， 所以当希望修改String 对象时， 必须将之复制到 StringBuffer 或 StringBuilder 对象中， 
+	或者使用String 类提供的方法来构造字符串修改后的新副本
+	
+	String substring(int startIndex[, int endIndex ])	// 返回字符串的新副本
+
+	String concat(String str)	// 链接俩个字符串
+
+	String replace(char original, char replacement)	// 替换字符串中指定的 字符
+	String trim()	// 去除字符串前后 空白字符
+
+	static String valueOf(char chars[], int startIndex, int lenght) 
+		chars 是包含字符的数组
+
+
+# 字符串大小写
+	String toLowerCase()
+	String toUpperCase()
+
+# 链接字符串
+	static String join(CharSequence delim, CharSequence ...str)
+
+
+	
+# StringBuffer
+	StringBuffer()
+	StringBuffer(int size)
+	StringBuffer(String str)
+	StringBuffer(charSequence chars)
+
+
+	int lenght()  	// 获得当前长度
+	int capacity	// 获得以分配的容量
+
+	void ensureCapacity(int minCapacity) 	// 设置缓冲区的最小尺寸
+	void setLength(int lenght)		// 指定字符串的长度， 如果小于当前长度的话，超出的会丢失
+	
+	char charAt(int where) 
+	void setCharAt(int where, char ch)
+
+	void getChars(int sourceStart, int sourceEnd, char target[], int targetStart)
+
+	StringBuffer append(String str)
+	StringBuffer append(int num)
+	StringBuffer append(Object obj)
+
+	StringBuffer insert(int index, String str)
+	StringBuffer insert(int index, int num)
+	StringBuffer insert(int index, Object obj)
+
+	StringBuffer reverse()
+
+	StringBuffer delete(int startIndex, int endIndex)
+	StringBuffer deleteCharAt(int index)
+	
+	StringBuffer replace(int startIndex, int endIndex, String str)
+
+	String substring(int startIndex)
+	String substring(int startIndex, int endIndex)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
