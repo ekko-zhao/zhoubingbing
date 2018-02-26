@@ -28,21 +28,23 @@
 							如果 obj 已经是集合的成员并且集合的元素不允许重复 返回false
 	
 	booblean addAll(Collection<? extends E> c)	将 c中的所有元素添加到调用集合中。如果调用集合发生了变化 返回true, 否则返回false
-	clear 移除调用集合中所有元素
+	clear() 移除调用集合中所有元素
 	booblean contains(Object obj)
 	booblean containsAll(Collection<?> c) 		调用集合是否包含c的所有元素
 	
 	booblean equals(Object obj)
 	int hashCode()
+	int size()						返回调用集合中元素的数量
 	
 	booblean isEmpty()
-	Iterator<E> iterator()			返回调用集合的一个迭送器
 	booblean remove(Object obj)		返回移除集合中元素是否成功
 	booblean removeAll(Collection<?> c) 	删除调用集合c的所有元素， 如果调用集合发生了变化 返回true, 否则返回false
 	
+	Iterator<E> iterator()			返回调用集合的一个迭送器
+	default Spliterator<E> spliterator()	返回调用集合的 spliterator
 	
-	
-	
+	Object[] toArray()				返回包含调用集合中储存的所有元素的数组，数组元素是集合元素的副本
+	<T> T[] toArray(T array[])
 	
 	
 	
