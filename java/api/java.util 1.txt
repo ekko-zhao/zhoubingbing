@@ -1,0 +1,187 @@
+﻿
+# 集合基础接口
+	Collection		允许操作一组对象，位于集合层次结构的顶部
+	
+	List			扩展 Collection 以处理序列（对象列表）
+	
+	
+	Queue			扩展 Collection 以处理特殊类型的列表，这种类型的列表只能从列表顶部删除元素,而在表的后端进行插入操作
+		Deque		扩展 Queue 以处理双端队列
+	
+	
+	Set				扩展Collection 以处理集合，集合中的元素必须唯一
+		SortedSet	扩展 Set 以处理已排序的集合
+			Navigable		扩展 SortedSet 以基于最接近匹配原则检索元素
+	
+
+# Collection 接口
+	Collection 接口是构建集合框架的基础，集合类都实现了该接口
+	Collection 扩展了 Iterable 接口，所有集合都可以使用 for-each 风格的 for 循环进行遍历
+	申明： interface Collection<E>
+	
+	/*
+		Collection c = new ArrayList();
+	*/
+	
+方法：
+	booblean add(E obj)		将 obj 添加到集合中，添加成功返回 true,
+							如果 obj 已经是集合的成员并且集合的元素不允许重复 返回false
+	
+	booblean addAll(Collection<? extends E> c)	将 c中的所有元素添加到调用集合中。如果调用集合发生了变化 返回true, 否则返回false
+	clear 移除调用集合中所有元素
+	booblean contains(Object obj)
+	booblean containsAll(Collection<?> c) 		调用集合是否包含c的所有元素
+	
+	booblean equals(Object obj)
+	int hashCode()
+	
+	booblean isEmpty()
+	Iterator<E> iterator()			返回调用集合的一个迭送器
+	booblean remove(Object obj)		返回移除集合中元素是否成功
+	booblean removeAll(Collection<?> c) 	删除调用集合c的所有元素， 如果调用集合发生了变化 返回true, 否则返回false
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
+
+		ArrayList  ArrayList 底层是维护了一个Object数组实现的。 特点： 查询速度快，增删慢。
+		LinkedList LinkedList 底层是使用了链表数据结构实现的， 特点： 查询速度慢，增删快。
+
+
+		HashSet  底层是使用了哈希表来支持的，特点： 存取速度快. 
+		TreeSet   如果元素具备自然顺序 的特性，那么就按照元素自然顺序的特性进行排序存储。
+
+	*/	
+
+# 映射接口
+	Map				将唯一键映射到值
+	Map.Entry		描述映射中的元素（键/值对），这是Map 的内部类
+	NavigableMap	扩展 SortedMap 接口，以处理基于最接近匹配原则的键/值对索引
+	SortedMap		扩展 Map 接口，从而以升序保存键
+	
+# 映射类
+	AbstractMap		实现了Map 接口的大部分
+		EnumMap		.扩展了 AbstractMap，以使用enum 键
+			/*
+				class EnumMap<K extends Enum<K>,V>
+			*/
+			
+		HashMap		.扩展了 AbstractMap，以使用哈希表
+			LinkHashMap	.扩展了 HashMap，以允许按照插入顺序进行迭代
+			
+		TreeMap		.扩展了 AbstractMap，并实现了 NavigableMap 接口。以使用树结构
+		WeakHashMap	.扩展了 AbstractMap，以使用带有弱键的哈希表
+		IdentityHashMap .扩展了 AbstractMap，实现了 Map 接口。并且当比较文档时使用引用相等性
+	
+
+
+# 比较器
+	Comparator 是泛型接口，其申明如下
+	interface Comparator<T>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

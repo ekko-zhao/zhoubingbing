@@ -167,7 +167,7 @@
 # 构造函数的引用
 	MyClass::new;
 	
-		interface MyFunc {
+	interface MyFunc {
 		MyClass func(int v);
 	}
 
