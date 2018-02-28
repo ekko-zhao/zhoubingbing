@@ -5,13 +5,12 @@
 	List			扩展 Collection 以处理序列（对象列表）
 	
 	
-	Queue			扩展 Collection 以处理特殊类型的列表，这种类型的列表只能从列表顶部删除元素,而在表的后端进行插入操作
-		Deque		扩展 Queue 以处理双端队列
-	
-	
 	Set				扩展Collection 以处理集合，集合中的元素必须唯一
 		SortedSet	扩展 Set 以处理已排序的集合
-			Navigable		扩展 SortedSet 以基于最接近匹配原则检索元素
+			NavigableSet		扩展 SortedSet 以基于最接近匹配原则检索元素
+			
+	Queue			扩展 Collection 以处理特殊类型的列表，这种类型的列表只能从列表顶部删除元素,而在表的后端进行插入操作
+		Deque		扩展 Queue 以处理双端队列
 	
 
 # Collection 接口
@@ -23,28 +22,120 @@
 		Collection c = new ArrayList();
 	*/
 	
-方法：
-	booblean add(E obj)		将 obj 添加到集合中，添加成功返回 true,
-							如果 obj 已经是集合的成员并且集合的元素不允许重复 返回false
+	方法：
+		booblean add(E obj)		将 obj 添加到集合中，添加成功返回 true,
+								如果 obj 已经是集合的成员并且集合的元素不允许重复 返回false
+		
+		booblean addAll(Collection<? extends E> c)	将 c中的所有元素添加到调用集合中。如果调用集合发生了变化 返回true, 否则返回false
+		clear() 移除调用集合中所有元素
+		booblean contains(Object obj)
+		booblean containsAll(Collection<?> c) 		调用集合是否包含c的所有元素
+		
+		booblean equals(Object obj)
+		int hashCode()
+		int size()						返回调用集合中元素的数量
+		
+		booblean isEmpty()
+		booblean remove(Object obj)		返回移除集合中元素是否成功
+		booblean removeAll(Collection<?> c) 	删除调用集合c的所有元素， 如果调用集合发生了变化 返回true, 否则返回false
+		
+		Iterator<E> iterator()			返回调用集合的一个迭送器
+		default Spliterator<E> spliterator()	返回调用集合的 spliterator
+		
+		Object[] toArray()				返回包含调用集合中储存的所有元素的数组，数组元素是集合元素的副本
+		<T> T[] toArray(T array[])		返回包含调用集合中元素的数组。数组 元素是集合元素的副本
+										如果 array 长度等于元素的数量，就将返回的元素保存在array中
+										小于， 则分配必需大小的新数组，并返回这个新数组
+										大于， 多余的为null
+										如果类型不匹配 ArrayStoreException
 	
-	booblean addAll(Collection<? extends E> c)	将 c中的所有元素添加到调用集合中。如果调用集合发生了变化 返回true, 否则返回false
-	clear() 移除调用集合中所有元素
-	booblean contains(Object obj)
-	booblean containsAll(Collection<?> c) 		调用集合是否包含c的所有元素
+# List 接口
+	用来储存一连串元素的集合，在列表中可以使用从0开始的索引，通过元素的位置插入或访问，元素可以重复。
+	List 是泛型接口，其申明如下:
+	interface List<E>
+	除了Conllection 定义的方法外，List 还定义了自己的一些方法：
+		void add(int index, E obj)  将 obj 插入指定的位置
+		booblean addAll(int index, Collection<? extends E> c)
+		E get(int index)
+		int indexOf(Object obj) 		放回列表中第一个 obj 实例的索引。若没有找到，返回-1
+		int lastIndexOf(Object obj)
+		
+		ListIterator<E> listIterator()
+		ListIterator<E> listIterator(int index)
+		
+		E remove(int index)
+		E set(int index, E obj)
+		default void sort(Comparator<? super E> comp) 	使用comp指定的比较器排序列表
+		List<E> subList(int start, int end) 			返回位置在start到 end-1, 返回的元素任然是调用对象的引用
+		
+		default void replaceAll(UnaryOperator<E> opToApply)
+														使用 opToApply 函数获得的值更新列表中的每个元素
 	
-	booblean equals(Object obj)
-	int hashCode()
-	int size()						返回调用集合中元素的数量
+# Set 接口
+	扩展了Collection 接口，不允许集合中有重复元素的组行为。如果为组添加重复的元素，add() 方法返回 false。
+	Set 没有定义自己的其它方法，Set为泛型接口 
+	声明如下：
+	interface Set<E>
 	
-	booblean isEmpty()
-	booblean remove(Object obj)		返回移除集合中元素是否成功
-	booblean removeAll(Collection<?> c) 	删除调用集合c的所有元素， 如果调用集合发生了变化 返回true, 否则返回false
 	
-	Iterator<E> iterator()			返回调用集合的一个迭送器
-	default Spliterator<E> spliterator()	返回调用集合的 spliterator
+# SortedSet 接口
+	SortedSet 扩展了 Set 接口， 并且声明了以升序进行排序的组行为。
+	SortedSet 为泛型接口
+	声明如下：
+	interface SortedSet<E>
 	
-	Object[] toArray()				返回包含调用集合中储存的所有元素的数组，数组元素是集合元素的副本
-	<T> T[] toArray(T array[])
+	SortedSet 定义了自己的一些方法：
+		Comparator<? super E> comparator()		返回以排序调用组的比较器。如果是自然排序 就返回 null
+		E first()
+		E last()
+		SortedSet<E> headSet(E end)				返回小于 end 的元素， 对于返回的已排序组中的元素，也将被以排序调用组引用
+		
+		SortedSet<E> subSet(E start, E end)		返回 start 与 end-1 之间的元素, 返回组中的元素也将被调用对象引用
+		SortedSet<E> tailSet(E start)			返回 >= start 的元素, 返回组中的元素也将被调用对象引用
+		
+# NavigableSet 接口	
+	NavigableSet 扩展了 SortedSet 接口, 并且该接口申明了支持基于最接近匹配原则检索元素的集合行为。
+	NavigableSet 是泛型接口，其申明如下：
+	interfac NavigableSet<E>
+	
+	NavigableSet 定义了自己的一些方法：
+		E ceiling(E obj)		在组中查找 >= obj的最小元素， 没有找到返回 null
+		E floor(E obj)			在组中查找 <= obj的最大元素
+		E higher(E obj)
+		E lower(E obj)
+		
+		E pollFirst()		返回第一个元素，在操作过程中删除该元素
+		E pollLast()
+		
+		
+		Iterator<E> desendingIterator()		返回一个从最大元素向最小元素移动的迭送器。
+		NavigableSet<E> descendingSet()		返回来翻转调用组的 NavigableSet 对象。结果基于调用组
+		NavigableSet<E> headSet(E upperBound, booblean include)  返回小于upperBound 的元素， include 为是否包含等于 upperBound 那个元素
+		NavigableSet<E> subSet(E lowBound, booblean lowIncl, E upperBound, boolean highIncl)
+		SortedSet<E> tailSet(E start, booblean include)		返回大于upperBound 的元素
+		
+	
+# Queue 接口
+	Queue扩展了 Collection 接口，并申明了队列的行为， 队列通常是先进先出的列表
+	
+	E element()  返回队列的头部的元素， 不移除该元素。 如果队列为空 NoSuchElementExcetion
+	boolean offer(E obj) 试图将 obj 添加到队列中。添加成功 返回true
+	E peek() 	返回队列的头部的元素, 队列为空返回 null, 不移除该元素
+	E poll()	返回队列的头部的元素, 队列为空返回 null, 移除该元素
+	E remove()	移除队列的头部的元素, 如果队列为空 NoSuchElementExcetion
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
