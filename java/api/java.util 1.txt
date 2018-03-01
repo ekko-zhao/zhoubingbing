@@ -182,12 +182,12 @@
 
 				
 		AbstractQueue			扩展AbstractCollection 类， 并实现了 Queue 接口大部分
-			PriorityQueue			支持基于优先级的队列
+			PriorityQueue			支持基于优先级的队列, 实现了 Queue 接口
 			
 		ArrayDeque				扩展AbstractCollection 类， 并实现了 Deque， 实现动态双端队列
 		
 		AbstractSet				扩展AbstractCollection 类，	并实现了 Set 接口大部分
-			TreeSet					如果元素具备自然顺序 的特性，那么就按照元素自然顺序的特性进行排序存储。
+			TreeSet					实现了 NavigableSet 接口， 如果元素具备自然顺序 的特性，那么就按照元素自然顺序的特性进行排序存储。
 			EnumSet					用于enum 元素
 			HashSet					底层是使用了哈希表来支持的，特点： 存取速度快, 实现了 Set 接口 
 				LinkHashSet				允许按照插入的顺序进行迭代
@@ -214,24 +214,62 @@
 
 # HashSet 类
 	class HashSet<E>
+	HashSet 扩展了AbstractSet 并实现了Set 接口，该类用于创建是使用哈希表存储元素的集合
 	
 	HashSet()
-	HashSet(Collection(? extends E) c))
+	HashSet(Collection(? extends E) c)
 	HashSet(int capacity)
 	HashSet(int capacity, float fillRatio)		fillRatio 填充率 决定了哈希组被填充到什么程度就增加容量，当元素数量大于哈希族
-												的容量与填充率的乘
+												的容量与填充率的乘积
+# LinkHashSet
+	LinkHashSet 扩展了 HashSet类
+	class LinkHashSet<E>
+	
+	构造函数与HashSet的构造函数对应
+	LinkHashSet 维护组中条目的一个链表，链表中条目的顺序也就是插入他们的顺序，这使得可以按照插入顺序迭代集合
+	
+# TreeSet 类
+	TreeSet 扩展了 AbstractSet 类 并实现了 NavigableSet 接口，用于创建使用树进行存储的组。
+	对象以升序存储，访问和检索速度相当快，这使得对于储存大量的、必须能够快速查找到的有序信息来说，TreeSet 是极佳的选择 
+	
+	TreeSet()
+	TreeSet(Collection(? extends E) c)
+	TreeSet(Comparator(? super E) comp)
+	TreeSet(Sortedset<E> ss)
+	
+# PriorityQueue
+	class PriorityQueue<E>
+	
+	PriorityQueue 扩展了 AbstractQueue 类, 并实现了 Queue 接口.
+	用于创建根据队列的比较器来判定有限次序的队列，
+	PriorityQueue是动态的，按需增长的。 起始容量是11
 	
 	
+	PriorityQueue()
+	PriorityQueue(int capacity)
+	PriorityQueue(Comparator(? super E) comp)
+	PriorityQueue(int capacity, Comparator(? super E) comp)
+	PriorityQueue(Collection(? extends E) c)
+	PriorityQueue(PriorityQueue(? extends E) c)
+	PriorityQueue(Sortedset(? extends E) c)
+
+	Comparator<? super E>comparator() 	该方法返回比较器，如果调用队列使用的是自然顺序，那么返回 null
 	
+	/*
+		尽管可以使用迭代器遍历 PriorityQueue，但是迭代的顺序是不确定的。
+		为了正确使用 PriorityQueue，必须使用 offer() 和 poll() 这类方法
+	*/
 	
+# ArrayDeque 类
+	扩展AbstractCollection 类， 并实现了 Deque，没有添加自己的方法
+	ArrayDeque是动态数组，没有容量限制
+	class ArrayDeque<E>
 	
-	
-	
-	
-	
-	
-	
-	
+	ArrayDeque()
+	ArrayDeque(int size)
+	ArrayDeque(Collection(? extends E) c)
+
+
 	
 
 # 映射接口
