@@ -11,7 +11,15 @@
 			
 	Queue			扩展 Collection 以处理特殊类型的列表，这种类型的列表只能从列表顶部删除元素,而在表的后端进行插入操作
 		Deque		扩展 Queue 以处理双端队列
+
+/*
+	异常集合
+	如果与队列中的元素不兼容，有些方法会抛出 ClassCastExcetion
+	如果视图在不允许有null 元素的队列中储存 null 对象，会抛出 NullPointerExcetion
+	参数无效，会抛出 IllegalStateExcetion
+	试图在空队列中移除元素， 会抛出 NoSuchElementExcetion
 	
+*/		
 
 # Collection 接口
 	Collection 接口是构建集合框架的基础，集合类都实现了该接口
@@ -57,7 +65,7 @@
 		void add(int index, E obj)  将 obj 插入指定的位置
 		booblean addAll(int index, Collection<? extends E> c)
 		E get(int index)
-		int indexOf(Object obj) 		放回列表中第一个 obj 实例的索引。若没有找到，返回-1
+		int indexOf(Object obj) 						放回列表中第一个 obj 实例的索引。若没有找到，返回-1
 		int lastIndexOf(Object obj)
 		
 		ListIterator<E> listIterator()
@@ -101,55 +109,130 @@
 	NavigableSet 定义了自己的一些方法：
 		E ceiling(E obj)		在组中查找 >= obj的最小元素， 没有找到返回 null
 		E floor(E obj)			在组中查找 <= obj的最大元素
-		E higher(E obj)
-		E lower(E obj)
+		E higher(E obj)			在组中查找 > obj的最大元素
+		E lower(E obj)			在组中查找 < obj的最大元素
 		
-		E pollFirst()		返回第一个元素，在操作过程中删除该元素
+		E pollFirst()			返回第一个元素，在操作过程中删除该元素， 组为空 返回 null
 		E pollLast()
 		
-		
 		Iterator<E> desendingIterator()		返回一个从最大元素向最小元素移动的迭送器。
+		
 		NavigableSet<E> descendingSet()		返回来翻转调用组的 NavigableSet 对象。结果基于调用组
-		NavigableSet<E> headSet(E upperBound, booblean include)  返回小于upperBound 的元素， include 为是否包含等于 upperBound 那个元素
+		NavigableSet<E> headSet(E upperBound, booblean include)  	返回小于upperBound 的元素， include 为是否包含等于 upperBound 那个元素
 		NavigableSet<E> subSet(E lowBound, booblean lowIncl, E upperBound, boolean highIncl)
-		SortedSet<E> tailSet(E start, booblean include)		返回大于upperBound 的元素
+		SortedSet<E> tailSet(E start, booblean include)				返回大于upperBound 的元素
 		
 	
 # Queue 接口
 	Queue扩展了 Collection 接口，并申明了队列的行为， 队列通常是先进先出的列表
+	Queue 是泛型接口，其申明如下：
+	interfac Queue<E>
 	
-	E element()  返回队列的头部的元素， 不移除该元素。 如果队列为空 NoSuchElementExcetion
+	
 	boolean offer(E obj) 试图将 obj 添加到队列中。添加成功 返回true
-	E peek() 	返回队列的头部的元素, 队列为空返回 null, 不移除该元素
+	
+	E element()	返回队列的头部的元素，队列为空 NoSuchElementExcetion
+	E peek() 	返回队列的头部的元素, 队列为空返回 null
+	
 	E poll()	返回队列的头部的元素, 队列为空返回 null, 移除该元素
-	E remove()	移除队列的头部的元素, 如果队列为空 NoSuchElementExcetion
+	E remove()	返回队列的头部的元素, 如果队列为空 NoSuchElementExcetion , 移除该元素
+	
+# Deque 接口
+	
+	Deque 扩展了 Queue接口，并且申明了双端队列的行为
+	
+	Deque 是泛型接口，其申明如下：
+	interfac Deque<E>
+	
+	void addFirst(E obj)		如果队列已满，抛出 IllegalStateExcetion
+	void addLast(E obj)
+	
+	booblean offerFirst(E obj)	如果向 满队列 添加 obj 返回false
+	booblean offerLast(E obj)
 	
 	
+	Iterator<E> descendingIterator()			返回一个从双端队列尾部向头部移动的迭送器
+	
+	E getFitst()				如果队列为空 NoSuchElementExcetion
+	E getLast()
+	
+	E peekFirst()				队列为空 返回 null
+	E peekLast()
+	
+	E pollFirst()				队列为空 返回 null, 在队列中删除头部元素，
+	E pollLast()
+	
+	E pop()						删除队列中头部元素， 队列为空 NoSuchElementExcetion
+	E removeFirst()				删除队列中头部元素， 队列为空 NoSuchElementExcetion
+	E removeLast()
+	
+	void push(E obj)			向队列头部添加元素， 如果队列满，则抛出 IllegalStateExcetion
+	
+	booblean removeFirstOccurrence(Object obj)	在队列中移除第一次出现 obj 对象。 如果队列中不包含 obj 就返回 false
+	booblean removeLastOccurrence(Object obj)
 	
 	
+# 集合类 --------------------------------------------------------------------------------------
+
+	AbstractCollection			实现了 Collection 接口的大部分
+		AbstractList			扩展AbstractCollection 类， 并实现了 List 接口大部分
+			ArrayList			实现动态数组, 查询速度快，增删慢。
+			AbstractSequentialList	用于顺序访问而不是随机访问集合中的元素
+				LinkedList				实现了List Queue Deque 接口，使用了链表数据结构实现的, 查询速度慢，增删快。
+
+				
+		AbstractQueue			扩展AbstractCollection 类， 并实现了 Queue 接口大部分
+			PriorityQueue			支持基于优先级的队列
+			
+		ArrayDeque				扩展AbstractCollection 类， 并实现了 Deque， 实现动态双端队列
+		
+		AbstractSet				扩展AbstractCollection 类，	并实现了 Set 接口大部分
+			TreeSet					如果元素具备自然顺序 的特性，那么就按照元素自然顺序的特性进行排序存储。
+			EnumSet					用于enum 元素
+			HashSet					底层是使用了哈希表来支持的，特点： 存取速度快, 实现了 Set 接口 
+				LinkHashSet				允许按照插入的顺序进行迭代
+		
 	
+# ArrayList	类 
+	支持能够按需增长的动态数组
+	class ArrayList<E>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	ArrayList()
+	ArrayList(Collection(? extends E) c)
+	ArrayList(int capacity)
 	
 	/*
+		可以调用 ensureCapacity()方法以手动增长 ArrayList对象的容量， 以免不必要的内存分配次数可以提高性能
+	*/
+	
+# LinkedList 类
+	class ArrayList<E>
 
-		ArrayList  ArrayList 底层是维护了一个Object数组实现的。 特点： 查询速度快，增删慢。
-		LinkedList LinkedList 底层是使用了链表数据结构实现的， 特点： 查询速度慢，增删快。
+	LinkedList()
+	LinkedList(Collection(? extends E) c)
+	
 
-
-		HashSet  底层是使用了哈希表来支持的，特点： 存取速度快. 
-		TreeSet   如果元素具备自然顺序 的特性，那么就按照元素自然顺序的特性进行排序存储。
-
-	*/	
+# HashSet 类
+	class HashSet<E>
+	
+	HashSet()
+	HashSet(Collection(? extends E) c))
+	HashSet(int capacity)
+	HashSet(int capacity, float fillRatio)		fillRatio 填充率 决定了哈希组被填充到什么程度就增加容量，当元素数量大于哈希族
+												的容量与填充率的乘
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 # 映射接口
 	Map				将唯一键映射到值
