@@ -12,14 +12,18 @@
 	Queue			扩展 Collection 以处理特殊类型的列表，这种类型的列表只能从列表顶部删除元素,而在表的后端进行插入操作
 		Deque		扩展 Queue 以处理双端队列
 
-/*
-	异常集合
-	如果与队列中的元素不兼容，有些方法会抛出 ClassCastExcetion
-	如果视图在不允许有null 元素的队列中储存 null 对象，会抛出 NullPointerExcetion
-	参数无效，会抛出 IllegalStateExcetion
-	试图在空队列中移除元素， 会抛出 NoSuchElementExcetion
+	/*
+		异常集合
+		如果与队列中的元素不兼容，有些方法会抛出 ClassCastExcetion
+		如果视图在不允许有null 元素的队列中储存 null 对象，会抛出 NullPointerExcetion
+		参数无效，会抛出 IllegalStateExcetion
+		试图在空队列中移除元素， 会抛出 NoSuchElementExcetion
+		
+	*/
 	
-*/		
+	/*
+		集合中只能储存 内置类 String Integer ... ， 或引用对象
+	*/
 
 # Collection 接口
 	Collection 接口是构建集合框架的基础，集合类都实现了该接口
@@ -104,7 +108,7 @@
 # NavigableSet 接口	
 	NavigableSet 扩展了 SortedSet 接口, 并且该接口申明了支持基于最接近匹配原则检索元素的集合行为。
 	NavigableSet 是泛型接口，其申明如下：
-	interfac NavigableSet<E>
+	interface NavigableSet<E>
 	
 	NavigableSet 定义了自己的一些方法：
 		E ceiling(E obj)		在组中查找 >= obj的最小元素， 没有找到返回 null
@@ -126,7 +130,7 @@
 # Queue 接口
 	Queue扩展了 Collection 接口，并申明了队列的行为， 队列通常是先进先出的列表
 	Queue 是泛型接口，其申明如下：
-	interfac Queue<E>
+	interface Queue<E>
 	
 	
 	boolean offer(E obj) 试图将 obj 添加到队列中。添加成功 返回true
@@ -142,7 +146,7 @@
 	Deque 扩展了 Queue接口，并且申明了双端队列的行为
 	
 	Deque 是泛型接口，其申明如下：
-	interfac Deque<E>
+	interface Deque<E>
 	
 	void addFirst(E obj)		如果队列已满，抛出 IllegalStateExcetion
 	void addLast(E obj)
@@ -188,7 +192,7 @@
 		
 		AbstractSet				扩展AbstractCollection 类，	并实现了 Set 接口大部分
 			TreeSet					实现了 NavigableSet 接口， 如果元素具备自然顺序 的特性，那么就按照元素自然顺序的特性进行排序存储。
-			EnumSet					用于enum 元素
+			EnumSet					用于enum 元素，实现了 Set 接口
 			HashSet					底层是使用了哈希表来支持的，特点： 存取速度快, 实现了 Set 接口 
 				LinkHashSet				允许按照插入的顺序进行迭代
 		
@@ -206,7 +210,7 @@
 	*/
 	
 # LinkedList 类
-	class ArrayList<E>
+	class LinkedList<E>
 
 	LinkedList()
 	LinkedList(Collection(? extends E) c)
@@ -244,7 +248,6 @@
 	用于创建根据队列的比较器来判定有限次序的队列，
 	PriorityQueue是动态的，按需增长的。 起始容量是11
 	
-	
 	PriorityQueue()
 	PriorityQueue(int capacity)
 	PriorityQueue(Comparator(? super E) comp)
@@ -259,7 +262,7 @@
 		尽管可以使用迭代器遍历 PriorityQueue，但是迭代的顺序是不确定的。
 		为了正确使用 PriorityQueue，必须使用 offer() 和 poll() 这类方法
 	*/
-	
+
 # ArrayDeque 类
 	扩展AbstractCollection 类， 并实现了 Deque，没有添加自己的方法
 	ArrayDeque是动态数组，没有容量限制
@@ -269,14 +272,147 @@
 	ArrayDeque(int size)
 	ArrayDeque(Collection(? extends E) c)
 
+# EnumSet 类
+	EnumSet<E extends Enum<E>>
 
+	EnumSet 类 扩展了AbstractSet 类并并实现了Set 接口，专门用于枚举类型的元素，
+	所有方法都有肯能抛出 NullPointerException 异常，copyOf() 和range() 方法还可能抛出 IllegalStateExcetion
+	
+	static <E extends Enum<E>> EnumSet<E> 
+		allOf(Class<E> t)			创建的 EnumSet 包含由t 指定的枚举中的元素
+		complementOf(EnumSet<E> e)	创建的 EnumSet 由未储存在e 中的元素组成
+		copyOf(EnumSet<E> c)		根据 c 中存储的元素创建 EnumSet
+		noneOf(Class<E> t)			创建的EnumSet 不包含由t指定的枚举中的元素
+		of(E v)						创建的 EnumSet 包含 v
+		/*
+			of(E v,E v2,E v3 ,...)
+		*/
+		range(E start, E end)		创建的 EnumSet包含指定范围（由start 和end 指定）内的元素
+	
+	
+	
+# 迭代器 -------------------------------------------------------------------------------------------	
+	interface Iterator<E>
+	interface ListIterator<E>
+	Iterator 接口允许遍历集合,获取或移除元素
+	ListIterator 接口扩展了Iterator接口，允许双向遍历列表，并且允许修改元素
+	
+	/*
+		当使用只读的集合时， remove() 方法会抛出 UnsupportedOperationException 异常
+		
+		可以通过 
+			while(iterator.hasNext)
+		
+		for-each 循环替代 迭代器，for-each循环遍历任何实现了Iterator 接口的集合对象，所有集合类都实现了这个接口
+			
+			for(int v: collection)
+	*/
+	
+	Iterator 接口方法：
+		default void forEachRemaining(Consumer<? super E> action)		对于集合中每个未处理的元素，执行 action 指定的动作
+		booblean hasNext() 		如果还有更多的元素，就返回 true, 否则返回 false
+		E next()				返回下一个元素， 没有则抛出 NoSuchElementExcetion
+		default void remove		移除当前元素。 如果在调用next() 方法之前视图调用remove() 方法，就会抛出 IllegalStateExcetion
+							默认版本抛出 UnsupportedOperationException
+							
+	ListIterator 接口方法：
+		void add(E obj)			将 obj 插入到列表中， 新插入的元素位于下一次 next() 方法调用返回的元素之前
+	
+		booblean hasPrevious()	如果存在前一个元素，就返回true; 否则返回false
+		E previous()			返回前一个元素， 没有则抛出 NoSuchElementExcetion
+		int nextIndex()			返回下一个元素的索引，如果不存在下一个元素，就返回列表的大小
+		int previousIndex()		返回前一个元素的索引如果不存在，就返回-1
+		void remove				从列表中移除当前元素。如果在调用next() 或 previous() 方法之前调用,就会抛出 IllegalStateExcetion
+		void set（E obj）		将 obj 的值赋给当前元素，也就是next() 或 previous() 方法调用最后放回的元素
+	
+# Spliterator 接口
+	Spliterator 支持并行迭代序列的一部分， 支持并行编程，
+	它将hasNext 和 next 操作合并到一个方法中，从而提高效率
+	
+	Spliterator 定义的方法
+		int characteristics()		返回调用 spliterator的特征，该特征被编码为整数
+		long estimateSize()			估计剩余的要迭代的元素数
+		default void forEachRemaining(Consumer<? super E> action)		对于集合中每个未处理的元素，执行 action 指定的动作
+		booblean tryAdvace(Consumer<? super E> action)	在迭代中的下一个元素上执行 action, 如果有下一个元素返回true，否则 返回false
+		
+		default Comparator<? super T> getComparator()	返回调用spliterator 使用的比较器；如果使用了自然顺序，就返回null
+														如果未被排序就抛出 IllegalStateExcetion 异常
+		default long getExactSizeIfKnown		如果调用 spliterator 是 SIZED， 就返回剩余的要迭代的元素数，否则返回 false
+		default booblean hasCharacteristics(int val)	如果val 中传递了调用 spliterator 的特征，返回true; 否则 返回false
+		Spliterator<T> trySplit()		在操纵成功时，原 spliterator 会迭代序列的一部分，返回的 spliterator 迭代序列的其它部分
+	
+	/*
+		Consumer 是一个函数是接口，向对象应用一个动作，
+		Consumer 仅指定了一个抽象方法accept()
+		 void accept(T objRefef)
+		 
+		对于 tryAdvance() 每次迭代会将序列中的下一个元素传递给 objRefef, 通常实现Consumer 最简单的方式是使用 lambda 表达式
+		
+		while(spliterator.tryAdvance( (n)->{ } ))
+		
+		spliterator.forEachRemaining( (n)->{ } )
+	*/
+	
+# RandomAccess 接口
+	RandomAccess 不包含成员，它支持高校地随机访问其中的元素。
+	ArrayList 和遗留 的Vector 类实现了 RandomAccess 接口
+	
+	
 	
 
-# 映射接口
+# 映射接口 ---------------------------------------------------------------------------------------------------------
 	Map				将唯一键映射到值
 	Map.Entry		描述映射中的元素（键/值对），这是Map 的内部类
 	NavigableMap	扩展 SortedMap 接口，以处理基于最接近匹配原则的键/值对索引
 	SortedMap		扩展 Map 接口，从而以升序保存键
+	
+	/*
+		映射是存储键和值之间关联关系（键值对）的对象。给定一个键就可以找到对应的值，
+		键必须唯一，值可以重复。 某些映射可以接受 null 键 和null 值
+		它们没有实现 Iterator 接口， 所以不能使用 for-each 循环遍历映射，
+		但是可以获取映射的集合视图，集合视图允许使用 for-each循环 和迭送器
+		
+	*/
+	
+	
+# Map 接口
+	interface Map<K, V>
+	
+	/*
+		对象与映射中的元素不兼容时，有些方法会抛出 ClassCastExcetion
+		如果视图为不允许使用 null 对象的映射使用 null 对象，会抛出 NullPointerException 
+		如果驶入修改不允许修改的映射，抛出 UnsupportedOperationException
+		如果使用参数非法， 抛出 IllegalStateExcetion
+	*/
+	
+	void clear()			移除映射中所有的键/值对
+	default V compute(K k,
+		BiFunction<? super K, ? super V, ? extends V> func
+	)						调用func 以构造一个新值，如果 func 的返回值不是null,就把新的键值对添加到映射中，移除原来的配对，并返回新值
+							如果 func 返回null ,就移除原来的配对 并返回null
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 # 映射类
 	AbstractMap		实现了Map 接口的大部分
