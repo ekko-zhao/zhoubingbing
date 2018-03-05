@@ -363,8 +363,8 @@
 # 映射接口 ---------------------------------------------------------------------------------------------------------
 	Map				将唯一键映射到值
 	Map.Entry		描述映射中的元素（键/值对），这是Map 的内部类
-	NavigableMap	扩展 SortedMap 接口，以处理基于最接近匹配原则的键/值对索引
 	SortedMap		扩展 Map 接口，从而以升序保存键
+		NavigableMap	扩展 SortedMap 接口，以处理基于最接近匹配原则的键/值对索引
 	
 	/*
 		映射是存储键和值之间关联关系（键值对）的对象。给定一个键就可以找到对应的值，
@@ -388,46 +388,195 @@
 	void clear()			移除映射中所有的键/值对
 	default V compute(K k,
 		BiFunction<? super K, ? super V, ? extends V> func
-	)						调用func 以构造一个新值，如果 func 的返回值不是null,就把新的键值对添加到映射中，移除原来的配对，并返回新值
+	)						调用func 以构造一个新值，如果 func的返回值不是null,就把新的键值对添加到映射中，移除原来的配对，并返回新值
 							如果 func 返回null ,就移除原来的配对 并返回null
 	
+	default V conputeIfAbsent(K k,
+		 Function<? super K, ? extends V>func
+	)						返回与键 k 关联的值，如果没有值，就通过调用 func 构造一个值，并把该配对输入到映射中，返回构造的值
+							如果无法构造新值， 返回 null
+							
+	default V computeIfPresent(K k,
+		Function<? super K, ? extends V>func
+	)						如果 k 包含在映射中，就通过 func 为其构造一个新值，替换映射中原来的值，然后返回新值
+							如果 fuc 返回的值为 null，就从映射中删除现有的键和值
+	
+	
+	booblean containsKey(Object k)
+	booblean containsValue(Object v)
+	booblean isEmpty()		如果调用映射为空返回 true， 否则 false
+	
+	
+	Set<Map.Entry<K, Y>> entrySet()		返回映射中所有条目的Set 对象，
+										这个组包含 Map.Entry 类型的对象。该方法提供了调用映射的一个视图组
+	
+	Set<K> keyset()			返回包含映射中某些键的 Set 对象，这个方法提供了调用映射中键的一个组视图
+	Collection<V> values()	返回包含映射中所有值的集合。该方法提供了调用映射中的一个集合视图
+	
+	
+	booblean equals(Object obj)		如果 obj 是Map 对象并且与调用映射包含相同的条目，返回 true； 否则返回 false
+	
+	default void forEach(BiFunction<? super K, ? super V> action) 对调用映射中的每个元素执行 action。 如果在操作过程中移除了元素， 抛出 ConcurrencyModificationExcetption 异常
+	
+	V get(Object k)			没有找到就返回 null
+	default V getOrDefault(Object k, V defVal)	 没有包含 k 关联的值就返回默认值
+	
+	V put(K k, V v)			将一个条目放入调用映射中，覆盖之前与此键关联的值。 
+							如果件不存在 就返回 null,否则返回之前与键关联的值
+	
+	void putAll(Map<? extends K, ? extends V> m)	将m 中的所有条目添加到调用映射中
+	default V putIfAbsent(K k, V v)	 	如果此键值配对没有包含在调用映射中，或者现有的值为null, 就添加此配对 并返回原来的值。 如果之前不存在映射，或者值为null, 就返回 null
+				
+	V remove(Object K)	
+	default boolean remove(Object K, Object V)	删除 K, V 配对的值
+	
+	default boolean replace(K k,V oldV, V newV)	如果k和oldV 配对包含在调用映射中，替换值 newV, 返回 true
+	default void removeAll(
+		BiFunction<? super K, ? super V, ? extends V> func
+	)											对调用映射的每个元素执行 func， 用 func返回结果替换元素
+												如果在操作过程中移除了元素， 抛出 ConcurrencyModificationExcetption 异常
+	
+	int hashCode() 			返回调用映射的散列码
+	int size()
+	
+	default V merge(k k, V v,
+		BiFunction<? super V, ? super V, ? extends V>	
+	)						
+							如果k 没有包含在映射中，就把k和v 配对添加到映射中,并返回 v,
+							否则 func 基于原有的值返回一个新值，键被更新为这个新值，并且merge()方法返回这个值
+							如果 func 返回 null, 就从映射中删除现有的键和值
+
+# Map.entry 接口
+	interfa Map.entry<K,V>
+	
+	booblean equals(Object obj)	如果 obj 是一个键和值都与调用对象相等的Map.Entry, 返回true
+	K getKey()
+	V getValue()
+	int hashCode()
+	V setValue(V v)
+	
+	
+	
+						
+# SortedMap 接口
+	interface SortedMap<K, V>
+	SortedMap 接口扩展了Map 接口，确保条目以键的升序保存。
+	
+	/*
+		如果调用映射中没有的元素，有些方法会抛出 NoSuchElementExcetion 异常；
+		如果对象与映射中的元素不兼容会抛出 ClassCastExcetion 异常；
+		NullPointerException
+		IllegalStateExcetion
+	*/
+	
+	Comparator<? super K> comparator()	返回调用的有序映射的比较器。如果调用映射的是自然排序，会返回 null
+	
+	K firstKey()
+	K lastKey()
+	
+	SortedMap<K, V> headMap(K end) 			返回键小于 end 的那些映射条目组成的有序映射
+	SortedMap<K, V> subMap(K start, K end) 	start to end-1
+	SortedMap<K, V>	tailMap(K start)    	>= start
+	
+	
+# NavigableMap
+	interface NavigableMap<K, V>
+	NavigableMap 接口扩展了 SortedMap 接口
+	
+	Map.Entry<K, V> ceilingEntry(K obj)		查找 >= obj的最小键，如果找到这样的键 就返回与之对应的条目；否则返回null
+	K ceilingKey(k obj) 					查找 >= obj的最小键，如果找到这样的键 就返回该键；否则返回 null
+	
+	NavigableSet<K> descendingKeySet()		返回的 NavigableSet 组以逆序形式包含调用映射中的所有键。
+	NavigableMap<K, V> descendingMap		返回的 NavigableMap 映射是调用映射的逆序映射
+	
+	Map.Entry<K, V> firstEntry()			
+	Map.Entry<K, V>	floorEntry(K obj)		返回小于等于 obj 的最大键对应的条目， 如果没有找到对应的键 返回null
+	
+	K floorKey(K obj)						返回小于等于 obj 的最大键对应的条目
+	K lowerKey(K obj)						返回小于 obj 的最大键对应的条目
+	
+	NavigableMap<K, V> headMap(K upperBound, boolean obj)
+	Map.Entry<K, V> higherEntry(K obj)		查找大于 obj 的最小键对应的条目
+	Map.Entry<K, V> lastEntry()
+	Map.Entry<K, V>	lowerEntry(K obj)		返回小于 obj 的最大键对应的条目
+	
+	NavigableSet<K> NavigableKeySet
+	
+	Map.Entry<K, V> pollFirstEntry()		返回第一条目，在操作过程中移除该条目，（最小键）
+	Map.Entry<K, V> pollLastEntry()
+	
+	NavigableMap<K, V> subMap(
+		K lowerBound, booblean lowIncl,
+		K Bound, booblean highIncl
+	)
+	NavigableMap<K, V> tailMap(K lowerBound, booblean lowIncl)  > || >=
 	
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-# 映射类
+# 映射类 ------------------------------------------------------------------------------------------------
 	AbstractMap		实现了Map 接口的大部分
-		EnumMap		.扩展了 AbstractMap，以使用enum 键
+		EnumMap		.扩展了 AbstractMap，以使用enum 键。实现了 Map 接口
 			/*
 				class EnumMap<K extends Enum<K>,V>
 			*/
 			
-		HashMap		.扩展了 AbstractMap，以使用哈希表
+		HashMap		.扩展了 AbstractMap，以使用哈希表。 实现了 Map 接口
 			LinkHashMap	.扩展了 HashMap，以允许按照插入顺序进行迭代
+		IdentityHashMap .扩展了 AbstractMap，实现了 Map 接口。并且当比较文档时使用引用相等性
 			
 		TreeMap		.扩展了 AbstractMap，并实现了 NavigableMap 接口。以使用树结构
-		WeakHashMap	.扩展了 AbstractMap，以使用带有弱键的哈希表
-		IdentityHashMap .扩展了 AbstractMap，实现了 Map 接口。并且当比较文档时使用引用相等性
+		WeakHashMap	.扩展了 AbstractMap，以使用带有弱键的哈希表。
+		
+
+# HashMap 类
+	class HashMap<K, V>
+	HashMap 扩展了 AbstractMap，并实现了 Map 接口.
+	它使用哈希表储存映射，这使得即使对于比较大的集合， get()和put() 方法执行时间也保持不变
 	
+	构造函数
+	HashMap()
+	HashMap(Map<? extends K, ? extends V> m)
+	HashMap(int capacity)
+	HashMap(int capacity, float fillRatio)
+	
+# LinkHashMap 类
+	class LinkHashMap<K, V>
+	LinkHashMap 扩展了 HashMap 类
+	在映射中插入条目的顺序维护以条目表链，从而可以按照插入顺序迭代整个映射
+	
+	LinkHashMap()
+	LinkHashMap(Map<? extends K, ? extends V> m)
+	LinkHashMap(int capacity)
+	LinkHashMap(int capacity, float fillRatio)
+	LinkHashMap(int capacity, float fillRatio, boolean Order)	// 如果 Order 为true， 就使用访问顺序；false, 就使用插入顺序
+	
+# IdentityHashMap 类
+	class IdentityHashMap<K, V>
+	IdentityHashMap 扩展了 AbstractMap 类.
+	除了当比较元素时使用引用相等性之外，其它方面与HashMap 类似
+
+# EnumMap 类
+	class EnumMap<K extends Enum<K>, V>
+	EnumMap 扩展了AbstractMap 类，并实现了 Map 接口， 是专门为了使用枚举类型的键而设计的
+	
+	EnumMap(Class<K> kType)
+	EnumMap(Map<K, ? extends V> m)
+	
+	EnumMap(EnumMap<K, ? extends V> em)
+	
+	
+	
+# TreeMap 类
+	class TreeMap<K, V>
+	扩展了 AbstractMap，并实现了 NavigableMap 接口。该类用于创建存储在树结构中的映射。 TreeMap 提供了有序存储键/值
+	的高效手段，并支持快速检索。
+	注意的是与哈希映射不同，树映射确保元素以键的升序存储。
+	
+	TreeMap();
+	TreeMap(Comparator<? super K> comp)
+	TreeMap(Map<? extends K, ? extends V> m)
+	TreeMap(SortedMap<? extends K, ? extends V> sm)
 
 
 # 比较器
@@ -435,99 +584,179 @@
 	interface Comparator<T>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	int compare(T obj1, T obj2)		对象相等 返回0， obj1 大于 obj2 返回1， obj1 < obj2 返回 -1
+	
+	booblean equals(object obj)		如果obj 和调用对象都是比较器，并且使用相同的排序规则 ，返回true
+
+	default Comparator<T> reversed()	返回颠倒排序规则后的比较器
+	
+	
+	static <T extends Comparable<? super T>> Comparator<T> reverseOrder()	返回颠倒自然顺序的比较器
+	static <T extends Comparable<? super T>> Comparator<T> naturalOrder()	返回自然排序比较器
+	
+	static <T>	Comparator<T> nullsFirst(Comparable<? super T>)
+	static <T>	Comparator<T> nullsLast(Comparable<? super T>)
+		nullsFirst() 方法返回的比较器认为 null 比其他值小，如果俩个值都是非 null 值，则comp 执行比较
+
+	
+	default Comparable<T> thenComparing(Comparable<? super T> thenByComp)
+		该方法返回一个比较器，当一次比较 俩个对象 相等时， 将用 thenByComp 执行第二次比较
+	
+	default <U extends Comparable<? super U> > Comparator<T>
+		thenComparing(Function<? super T, ? extends U> getKey)
+	
+	efault <U> Comparator<T>
+		thenComparing(
+			Function<? super T, ? extends U> getKey,
+			Comparator<? super U> keyComp
+		)
+
+		
+		
+	// Comparator 还未基本类型添加了一下专用版本的 then commparing 方法
+
+	default Comparator<T> thenComparingDouble(ToDoubleFunction<? super T> getKey)
+	default Comparator<T> thenComparingDouble(ToIntFunction<? super T> getKey)
+	default Comparator<T> thenComparingDouble(ToLongFunction<? super T> getKey)
+
+
+	static <T>	Comparator<T> thenComparingDouble(ToDoubleFunction<? super T> getKey)
+	static <T>	Comparator<T> thenComparingDouble(ToIntFunction<? super T> getKey)
+	static <T>	Comparator<T> thenComparingDouble(ToLongFunction<? super T> getKey)
+
+	// JDK 8 在 Comparator 中添加了 commparing() 方法。改方法返回的比较器从传递给该方法的函数中获得比较键
+	
+	static <T, U extends Comparable<? super U>> Comparator<T>
+		commparing(Function<? super T, ? extends U> getKey)
+
+	static <T, U> Comparator<T>
+		thenComparing(
+			Function<? super T, ? extends U> getKey,
+			Comparator<? super U> keyComp
+		)
+
+
+	// 比较器的使用
+	class MyComp implements Comparator<String>{
+		public int compare(String aStr, String bStr){
+			return bStr.commpareTo(aStr);
+		}
+	}
+
+# 算法集合
+	集合框架定义饿了一些可以应用集合和映射的算法， 这些算法被定义为 Collections 类中的静态方法
+
+
+# Arrays 类
+	Arrays 类提供了对数组操作有用的方法，这些方法有助于链接结合和数组
+
+	static <T> List adList(T array)
+	
+		binarySearch()
+		
+		copyOf
+		copyOfRange()
+		
+		equals()
+		deepEquals()
+	
+		fill()
+		
+		sort()
+		paralleSort
+		
+		spliterator
+
+		setAll
+		paralleSetAll
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	#
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 
