@@ -1,0 +1,289 @@
+﻿
+# StringTokenizer 类
+	该类实现了 Eunmeration 接口，
+	将字符串风格成一系列独立的部分， 与 js split 的效果相似
+	
+	默认的定界符组成空白字符构成： 空格、制表符号、换页符、换行符、回车符
+	
+	构造函数：
+	StringTokenizer(String str)
+	StringTokenizer(String str, String delimiters)
+	StringTokenizer(String str, String delimiters, boolean delimAsToken)
+	
+	delimiters 为指定定界符
+	delimAsToken 是否将定界符作为标记返回， 默认 false
+	
+	方法：
+		int countTokens()	该方法使用当前的一组分隔符，确定还有多少标记需要解析并返回结果
+		boolean hasMoreElements()
+		boolean hasMoreTokens()
+		Object nextElement()
+		String nextToken()
+		String nextToken(String delimiters)	作为 String 对象返回下一个标记，并将定界符字符串设置为由 delimiters 指定的字符串
+
+
+# BitSet 类
+	默认情况下，BitSet 所有空位的位置都是 false， 填充位的位置 true。
+	该类 创建特殊类型的数组，这类数组的元素是布尔值形式的位置。这类数组可以根据需要再加大小，这使得 BitSet 与位向量类似
+	
+	/*
+		填充位 - 置位
+		
+		BitSet allBitSet = new BitSet();
+		allBitSet.set(0);
+		allBitSet.set(3);
+	*/
+	
+	构造函数：
+		BitSet()
+		BitSet(int size)
+		
+	方法：
+		void and(BitSet b)			对俩个 BitSet 进行AND 操作，结果结果将被放入调用对象中
+									取俩个对象的交集填充位；
+		
+		void andNot(BitSet b)		对于 b 中值为 true 每个位， 将 调用 BitSet 对象中相应的位清除
+		void or(BitSet b)			对俩个 BitSet 进行 or 操作； 并集
+		void xor(BitSet b)			对俩个 BitSet 进行 xor 操作； 俩个对象中 位同时为 true 的位清楚， 合并其它位
+		
+		int cardinality()		返回已知 置位的数量
+		void clear()			清空所有的置位
+		void clear(int index)	清空指定的位
+		void clear(int start, int end)	start 至 ( end-1)
+		Object clone()			复制调用 BitSet 对象
+		
+		boolean equals(Object bitSet)		比较俩个对象的位组是否相等
+		void flip(int index)				翻转 位的 状态，true <-> false
+		void flip(int start, int end)		start 至 ( end-1), 翻转
+		
+		boolean get(int index)
+		
+		BitSet get(int index, int end)		end-1
+		int hasCode()
+		boolean intersects(BitSet b)		判断它们的交集是有交集，
+		
+		boolean isEmpty()
+		int length()
+		int nextClearBit(int start)			返回下一个 被清除位, 值为 false 的位
+		int nextSetBit(int start)			返回下一个 被置位的值, 值为 true 的位， 没有返回 -1
+		
+		int previousClearBit(int start)		没有返回 -1
+		int previousSetBit(int start)		没有返回 -1
+		
+		void set(int index)
+		void set(int start, int end)		end-1
+		void set(int start, int end, boolean v)		如果 v 为true 就置位， 否则就清除位
+		
+		int size()
+		IntStream stream()					返回一个流， 其中由低到高包含已被置位的 位
+		
+		
+		byte[] toByteArray()
+		byte[] toLongArray()
+		String toString()
+		
+		static BitSet valueOf(byte[] v)
+		static BitSet valueOf(long[] v)
+		static BitSet valueOf(ByteBuffer[] v)
+		static BitSet valueOf(LongBuffer[] v)
+		
+# Optional
+	Class Optional<T>
+	T 指定了存储的值类型。 Optional 实例即可以包含类型为T 的值，也可以为空。
+	Optional 没有任何构造函数
+	
+	可以使用它的方法来确定是否存在值； 如果存在，获取该值，如果没有值，获取一个默认值
+		
+	方法：
+		static <T> Optional<T> empty()		返回一个对象，对该对象调用 isPresent() 会返回 false
+		static <T> Optional<T> of(T val)	创建一个包含val 的 Optional 实例，并返回结果。 val 的值不能是 null
+		static <T> Optional<T> ofNullable(T val)	创建一个包含 val 的 Optional 实例，并返回结果。如果 val 是null，返回一个空的 Optional 实例
+		
+		void ifPresent( Consumer<? super T> func ) 如果调用对象中存在值，调用func; 没有值， 什么多不发生
+		boolean isPresent()					判断调用对象是否有值
+		
+		Optional<T> filter(
+			Predicate<? super T> condition
+		)									如果调用对象的值满足 condition， 返回一个包含与调用对象相同的值的 Optional 实例；否则，返回一个空对象
+		
+		boolean equals(Object optional)		判断 optional 是否与调用对象相等
+		U Optional<U> flatMap(
+			Function<? super T, Optional<U>> mapFunc
+		)									如果调用对象包含值， 对调用对象应用 mapFunc指定的映射函数， 并返回结果；否则 返回一个空对象
+			/*
+				Optional<Integer> n = op1.flatMap( (a) -> {
+					System.out.println(a);
+					return op2;
+				});
+			*/
+		
+		U Optional<U> map(
+			Function<? super T, ? extends U> mapFunc
+		)									如果调用对象包含值， 对调用对象应用由 mapFunc 指定的映射函数，并返回结果； 否则返回一个空对象
+		
+		
+		T get()					返回调用对象的值。 如果没有值，将抛出NoSuchElementExcetion
+		
+		T orElse(T defVal)		如果调用对象包含值，返回该值。否则返回 defVal；	
+		T orElseGet(
+			Supplier<? extends T> getFunc
+		)						如果调用对象包含值，返回该值。否则返回 getFunc 获取的值	
+		<X extends Throwable> T orElseThrow(
+			Supplier<? extends T> excFunc
+		) throws X extends Throwable	如果调用对象包含值，返回该值。否则 就抛出 excFunc 生成的异常	
+		
+		
+		int hashCode()
+		String toString()
+		
+		
+	OptionalDouble、OptionalInt、OptionalLong 类的工作方式与 Optional 类十分类似，它们是专门为操作 double int long 类型的值而设计的
+	
+		因此它们分别定义了 getAsDouble()  getAsInt() getAsLong()方法， 而不是 get(); 
+		它们不支持 filter()、 ofNullable 、 flatMap() 方法
+		
+		
+# Date 类
+	Date 类 实现了 Comparalble
+	
+	构造函数：
+		Date()
+		Date(long millisec)
+
+	方法：
+		boolean after(Date date)	如果调用 Date 对象中包含的日期比 date 指定的日期晚，返回 true，否则返回 false
+		boolean before(Date date)
+		Object clone()
+		int compareTo(Date date)	比较调用对象中包含的日期 与date 指定的日期。如果两者相同，返回0， 调用对象早于 date 返回-1， 大于返回 1
+		
+		boolean equals(Object date)
+		
+		long getTime()				返回 自1970-1-1 午夜的 毫秒数
+		int hasCode()
+		
+		Instant toInstant()			返回与调用Date对象对应的 Instant对象
+		String toString()			将调用 Date 对象转换成字符串并返回结果
+		
+		static Date from(Instant t)	返回与 t 中传递的 Instant 对象对应的 Date 对象
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

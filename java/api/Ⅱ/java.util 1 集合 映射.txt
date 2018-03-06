@@ -1,16 +1,14 @@
 ﻿
 # 集合基础接口
 	Collection		允许操作一组对象，位于集合层次结构的顶部
-	
-	List			扩展 Collection 以处理序列（对象列表）
-	
-	
-	Set				扩展Collection 以处理集合，集合中的元素必须唯一
-		SortedSet	扩展 Set 以处理已排序的集合
-			NavigableSet		扩展 SortedSet 以基于最接近匹配原则检索元素
-			
-	Queue			扩展 Collection 以处理特殊类型的列表，这种类型的列表只能从列表顶部删除元素,而在表的后端进行插入操作
-		Deque		扩展 Queue 以处理双端队列
+		List			扩展 Collection 以处理序列（对象列表）
+		
+		Set				扩展Collection 以处理集合，集合中的元素必须唯一
+			SortedSet	扩展 Set 以处理已排序的集合
+				NavigableSet		扩展 SortedSet 以基于最接近匹配原则检索元素
+				
+		Queue			扩展 Collection 以处理特殊类型的列表，这种类型的列表只能从列表顶部删除元素,而在表的后端进行插入操作
+			Deque		扩展 Queue 以处理双端队列
 
 	/*
 		异常集合
@@ -322,7 +320,7 @@
 		E previous()			返回前一个元素， 没有则抛出 NoSuchElementExcetion
 		int nextIndex()			返回下一个元素的索引，如果不存在下一个元素，就返回列表的大小
 		int previousIndex()		返回前一个元素的索引如果不存在，就返回-1
-		void remove				从列表中移除当前元素。如果在调用next() 或 previous() 方法之前调用,就会抛出 IllegalStateExcetion
+		void remove()			从列表中移除当前元素。如果在调用next() 或 previous() 方法之前调用,就会抛出 IllegalStateExcetion
 		void set（E obj）		将 obj 的值赋给当前元素，也就是next() 或 previous() 方法调用最后放回的元素
 	
 # Spliterator 接口
@@ -337,7 +335,7 @@
 		
 		default Comparator<? super T> getComparator()	返回调用spliterator 使用的比较器；如果使用了自然顺序，就返回null
 														如果未被排序就抛出 IllegalStateExcetion 异常
-		default long getExactSizeIfKnown		如果调用 spliterator 是 SIZED， 就返回剩余的要迭代的元素数，否则返回 false
+		default long getExactSizeIfKnown()		如果调用 spliterator 是 SIZED， 就返回剩余的要迭代的元素数，否则返回 false
 		default booblean hasCharacteristics(int val)	如果val 中传递了调用 spliterator 的特征，返回true; 否则 返回false
 		Spliterator<T> trySplit()		在操纵成功时，原 spliterator 会迭代序列的一部分，返回的 spliterator 迭代序列的其它部分
 	
@@ -671,8 +669,12 @@
 		paralleSetAll
 		
 	
+# 遗留
+	Enumeration 接口
+	interface Enumeration<E>
 	
-	
+		booblean hasMoreElements()
+		E nextElement()
 	
 	
 	
