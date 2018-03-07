@@ -166,71 +166,201 @@
 		
 		static Date from(Instant t)	返回与 t 中传递的 Instant 对象对应的 Date 对象
 		
+# Calendar 类
+	该抽象类提供了一套方法，允许将毫秒数形式的时间转换成大量有用的时间组成部分。
+	子类的实例是 GregorianCalendar
+	该类 没有提供公有的构造函数。
+	该类定义了几个受保护的实例变量。
+		areFieldsSet 是 boolean 变量，指示了是否设置了时间组成部分。
+		fields 是int 型数组， 用来保存时间组成部分。
+		isSet 是布尔型数组，指示了是否设置了特定的时间组成部分。
+		time 是长整型变量，用来保存这个对象的当前时间。
+		isTimeSet 是布尔型变量，指示了是否设置了当前时间
+		
+	方法：
+		static Locale[] getAvailableLocales()	返回一个有Locale 对象组成的数组，其中包含可以使用日历的地区信息
+		static Calendar getInstance()			为默认地区和时区返回 Calendar 对象
+		static Calendar getInstance(TimeZone tz)	指定时区
+		static Calendar getInstance(Locale locale)	指定地区
+		static Calendar getInstance(TimeZone tz, Locale locale)	指定时区和地区
 		
 		
 		
+		abstract void add(int which, int val)	将val 添加到由 which 指定的时间或日期组成部分中。如果要进行减法操作，可以添加一个负值。
+												which 必须是 Calendar 类定义的域变量之一，如 Calendar.HOUR
+												
+		boolean after(Object canlenderObj)
+		boolean before(Object canlenderObj)
 		
+		final void clear()			将调用对象中包含的所有时间组成部分清零
+		final void clear(int which)
+		Object clone()				返回调用对象的一个副本
 		
+		final Date getTime()		返回与调用对象的时间相同的Date 对象
+		TimeZone getTimeZone()		返回调用对象的时区
+		final boolean isSet(int which)	判断是否指定了时间的组成部分
 		
+		void set(int which, int val)
+		final void set(int year, int mouth, int dayOfMonth)
+		final void set(int year, int mouth, int dayOfMonth, int hours, int monutes)
+		final void set(int year, int mouth, int dayOfMonth, int hours, int monutes, int secends)
 		
+		final void setTime(Date d)
 		
+		void setTimeZone(TimeZone tz)
+		final Instant toInstant()	返回与调用 Calendar 实例对应的 Instant 对象
 		
+		boolean equals(Object calendarObj)		判断俩个日期 是否相同
+		int get(int calendarField)				返回调用对象中某个时间组成部分的值，这个组成部分由 calendarField 指定：
+												Calendar.YEAR | MONTH | MINUTE
 		
+# GregorianCalendar 类
+	该类 是 Calendar 类的具体实现， Calendar 类的getInstance() 方法通常会返回一个 GregorianCalendar 对象， 使用这个对象 初始化 时间
+	
+	构造函数：
+		GregorianCalendar()
+		GregorianCalendar(int year, int mouth, int dayOfMonth)							// mouth 0-11
+		GregorianCalendar(int year, int mouth, int dayOfMonth, int hours, int monutes)
+		GregorianCalendar(int year, int mouth, int dayOfMonth, int hours, int monutes, int secends)
 		
+			
+		GregorianCalendar(Locale locale)
+		GregorianCalendar(TimeZone timeZone)
+		GregorianCalendar(TimeZone timeZone, Locale locale)
+
+		方法：
+			boolean isLeapYear(int year)	是否为闰年
+			fro()
+			toZoneDateTime()
+			getCalendarType()				它将日历类型作为一个字符串返回，即 gregory
+
+
+# TimeZone 类
+	TimeZone 抽象类可以处理 世界时间之间的时差，另外还能够计算夏令时。 
+	
+	static TimeZone getDefault()			返回一个表示宿主计算机上默认时区的 TimeZone 对象
+	static void setDefault(TimeZone tz)		设置当前主机使用的默认时区，tz 是将要使用的 TimeZone 对象的引用
+	
+	static String[] getAvailableIDs()		返回一个表示所有时区名称的String 对象数组
+	static String[] getAvailableIDs(int timeDelta)	返回一个String 对象数组，表示与 GMT 时差为 timeDelta 的所有时区名称
+	static TimeZone getTimeZone(String tzName)	返回 该时区名的 时区对象
+	
+	Object clone()			返回特定于 TimeZone 的 clone() 版本
+	String getID()			返回调用 TimeZone 对象的时区名称
+	void setID(String tzName)	将时区的名称（ID） 设置为 tzName 指定的名称
+	ZoneId toZoneId()		将调用对象转换为 ZoneId, 并返回结果。 在 java.time 中定义
+	
+	abstract int getOffset(
+		int era, 
+		int year, int mouth, int dayOfMonth,
+		int dayOfWeek, int millisec
+	)						返回计算当地时间需要添加到 GMT 的时差，这个值会针对夏令时进行调整
+	abstract void setRawOffset(int millis) 以毫秒为单位设置与 GMT 之间的时差
+	
+	
+	abstract boolean inDaylightTime(Date d) 	如果日期 d 在调用对象的夏令时范围之内，就返回 true； 否则返回 false
+	abstract boolean useDaylightTime()			判断调用对象是否使用夏令时
+
+# SimpleTimeZone 类
+	该类是 TimeZone 的一个便利子类。 实现了TimeZone 的抽象方法，并且可以操作 Gregorian日历的时区，可以计算夏令时
+	
+
+# Locale
+
+# Random
+	构造函数：
+		Random()
+		Random(long seed)
+	
+	方法：
+		boolean nextBoolean()
+		void nextBytes(byte vals[])		使用随机数填充 vals
+		double nextDouble()
+		float nextFloat()
+		double nextFaussian()
+		int nextInt()
+		int nextInt(int n)				返回 0 到 n 的下一个 int 随机数
+		long nextLong()
+		void setSeed(long newSeed)		设置随机数的开始点
+
+
+
+
+# Observable 类
+	该类 用于创建可以被程序其它部分观察的子类。 当这种子类的对象发生变化时，观察类就会注意到，
+	观察类必须实现 Observer 接口， 当观察者注意到被观察者的某个变化时 回调用update() 方法
+	
+	规则一： 如果被观察者对象发生变化，就必须调用 setChanged();  
+	规则二： 当准备通知观察者这一变化时，必须调用 notifyObservers() 方法，使被观察者对象调用 update() 方法
+
+	方法：
+		
+		protected void setChanged()		该方法当调用对象发生变化时被调用
+		protected boid clearChanged()	调用该方法会将调用对象的状态返回到“未改变”
+		
+		void notifyObservers(Object obj)
+		
+		boolean hasChanged()	如果调用对象已经被修改，返回 true
+		void addObserver(Observer obj)	将 obj 添加到观察调用对象的列表中
+		
+		void deleteObserver(Observer obj)
+		void deleteObservers()			删除调用对象的所有的观察对象
+		
+		int countObservers()			返回观察调用对象的对象数量
 		
 
+# Observer 接口
+	为了观察可观察对象，必须实现 Observer 接口。 这个接口只定义了一个方法。
+	
+	void update(Observable observOb, object arg)
+
+	示例：
+	
+	class Watcher implements Observer{
+		public void update(Observable observOb, object arg){
+			// do something
+		}
+	}
+
+	class BeingWatched extends Observable{
+		void counter(int period){
+			setChanged();
+			notifyObservers(new Integer(period))
+			
+			// Thread.sleep(100)
+		}
+	}
+
+	/*
+		BeingWatched observed = new BeingWatched();
+		Watcher observing = new Watcher();
+		
+		observed.add(observing)
+		observed.counter(10)
+	*/
 
 
 
+# timer 和 TimerTask 类
+	使用这些类， 可以创建在后台运行、等待特定时刻的线程。当时间到达时。执行链接到线程的任务。
+	timer 和 TimerTask 类 比 Thread 类使用方便
 
+	
+# TimerTask 类
+	该类为抽象类
+	
+	abstract void run()		包含定时任务的代码
+	boolean cancel()		终止任务。如果成功阻止任务的执行，就返回 true; 否则返回 false
+	long scheduledExecutionTime()	返回所安排任务最后一次执行的时间
 
+	Time()
+	Time(boolean DThread)
+	
+	Time(String tName)
+	Time(boolean DThread, String tName)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	DThread 为true时， 只要程序的剩余部分仍在继续执行，守护线程就会执行
+	tName	指定线程名称
 
 
 

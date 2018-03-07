@@ -17,6 +17,11 @@ IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, user-scalable=yes">
 <meta name="renderer" content="webkit">
 
+// 在 iPhone 弹出框中 表单焦点 错位 的问题 --------------------------------------------------
+	if(navigator.userAgent.indexOf('Mobile')){
+		var h = $(window).height();
+		$("body,html").css({"overflow":"hidden","height":h+"px"});
+	}
 
 // for of 找出 数组中元素的位置-----------------------------------------------
 
@@ -70,20 +75,6 @@ IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome
 	foo({
 	  "ip": "8.8.8.8"
 	});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -237,11 +228,4 @@ CORS需要浏览器和服务器同时支持。目前，所有浏览器都支持�
 			该字段可选，用来指定本次预检请求的有效期，单位为秒。上面结果中，有效期是20天（1728000秒），即允许缓存该条回应1728000秒（即20天），在此期间，不用发出另一条预检请求。
 		
 
-
-
-
-
-
-
-
-
+		
