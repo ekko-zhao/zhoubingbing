@@ -584,14 +584,22 @@
 	Scanner 类与 Formatter 类相反。 Scanner 类读取格式化的输入，并将输入转换成相应的二进制形式。
 	该类 可以用于从控制台、文件、字符串或任何实现了 Readable | ReadableByteChanner 接口的源读取内容
 	
+	构造函数：
+	Scanner(File from) 
+		throws FileNotFoundExcetion 	创建的 Scanner 对象使用 from 指定的文件作为输入源
+	Scanner(File from, Sting charset)
+		throws FileNotFoundExcetion		创建的 Scanner 对象使用 from 指定的文件作为输入源, 并制定编码格式
 	
+	Scanner(InputStream from)			创建的 Scanner 对象使用 from 指定的流作为输入源
+	Scanner(InputStream from, Sting charset)
+		
+	Scanner(Path from)	throws IOException	创建的 Scanner 对象使用 from 指定的文件作为输入源
+	Scanner(Path from, Sting charset)	throws IOException
 	
-	
-	
-	
-	
-	
-	
+	Scanner(Readable from)				创建的 Scanner 对象使用 from 指定的 Readable 对象作为输入源
+	Scanner(ReadableByteChanner from)
+	Scanner(ReadableByteChanner from, String charset)
+	Scanner(String from)
 	
 	
 	
