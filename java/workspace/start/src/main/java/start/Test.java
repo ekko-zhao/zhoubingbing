@@ -1,13 +1,16 @@
 package start;
 
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Test<T> {
-	public static void main(String[] args) {
-		Random r = new Random();
+	public static void main(String[] args) throws ParseException, InterruptedException {
+		Formatter f = new Formatter();
+		f.format("%tT", new Date());
 		
-		// TimeZone tz = new TimeZone();
-		System.out.println(r.nextInt(100));
+		System.out.println(f);
 		
 	}
 }

@@ -12,7 +12,7 @@
 	了一种方便和高校的方法）
 	
 #字节流类
-	字节流是通过俩个类层次定义的， 在顶级是两个抽象类：InputStream 和 OutputStream。
+	字节流是通过俩个类层次定义的， 在顶级是两个抽象类： InputStream 和 OutputStream
 	为了使用类流，必须导入 java.io
 	
 	InputStream 和 OutputStream 抽象类定义了其它流类的一些关键方法， 其中最重要的两个方法是 read() 和 write(),
@@ -88,7 +88,7 @@
 # 读取控制台输入
 	在控制台输入信息
 	在Java 中，控制台输入是通过从 System.in 读取完成的。
-	为了获得与控制台关联的基于字符的流， 可以在BufferedReader 对象中封装 System.in。  BufferedReader支持 缓冲的输入流。
+	为了获得与控制台关联的基于字符的流， 可以在 BufferedReader 对象中封装 System.in。  BufferedReader 支持 缓冲的输入流。
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));	
 		
 	BufferedReader 的构造函数：
@@ -198,7 +198,7 @@
 
 # PrintWriter 类
 	尽管使用 System.out 向控制台输出是可以接受的， 但是最好将其用于调试或用于示例程序。
-	对于实际的程序，推荐使用 PrintWriter流，它是基于字符的类之一。为控制台输出使用基于字符的流，可以使程序国际化更容易
+	对于实际的程序，推荐使用 PrintWriter 流，它是基于字符的类之一。为控制台输出使用基于字符的流，可以使程序国际化更容易
 	
 	PrintWriter 类定义了几个构造函数， 
 	PrintWriter(OutputStream outputStream, boolean flushingOn)
@@ -210,7 +210,7 @@
 		pw.println("2");
 	}
 	/*
-		如果参数flushingOn 为false
+		如果参数 flushingOn 为false
 		则需要手动调用 pw.close() 才会打印
 	*/
 
@@ -248,7 +248,7 @@
 			
 			do{
 				i = fin.read();
-				if(i != -1) font.write(i);
+				if(i != -1) fout.write(i);
 			}while(i != -1)
 			
 		}catch(IOException e){

@@ -327,6 +327,7 @@
 			setChanged();
 			notifyObservers(new Integer(period))
 			
+			// InterruptedException
 			// Thread.sleep(100)
 		}
 	}
@@ -349,46 +350,276 @@
 # TimerTask 类
 	该类为抽象类
 	
-	abstract void run()		包含定时任务的代码
-	boolean cancel()		终止任务。如果成功阻止任务的执行，就返回 true; 否则返回 false
-	long scheduledExecutionTime()	返回所安排任务最后一次执行的时间
+	方法：
+		abstract void run()		包含定时任务的代码
+		boolean cancel()		终止任务。如果成功阻止任务的执行，就返回 true; 否则返回 false
+		long scheduledExecutionTime()	返回所安排任务最后一次执行的时间
 
-	Time()
-	Time(boolean DThread)
+# Timer
+	构造函数：
+		Timer()
+		Timer(boolean DThread)
+		
+		Timer(String tName)
+		Timer(boolean DThread, String tName)
+
+			DThread 为true时， 只要程序的剩余部分仍在继续执行，守护线程就会执行
+			tName	指定线程名称
+
+	方法：
+		void cancel()		取消定时器线程
+		int purge()			从定时器队列中删除已取消的任务
+		
+		void schedule(TimerTask TTask, long wait)					TTask 是被安排在有延迟 wait 毫秒后执行
+		void schedule(TimerTask TTask, long wait, long repeat)		重复 间隔（毫秒）执行任务
+		void schedule(TimerTask TTask, Date targetTime)				被安排在指定的 时间执行
+		void schedule(TimerTask TTask, Date targetTime, long repeat)
+			每次执行的时间是从前一次执行的时间开始的
 	
-	Time(String tName)
-	Time(boolean DThread, String tName)
-
-	DThread 为true时， 只要程序的剩余部分仍在继续执行，守护线程就会执行
-	tName	指定线程名称
-
+		void scheduleAtFixedRate(TimerTask TTask, long wait, long repeat)			每次重复执行的时间都和第一次执行的时间有关，
+																					而不是前一次执行的时间有关
+		void scheduleAtFixedRate(TimerTask TTask, Date targetTime, long repeat)
+			如果时间是过去的时间 会立刻执行 n 次 知道现在的时间为止， 每次执行的时间是从第一次执行的时间开始的 
 
 
+# Currency 类
+	Currency 类封装了有关货币的信息， 没有定义构造函数
+
+	方法：
+		static Currency getInstance(Locale localeObj)	返回由LocaleObj 指定的地区的 Currency 对象
+		static Currency getInstance(String code)		返回与 code 传递的货币相关代码关联的Currency 对象
+		static Set<Currency> getAvailableCurrencies()	返回一组支持的货币
+		
+		String getCurrencyCode()			返回描述调用货币的代码（由 ISO 4217 定义）
+		int getNumericCode()				返回与 code 传递的货币代码相关的 Currency 对象
+		
+		int getDefaultFractionDigits()		返回正常情况下调用货币使用的小数后面的位数， 例如美元，正常情况下 是 2
+		String getDisplayName()				返回调用货币在默认地区的名称
+		String getDisplayName(Locale loc)	返回调用货币在指定地区的名称
+		
+		String getSymbol()					返回调用对象的货币符号（比如$）
+		String getSymbol(Locale loc)
+		String toString()
 
 
+# Formatter 类
+	在使用 Formatter 格式化输出之前，必须穿件Formatter 对象。
+	通常 将程序使用的数据的二进制形式转换成格式化的文本进行工作。在缓冲区中存储格式化文本 无论何时需要，都可以通过程序获取缓冲区中的内容
+	
+	部分构造函数：
+		Formatter()
+		Formatter(Appendable buf)
+		Formatter(Appendable buf, Locale loc)
+		Formatter(String filename) throws FileNotFoundExcetion
+		Formatter(String filename, String charset) throws FileNotFoundExcetion, UnsupportedEncodingException
+		Formatter(File outF) throws FileNotFoundExcetion
+		Formatter(OutputStream outStrm)
 
+		/*
+			buf 指定了用于保存格式化输出的缓冲区。 如果buf 为 null, Formatter 将自动分配 StringBuilder 以保持格式化输出。
+			loc 指定了地区，默认为 默认地区
+			filename 指定了将用于接收格式化的文件的名称
+			charset 指定了字符集
+			ouF		指定一个引用，这个引用将用于接收输出的已打开文件
+			outStrm 指定一个引用，这个引用将用于接收输出的输出流，如果使用文件，那么输出也可以写入文件中
+		*/
 
+	方法：
+		void close()	关闭调用 Formatter 对象，这回导致 Formatter 对象使用的所有资源被释放。
+						如果使用已关闭的对象，会导致 FormatterClosedException 异常
+		void flush()	刷新格式化缓冲区，这会导致将缓冲区中当前的所有输出都写入目标中。该方法主要用于与文件绑定的 Formatter 对象
+		
+		Formatter format(String fmtString, Object ...args)		根据 fmtString 中包含的格式说明符，格式化 args 化递过来的参数。返回调用对象
+		IOException ioException()	如果作为输出目标的底层对象抛出 IOException 异常，就返回该异常；否则返回 null
+		Locale locale()				返回调用对象的地区
+		Appendable out()			返回指向底层对象的引用，底层对象是输出的目标
+		Sting toString()			返回包含格式化输出的 String 对象
+	
+	
+.格式化的基础知识
+	format(String fmtString, Object ...args)
+	fmtString 包含俩种类型的条目： 	第一种类型是由将被简单地复制到输出缓冲区中的字符构成的；
+									第二种类型包含格式说明符，含格式说明符 定义了显示后续参数的类型
+									如果参数不匹配 抛出 IllegalFormatException
+	Formatter f = new Formatter();
+	f.format("a %s c", "b");
+	f.close();
+	
+	// f.toString() -> "abc"
+	
+	格式说明符		适用的转换
+	
+	%b %B			布尔型
+	
+	%a %A			浮点数十六进制
+	%x %X           十六进制整数
+	
+	%o				八进制整数
+	%d				十进制整数
+	%f    			十进制浮点数
+	
+	%h %H           参数的哈希码
+	%e %E			科学计算法
+	%g %G			基于被格式化的值和精度使用 %e | %f
+	
+	%c				单个字符
+	%s %S 			字符串	%s不分大小写， %S 转换为大写
+	
+	%n				插入一个换行符
+	%%				插入一个 % 号
+	
+	%t %T           时间和日期	
+	
+.数字化格式
+	f.format("Hex: %x, Octal: %o", 196, 196)
+	// "Hex: c4, Octal: 304
 
+.格式化时间和日期
+	功能更强大的转换说明符是 %t。 通过它可以格式化日期和时间信息。%t 说明与其他说明符的工作方式有些不同，
+	因为需要后缀来描述时间和日期所期望的组成部分和精确格式。
+	与 %t 对应的参数类型必须是 Calendar、Date、Long、long
 
+	例如 %tM表示 分钟
+	
+	后缀：  替换内容：
+	
+	a		星期名简称
+	A 		星期名全称
+	
+	b 		月份名简称
+	h 		月份名简称
+	B  		月份名全称
+	
+	
+	c  		标准日期和时间字符串，格式为： 天 月份 日期 小时：分钟：秒数 时区 年
+	C 		年份的前俩个数字
+	y		年份的后俩位（00-99）
+	Y		年份（0001-9999）
+	
+	D       年/月/日
+	F       年-月-日
+	
+	d  		dayOfMonth 的十进制格式 (01-31)
+	e  		dayOfMonth 的十进制格式 (1-31)
+	
+	j	    dayOfYear 的十进制格式(001-336)
+	
+	H 		小时（00-23）
+	k 		小时（0-23）
+	
+	I 		小时（01-12）
+	l 		小时（1-12）
+	
+	L 		毫秒(000-999)
+	
+	m 		月份的十进制格式(01-12)
+	M 		分钟的十进制格式(00-59)
+	N		纳秒（0000000000-999999999）
+	
+	p 		以小写形式表示本地时间的 AM 或 PM
+	Q		自1970-1-1 来经历的毫秒数
+	s		自1970-1-1 （UTC）来经历的毫秒数
+	
+	r 		小时：分钟：秒数（12小时格式）
+	R		小时：分钟（24小时格式）
+	T		小时：分钟：秒数（24小时格式）
+	
+	S 		秒（00-59）
+	
+	z		相对于 UTC 的时差
+	Z 		时区名
+	
+. %n 和 %% 说明符
+	他们只作为转义符使用， 不作参数匹配
+	
+. 指定最小字段宽度
+	%符号和转换码之间 的整数被作为最小字段的宽度，
+	%12f 表示%f 的最小宽度为12， 位数不足使用空格在 前面填充
+	%012f	用 0 指定填充
+	
+. 指定精度
+	精度说明符号可以用于 %f  %e %g 以及 %s
+	默认小数点6位
+	%10.4f 表示显示的数字至少有10个字符宽（包括小数点和小数），并且带有4位小数
+	%010.4f	也可以指定 填充位
+	
+	当使用%s 的使用
+	
+	%4.10f	表示最小4个字符长度 最大10个字符长度 ，多余的会被截断
+	
+	
+. 使用格式标志
+	标志：		效果：
+	-   		左对齐							// 如果是左对齐的话， 填充位是在结果的后面
+	#			可选的转换格式	
+					# 用于 %o %x %e %f 格式说明
+					对于 %e %f, 确保具有小数点，不论是否有小数位
+					%x 十六进制 前面添加0x
+					%o	八进制前面添加0
+					
+	0			使用0 而不是空格填充输出
+	空格		在输出的前面加一个空格
+	+			在输出的前面加一个+ 符号
+	，			在数值中包含组分隔符			%,.2f，1256464.4655464 -> 1,256,464.4655464
+	(			将负值放在括号内
+	
+. 大写选项
+	说明符：	效果：
+	%A 			使用十六进制数字中的 a~f 显示为大写的 A~F. 另外 0x 前缀显示为 0X， p显示为 P	
+	%H			使用十六进制数字中的 a~f 显示为大写的 A~F.
+	%X			使用十六进制数字中的 a~f 显示为大写的 A~F. 另外，可选的前缀 0x 将显示为0X（如果存在的话）
+	%B			使 true 和 false 变为大写格式
+	%E			使用大写显示指数符号e
+	// %G			
+	
+	%S			使相应的字符串变为大写形式
+	%T			使用大写显示所有的字母输出
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
+. 使用参数索引
+	n$ 表示期望的索引参数， 从1开始
+	(%1$s,"str")
+	
+# Scanner 类
+	Scanner 类与 Formatter 类相反。 Scanner 类读取格式化的输入，并将输入转换成相应的二进制形式。
+	该类 可以用于从控制台、文件、字符串或任何实现了 Readable | ReadableByteChanner 接口的源读取内容
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 
