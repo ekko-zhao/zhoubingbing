@@ -95,12 +95,12 @@
 	可以使用它的方法来确定是否存在值； 如果存在，获取该值，如果没有值，获取一个默认值
 		
 	方法：
-		static <T> Optional<T> empty()		返回一个对象，对该对象调用 isPresent() 会返回 false
-		static <T> Optional<T> of(T val)	创建一个包含val 的 Optional 实例，并返回结果。 val 的值不能是 null
+		static <T> Optional<T> empty()				返回一个对象，对该对象调用 isPresent() 会返回 false
+		static <T> Optional<T> of(T val)			创建一个包含val 的 Optional 实例，并返回结果。 val 的值不能是 null
 		static <T> Optional<T> ofNullable(T val)	创建一个包含 val 的 Optional 实例，并返回结果。如果 val 是null，返回一个空的 Optional 实例
 		
-		void ifPresent( Consumer<? super T> func ) 如果调用对象中存在值，调用func; 没有值， 什么多不发生
-		boolean isPresent()					判断调用对象是否有值
+		void ifPresent( Consumer<? super T> func ) 	如果调用对象中存在值，调用func; 没有值， 什么多不发生
+		boolean isPresent()							判断调用对象是否有值
 		
 		Optional<T> filter(
 			Predicate<? super T> condition
@@ -433,7 +433,7 @@
 		IOException ioException()	如果作为输出目标的底层对象抛出 IOException 异常，就返回该异常；否则返回 null
 		Locale locale()				返回调用对象的地区
 		Appendable out()			返回指向底层对象的引用，底层对象是输出的目标
-		Sting toString()			返回包含格式化输出的 String 对象
+		String toString()			返回包含格式化输出的 String 对象
 	
 	
 .格式化的基础知识
@@ -581,20 +581,21 @@
 	(%1$s,"str")
 	
 # Scanner 类
-	Scanner 类与 Formatter 类相反。 Scanner 类读取格式化的输入，并将输入转换成相应的二进制形式。
+	Scanner 类。 Scanner 类读取格式化的输入，并将输入转换成相应的二进制形式。 与 Formatter 类相反
+	
 	该类 可以用于从控制台、文件、字符串或任何实现了 Readable | ReadableByteChanner 接口的源读取内容
 	
 	构造函数：
 	Scanner(File from) 
 		throws FileNotFoundExcetion 	创建的 Scanner 对象使用 from 指定的文件作为输入源
-	Scanner(File from, Sting charset)
+	Scanner(File from, Stringing charset)
 		throws FileNotFoundExcetion		创建的 Scanner 对象使用 from 指定的文件作为输入源, 并制定编码格式
 	
 	Scanner(InputStream from)			创建的 Scanner 对象使用 from 指定的流作为输入源
-	Scanner(InputStream from, Sting charset)
+	Scanner(InputStream from, String charset)
 		
 	Scanner(Path from)	throws IOException	创建的 Scanner 对象使用 from 指定的文件作为输入源
-	Scanner(Path from, Sting charset)	throws IOException
+	Scanner(Path from, String charset)	throws IOException
 	
 	Scanner(Readable from)				创建的 Scanner 对象使用 from 指定的 Readable 对象作为输入源
 	Scanner(ReadableByteChanner from)
@@ -602,6 +603,211 @@
 	Scanner(String from)
 	
 	
+.使用 Scanner 需要遵守以下过程：
+	1) 调用 Scanner 类的 hasNextX() （X 是期望的数据类型），确定是否可以得到某个特定类型的输入。
+	2) 如果能够得到输入，就调用 Scanner 类的 nextX() 方法进行读取。
+	3) 重复上述过程，知道输入全部读取完成
+	4) 调用 close() 关闭
+	
+	/*
+		Scanner conin = new Scanner(System.in)
+		int i;
+		while(conin.hasNextInt()){
+			i = conin.nextInt();
+		}
+		
+		如果 nextX 方法无法找到正在查找的类型，就会抛出 InputMismatchException
+		
+	*/
+	
+	Next 方法：
+		boolean hasNext()		如果有可以读取的任意类型的标记，就返回 true; 否则返回 false
+		boolean hasNext(Pattern pattern)	如果有可以读取的与 pattern 传递过来的模式向匹配的标记，就返回 true
+		boolean hasNext(String pattern)		
+		
+		boolean hasNextBigDecimal() 	判断是否能够读取 可以存储与 BigDecimal 对象中的值
+		boolean hasNextBigInteger()		(默认基数为10)
+		boolean hasNextBigInteger(int radix)	使用基数
+		
+		boolean hasNextBoolean()
+		boolean hasNextByte()
+		boolean hasNextByte(int radix)
+		
+		boolean hasNextDouble()
+		boolean hasNextFloat()
+		boolean hasNextInt()
+		boolean hasNextInt(int radix)
+		
+		boolean hasNextLine()		如果能够读取输入的行，就返回 true
+		
+		boolean hasNextLong()
+		boolean hasNextLong(int radix)
+		
+		boolean hasNextShort()
+		boolean hasNextShort(int radix)
+		
+		String next()		从输入源返回下一个任意类型的标记
+		String next(Pattern pattern)	从输入源返回下一个与 pattern 传递过来的模式相匹配的标记
+		String next(String pattern)		从输入源返回下一个与 pattern 传递过来的模式相匹配的标记
+		
+		BigDecimal nextBigDecimal()		作为 BigDecimal 对象返回下一个标记
+		BigDecimal nextBigDecimal(int radix)
+		
+		byte nextByte()		作为 byte 值返回下一个标记
+		byte nextByte(int radix)	
+		
+		double nextDouble()
+		double nextFloat()
+		
+		double nextInt()
+		double nextInt(int radix)
+		
+		String nextLong()
+		String nextLong(int radix)
+		
+		short nextShort(int radix)
+		
+		// radix 基数默认为 10
+		
+		
+	/*
+		public class Test{
+			public static void main(String[] args) {
+
+				Scanner conin = new Scanner(System.in);
+				int count = 0;
+				double sum = 0.0;
+				System.out.println("Enter numbers to average.");
+				while (conin.hasNext()) {
+					if (conin.hasNextDouble()) {
+						sum += conin.nextDouble();
+						count++;
+					} else {
+						String str = conin.next();
+						if (str.equals("done"))
+							break;
+						else {
+							System.out.println("Date format error.");
+						}
+					}
+
+				}
+				conin.close();
+				System.out.println(sum/count);
+			}
+		}
+		
+		计算控制台输入的数字平均值， 当输入 done, 时退出
+	*/
+		
+. 自动关闭
+	try(Scanner src = new Scanner(fin)){
+	
+	}
+		
+		
+. 设置定界符
+	Scanner 根据一些列的定界符来确定标记的开始和结束位置， 默认为 空格字符，
+		
+	方法：
+		Scanner useDelimiter(String pattern)
+		Scanner useDelimiter(Pattern pattern)	// ", *" | ",*"  表示 ，和任意多的空格
+		
+		Pattern delimiter()		获取定界符
+		
+. 其它 Scanner 特性
+	
+	方法：
+		String findInLine(String pattern)		在文本 的下一行索引指定的模式。 如果找到指定的模式，就使用并返回匹配的标记， 
+												否则 null
+		String findInLine(Pattern pattern)
+			/*
+				String instr = "Name: Tom Age: 28 id:77";
+				Scanner conin = new Scanner(instr);
+				String s = conin.findInLine("Age:");
+					// s -> "Age:"
+				if(conin.hasNext())
+					System.out.println(conin.next());
+					// 28
+				conin.close();
+			*/
+	
+		String findWithinHorizon(Pattern pattern, int start)		用法与 findInLine 类似， 指定开始匹配的起始位置
+		String findWithinHorizon(String pattern, int start)
+	
+		Scanner skip(Pattern pattern)	// pattern 和 字符的 开始除匹配 是否相同， 不匹配 抛出 NoSuchElementException 异常
+		Scanner skip(String pattern)
+	
+
+# java.util.function 函数式接口
+
+	接口：					抽象方法：					描述：
+	
+	Function<T, R>			R apply(T val)
+	
+	BiConsumer<T, U>		void accept(T v, U u) 		
+	BiFunction<T, U, R>		R apply(T v, U u)
+	BinaryOperator<T>		T apply(T v1, T v2)
+	BiPredicate<T, U>		boolean test(T v, U u)
+	
+	BooleanSupperlier		boolean getAsBoolean()
+	
+	Consumer<T>				void accept(T val)
+	
+	DoubleBinaryOperator	double applyAsDouble(double v1, double v2)
+	DoubleConsumer			void accept(double val)
+	DoubleFunction<R>		R apply(double v)
+	DoublePredicate			boolean test(double val)
+	DoubleToIntFunction		int applyAsInt(double val)
+	DoubleToLongFunction	long applyAsInt(double val)
+	DoubleUnaryOperator		double applyAsDouble(double val)
+
+	IntBinaryOpetator		int applyInt(int v1, int v2)
+	intConsumer				int accept(int v)
+	intFunction<R>			R apply(int val)
+	intPredicate			boolean test(int v)
+	intSupplier				int getAsInt()
+	intToDoubleFunction		double applyAsDouble(int v)
+	intToLongFunction		long applyAsDouble(int v)
+	intUnaryOperator		int applyAsInt(int v)
+	
+	LongConsumer			void accept(long v)
+	longFunction<R>			R apply(long val)
+	longPredicate			boolean test(long v)
+	longSupplier			long getAsInt()
+	longToDoubleFunction	double applyAsDouble(long v)
+	longToIntFunction		int applyAsInt(long v)
+	LongUnaryOperator		long applyAsLong(long v)
+	
+	ObjDoubleConsumer<T>	void accept(T v1, T v2)
+	ObjIntConsumer<T>		void accept(T v, int v2)
+	ObjLongConsumer<T>		void accept(T v, long v2)
+	
+	Predicate<T>			boolean test(T val)
+	Supplier<T>				T get()
+	
+	ToDoubleBiFunction<T,U>	double applyAsDouble(T v1, U v2)
+	ToDoubleFunction<T>		double applyAsDouble(T v1)
+	
+	ToIntBiFunction<T,U>	int applyAsDouble(T v1, U v2)
+	ToIntFunction<T>		int applyAsDouble(T v1)
+	
+	ToLongBiFunction<T,U>	long applyAsDouble(T v1, U v2)
+	ToLongFunction<T>		long applyAsDouble(T v1)
+	
+	UnaryOperator<T>		T apply(T val)
+	
+	
+	/*
+		函数名称规则:
+		Binary Bi 	为俩个参数
+		Unary		为一个参数
+		Consumer 	为纯粹消费 没有返回 ， void
+		Operator	为操纵参数
+		Predicate 	为断言， 返回 boolean
+		Supplier	空参数
+		
+	*/
 	
 	
 	
@@ -620,39 +826,3 @@
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -453,9 +453,7 @@
 	int hashCode()
 	V setValue(V v)
 	
-	
-	
-						
+				
 # SortedMap 接口
 	interface SortedMap<K, V>
 	SortedMap 接口扩展了Map 接口，确保条目以键的升序保存。
@@ -552,7 +550,7 @@
 # IdentityHashMap 类
 	class IdentityHashMap<K, V>
 	IdentityHashMap 扩展了 AbstractMap 类.
-	除了当比较元素时使用引用相等性之外，其它方面与HashMap 类似
+	除了当比较元素时使用引用相等性之外，其它方面与 HashMap 类似
 
 # EnumMap 类
 	class EnumMap<K extends Enum<K>, V>
