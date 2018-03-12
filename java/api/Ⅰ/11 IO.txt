@@ -15,27 +15,26 @@
 	字节流是通过俩个类层次定义的， 在顶级是两个抽象类： InputStream 和 OutputStream
 	为了使用类流，必须导入 java.io
 	
-	InputStream 和 OutputStream 抽象类定义了其它流类的一些关键方法， 其中最重要的两个方法是 read() 和 write(),
-	分别读取和写入字节数据
+	InputStream 和 OutputStream 抽象类定义了其它流类的一些关键方法， 其中最重要的两个方法是 read() 和 write(),  分别读取和写入字节数据
 	
 	InputStream					描述输入流的抽象类
 	OutputStream				描述输出流的抽象类
 	
-	BufferedInputStream			缓冲的输入流
-	BufferedOutputStream		缓冲的输出流
+	FileInputStream				读取文件内容的输入流
+	FileOutputStream			向文件中写入内容的输出流
 	
 	ByteArrayInputStream		读取字节数组内容的输入流
 	ByteArrayOutputStream		向字节数组写入内容的输入流
 	
+	FilterInputStream			实现 InputStream
+	FilterOutputStream			实现 OutputStream
+	
+	BufferedInputStream			缓冲的输入流
+	BufferedOutputStream		缓冲的输出流
+	
 	DataInputStream				包含读取 Java 标准数据类型的方法的输入流
 	DataOutputStream			包含写入 ...
 	
-	FileInputStream				读取文件内容的输入流
-	FileOutputStream			向文件中写入内容的输出流
-	
-	FilterInputStream			实现 InputStream
-	FilterOutputStream			实现 OutputStream
-
 	ObjectInputStream			用于对象的输入流
 	ObjectOutputStream			用于对象的输出流
 

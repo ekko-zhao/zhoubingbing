@@ -113,7 +113,7 @@
 	可以声明 static， 可以独立通过接口名条用静态方法
 	public interface A {
 		void m();
-		void c(){
+		default void c(){
 			// do something...
 		};
 	}

@@ -1,0 +1,290 @@
+﻿
+# File 类
+	java.io 定义的大多数类用于操作流，但 File 类却不是。 File 类直接处理文件和文件系统，
+	也就是说，该类没有指定如何从文件检索信息以及如何向文件中存储信息，而是描述了文件本身的属性
+	
+	现实了 Comparable 接口
+	
+	构造函数：
+		File(String directoryPath)						// 目录对象
+		File(String directoryPath, String filename)		// 文件对象
+		File(File dirObj, String filename)
+		File(URI uriObj)
+		
+		/*
+			File f1 = new File("/");
+			File f2 = new File("/", "a.txt");
+			File f3 = new File(f1, "a.txt");
+		*/
+	
+	方法：
+		String getPath()			返回目录
+		String getAbsolutePath
+		boolean isAbsolute()
+		
+		String getName()			返回文件名，如果该对象为目录对象则返回 directoryPath
+		String getParent()			返回父目录名
+		String exists()				判断该目录或 文件是否存在
+		boolean canRead()
+		boolean canWrite()
+		int length()				返回文件内的字节长度
+		
+		boolean renameTo(File newName)
+		boolean delete()			删除文件或目录, 删除文件后若文件夹为空则删除该文件夹
+		
+		// 目录对象
+		boolean isDirectory()		是否为目录，new File("/")
+		String[] list()				返回该目录下的所有文件名的列表，如果该对象为目录对象
+		
+		mkdir()						创建目录，成功返回true
+		mkdirs()					为不存在的路径创建目录，及其所有父目录
+		
+		// 文件对象
+		boolean isFile()			是否为指定文件，new File("/","filename")
+		
+		// 
+		void deleteOnExit()			当java 虚拟机终止时，删除与调用对象关联的文件
+		long getFreeSpace()			返回在与掉哟个对象关联的分区中，剩余存储空间的字节数
+		long getTotalSpace()		返回在与调用对象关联的分区的存储容量
+		long getUsableSpace()		返回在与调用对象关联的分区中，剩余可用存储空间的字节数
+		boolean isHidden()			如果调用文件是隐藏的，就返回true; 否则返回 false
+		boolean setLastModefied(long millisec)
+		boolean setReadOnly()		将调用文件设置为只读的
+	
+		Path toPath()				转换为 Path对象
+		
+. 使用 FilenameFilter 接口
+	该接口只定义了accept() 方法，过滤文件夹中的指定文件
+	boolean accept(File directory, String filename)
+	
+	/*
+		public class OnlyExt implements FilenameFilter{
+			String ext;
+			public OnlyExt(String ext){
+				this.ext = ext;
+			}
+			public accept(File dir, String name){
+				return name.endsWith(ext);
+			}
+		}
+	*/
+	
+	方法：
+		String[] list(FilenameFilter FFObj)
+	
+	
+.listFiles() 方法
+	File[] listFiles()						返回该文件夹内的所有文件 File 对象
+	File[] listFiles(FilenameFilter FFObj)	返回该文件夹内的过滤后的文件 File 对象
+	File[] listFiles(FileFilter FObj)
+	
+	/*
+		FileFilter 接口 只定义了一个 accept() 方法
+		boolean accept(File path)
+	*/
+	
+# AutoCloseable Closeable Flushable 接口
+	Closeable 扩展了 AutoCloseable 接口
+	
+	JDK 7新增
+	AutoCloseable 接口对带资源的 try 语句提供了支持， 这种 try 语句可以自动执行资源关闭过程， 该接口只定了了 close() 方法；
+	
+	void close() throws Exception
+	
+	Flushable 接口的类的对象， 可以强制将缓冲的输出写入对象关联的流中，该接口定义了 flush() 方法
+		void flush() throws IOException
+		刷新流通常会导致缓冲的输出被物理地写入底层设备中。写入流的所有I/O与对象关联的流中
+		
+# I/O 异常
+	
+	IOException
+		FileNotFoundException	文件无法打开
+	
+	SecurityException	安全违规异常， applet会使用浏览器提供的安全管理器， 执行文件的I/O 可能会产生该异常。
+	
+# 关闭流的俩种方式
+	
+	1. try{
+	
+	}catch(I/O-Exception){
+	
+	}finally{
+		file.close()
+	}
+	
+	2. try(resurce-specification){
+	
+	}
+
+
+
+# 字节流--------------------------------------------------------------------------------------------------
+
+# InputStream 类
+	该类为抽象类，定义了 Java 的流字节输入模型，并且还实现了 AutoCloseable 和 Closeable 接口
+	
+	int available()		返回当前可读取的输入字节数
+	void close()		关闭输入源，如果视图继续继续读取，会产生 IOException
+	
+	
+	int read()					返回代表下一个可用字节的整数。当到达文件末尾时，返回 -1
+	int read(byte buffer[])		尝试读取 buffer.length 个字节到 buffer 中，并返回实际成功读取的字节数。
+								当到达文件末尾时，返回 -1
+	int read(byte buffer[], int offset, int numBytes)
+								尝试读取 numBytes 个字节到 buffer 中，从 buffer[offset] 开始保存读取的字节。
+								该方法返回成功读取的字节数； 当到达文件末尾时，返回 -1
+	long skip(long numBytes)	忽略（跳过） numBytes 个字节的输入，返回实际忽略的字节数
+	
+	
+	boolean markSupported()		如果调用流支持 mark() 或 reset() 方法就返回true
+	void reset()				将输入指针重置为前面设置的标记， 可以重置 read 的起始位置
+	void mark(int numBytes)		在输入流的当前位置放置标记( 执行该方法的位置 )，该标记在读入 numBytes 个字节之前一直都有效
+	
+	/*
+		InputStream 的子类实现了 该抽象类的大部分方法， mark() 和 reset() 方法除外
+	*/
+	
+# OutputStream 类
+	该类 是定义流字节输出的抽象类， 实现了 AutoCloseable Closeable Flushable 接口，
+	该类的大部分方法都返回 void, 并且如果发生了 I/O 错误，大部分方法都会抛出 IOException
+	
+	方法：
+		void close()		关闭输出流。如果视图继续向流中写入内容，将产生 IOException 异常
+		void flush()		结束输出状态，从而清空所有缓冲区，即刷新输出缓冲区
+		
+		void write(int b)	向输出流中写入单个字节，注意单数是 int 类型，
+							从而允许使用表达式调用 write() 方法，而不用将表达式强制转换回 byte 类型
+		void write(byte buffer[])	向输出流中写入一个完整的字节数组
+		void write(byte buffer[], int offset, int numBytes)
+							将 buffer 数组中从buffer[offset] 开始的 numBytes 个字节写入输出流中
+
+# FileInputStream 类							
+	使用该类创建的 InputStream 对象可以用于从文件读取字节。
+	该类重写了 InputStream 抽象类的的6个方法，但是没有重写 reset() 和 mark() 方法；
+	俩个常用的构造函数如下所示：
+		FileInputStream(String filePath)
+		FileInputStream(File fileObj)
+	
+# FileOutputStream 类
+	该类创建能够用于向文件中写入字节的 OutputStream 对象，实现了 AutoCloseable Closeable Flushable 接口
+	FileOutputStream 对象的创建不依赖与已经存在的文件。当创建对象时， FileOutputStream 会在打开文件之前创建文件。
+	如果视图打开只读文件，会抛出异常
+	
+	
+	构造函数：
+		FileOutputStream(String filePath)
+		FileOutputStream(File fileObj)
+		FileOutputStream(String filePath, boolean append)	// append 为是否以追加方式写入， 否则置空文件内容添加
+		FileOutputStream(File fileObj, boolean append)	
+	
+# ByteArrayInputStream 类
+	该类使用字节组作为源的输入流的一个实现。这个类有俩个构造函数，都需要一个字节组来提供数据；
+	该类创建使用字节组作为源的输入流 的 InputStream 类，实现了 mark() 和 reset()  方法
+	该类不需要调用 close() 方法
+	
+	ByteArrayInputStream(byte array[])
+	ByteArrayInputStream(byte array[], int start, int numBytes)
+	
+# ByteArrayOutputStream 类
+	该类是使用字节数组作为目标的输出流的一个实现。
+	
+	构造函数:
+		ByteArrayOutputStream()					创建一个32 字节的缓冲区
+		ByteArrayOutputStream(int numBytes)		创建一个指定大小字节的缓冲区
+		
+		/*
+			如果有需要的话，缓存区的大小会自动增加，
+			colse() 方法对 ByteArrayOutputStream 对象没有效果。
+		*/
+	
+	方法：
+	byte[] toByteArray()	将该对象转换成 字节组 
+	
+# 过滤的字节流
+	过滤的字节流是简单的封装器，用于封装底层的输入流或输出流，并且还透明地提供一些扩展级别的功能；
+	这些流一般是通过接受通用流的方式访问的，通用流是过滤流的超类
+	典型的扩展是缓冲 字符转换以及原始数据转换
+	
+	构造函数：
+		FilterInputStream(InputStream is)
+		FilterOutputStream(OutputStream os)
+	
+# 缓冲的字节流
+	对于面向字节的流， 缓冲流通过将内存缓冲区附加到I/O 系统来扩展过滤流。
+	这种流允许 java 一次对多个字节执行多次 I/O 操作，从而提升性能。 所有 skip remark reset 都是可能发生的
+	
+	缓冲流类是 BufferedInputStream 和 BufferedOutputStream。 PushbackInputStream 也实现了缓冲流
+	
+. BufferedInputStream 类
+	缓冲I/O 是很常见的性能优化手段。 java 的 BufferedInputStream 类允许将任何 InputStream 对象封装到缓冲流中以提高性能
+	
+	构造函数：
+		BufferedInputStream(InputStream inputStream)
+		BufferedInputStream(InputStream inputStream, int bufSize)
+			
+	/*
+		第二种形式， 缓冲区大小是有 bufSize 传递的。使缓冲区大小等于内存页面、磁盘块等大小的整数倍，可以明显提高性能。
+		为了重复利用缓冲，不需要这么复杂，比较好的缓存大小约是 8192 字节，并且对于 I/O 系统来说即使附加比较小的缓冲区，
+		也是一个好主意，这样的话低级系统就可以从磁盘或网络获取多块数据
+		
+		支持 mark reset skip 方法
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

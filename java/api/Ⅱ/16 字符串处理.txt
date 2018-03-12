@@ -47,15 +47,17 @@
 	*/
 	
 
-	boolean regionMatches(int startIndex, String str2, int str2StartIndex, int length) 	// 比较俩个字符串指定位置是否相等
-	boolean regionMatches(boolean ingnoreCase,int startIndex, String str2, int str2StartIndex, int str2Length) // 是否忽略大小写
+	boolean regionMatches(int startIndex, String str2, int str2StartIndex, int length) 
+											比较俩个字符串指定位置是否相等
+	boolean regionMatches(boolean ingnoreCase,int startIndex, String str2, int str2StartIndex, int str2Length) 
+											是否忽略大小写
 	
-	boolean startWith(String str)		// 是否以特定的字符串开始
-	boolean endsWith(String str)			// 是否以特定的字符串结束
+	boolean startWith(String str)			是否以特定的字符串开始
+	boolean endsWith(String str)			是否以特定的字符串结束
 
-	int compareTo(String str)	// 比较来个字符串大小
+	int compareTo(String str)				比较来个字符串大小
 
-	int indexOf(int char[, int startIndex ])		// 查找第一次出现时的索引
+	int indexOf(int char[, int startIndex ])		查找第一次出现时的索引
 	int lastIndexOd(String str[, int startIndex ])
 	
 # 修改字符串
