@@ -26,11 +26,16 @@
 	ByteArrayInputStream		读取字节数组内容的输入流
 	ByteArrayOutputStream		向字节数组写入内容的输入流
 	
-	FilterInputStream			实现 InputStream
-	FilterOutputStream			实现 OutputStream
-	
 	BufferedInputStream			缓冲的输入流
 	BufferedOutputStream		缓冲的输出流
+	
+	PushbackInputStream			支持1 字节“取消获取” 输入流， 这种流向输入流返回 1 个字节
+	SequenceInputStream			由俩个多个顺序依次读取的输入流组合而成的输入流
+	
+	PrintStream					包含 print() 和 println() 输出流
+	
+	FilterInputStream			实现 InputStream
+	FilterOutputStream			实现 OutputStream
 	
 	DataInputStream				包含读取 Java 标准数据类型的方法的输入流
 	DataOutputStream			包含写入 ...
@@ -41,10 +46,9 @@
 	PipedInputStream			输入管道
 	PipedOutputStream			输出管道
 	
-	PrintStream					包含 print() 和 println() 输出流
 	
-	PushbackInputStream			支持1 字节“取消获取” 输入流， 这种流向输入流返回 1 个字节
-	SequenceInputStream			由俩个多个顺序依次读取的输入流组合而成的输入流
+	
+	
 
 
 # 字符流类
@@ -60,14 +64,17 @@
 	Reader						描述字符流输入的抽象类
 	Writer						描述字符流输出的抽象类
 	
+	FileReader					从文件读取内容的输入流
+	FileWriter					向文件中写入内容的输出流
+	
 	BufferedReader				缓冲的输入字符流
 	BufferedWriter				缓冲的输出字符流
 
 	CharArrayReader				从字符数组读取内容的输入流
 	CharArrayWriter				从字符数组读取内容的输出流
-
-	FileReader					从文件读取内容的输入流
-	FileWriter					向文件中写入内容的输出流
+	
+	PrintWriter					包含 print() 和 println() 输出流
+	PushbackReader				允许字符返回到输入流的输入流
 
 	InputStreamReader			将字节转换成字符的输入流
 	OutputStreamReader			将字节转换成字符的输出流
@@ -77,8 +84,7 @@
 	PipedReader					输入管道
 	PipedWriter					输出管道
 	
-	PrintWriter					包含 print() 和 println() 输出流
-	PushbackReader				允许字符返回到输入流的输入流
+	
 	
 	StringReader				从字符串读取内容的输入流
 	StringWriter				向字符串读取内容的输出流

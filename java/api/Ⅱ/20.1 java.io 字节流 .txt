@@ -138,11 +138,22 @@
 	
 	boolean markSupported()		如果调用流支持 mark() 或 reset() 方法就返回true
 	void reset()				将输入指针重置为前面设置的标记， 可以重置 read 的起始位置
-	void mark(int numBytes)		在输入流的当前位置放置标记( 执行该方法的位置 )，该标记在读入 numBytes 个字节之前一直都有效
 	
-	/*
-		InputStream 的子类实现了 该抽象类的大部分方法， mark() 和 reset() 方法除外
-	*/
+	
+	void mark(int numBytes)		在输入流的当前位置放置标记( 执行该方法的位置 )，该标记在读入 numBytes 个字节之前一直都有效
+		/*
+			如果在mark后读取超过readlimit字节数据，mark标记就会失效，调用reset()方法会有异常。
+			但实际的运行情况却和JAVA文档中的描述并不完全相符。 
+			有时候在BufferedInputStream类中调用mark(int readlimit)方法后，即使读取超过readlimit字节的数据，mark标记仍有效，仍然能正确调用reset方法重置。 
+			
+			事实上，mark在JAVA中的实现是和缓冲区相关的。只要缓冲区够大，mark后读取的数据没有超出缓冲区的大小，mark标记就不会失效。
+			如果不够大，mark后又读取了大量的数据，导致缓冲区更新，原来标记的位置自然找不到了。
+			因此，mark后读取多少字节才失效，并不完全由readlimit参数确定，也和BufferedInputStream类的缓冲区大小有关。 
+			如果BufferedInputStream类的缓冲区大小大于readlimit，在mark以后只有读取超过缓冲区大小的数据，mark标记才会失效。
+		*/
+	
+	
+	InputStream 的子类实现了 该抽象类的大部分方法， mark() 和 reset() 方法除外
 	
 # OutputStream 类
 	该类 是定义流字节输出的抽象类， 实现了 AutoCloseable Closeable Flushable 接口，
@@ -158,7 +169,9 @@
 		void write(byte buffer[], int offset, int numBytes)
 							将 buffer 数组中从buffer[offset] 开始的 numBytes 个字节写入输出流中
 
-# FileInputStream 类							
+							
+							
+# FileInputStream 类
 	使用该类创建的 InputStream 对象可以用于从文件读取字节。
 	该类重写了 InputStream 抽象类的的6个方法，但是没有重写 reset() 和 mark() 方法；
 	俩个常用的构造函数如下所示：
@@ -170,15 +183,16 @@
 	FileOutputStream 对象的创建不依赖与已经存在的文件。当创建对象时， FileOutputStream 会在打开文件之前创建文件。
 	如果视图打开只读文件，会抛出异常
 	
-	
 	构造函数：
 		FileOutputStream(String filePath)
 		FileOutputStream(File fileObj)
 		FileOutputStream(String filePath, boolean append)	// append 为是否以追加方式写入， 否则置空文件内容添加
 		FileOutputStream(File fileObj, boolean append)	
 	
+	
+	
 # ByteArrayInputStream 类
-	该类使用字节组作为源的输入流的一个实现。这个类有俩个构造函数，都需要一个字节组来提供数据；
+	该类使用字节组作为源的一个输入流的实现。这个类有俩个构造函数，都需要一个字节组来提供数据；
 	该类创建使用字节组作为源的输入流 的 InputStream 类，实现了 mark() 和 reset()  方法
 	该类不需要调用 close() 方法
 	
@@ -200,14 +214,10 @@
 	方法：
 	byte[] toByteArray()	将该对象转换成 字节组 
 	
-# 过滤的字节流
-	过滤的字节流是简单的封装器，用于封装底层的输入流或输出流，并且还透明地提供一些扩展级别的功能；
-	这些流一般是通过接受通用流的方式访问的，通用流是过滤流的超类
-	典型的扩展是缓冲 字符转换以及原始数据转换
 	
-	构造函数：
-		FilterInputStream(InputStream is)
-		FilterOutputStream(OutputStream os)
+	
+	
+	
 	
 # 缓冲的字节流
 	对于面向字节的流， 缓冲流通过将内存缓冲区附加到I/O 系统来扩展过滤流。
@@ -230,45 +240,218 @@
 		支持 mark reset skip 方法
 	*/
 	
+. BufferedOutputStream 类
+	除了增加 flush() 方法之外， BufferedOutputStream 与所有 OutputStream 类似， flush() 方法用于确保将数据缓冲区写入被缓冲的流中。
+	BufferedOutputStream 是通过减少系统实际写数据的次数来提高性能的，因此可能需要调用 flush() 方法，从而要求立即写入缓冲区的所有数据。
+	
+	构造函数：
+		BufferedOutputStream(OutputStream os)
+		BufferedOutputStream(OutputStream os, int bufSize)
+	
+	
+
+	
+	
+# PushbackInputStream 类
+	回退用于输入流，以允许读取字节，然后再将它们添加到流中（添加位置是下一个read）
+	
+	该对象会使得 InputStream 对象的mark() 或reset() 方法无效。 对于准备使用mark() reset() 方法的任何流来书，都应当使用 markSupported() 方法来检查
+	
+	构造函数：
+		PushbackInputStream(InputStream is)
+		PushbackInputStream(InputStream is, int numBytes)	numBytes为缓冲区
+		
+	方法：
+		void unread(int b)
+		void unread(byte buffer[])
+		void unread(byte buffer[], int offset, int numBytes)
+			如果回推的位数大于 构造函数的缓冲区，就会抛出异常
+	
+	
+# SequenceInputStream 类
+	该类允许链接多个 InputStream 对象。 该类构造函数使用 n 个 InputStream 对象或 InputStream 对象的一个 Enumeration 对象作为参数：
+	
+	
+	构造函数：
+		SequenceInputStream(InputStream is1, InputStream is2)
+		SequenceInputStream(Enumeration<? extends InputStream> streamEnum)
+	
+		/*
+			该类从第一个 InputStream 对象进行读取，知道读取完全部内容，然后切换到下一个，当到达每个文件的末尾时 自动关闭该文件
+			关闭通过 SequenceInputStream 创建的流， 会导致关闭所有为关闭的流
+			
+			注意 Enumeration 元素对象中的 nextElement() 方法中，如果不能打开文件就会返回null。这回导致 NullPointerException 异常
+			
+		*/
+	
+	
+# PrintStream 类
+	该类实现了 Appendable、 AutoCloseable、Closeable以及 Flushable接口。
+	
+	该类可以通过 print() pringln() printf() 等方法输出流。 （输出文件）
+	
+	构造函数：
+		
+		PrintStream(OutputStream outputStream)
+		PrintStream(OutputStream outputStream, boolean autoFlushingOn)
+		PrintStream(OutputStream outputStream, boolean autoFlushingOn, String charSet)
+			throws UnsupportedEncodingException
+		
+		/*
+			autoFlushingOn 参数控制每次写入一个换行符(\n) 或字节数组，抑或调用println() printf() format() 方法时，是否会自动刷新输出缓冲区
+			
+			如果 autoFlushingOn 为 true，就自动刷新，如果为 false 就不自动刷新
+		*/
+		PrintStream(File outputFile) throws FileNotFoundException
+		
+		PrintStream(File outputFile, String charSet) 
+			throws FileNotFoundException, UnsupportedEncodingException
+			
+		PrintStream(String outputFileName) throws FileNotFoundException
+	
+		PrintStream(String outputFileName, String charSet)
+			throws FileNotFoundException, UnsupportedEncodingException
+	
+		/*
+			如果存在安全管理器，那么当发生安全性违规时，有些 PrintStream 构造函数会抛出 SecurityException 异常
+		*/
+	
+	PrintStream 为所有类型都支持 print() 和 println() 方法， 并自JDK5 以来添加 printf() 方法使用 Formatter 类
+		PrintStream printf(String fmtString, Object ...args)
+		PrintStream	printf(Local loc, String fmtString, Object ...args)
+		
+		PrintStream format(String fmtString, Object ...args)
+		PrintStream	format(Local loc, String fmtString, Object ...args)
 	
 	
 	
 	
+# 过滤的字节流
+	过滤的字节流是简单的封装器，用于封装底层的输入流或输出流，并且还透明地提供一些扩展级别的功能；
+	这些流一般是通过接受通用流的方式访问的，通用流是过滤流的超类
+	典型的扩展是缓冲 字符转换以及原始数据转换
 	
+	构造函数：
+		FilterInputStream(InputStream is)
+		FilterOutputStream(OutputStream os)	
 	
+# DataOutputStream 和 DataInputStream 类
+	通过这俩个类可以向流中写入基本类型数据或从流中读取基本类型数据。
+	他们分别实现了 DataOutput 和 DataInput 接口，这些接口定义了将基本类型转换成字节序列或将字节序列转换成基本类型值得方法。这些流简化了在文件中存储二进制数据的操作。
 	
+	DataOutputStream 除了实现了 DataOutput 接口外，还实现了 AutoCloseable、Closeable以及 Flushable接口。
+	DataOutputStream 扩展了 FilterOutputStream, 而 FilterOutputStream 扩展了 OutputStream
 	
+. DataOutputStream 类
+	构造函数：
+		DataOutputStream(OutputStream outputStream)
+		/*
+			当关闭 DataOutputStream 对象时（通过调用 close() 方法）， outputStream 指定的底层流也将被自动关闭
+		*/
 	
+	方法：
+		final void writeDouble(double value) throws IOException
+		final void writeBoolean(boolean value) throws IOException
+		final void writeInt(int value) throws IOException
+
+. DataInputStream 类
+	DataInputStream 是 DataOutputStream 的互补，
+	DataInputStream 除了实现了 DataInput 接口外，还实现了 AutoCloseable、Closeable接口。
+	DataInputStream 扩展了 FilterIntputStream, 而 FilterIntputStream 扩展了 IntputStream
+
+	构造函数：
+		DataInputStream(InputStream inputStream)
+
+	方法：
+		final double readDouble() throws IOException
+		final boolean readBoolean() throws IOException
+		final int readInt()	throws IOException
+		
+		
+
+
+# RandomAccessFile 类
+	RandomAccessFile 类封装了随机访问文件的能力，该类并非派生自 InputStream 或 OutputStream 类，而是实现了 DataInput 和 DataOutput 接口
+	此外还实现了 AutoCloseable、Closeable 接口。
+	该类很特殊，因为支持定位需求，即可以定义文件中的文件指针。
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	构造函数：
+		RandomAccessFile(File fileObj, String access) throws FileNotFoundException
+		RandomAccessFile(String filename, String access) throws FileNotFoundException
+
+			access 为 "r" 就只能只读文件，不能写入
+				   为 "rw"	文件是以读-写模式打开的。
+				   为 "rws"	文件是以读-写模式打开的,并且每次对文件中数据或元数据的修改都会被立即写入物理设备
+				   为 "rwd"	文件是以读-写模式打开的,并且每次对文件中数据的修改都会被立即写入物理设备
+
+	方法：
+		void seek(long newPos) throws IOException		 指定下一次读取文件的位置
+		void setLength(long len) throws IOException		 加长或缩短文件
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
 	

@@ -1,0 +1,169 @@
+﻿
+# 字符流
+	虽然字节流为处理各种类型的 I/O 操作提供了充足的功能，但是它们不能直接操作 Unicode 字符。
+	
+	Reader 和 Writer 抽象类位于字符流层次的顶部。
+	
+# Reader 类
+	Reader 是抽象类，定义了 Java 的 流字符 输入模型。 实现了 AutoCloseable、 Closeable 以及 Readable 接口。
+	当发生错误时， 该类中的所有方法（ markSupported()方法除外 ） 都会抛出 IOException 异常。
+	
+	方法：						描述
+	abstract void close()
+	void mark(int numChars)
+	boolean markSupported()		如果这个流支持mark() 或 reset() 方法，就返回 true
+	int read()					
+	int read(byte buffer[])	
+	int read(byte buffer[], int offset, int numBytes)
+	
+	boolean ready()				如果下一个输入请求不等待，就返回true；否则返回 false
+	
+	void mark(int numBytes)
+	void reset()				将输入指针重新设置为前面设置的标记位置
+	
+	long skip(long numBytes)	忽略（跳过） numBytes 个字节的输入，返回实际忽略的字节数
+	
+# Writer 类
+	Writer 是定义流字符输出模型的抽象类，实现了 AutoCloseable、 Closeable、Fulshable 以及 Appendable 接口。
+	如果发生错误 该类中所有的方法都会抛出 IOException 异常
+	
+	方法：						描述
+	Writer append(char ch)		将ch 追加到调用输出流的末尾，返回对调用流的引用
+	Writer append
+		(CharSequence chars)	将 chars 追加到调用输出流的末尾，返回对调用流的引用	
+	
+	Writer append
+		(CharSequence chars, int begin, int end)	chars 中的 begin 至 end-1 位置 追加到调用输出流的末尾，返回对调用流的引用	
+	
+	abstract void close()
+	abstract void flush()		完成输出状态，从而清空所有缓冲区，即刷新输出缓冲区
+	
+	void write(int ch)
+	void write(char buffer[])
+	void write(char buffer[], int offset, int numBytes)
+	
+	
+	
+	
+	
+# FileReader 类
+	该类可以创建用于读取文件内容的 Reader 对象，该类最常用的俩个构造函数如下:
+		FileReader(String filePath)
+		FileReader(File FileObj)
+			每个构造函数都会抛出 FileNotFoundException 异常
+		
+	
+# FileWriter 类
+	构造函数：
+		FileWriter(String filePath)
+		FileWriter(File fileObj)
+		FileWriter(String filePath, boolean append)	// append 为是否以追加方式写入， 否则置空文件内容添加
+		FileWriter(File fileObj, boolean append)	
+	
+	
+	
+# CharArrayReader 类
+	该类使用字符组作为源的一个输入流的实现。这个类有俩个构造函数，都需要一个字节组来提供数据；
+	CharArrayReaderReader(char array[])
+	CharArrayReaderReader(char array[], int start, int numChars)
+	
+# CharArrayWriter 类
+	CharArrayWriter 类是使用数组作为目标的一个输出流实现。
+	
+	构造函数：
+		CharArrayWriter()
+		CharArrayWriter(int numChars)	numChars 指定缓冲区的大小
+			
+	
+	
+	
+# BufferedReader 类
+	JDK 8 为 BufferedReader添加了 lines() 的新方法
+	构造函数：
+		BufferedReader(Reader inputStream)
+		BufferedReader(Reader inputStream, int bufSize)
+	
+# BufferedWriter 类
+	构造函数：
+		BufferedWriter(Writer outputStream)
+		BufferedWriter(Writer outputStream, int bufSize)
+
+	
+	
+# PushbackReader 类
+	构造函数：
+		PushbackReader(Reader inputStream)
+		PushbackReader(Reader inputStream, int bufSize)
+	
+	方法：
+		void unread(int char) throw IOException
+		void unread(char buffer[])
+		void unread(char buffer[], int offset, int numChars)
+			如果回推的位数大于 构造函数的缓冲区，就会抛出异常
+	
+	
+# PrintWriter 类
+	该类 本质上是 PrintStream 的面向字符版本，实现了 Appendable  AutoCloseable Closeable Flushable 接口
+	
+	构造函数：
+		PrintWriter(OutputStream outputStream)
+		PrintWriter(OutputStream outputStream, boolean autoFlushingOn)
+	
+		PrintWriter(Writer outputStream)
+		PrintWriter(Writer outputStream, boolean autoFlushingOn)
+		
+		// 下面这几个构造函数为构造向文件写入的 PrintWriter 对象提供了便捷方法
+		
+		PrintWriter(File outputFile) throws FileNotFoundException
+		PrintWriter(File outputFile, String charSet) 
+			throws FileNotFoundException, UnsupportedEncodingException
+	
+		PrintWriter(String outputFileName) throws FileNotFoundException
+	
+		PrintWriter(String outputFileName, String charSet)
+			throws FileNotFoundException, UnsupportedEncodingException
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

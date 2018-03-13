@@ -353,7 +353,7 @@
 	
 # RandomAccess 接口
 	RandomAccess 不包含成员，它支持高校地随机访问其中的元素。
-	ArrayList 和遗留 的Vector 类实现了 RandomAccess 接口
+	ArrayList 和遗留 的 Vector 类实现了 RandomAccess 接口
 	
 	
 	
