@@ -125,25 +125,39 @@
 	
 	
 	
+# Console 类
+	该类用于从控制台读取内容以及向控制台写入内容，并且实现了 Flushable 接口。
+	然而，该类的使用可以简化某些类型的控制台交互，特别是当从控制台读取字符串时
 	
+	Console 类没有构造函数， 通过 System.console() 方法获取 Console 对象
+		static Console consoles()
+		
+		如果控制台可用，就返回对控制台的引用，否则返回null
+		
+	方法：
+		void flush()			将缓冲的输出物理地写到控制台
+		Console format(String fmtStr, Object ...ags)
+		Console printf(String fmtStr, Object ...ags)
+		
+		Reader reader()			放回对链接到控制台的Reader 对象的引用
+		PrintWriter write		返回对链接到控制台的 Writer 对象的引用
+		
+		String readLine()		读取并返回从键盘输入的字符串。
+								当用户按下回车键时，输入结束。如果已经到达控制台输入流的末尾，就返回null。如果失败 就抛出IOError
 	
+		String readLine(String fmtStr, Object ...ags)
+								按照 fmtStr 和 args 指定的格式显示提示性字符串，然后读取并返回从键盘输入的字符串
+								当用户按下回车键时，输入结束...
+		
+		char[] readPassword()	读取从键盘输入的字符串, 输入的字符串不显示
+								当用户按下回车键时，输入结束...
 	
+		char[] readPassword(String fmtStr, Object ...ags)
+								按照 fmtStr 和 args 指定的格式显示提示性字符串。读取从键盘输入的字符串, 输入的字符串不显示
+								当用户按下回车键时，输入结束...
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
+
 	
 	
 	

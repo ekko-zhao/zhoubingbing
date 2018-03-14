@@ -1,0 +1,171 @@
+﻿
+# Double 与 Float
+	构造函数：
+		Float(double num)
+		Float(float num)
+		Float(String str)	throws NumberFormatExcetion
+		
+		Double(double num)
+		double(String str)	throws NumberFormatExcetion
+		
+# Byte Short Integer Long 
+	构造函数：
+		Byte(byte num)
+		Byte(String str)	throws NumberFormatExcetion
+		
+
+# Process 类
+	抽象类 Process 用来封装进程，也就是执行的程序。
+	Process 主要作用由 Runtime 类的 exec() 方法创建的对象或由 ProcessBuilder 类的 start() 方法创建的对象类型的超类
+	
+	方法：
+		void destroy() 					终止进程
+		Process destroyForcibly			强制终止调用进程， 返回对进程的引用
+		int exitValue()					返回从子进程获得的退出代码
+		InputStream getErrorStream()	返回一个流，该输入从进程的err 流输出读取输入
+		InputStream getInputStream()	返回一个流，该输入从进程的out 流输出读取输入
+		OutputStream getOutputStream()	返回一个输出流，该输出流将输出写入到进程的in 输入流中
+		boolean isAlive()				判断调用进程仍然处于活动状态
+	
+		int waitFor() throws InterruptedException
+										返回由进程返回的退出代码，该方法知道调用进程终止时才会返回
+		
+		boolean waitFor(long waitTime, TimeUnit timeUnit) throws InterruptedException
+										等待调用进程结束。等待的时间由 waitTime 指定，时间单位由 timeUnit 指定。
+										如果经常已经结束，返回 false，如果等待时间用完 返回 false。
+
+# Runtime 类									
+	Runtime 类封装了运行时环境，不能实例化 Runtime 对象， 可以调用静态的 Runtime.getRuntime() 方法类获得对当前
+	Runtime 对象的引用，一旦获得对当前 Runtime 对象的引用，就可以调用一些方法来控制 Java 虚拟机（JVM）的状态和行为
+	applet 和其他不信任的代码调用 Runtime 的任何方法，通常会引起 SecurtyException 
+	
+	方法：
+		
+		static Runtime getRuntime()		返回当前Runtime 对象
+		
+		void addShutdownHook(Thread thrd)		将thrd 注册为 java 虚拟机在终止时运行的线程
+		Boolean removeShutdownHook(Thread thrd)	从Java 虚拟机终止运行的线程列表中移除 thrd. 成功返回 true
+		
+		Process exec(String progName)	throws IOException
+										作为独立的进程执行progName 指定的程序，返回描述新进程的 Process 类型的对象
+		
+		Process exec(String progName, String environment[])	throws IOException
+										在 environment 指定的环境中，作为独立的进程执行 progName 指定的程序，返回描述新进程的 Process 类型的对象
+	
+		Process exec(String comLineArray[])	throws IOException
+										作为独立的进程执行 comLineArray 中字符串指定的命令行，返回描述新进程的 Process 类型的对象
+	
+		Process exec(String comLineArray[], String environment[]) throws IOException
+										在 environment 指定的环境中 ...
+	
+		void exit(int exitCode)			中断执行，并将exitCode 的值返回给父进程。根据约定 0 表示正常终止。
+										所有其他值表示某种形式的错误
+										
+		long totalMemory()				返回程序可以利用的内存的总字节数
+		long freeMemory()				返回 Java 运行时系统可以使用的空闲内存的近似字计数
+		void gc()						开始垃圾回收
+		void load(String libraryFileName)		加载 libraryFileName 指定文件中的动态库，必须指定完整路径
+		
+		void loadLibrary(String libraryName) 	加载名为 libraryName 的动态库
+		
+		void runFinalization() 			为那些不在使用但是还没有被回收的对象调用 finalize() 方法
+		void traceInstructions(boolean traceOn)	根据traceOn 的值打开或关闭指令跟踪，如果 traceOn 为true 显示跟踪
+	
+# ProcessBuilder 类
+	ProcessBuilder 提供了另外一种启动和管理进程（即程序）的方式。 
+	该类为进程提供了更多的控制。
+	
+	构造函数：
+		ProcessBuilder(List<String> agrs)
+		ProcessBuilder(String agrs)
+			agrs 是参数列表，用来指定将被执行的程序的名称，以及需要的所有其他命令行参数，
+			在第一个构造函数中，参数是通过 List 对象传递的，
+			在第二个构造函数中，它们是通过可变长度参数指定的
+		
+	方法：
+		Process start() throws IOException		开始有调用对象指定的进程，也就是运行指定的程序
+		
+		List<String> command		返回对 List 对象的引用，List 对象包含程序的名称及其参数。对List 对象的修改会影响调用对象
+		ProcessBuilder command(List<String> command)	将程序的名称和参数设置为由 args 指定的值
+		ProcessBuilder command(String ...args)			将程序的名称和参数设置为由 args 指定的值
+		
+		File directory()	返回调用对象的当前工作目录，如果该目录与启动此进程 的Java 程序的目录相同，那么返回 null
+		ProcessBuilder directory(File dir)		设置调用对象的当前工作目录，返回对调用对象的引用
+	
+		Map<String, String> environment()		以键/值对的形式返回与调用对象关联的环境变量
+		ProcessBuilder inheritIO()				使被调用进程为标准 I/O 流使用与调用进程相同的源和目录
+		
+		ProcessBuilder.Redirect redirectError()	作为 ProcessBuilder.Redirect 对象返回标准错误的目标
+		ProcessBuilder redirectError(File f)	将标准错误的目标设置为指定文件，返回对调用对象的引用
+		ProcessBuilder redirectError(ProcessBuilder.Redirect target)
+		
+		boolean redirectErrorStream()			如果标准错误已经被重定向到标准输出流，就返回true; 如果标准错误流被分离，返回 false
+		boolean redirectErrorStream(boolean merge)
+												如果 merge 为true，就将标准错误流重定向到标准输出；
+												false 标准错误流将被分离，这是默认状态，返回对调用对象的引用
+		
+		ProcessBuilder.Redirect redirectInput()	作为 ProcessBuilder.Redirect 对象返回标准输入的源
+		ProcessBuilder	redirectInput(File f)	将标准输入的源设置为指定的文件，返回对调用对象的引用
+		ProcessBuilder	redirectInput(ProcessBuilder.Redirect target)	将标准输入的源设置为指定的 target
+		
+		ProcessBuilder.Redirect redirectOutput()
+		ProcessBuilder	redirectOutput(File f)
+		ProcessBuilder	redirectOutput(ProcessBuilder.Redirect target)
+	
+	
+# System 类
+	如果它的方法被安全管理器禁止，那么许多方法都会抛出 SecurtyException 异常
+	
+	static void arraycopy(
+		Object source, int sourceStart,
+		Object target, int targetStart,
+		int size
+	)	size 指定 从 source 复制到 target 的长度
+	
+	static String clearProperty(String which)	删除由 which 指定的环境变量，返回原来的与 which 关联的值
+	static Console console()		返回与 JVM 关联的控制台。如果 JVM 当前没有控制台，就返回 null
+	static long currentTimeMills()	以毫秒返回当前时间， 从1970-1-1开始
+	
+	static void exit(int exitCode)	断执行，并将exitCode 的值返回给父进程。根据约定 0 表示正常终止。
+									所有其他值表示某种形式的错误
+	
+	static void gc()
+	static Map<String, String> getenv 		返回Map 对象包含当前环境变量以及它们的值
+	static String getenv(String which)		返回与 which 传递的环境变量相关联的值
+	static Properties getProperties()		返回与 Java 运行时系统关联的属性（18章）
+	static String getProperty(String which)	返回与 which 关联的属性。如果没有找到期望的属性，就返回 null 对象
+	static String getProperty(String which, String default)
+	
+	static SecurtyManager getSecurtyManager()		返回当前的安全管理器，如果没有安装安全管理器，就返回 null 对象
+	static int identityHashCode(Object obj)			返回obj 对象的标识散列码
+	
+	static Channel inherited() throws IOException	返回Java 虚拟机继承的通道。如果没有通道被继承，就返回 null
+	static String lineSeparator()					返回包含分隔符的字符串
+	static void load(String libraryFileName)		加载 libraryFileName 指定文件中的动态库，必须指定完整路径
+	static void loadLibrary(String libraryName) 	加载名为 libraryName 的动态库
+	static String mapLibraryName(String lib)		返回 lib 特定于平台的库名
+	
+	static long nanoTiem()				获得系统中最精确的几时去并返回自某些任意启动点以来以纳秒表示的时间值。计时器的精确未知
+	static void runFinalization()		为那些不在使用但是还没有被回收的对象调用 finalize() 方法
+	
+	static void setErr(PrintStream sStream)		将标准 err 流设置为 eStream
+	static void setIn(InputStream iStream)		将标准 in 流设置为 iStream
+	static void setOut(OutputStream oStream)	将标准 out 流设置为 oStream
+	
+	static String setProperties(Properties sysProperties)	将当前系统属性设置为由 sysProperties 指定的属性
+	static String setProperty(String which, String v)		将值 v 赋给名为 which 的属性
+	
+	static void setSecurityManager(SecurtyManager secMan)	将安全管理器设置为由 secMan 指定的安全管理器
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

@@ -357,7 +357,7 @@
 . DataInputStream 类
 	DataInputStream 是 DataOutputStream 的互补，
 	DataInputStream 除了实现了 DataInput 接口外，还实现了 AutoCloseable、Closeable接口。
-	DataInputStream 扩展了 FilterIntputStream, 而 FilterIntputStream 扩展了 IntputStream
+	DataInputStream 扩展了 FilterInputStream , 而 FilterInputStream 扩展了 IntputStream
 
 	构造函数：
 		DataInputStream(InputStream inputStream)
@@ -390,37 +390,114 @@
 
 
 
+# Serializable 接口
+	该接口没有定义任何方法， 实现该接口的类，以及子类 可以通过串行化功能进行保存和恢复。
+	声明为 transient 的变量不能通过串行化功能进行保存，此外也不能保存 static 变量
+	
+	实现Serializable 接口的类可以 通过 ObjectOutputStream 流的  writeObject 方法保存在文件中， ObjectInputStream 流的  readObject 读取
+	
+# Externalizable 接口
+	该接口定义了对串行化保存和恢复使用压缩和加密技术。
+	方法：
+		void readExternal (ObjectInput inStream) throws IOException, ClassNotFoundException
+		void writeExternal (ObjectOutput outStream) throws IOException, ClassNotFoundException
 
 
 
 
+/*
+	ObjectOutput 接口
+	ObjectOutput 接口扩展了 DataOutput 和 AutoCloseable 接口，并支持对象串行化。
+	
+	方法：
+		void close()
+		void flush()
+		void write(int b)
+		void write(byte buffer[])
+		void write(byte buffer[], int offset, int numBytes)
+		
+		void write(Object obj) 将 obj 对象写入调用流中
+*/
+
+# ObjectOutputStream 类
+	ObjectOutputStream 类扩展了 OutputStream 类并实现了 ObjectOutput 接口，负责将对象写入流中
+	当遇到错误时，它的方法会抛出 IOException 异常
+	
+	构造函数：
+		ObjectOutputStream(OutputStream outStream) throws IOException
+			
+			关闭 ObjectOutputStream 流会自动关闭 outStream 指定的底层流
 
 
+	方法：
+		void close()
+		void flush()
+		
+		void write(int b)
+		void write(byte buffer[])
+		void write(byte buffer[], int offset, int numBytes)
+		
+		void writeBoolean(boolean b)
+		void writeByte(int b)
+		void writeBytes(String str)
+		void writeChar(int c)
+		void writeChars(String str)
+		void writeDouble(double d)
+		void writeFloat(float f)
+		void writeInt(int i)
+		void writeLong(long l)
+		void writeObject(Object obj)
+		void writeShort(int i)
 
 
+/*
+	ObjectInput 接口
+	ObjectInput 接口扩展了 DataInput 和 AutoCloseable 接口，
+	该接口支持对象串行化
+	如果遇到错误，所有的这些方法都会抛出 IOException 异常。 ReadObject() 方法还能抛出 ClassNotFoundException 异常
+	
+	方法：
+		int available()				返回输入缓冲区中现在可用的字节数
+		void close()
+		int read()
+		int read(byte buffer[])
+		int read(byte buffer[], int offset, int numBytes)
+		
+		Object readObject()			从调用流中读取对象
+		long skip(long numBytes)	忽略（即跳过）字节流中numBytes 个字节， 返回实际忽略的字节数
+*/
 
+# ObjectInputStream
+	ObjectInputStream 类扩展了 InputStream 类并实现了 ObjectInput 接口。
+	该类负责从流中读取对象
+	
+	构造函数：
+		ObjectInputStream(InputStream inputStream) throws IOException
+			关闭 ObjectInputStream 流会自动关闭 inputStream 指定的底层流
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	方法：
+		int available()
+		void close()
+		int read()
+		int read(byte buffer[])
+		int read(byte buffer[], int offset, int numBytes)
+		
+		boolean readBoolean()
+		byte readByte()
+		char readChar()
+		double readDouble()
+		float readFloat()
+		
+		void readFully(byte buffer[])	读取 buffer.length 个字节到buffer中，只有当所有字节都读完之后才返回
+		void readFully(byte buffer[]), int offset, int numBytes)
+		
+		short readShort()
+		int readInt()
+		long readLong()
+		final Object readObject()
+		
+		int readUnsignedByte()			从调用流中读取并返回一个无符号 byte 值
+		int readUnsignedShort()			从调用流中读取并返回一个无符号 short 值
 
 
 

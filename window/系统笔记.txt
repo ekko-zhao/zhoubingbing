@@ -1,0 +1,6 @@
+﻿
+# Win10如何用文件检查器检查修复系统的受损文件
+	管理员身份打开CMD
+	sfc /scannow
+	Dism /Online /Cleanup-Image /CheckHealth
+	DISM /Online /Cleanup-image /RestoreHealth
