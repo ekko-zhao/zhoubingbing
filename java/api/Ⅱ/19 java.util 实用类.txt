@@ -99,7 +99,7 @@
 		static <T> Optional<T> of(T val)			创建一个包含val 的 Optional 实例，并返回结果。 val 的值不能是 null
 		static <T> Optional<T> ofNullable(T val)	创建一个包含 val 的 Optional 实例，并返回结果。如果 val 是null，返回一个空的 Optional 实例
 		
-		void ifPresent( Consumer<? super T> func ) 	如果调用对象中存在值，调用func; 没有值， 什么多不发生
+		void ifPresent( Consumer<? super T> func ) 	如果调用对象中存在值，调用func; 没有值， 什么都不发生
 		boolean isPresent()							判断调用对象是否有值
 		
 		Optional<T> filter(
@@ -354,7 +354,17 @@
 		abstract void run()		包含定时任务的代码
 		boolean cancel()		终止任务。如果成功阻止任务的执行，就返回 true; 否则返回 false
 		long scheduledExecutionTime()	返回所安排任务最后一次执行的时间
-
+	
+	
+	/*
+		class RemindTask extends TimerTask {
+			public void run() {
+				System.out.println("Time's up!");
+				timer.cancel(); //Terminate the timer thread
+			}
+		}
+	*/
+	
 # Timer
 	构造函数：
 		Timer()
