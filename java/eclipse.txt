@@ -1,9 +1,30 @@
 
-server runtime  没有tomcat
+# server runtime  没有tomcat
 	windows->preferences->Server->RuntimeEnvironments点击Add按钮找到tomcat安装路径确定即可
 
-maven 生成 test 目录
+# maven 生成 test 目录
 	Build Path->Libraries->JRE System Library-> edit->Alternate JRE-> finish，自动出现src/main/java和src/test/java
 
-修改 JDK 编译版本, 和web版本 3.0
+# 修改 JDK 编译版本, 和web版本 3.0
 	项目中 .settings 文件夹下 org.eclipse.wst.common.project.facet.core.xml
+	
+# Cannot change version of project facet Dynamic Web Module to 2.3
+	
+	// 2.5 
+	<?xml version="1.0" encoding="UTF-8"?>     
+	<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"    
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"    
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"     
+	>    
+		 <display-name></display-name>
+	</web-app>   
+	
+	// 3.0
+	<?xml version="1.0" encoding="UTF-8"?>
+	<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+		<display-name></display-name>
+	</web-app>
