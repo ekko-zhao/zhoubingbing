@@ -131,10 +131,15 @@
 	
 	static void gc()
 	static Map<String, String> getenv 		返回Map 对象包含当前环境变量以及它们的值
+	
+	
 	static String getenv(String which)		返回与 which 传递的环境变量相关联的值
 	static Properties getProperties()		返回与 Java 运行时系统关联的属性（18章）
 	static String getProperty(String which)	返回与 which 关联的属性。如果没有找到期望的属性，就返回 null 对象
 	static String getProperty(String which, String default)
+	
+	static String setProperties(Properties sysProperties)	将当前系统属性设置为由 sysProperties 指定的属性
+	static String setProperty(String which, String v)		将值 v 赋给名为 which 的属性
 	
 	static SecurtyManager getSecurtyManager()		返回当前的安全管理器，如果没有安装安全管理器，就返回 null 对象
 	static int identityHashCode(Object obj)			返回obj 对象的标识散列码
@@ -152,20 +157,254 @@
 	static void setIn(InputStream iStream)		将标准 in 流设置为 iStream
 	static void setOut(OutputStream oStream)	将标准 out 流设置为 oStream
 	
-	static String setProperties(Properties sysProperties)	将当前系统属性设置为由 sysProperties 指定的属性
-	static String setProperty(String which, String v)		将值 v 赋给名为 which 的属性
 	
 	static void setSecurityManager(SecurtyManager secMan)	将安全管理器设置为由 secMan 指定的安全管理器
 	
 	
 	
+# Object 类
+	
+. 使用 clone() 方法和Cloneable 接口
+	clone() 方法产生调用对象的副本。只有实现了 Cloneable 接口的类才可以被复制。
+	Cloneable 接口没有定义成员，用于可以按位复制对象。 
+	如果被复制的对象包含 其它对象的引用，那么复制后，该引用对象被他们共用， 引用流的对象 也是共用的，在一个对象关闭后 其它对象也关闭
+	
+	
+# Class 类
+	Class 类封装了类或接口的运行状态。
+	Class 类型的对象是加载类时自动创建的，不能显示地申明 Class 对象。通常 Object 类定义的 getClass() 方法来获取 Class 对象；
+	Class 是泛型类： class Class<T>
+	
+	
+	/*
+		类名.class叫做“类字面量”，因class是关键字, 所以类名.class编译时确定。
+		getclass()运行时根据实际实例确定，getClass()是动态而且是final的。
+		String.class 是能对类名的引用取得在内存中该类型class对象的引用，
+		new String().getClass() 是通过实例对象取得在内存中该实际类型class对象的引用。
+		
+		package com.abc;
+		public class Dog extends Animal {
+			public static void main(String[] args) {
+			   Animal animal = new Dog();
+			   System.out.println(animal.getClass().getName());
+			   System.out.println(Animal.class.getName());
+			}
+		}
+		
+		// com.abc.Dog
+		// com.abc.Animal
+	*/
 	
 	
 	
+	static Class<?> forName(String name)
+		throws ClassNotFoundException		改方法是创建对象的一种方式， 例如： Class t = Class.forName("java.lang.Thread")
+	
+	static Class<?> forName(String name, boolean how, ClassLoader ldr)
+		throws ClassNotFoundException		返回给定全名的Class 对象。对象使用由ldr 指定的加载器加载。如果 how 为true，就初始化对象
+	
+	<A extends Annotation> A
+		getAnnotation(Class<A> annoType)	返回一个 Annotation 对象，该对象包含与调用对象的 annoType 相关联的注解
+	
+	Annotation[] getAnnotations()			返回所有的注解
+	
+	<A extends Annotation> A[]
+		getAnnotationsByTypes(Class<A> annoType)	返回一个与调用对象关联的 annoType 注解数组（包括重复注解）
+		
+	Class<?>[] getClasses()					为调用对象所属类的所有公有类和接口成员都返回一个 Class 对象
+	
+	ClassLoader getClassLoader()			返回加载类或接口的 ClassLoader 对象
+	
+	Constructor<T> getConstructor(Class<?> ...paramTypes)
+		throws NoSuchMethodException, SecurtyException	返回一个 Constructor 对象，表示调用对象所属类的构造函数，调用对象拥有 paramTypes 指定的参数类型，参数可以区分对象的重载构造函数
+		
+		/*
+			public class Solution {
+				public Solution(String str, int num) {
+					this.str = str;
+					this.num = num;
+				}
+			}
+			
+			Class[] classes = new Class[] { String.class, int.class };
+			Solution solution = Solution.class.getConstructor(classes).newInstance("hello1", 10);
+		*/
+	
+	
+	Constructor<?>[] getConstructors()
+		throws SecurtyException				为调用对象所属类的每个公有构造函数都获取一个 Constructor 对象，并将他们存储在数组中。返回对这个数组的引用
+		/*
+			getConstructor：返回指定参数类型、具有public访问权限的构造函数
+		*/
+		
+	Constructor<?>[] getDeclaredConstructors()
+		throws SecurtyException				为调用对象所属类申明的每个构造函数获取一个 Constructor 对象
+		
+		/*
+			getDeclaredConstructors: 返回指定参数类型、所有声明的（包括private）构造函数
+		*/
+	
+	T newInstance() throws IllegalAccessException, InstantiationException
+											
+	
+	Annotation[] getDeclaredAnnotations()	 为调用对象声明的所有注解都获取一个 Annotation 对象(忽略继承的注解)
+	
+	<A extends Annotation> A[] getDeclaredAnnotationsByType(
+		Class<A> annoType)					返回一个与调用对象关联的非继承的 annoType 注解数组
+	
+	
+	Field[] getDeclaredFields()				
+		throws SecurtyException				为调用对象所属类或接口申明的每个域变量都获取一个 Field 对象，并将他们存储在数组中。 忽略继承变量
+	
+	Field[] getFields()						
+		throws SecurtyException				public访问权限的域变量
+		
+	Field getField(String fieldName)
+		throws NoSuchMethodException, SecurtyException
+											返回一个Filed 对象，改对象表示在调用对象所属类或接口中由 fieldName 指定的公有变量
+											
+				
+	Method[] getDeclaredMethods()
+		throws SecurtyException				为调用对象所属类或接口申明的每个方法都获取一个 Method 对象，并将他们存储在数组中。  忽略继承方法
+	
+	Method[] getMethods()
+		throws SecurtyException				public 访问权限的域变量
+	
+	
+	Method getMethod(String methName, Class<?> ...paramTypes)
+		throws NoSuchMethodException, SecurtyException
+	
+	
+	String getName()						返回调用对象所属类或接口的全名
+	ProtectionDomain getProtectionDomain()	返回与调用对象关联的保护域
+	
+	Class<? super T> getSuperclass			返回调用对象所属类型的超类。 如果是 Object或者不是类 返回null
+	
+	Class<?>[] getInterfaces()				如果调用对象表示一个类，那么返回数组的元素为这个类实现的接口；
+											如果调用对象表示一个接口，那么返回数组的元素我为这个接口扩展的接口
+											
+	Boolean isInterface()					如果调用对象代表的类型是接口，就返回 true; 否则返回false
+	
+	
+	String toString()
+	
+	
+# Thread 类
+	
+	构造函数：
+		Thread()
+		Thread(Runnable threadOb)
+		Thread(Runnable threadOb, String threadName)
+		Thread(String threadName)
+	
+		Thread(ThreadGroup groupOb, Runnable threadOb)
+		Thread(ThreadGroup groupOb, Runnable threadOb, String threadName)
+		Thread(ThreadGroup groupOb, String threadName)
+	
+	
+# ThreadGroup 类
+	构造函数：
+		ThreadGroup(String groupName)
+		ThreadGroup(ThreadGroup parentOb, String groupName)
+	
+	
+	方法：
+		int activeGroup()
+				返回调用线程组（包括子线程组）中处于活动状态的线程的大概数量
+		int activeGroupCount
+				返回以调用线程为父线程的活动线程的数量（包括子线程组）
+		final void checkAccess()
+				导致安全管理器核实调用线程是否可以访问和/或修改对之调用 checkAccess() 方法的线程组
+		final void destroy()
+				销毁在对之调用该方法的线程组（及其所有子线程）
+		
+		
+		int enumerate(Thread group[]) 
+				将调用线程组（包括子线程组）包含的活动线程放入 group 数组中
+		int enumerate(Thread group[], boolean all)
+				将调用线程组包含的活动线程放入。all 为true，那么子线程组中所有线程都被放入 group 数组中
+		int enumerate(ThreadGroup group[])
+				将调用线程组的活动子线程组（包括子线程的子线程组，等等） 放入group 数组中
+		int enumerate(ThreadGroup group[], boolean all)
+				将调用线程组的活动子线程组放入 group 数组中， 如果 all 为true，那么子线程组的所有子线程组 也将被放入 group 数组中
+		
+		final void setMaxPriority(int priority)
+				设置调用线程组的最大优先级
+		final int getMaxPriority()
+				返回线程组的最大优先级设置
+		
+		
+		final String getName()
+				返回线程组的名称
+		final ThreadGroup getParent()
+				如果调用线程组没有父对象，就返回 null; 否则返回调用对象的父对象
+		final void interrupt()
+				调用线程组（以及所有子线程组）中所有线程的 interrupt() 方法
+		
+		final void setDeamon(boolean isDeamon) 
+				如果 isDeamon 为true, 那么调用线程组将被标识为守护线程组
+		final boolean isDeamon()
+				判断该线程组是否为守护线程
+				
+		
+		boolean isDestroyed()
+				如果线程组已经被销毁，就返回true
+				
+		void list() 	显示有关线程组的信息
+		final boolean parentOf(ThreadGroup group)
+				如果调用线程是 group 的父线程（或是本身），返回true
+		
+		void uncaughtException(Thread thread, Throwable e)
+				当某个异常未被捕获时，调用该方法
 	
 	
 	
+# CharSequence 接口
+	CharSequence 接口定义了允许以只读方式访问字符序列的方法。 String StringBuffer StringBuilder 以及其它类都实现了该接口
 	
+	方法：
+		char charAt(int index) 			返回由index 指定的索引位置的字符
+		default IntStream chars			返回调用对象中字符的一个流（为 IntStream 形式）
+		default IntStream codePoints	返回调用对象中代码点的一个流
+		int length()
+		CharSequence subSequence(int start, int end)
+		String toString()				返回等价的字符串
+	
+	
+# Comparable 接口
+	可以对实现了Comparable 接口的类的对象进行排序，
+	Comparable 是泛型接口：
+		interface Comparable<T>
+	
+	该接口申明了一个方法，该方法用于判定 Java 调用类实例的自然顺序（natural ordering）
+		int compareTo(T obj)
+			
+			
+	/*
+		如果调用对象的值更小 返回-1
+		
+		Byte Character Double Float Long Short  String  Integer 实现了该接口
+	*/
+	
+# Appendable 接口
+	Appendable append(char ch) throws IOException
+	Appendable append(CharSequence chars) throws IOException
+	Appendable append(CharSequence chars, int start, int end) throws IOException
+	
+	
+# Iterable 接口
+	泛型接口定义：interface Iterable<T>
+	
+	Iterable<T> iterator();
+	default void forEach(Consumer<? super T> action)
+	default Spliterator<T> spliterator()
+	
+	
+# Readable 接口
+	int read(CharBuffer buf) throws IOException
+	
+# AutoCloseable 接口
+	void close() throws Exception
 	
 	
 	

@@ -127,7 +127,7 @@
 # 注解（元数据）---------------------------------------------------------------
 	注解类型 前面必须要有@interface 修饰，他自动扩展了 Annotation 接口，所以不能扩展其它接口
 	Annotation 接口 是在java.lang.annotation 包中申明的， 它重写了Object类的 hashCode()、equals()、以及toString方法
-	另外还指定了annotationType() 方法，返回调用注解的Class 对象
+	另外还指定了 annotationType() 方法，返回调用注解的Class 对象
 	所有类型的申明都可以有与之关联的注解，例如 类 方法 域变量 参数 以及枚举常量， 甚至注解本身也可以被注解
 	
 	public @interface MyAnno {

@@ -100,8 +100,8 @@
 	在这两种创建方式中，只有run() 方法是必须被重写的。
 		run() 方法内部，定义组成新线程的代码， run() 方法可以调用其它方法其它类， 也可以申明变量，就像 main 线程一样，
 		/*
-			在run() 方法内部使用  Thread  Thread.currentThread()  在代表当前子线程
-			若是在其他方法中使用  Thread  Thread.currentThread()	 即获得当前主线程的代理
+			在run() 方法内部使用  Thread  Thread.currentThread()  	在代表当前子线程
+			若是在其他方法中使用  Thread  Thread.currentThread()	即获得当前主线程的代理
 		*/
 	在 extends Thread 中可以增强或修改 Thread 类， 
 	如果无需 增强或修改 Thread 类，实现 Runnable 接口是最好的创建线程方式，还可以继承 其它类。
@@ -199,7 +199,7 @@
 	}
 	
 # 使用 isAlive() 和 join() 方法
-	join() 方法会一直等待，知道调用线程终止。
+	join() 方法会一直等待，直到调用线程终止。
 	join() 方法的另一种形式，允许指定希望等待指定线程终止的最长时间
 	
 	public class Test2 {
@@ -208,7 +208,7 @@
 			try {
 				for (int n = 5; n > 0; n--) {
 					// 等待该线程结束， 才执行下一行 代码
-					test.t.join();
+					test.join();
 					
 					System.out.println("main thread" + n);
 					Thread.sleep(5000);

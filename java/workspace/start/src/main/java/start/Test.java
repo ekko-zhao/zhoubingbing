@@ -3,20 +3,25 @@ package start;
 import java.io.*;
 import java.util.*;
 
-class Student implements Serializable {
-	private String name;
-
-	public Student(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return name;
-	}
-}
 
 public class Test {
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
+		
+		Package pags[];
+		pags = Package.getPackages();
+		
+		for(int i=0; i< pags.length; i++){
+			System.out.println(
+					pags[i].getName()	
+			);
+		}
+		
+		
+		
+		
+		
+		
+		
 		
 		// System.out.println();
 	}
