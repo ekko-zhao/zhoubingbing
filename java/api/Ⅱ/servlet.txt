@@ -1,0 +1,135 @@
+﻿
+# javax.servlet 包中的接口
+	Servlet				申明servlet 的生命周期方法
+	ServletConfig		通过该接口，servlet 可以获取初始化参数
+	ServletContext		通过该接口，servlet 可以记录与它们的环境相关的事件和访问信息
+	ServletRequest		用于读取来自客户端请求的数据
+	ServletResponse		用于向客户端响应写入数据
+	
+. javax.servlet 包中的核心类
+	GenericServlet 			实现了 Servlet 和 ServletConfig 接口
+	ServletInputStream		为读取来自客户端的请求，提供输入流
+	ServletOutputStream		为向客户端写入相应，提供输入流
+	ServletException		指示发生了 servlet 错误
+	UnavailableException	指示 servlet 不可用
+	
+	
+# Servlet 接口	
+	所有 servlet 都必须实现 Servlet 接口， Servlet 接口申明了 init() service()  destroy() 方法，这些方法由服务器在servlet 生命周期内调用。
+	
+	方法：
+	void destroy()						当卸载servlet 时调用
+	ServletConfig getServletConfig()	放回的 ServletConfig 对象包含所有初始化的参数
+	String getServletInfo()				返回描述 servlet 的字符串
+	void init(ServletConfig sc) throws ServletException			
+		当初始化 servlet 时调用。 可以从sc 获取用于 servlet 的初始化参数，如果不能初始化 抛出异常
+	
+	void init(ServletRequest req, ServletResponse res ) throws ServletException
+		用来处理来自客户端的请求。 可以从req 读取来自客户端的请求， 对客户端的相应写入 res
+	
+	
+# ServletConfig 接口	
+	通过 ServletConfig 接口，当servlet 加载时可以获取配置数据
+	
+	方法：
+	ServletContext getServletContext()		返回 servlet 的上下文
+	String getInitParameter(String param)	返回名为 param 的初始化参数的值
+	Enumeration<String> getInitParameterName	返回所有初始化参数名称的枚举
+	String getServletName()					返回调用 servlet 的名称
+	
+	
+# ServletContext 接口
+	通过 ServletContext 接口，servlet 可以获取与它们的环境相关的信息
+	Object getAttribute(String attr)		返回名为 attr 的服务器特性的值
+	String getMimeType(String file)			返回 file 的 MIME 类型
+	String getRealPath(String vpath)		返回与相对路径 vpath 对应的实际路径
+	String getServerInfo()					返回有关服务器的信息
+	void log(String s)						将s 写入 servlet 日志
+	void log(String s, Throwable e)			将 e 的堆栈跟踪和 s 写入 servlet 日志
+	void setAttribute(String attr,Object val)	将指定的属性值 指定为 val
+	
+	
+# ServletRequest 接口
+	Object getAttribute(String attr)		返回名为 attr 的特性的值
+	String getCharacterEncoding()			返回请求的字符编码
+	int getContentLength()					返回请求内容的大小。如果无法获得，就返回 -1
+	String getContentType()					返回请求内容的类型。如果不能确定请求的类型，就返回null
+	
+	String getParameter(String pname)		返回名为 pname 的参数的值
+	Enumeration<String> getParameterNames() 返回这个请求的参数名称枚举
+	String[] getParameterValues(String name) 返回的数组包含与 name 指定的参数关联的值
+	
+	
+	ServletInputStream getInputStream()
+		throws IOException					返回可用于从请求读取二进制数据的 ServletInputStream，如果已经为这个请求调用过 getReader() 
+											方法，就抛出 IllegalStateException 异常异常
+	BufferReader getReader()
+		throws IOException					返回可用于从请求读取文本的缓冲读取器。如果已经为这个请求调用过 getInputStream() 方法，
+											就抛出 IllegalStateException 异常
+	
+	
+	String getProtocal()					返回协议的描述
+	String getRemoteAddr()					返回与客户端IP 地址等价的字符串
+	String getRemoteHost()					返回与客户端主机名等价的字符串
+	String getScheme()						返回请求使用的URL 的传输模式（例如“http”, "ftp"）
+	String getServerName()					返回服务器的名称
+	int getServerPort()						返回端口号 
+	
+	
+# ServletResponse 接口
+	通过 ServletResponse 接口， servlet 可以为客户端定制响应。
+	
+	String getCharacterEncoding()			返回响应的字符编码
+	ServletOutputStream getOutputStream()
+		throws IOException					返回能够用于将二进制数据写入响应的 ServletOutputStream 对象。如果已经调用过
+											这个请求的 getWriter() 方法， 将抛出 IllegalStateException 异常
+	PrintWriter getWriter()	
+		throws IOException					返回能够用于将字符数据写入响应的 PrintWriter 对象。如果已经调用过
+											这个请求的 getOutputStream() 方法， 将抛出 IllegalStateException 异常
+	
+	void setContentLength(int size)			将响应的内容长度设置为 size
+	void setContentType(String type)		将响应的内容类型设置为 type
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

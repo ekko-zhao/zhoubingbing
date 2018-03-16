@@ -33,18 +33,31 @@
 	}
 	
 # 抽象类
+	普通类是一个完善的功能类，可以直接产生实例化对象，并且在普通类中可以包含有构造方法、普通方法、static方法、常量和变量等内容。
+	而抽象类是指在普通类的结构里面增加抽象方法的组成部分。
+
+
 	在class 关键字的前面使用 关键字 abstract。 抽象类不存在对象，不能使用 new 运算符直接实例化抽象类。
 	抽象方法必须为public或者protected,  不能申明抽象的 static 静态方法。
 	
 	抽象类的所有子类， 要么实现超类中的所有抽象方法， 要么自己也申明为抽象的。
 	申明以知抽象内容的结构，而不提供每个方法的完整实现。
 	
+	抽象类中的 final 方法必须被初始化， 且不能被子类重写
+	
 	public abstract class A {
-		public A(){};
+		
+		// 可以申明构造函数
+		A(){}
 		
 		// m 方法必须被子类重写
-		abstract void m();
-		abstract return-type m(type agr);
+		public abstract void m();
+		protected abstract return-type m(type agr);
+		
+		// final 方法
+		public final void a(){
+			
+		}
 	}
 	
 	

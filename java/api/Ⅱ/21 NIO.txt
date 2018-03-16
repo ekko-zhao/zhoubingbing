@@ -1,0 +1,118 @@
+﻿
+# 包含 NIO 类的包
+	java.nio				NIO 系统的顶级包用于封装各种缓存区，这些缓冲区包含 NIO 系统所操作的数据
+	java.nio.channels		支持通道，通道本质上是打开 I/O 的链接
+	java.nio.channels.spi
+		支持通道的服务提供者
+	java.nio.charset		
+		封装字符集，另外还支持分别将字符转换成字节以及将字节转换成字符的编码和解码器
+		
+	java.nio.charset.spi	支持字符集的服务提供者
+	java.nio.file			提供对文件的支持
+	java.nio.file.attribute	提供对文件属性的支持
+	java.nio.file.spi		支持文件系统的服务提供者
+	
+	
+	
+	
+# TCP/IP 客户端套接字
+	TCP/IP 套接字用于在Internet 主机之间实现可靠的、双向的、持续的、点对点的、基于流的链接，
+	可以使用套接子 将java的I/O 系统链接到其他程序，这些程序可能位于本地主机 或 Internet 的任何其他机器上
+		/*
+			作为通用规则，applet 只可以建立到主机（从该主机可以下载 applet）的套接字链接，因为让通过防火墙加载的applet
+			访问任意一台机器是危险的
+		*/
+		
+	SeverSocket 类被设计成“监听者”， 等待客户端进行连接，在这之前什么也不做。因此 SeverSocket用于 服务器
+	Socket 类用于客户端。他被设计成用于链接到服务器套接字并发起协议交换
+
+. Socket 类
+	构造函数：
+		Socket(String hostName, int port)
+			throws UnknownHostException,IOException		创建链接到主机和端口的套接字
+		
+		Socket(InetAddress ipAddress, int port)
+			throws IOException							使用已存在的InetAddress 对象和端口穿件套接字
+			
+	方法：
+	.用于检查 Socket 对象关联的地址和端口信息的方法
+		InetAddress getInetAddress() 返回与调用 Socket 对象关联的 InetAddress 对象，如果套字节没有链接 返回null
+		
+		int	getPort()				返回调用 Socket 对象链接到的远程端口。如果套字节没有链接 返回 0
+		int	getLocalPort()			返回绑定到调用 Socket 对象的本地端口。如果套字节没有链接 返回 -1
+	
+	.用于访问输入流和输出流的方法
+		InputStream getInputStream()
+			throws IOException		返回与调用 Socket 对象关联的 InputStream 对象
+		
+		OutputStream getOutputStream()
+			throws IOException		返回与调用 Socket 对象关联的 OutputStream 对象
+	
+	
+	.其它方法
+		Socket connect() 					返回新的链接
+		boolean isConnected()				判断套接字是否链接到 服务器
+		boolean isBound()					判断套接字是否绑定到某个地址
+	
+# URL 类
+	网址由: IP协议 + 主机名 + 端口号 + 路径
+		IP协议 默认 http
+		端口号 默认 80
+		http://www.baidu.com:80/url
+		www.baidu.com/url	// 省略 IP协议 和端口号
+	
+	
+	构造函数：
+		URL(String urlSpecifier) throws MalformedURLException
+		URL(String portocolName, String host, int port, String path) throws MalformedURLException
+		URL(String portocolName, String host, String path) throws MalformedURLException
+	
+		URL(URL urlObj, String urlSpecifier) throws MalformedURLException
+			使用已有的 URL 作为参考上下文，然后根据该上下文创建新的URL
+	
+	方法：
+	
+		String getPortocol()
+		String getPort()
+		String getHost()
+		String getFile()
+		
+		URLConnection openConnection()
+			用于访问远程资源属性的通用类，可以使用该对象在实际传输远程对象到本地之前，检查远程对象的属性
+			
+# URLConnection 类
+	
+	
+# URI 类
+	URI 类封装了统一资源标识符。URI 与 URL 类似，实际上，URL 是URI 的一个子集。
+	URI代表定位资源的一种标准方式，URL 还描述了如何访问资源
+	
+# cookie
+	java.net 包中包含了帮助管理cookie 的类和接口，并且可以用于创建有状态的HTTP 会话，这些类有 CookieHandler
+	CookieManager HttpCookie , 接口有 CookiePolicy 和 CookieStore
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
