@@ -1,5 +1,5 @@
 ﻿
-# javax.servlet 包中的接口
+# javax.servlet 包中的接口 --------------------------------------------------------------
 	Servlet				申明servlet 的生命周期方法
 	ServletConfig		通过该接口，servlet 可以获取初始化参数
 	ServletContext		通过该接口，servlet 可以记录与它们的环境相关的事件和访问信息
@@ -18,15 +18,15 @@
 	所有 servlet 都必须实现 Servlet 接口， Servlet 接口申明了 init() service()  destroy() 方法，这些方法由服务器在servlet 生命周期内调用。
 	
 	方法：
-	void destroy()						当卸载servlet 时调用
 	ServletConfig getServletConfig()	放回的 ServletConfig 对象包含所有初始化的参数
 	String getServletInfo()				返回描述 servlet 的字符串
+	
+	void destroy()						当卸载servlet 时调用
 	void init(ServletConfig sc) throws ServletException			
 		当初始化 servlet 时调用。 可以从sc 获取用于 servlet 的初始化参数，如果不能初始化 抛出异常
 	
-	void init(ServletRequest req, ServletResponse res ) throws ServletException
+	void service(ServletRequest req, ServletResponse res ) throws ServletException
 		用来处理来自客户端的请求。 可以从req 读取来自客户端的请求， 对客户端的相应写入 res
-	
 	
 # ServletConfig 接口	
 	通过 ServletConfig 接口，当servlet 加载时可以获取配置数据
@@ -89,6 +89,210 @@
 	
 	void setContentLength(int size)			将响应的内容长度设置为 size
 	void setContentType(String type)		将响应的内容类型设置为 type
+	
+# GenericServlet 抽象类
+	该类提供了 Servlet 基本生命周期方法的实现
+	实现了 Servlet 和 ServletConfig 接口
+	此外 GenericServlet 还提供了一个向服务器日志文件追加字符串的方法。
+		void log(String s)
+		void log(String s, Throwable e)
+	
+	
+# ServletInputStream 类
+	该类扩展了  InputStream, 由 servlet 容器实现，
+	该类还提供了一个从输入流读取字节的方法。
+		int readLine(byte[] buffer, int offset, init size) throws IOException
+			// 将流放置 buffer 数组中
+
+			
+# ServletOutputStream 类
+	该类扩展了 OutputStream
+	
+	
+# servlet 类异常
+	ServletException 指示 servlet 存在问题
+	UnavailableException  该异常扩展了 ServletException，指示 servlet 不可用
+	
+	
+	
+# javax.servlet.http 包----------------------------------------------------------------
+	前面 介绍的 servlet 的基本功能， 但是当操作 HTTP 时，通常使用 javax.servlet.http 包中的接口和类
+
+. 接口
+	HttpServletRequest		使 servlet 能够从 HTTP 请求读取数据
+	HttpServletResponse		使 servlet 能够向 HTTP 相应写入数据
+	HttpSession				允许读取和写入会数据
+
+	
+. 类
+	Cookie					允许在客户机上保存状态信息
+	HttpServlet				提供处理 HTTP 请求和响应的方法
+	
+	
+# HttpServletRequest 接口
+	String getAuthType()				返回验证模式
+	Cookie[] getCookies()				返回这一请求中的cookie 数组
+	long getDateHeader(String field)	返回名为field 的日期标题字段的值
+	String getHeader(String field)		返回名为 field 的标题字段的值
+	
+	Enumeration<String> getHeaderNames() 返回标题名称的枚举
+	int getIntHeader(String field)		返回与名为field 的标题字段等价的 int 值
+	String getMethod()					返回这一请求的 HTTP 方法
+	String getPathInfo()				返回位于 servlet 路径之后，并且位于 URL 查询字符串之前的所有路径的值
+	String getPathTranslated()			返回位于 servlet 路径之后、位于 URL 查询字符串之前，并且已经转换为真实路径的所有路径信息
+	String getQueryString()				返回 URL 中的查询字符串
+	String getRemoteUser()				返回提出请求的用户名
+	
+	String getRequestedSessionId()		返回会话的 ID
+	String getRequestURI()				返回 URL
+	StringBuffer getRequestURI()		返回 URL
+	
+	Servlet getServletPath()			返回 URL 中标识 servlet 的那一部分
+	
+	HttpSession getSession()			返回这一请求的会话。如果不存在会话，就创建会话并返回
+	HttpSession getSession(boolean new)	如果new 为true, 如果会话不存在，就创建并返回这个请求的会话； 否则，返回这一请求已经存在的会话
+	boolean isRequestedSessionIdFromCookie()		如果 cookie 包含会话ID，就返回true；否则返回 false
+	boolean isRequestedSessionIdFromURL() 			如果 URL 包含会话ID，就返回true；否则返回 false
+	boolean	isRequestedSessionIdvAalid()			在当前的会话上下文中，如果请求的会话ID 有效，就返回 false
+	
+
+# HttpServletResponse 接口
+	void addCookie(Cookie cookie)			将 cookie 添加到 HTTP 响应中
+	boolean containsHeader(String field)	如果 HTTP 响应标题包含名为field 的字段，就返回 true
+	String encodeURL(String url)			判定会话ID 是否必须编码到url 标识的 URL 中。如果是，就返回修改后的 url 版本；否则返回 url 版本；
+											否则返回返回 url。 由servlet 产生的所有 URL, 都应当由这个方法进行处理
+	
+	String encodeRedirectURL(String url)	判定会话ID 是否必须编码到url 标识的 URL 中。如果是，就返回修改后的 url 版本；否则返回 url 版本；
+											否则返回返回 url。传递给 sendRedirect() 方法的所有URL， 都应当这个方法进行处理
+	
+	void sendError(int c)
+		throws IOException					将错误代码 c 发送到客户端
+		
+	void sendError(int c, String s)			将错误代码 c 和 s 发送到客户端
+		throws IOException
+	
+	void sendRedirect(String url)
+		throws IOException					将客户端重定向到 url
+	
+	void setDateHeader(String field, long msec)
+		将 field 添加到标题中，并且字段的值等于msec
+	
+	setHeader(String field, String value)	将 field 添加到标题中，并且字段的值等于 value
+	setIntHeader(String field, String value)
+	
+	void setStatus(int code)				将这个响应状态码设置为 code
+	
+	
+# HttpSession 接口
+	HttpSession 接口使 servlet 能够读取并且写入与 HTTP 会话关联的状态信息。
+	如果会话已经无效， 那么所有这些方法都会抛出 IllegalStateException 异常
+	
+	Object getAttribute(String attr) 		返回与attr 传递的名称相关联的值，如果没有找到 attr,就返回null
+	Enumeration<String> getAttributeNames()	返回与会话关联的特性名称的枚举
+	long getCreation Time()					返回这个会话创建的时间，毫秒数
+	String getId()							返回会话ID
+	long getLastAccessedTime()				返回客户端最后一次请求的时间
+	void invalidate()						使会话无效，并将之从上下文中移除
+	boolean isNew()							如果服务器创建了会话，并且客户端还没有访问，就返回true
+	void removeAttribute(String attr)		从会话中移除 attr 指定的特性
+	void setAttribute(String attr, Object val)
+	
+	
+# Cookie 类
+	Cookie 类封装了 cookie,  cookie 保存在客户端，并且包含状态信息。可以保存用户信息
+	通过 HttpServletResponse 接口的 addCookie(), servlet可以向用户机器写入cookie。随后 用于 cookie 的数据将被包含到
+	HTTP 响应的头中，HTTP 响应被发送到浏览器。
+	
+	每个cookie 都会包括：
+		cookie 的名称
+		cookie 的值
+		cookie 的截止日期
+		cookie 的域和路径
+		
+		/*
+			如果没有为cookie指定截止日期那么cookie 在当前浏览器会话结束时删除
+			cookie 的域和路径决定了何时将cookie 包含于 HTTP 请求的头中
+			如果用户输入了域和路径与这些值相匹配的URL， 那么cookie 会被提供给浏览器
+		*/
+		
+	构造函数：
+		Cookie(String name, String value)
+	
+	
+	方法：
+		Object clone()				返回这个对象的副本
+		String getComment()			返回注释
+		void setComment(String c)	将注释设置成c
+		
+		String getDomain()			返回域
+		void setDomain(String d)	将域设置成d
+		
+		String getName()			返回名称
+		
+		boolean getSecure()			如果 cookie 是安全的，就返回 true
+		void setSecure(boolean secure)
+		
+		String getValue()			返回值
+		void setValue(String v)
+		
+		int getVersion()			返回版本
+		void setVersion(int v)
+		
+		boolean isHttpOnly()		如果cookie具有HttpOnly 特性，就返回true
+		void setHttpOnly(boolean httpOnly)
+			如果 httpOnly 是true， 就将 HttpOnly 特性添加到 cookie；
+			如果httpOnly 是false, 就删除 HttpOnly 特性
+		
+		int getMaxAge()				返回最大年龄（s）
+		void setMaxAge(int secs)	将cookie 的最大年龄设置为 secs, 只是指多少秒后删除 cookie
+		
+		void setPath(String path)
+		String getPath()			返回路径
+	
+	
+	
+# HttpServlet 抽象类
+	HttpServlet 类扩展了 GenericServlet 抽象类。当开发接受并处理 HTTP 请求的servlet 时，通常使用该类。
+	
+	方法：
+	void doDelete(HttpServletRequest req, HttpServletRequest res)
+		throws IOException, ServletException		处理 HTTP DELETE 请求
+	
+	void doGet(HttpServletRequest req, HttpServletRequest res)
+		throws IOException, ServletException		处理 HTTP GET 请求
+	
+	
+	void doHead(HttpServletRequest req, HttpServletRequest res)
+		throws IOException, ServletException		处理 HTTP HEAD 请求
+	
+	void doOptions(HttpServletRequest req, HttpServletRequest res)
+		throws IOException, ServletException		处理 HTTP OPTIONS 请求
+	
+	
+	void doPost(HttpServletRequest req, HttpServletRequest res)
+		throws IOException, ServletException
+	
+	
+	void doPut(HttpServletRequest req, HttpServletRequest res)
+		throws IOException, ServletException
+	
+	
+	void doTrace(HttpServletRequest req, HttpServletRequest res)
+		throws IOException, ServletException
+	
+	long getLastModified(HttpServletRequest req) 返回请求资源的最后一次修改时间
+	
+	void service(HttpServletRequest req, HttpServletRequest res)
+		throws IOException, ServletException	当这个servlet 的 HTTP 请求到达时，服务器调用这个方法，参数分别提供对 HTTP 请求和响应的访问
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
