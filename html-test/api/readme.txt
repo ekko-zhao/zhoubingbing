@@ -37,8 +37,11 @@
 				chrome=1不是说IE的技术增强了可以模拟Chrome浏览器，而是与谷歌开发的Google Chrome Frame(谷歌内嵌浏览器框架GCF)有关。这个插件可以让用户的IE浏览器外观不变，但用户在浏览网页时实际上使用的是Chrome的内核，并且支持Windows XP及以上系统的IE6/7/8。
 				
 			<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> 
-			使用X-UA-Compatible标签强制IE8采用低版本方式渲染。 
-			//emulate 仿真
+				使用X-UA-Compatible标签强制IE8采用低版本方式渲染。 
+				//emulate 仿真
+			
+			<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" /> 
+				// ie8的标准模式打开
 		*/
 	
 	<meta name="renderer" content="webkit" />
@@ -67,7 +70,6 @@
 	}
 	
 	
-	
 # 让 IE 低版本浏览器支持 CSS3伪类和属性选择器
 	<script src="https://cdn.bootcss.com/selectivizr/1.0.2/selectivizr-min.js"></script>
 	/*
@@ -76,175 +78,6 @@
 		如果JavaScript不可以，你可以使用<noscript>标签调用一个用以反馈提示的样式文件。
 		Selectivizr要想在IE下起作用，需要是标准模式，请检查您的页面头部是否有DTD 。
 	*/
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
