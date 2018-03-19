@@ -5,32 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!--[if lte IE 8]> <![endif]-->
-    <style>
-
+    <style type="text/css">
+        #div1 {
+            width: 198px;
+            height: 66px;
+            padding: 10px;
+            border: 1px solid #aaaaaa;
+        }
 
     </style>
+    <script>
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            // ev.target.style.display = "none";
+            console.log(ev.target)
+            ev.dataTransfer.setData("Text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+
+            var data = ev.dataTransfer.getData("Text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+
+    </script>
 </head>
 
 <body>
     <nav>this is a test</nav>
+    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <br />
+    <img id="drag1" src="./i/eg_dragdrop_w3school.gif" draggable="true" ondragstart="drag(event)" />
 </body>
-<script>
-    // 创建事件
-    var event = document.createEvent('Event');
-
-    // 定义事件名为'build'.
-    event.initEvent('build', true, true);
-
-    // 监听事件
-    document.body.addEventListener('build', function (e) {
-        // e.target matches elem
-        console.log(1)
-    }, false);
-
-    // 触发对象可以是任何元素或其他事件目标
-    document.body.dispatchEvent(event);
-
-</script>
 
 </html>
