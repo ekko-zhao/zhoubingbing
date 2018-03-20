@@ -1,0 +1,261 @@
+﻿
+# 相关 java 基础知识
+
+. ClassLoder抽象类 和 反射机制
+	该类在 java.lang.txt 中有介绍
+	
+ 示例：
+	public class Car {
+		private String brand;
+		private String color;
+		private int maxSpeed;
+		
+		public Car() {
+			System.out.println("init car!!");
+		}
+		
+		public Car(String brand, String color, int maxSpeed) {
+			this.brand = brand;
+			this.color = color;
+			this.maxSpeed = maxSpeed;
+		}
+		
+		public void introduce() {
+			System.out.println("brand:" + brand + ";color:" + color + ";maxSpeed:" + maxSpeed);
+		}
+		
+		// ... 变量的 getter setter 方法
+		public void setBrand(String brand){
+			this.brand = brand;
+		}
+	}
+	
+	
+	public class Test {
+		public static void main(String[] agrs) throws Throwable {
+			ClassLoader loader = Thread.currentThread().getContextClassLoader();
+			Class clazz = loader.loadClass("start.reflect.Car");
+
+			Constructor cons = clazz.getDeclaredConstructor((Class[]) null);
+			Car car = (Car)cons.newInstance();
+			
+			
+			// 通过反射方法设置属性
+			Method setBrand = clazz.getMethod("setBrand", String.class);
+			setBrand.invoke(car, "黑色");
+		}
+	}
+	
+ 如果类中成员 访问修饰符 是 private 或者 protected, 需要取消 Java 语言检查, 否则将抛出 IllegalAccessException.
+ 如果 JVM 的安全管理器设置了相应的安全机制，那么调用该方法将抛出 SecurityException 。
+	
+	public class Car{
+		private String color;
+		
+		protected void drive(){}
+		
+	}
+	
+	public class Test {
+		public static void main(String[] agrs) throws Throwable {
+			ClassLoader loader = Thread.currentThread().getContextClassLoader();
+			Class clazz = loader.loadClass("start.reflect.Car");
+			Car car = (Car)cons.newInstance();
+			
+			Field colorFld = clazz.getDeclaredField("color");
+			colorFld.setAccessible(true);	// 取消 Java 语言检查 
+			color.set(car, "黑色");
+			
+			Method driveMth = clazz.getDeclaredMethod("drive",(Class[] null)
+			driveMth.setAccessible(true);	// 取消 Java 语言检查 
+			driveMth.invoke(car, (Object[] null));
+			
+		}
+	}
+	
+	
+# 资源抽象接口
+	
+. Resource 接口
+	boolean exists()		判断资源是否存在
+	boolean isOpen()		判断资源是否打开
+	URL getURL() throws IOException
+		如果底层资源可以表示成  URL，则该方法返回对应的URL 对象
+		
+	File getFile() throws IOException
+		如果底层资源对应一个文件，则该方法返回对应的 Field 对象
+	
+	InputStream getInputStream() throws IOException
+		返回资源对应的输入流
+	
+	
+. Resource 接口 的实现类
+	
+		WritableResource 可写资源接口
+			FileSystemResource		文件系统资源，资源以文件系统路径的方式表示， 如 D:/conf/bean.xml
+			PathResource			该类封装了 java.net.URL、java.nio.fiel.Path、文件系统资源，它使用户能够访问任何可以通过 URL
+									Path、系统文件表示的资源。 如文件系统的资源 HTTP资源 FTP 资源
+	
+	AbstractResource
+		PathResource
+		UrlResource 				URL 封装了 java.net.URL, 它使用户能够访问任何可以通过 URL表示的资源。如文件系统的资源 HTTP资源 FTP 资源
+		
+		ByteArrayResource			二进制数组表示的资源，二进制数组资源可以在内存中通过程序构造
+		ClassPathResource			类路径下的资源， 资源以相对于路径的方式表示
+		
+		InputStreamResource			以输入流返回表示的资源
+		ServletContextResource		为访问 Web 容器上下文的资源而设计的类，负责以相对于 Web 应用根目录的路径加载资源，
+									它支持以流和url 的方式访问，在 WAR 解包的情况下，也也可通过 File 方式访问
+		
+		
+# 资源加载
+	Spring 提供了一个强大的加载资源机制，不但能够通过“classpath:”、“file:” 等资源地址前缀识别不同的资源类型，
+	还支持 Ant 风格带通配符的资源地址。
+	
+	地址前缀：			示例：
+	classpath:			classpath:com/smart/beans.xml
+		从类路径中加载资源， classpath: 和 classpath:/ 是等价的，都是相对于类的根路径。 资源文件可以在标准的文件系统中
+		也可以在 JAR ZIP 的类包中
+	classpath*:
+		使用通配符
+	
+	file:				file:C:/com/smart/beans.xml 或  file:/com/smart/beans.xml
+		使用 UrlResource 从文件系统目录中装载资源，可以采用绝对火相对路径
+	
+	http://
+		使用 URLResource 从 Web 服务器中装载资源
+		
+	ftp://
+		使用 URLResource 从 FTP 服务器中装载资源
+	
+	没有前缀			com/smart/beans.xml
+		根据 ApplicationContext 的具体实现类采用对应类型的 Resource
+	
+	
+. 通配符
+	?: 匹配文件名中的一个字符
+	*：匹配文件名中的任意字符, 不包含 / 。
+	**： 匹配多层路径
+	
+
+. 资源加载器
+	Spring 定义了一套资源加载的接口，并提供了实现类，
+	通过根据 不同的资源地址 选用对应的类加载文件资源
+	
+	
+	ResourceLoader 接口仅有一个 getResource() 方法
+		方法：
+		Resource getResource(String location) 
+	
+	ResourcePatternResolver 接口
+		方法：
+		Resource[] getResources(String locationPattern) 
+	
+	PathMatchingResourcePatternResolver 类
+		该类是 Spring 提供的标准实现类
+	
+	/*
+		ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+		Resource resource = resolver.getResource(path);
+	*/
+	
+	DefaultResourceLoader 类 实现了 ResourceLoader 接口
+		
+	/*
+		实战经验:
+		用 Resource 操作文件时，如果资源配置文件在项目发布时会被打包到 JAR 中，那么不能使用 Resource 的getFile() 方法，
+		否则会抛出 FileNotFoundException
+		但是可以使用 Resource 的 getInputStream() 方式读取
+		
+		(new DefaultResourceLoader()).getResource(path).getInputStream()
+		
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

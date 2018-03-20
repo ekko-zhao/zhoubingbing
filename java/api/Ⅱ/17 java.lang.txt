@@ -198,7 +198,7 @@
 	
 	
 	static Class<?> forName(String name)
-		throws ClassNotFoundException		改方法是创建对象的一种方式， 例如： Class t = Class.forName("java.lang.Thread")
+		throws ClassNotFoundException		该方法是创建对象的一种方式， 例如： Class t = Class.forName("java.lang.Thread")
 	
 	static Class<?> forName(String name, boolean how, ClassLoader ldr)
 		throws ClassNotFoundException		返回给定全名的Class 对象。对象使用由ldr 指定的加载器加载。如果 how 为true，就初始化对象
@@ -213,7 +213,7 @@
 		
 	Class<?>[] getClasses()					为调用对象所属类的所有公有类和接口成员都返回一个 Class 对象
 	
-	ClassLoader getClassLoader()			返回加载类或接口的 ClassLoader 对象
+	ClassLoader getClassLoader()			返回加载类或接口的 ClassLoader 类加载器 对象
 	
 	Constructor<T> getConstructor(Class<?> ...paramTypes)
 		throws NoSuchMethodException, SecurtyException	返回一个 Constructor 对象，表示调用对象所属类的构造函数，调用对象拥有 paramTypes 指定的参数类型，参数可以区分对象的重载构造函数
@@ -229,6 +229,8 @@
 			Class[] classes = new Class[] { String.class, int.class };
 			Solution solution = Solution.class.getConstructor(classes).newInstance("hello1", 10);
 		*/
+	Constructor<T> getDeclaredConstructor(Class<?> ...paramTypes)
+		throws NoSuchMethodException, SecurtyException
 	
 	
 	Constructor<?>[] getConstructors()
@@ -287,6 +289,31 @@
 	
 	
 	String toString()
+
+	
+	
+	
+# ClassLoader 抽象类的重要方法
+	Class.loadClass(String name)	 name 为指定类装载器需要装载类的名字，必须使用全限定类名，com.smart.beans.Car
+	Class.loadClass(String name, boolean resolve)
+		resolve 参数告诉类装载器是否需要解析。如果 JVM 只需要知道该类是否存在或找出该类的超类，那么久不需要进行解析
+	
+	Class defineClass(String name, byte[] b, int off, int len)
+		将类文件的字节数组转换成JVM 内部的 java.lang.Class 对象。 字节数组可以从本地文件系统、远程网络获取。
+		参数 name 为字节数组对应的全限定类名
+		
+	Class findSystemClass(String name)
+		从本地文件系统载入 Class 文件。如果本地文件系统不存在该 Class 文件，则将抛出 ClassNotFoundException 异常
+		该方法是 JVM 默认使用的装载机制
+	
+	Class findLoadClass(String name) 
+		调用该方法来查看 ClassLoader 是否已装入某个类。如果已装入，那么返回 java.lang.Class 对象， 否则返回 null
+		如果强行装载已存在的类，那么将会抛出链接错误
+		
+	ClassLoader getParent()	
+		获取类装载器的父装载器。除根装载器外，所有的类装载器都有且只有一个父装载器。
+		ExtClassLoader 的父装载器是根装载器，因为根装载 是非 java 语言编写，所以无法获得，将返回 null
+	
 	
 	
 # Thread 类
