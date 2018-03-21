@@ -1,5 +1,5 @@
 ﻿
-# 相关 java 基础知识
+# 相关 java 基础知识 ------------------------------------------------------------
 
 . ClassLoder抽象类 和 反射机制
 	该类在 java.lang.txt 中有介绍
@@ -74,7 +74,7 @@
 	}
 	
 	
-# 资源抽象接口
+# 资源抽象接口 ------------------------------------------------------------
 	
 . Resource 接口
 	boolean exists()		判断资源是否存在
@@ -144,15 +144,13 @@
 	
 	
 	ResourceLoader 接口仅有一个 getResource() 方法
-		方法：
-		Resource getResource(String location) 
+		方法：Resource getResource(String location) 
 	
-	ResourcePatternResolver 接口
-		方法：
-		Resource[] getResources(String locationPattern) 
+		ResourcePatternResolver 接口 
+			方法： Resource[] getResources(String locationPattern) 
 	
-	PathMatchingResourcePatternResolver 类
-		该类是 Spring 提供的标准实现类
+			PathMatchingResourcePatternResolver 类
+				该类是 Spring 提供的标准实现类
 	
 	/*
 		ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -172,9 +170,11 @@
 	*/
 	
 	
-# BeanFactory 的类体系结构
+# BeanFactory 的类体系结构 ------------------------------------------------------------
+
 	Spring 为BeanFactory 提供了多种实现，最常用的是XmlBeanFactory, 但是在 Sptring 3.2 中已经被废弃，
 	建议使用 XmlBeanDefinitionReader、DefaultListableBeanFactory 替代
+	
 	
 . 接口
 	BeanFactory					该接口位于类结构树的顶端，它最主要的方法就是 getBean(String beanName), 该方法返回特定名称的Bean,
@@ -182,77 +182,234 @@
 						
 		ListableBeanFactory			该接口定义访问容器中 Bean 基本信息的若干方法，如查看 Bean 的个数，获取某一类型 Bean的配置名，
 									查看是否包含某一 Bean 等
-	
+			ConfigurableListableBeanFactory
+			
 		HierarchicalBeanFactory	   	父子级联IoC 容器的接口，子容器可以通过接口方法访问父容器
 			ConfigurableBeanFactory		这是一个重要的接口，增强了 IoC 容器的可定制性。
 										它定义了设置类装载器、属性编辑器、容器初始化后置处理器等方法	
 				
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+				ConfigurableListableBeanFactory
+											该接口扩展了 ListableBeanFactory 、ConfigurableBeanFactory 接口
+	
+		
+	SingletonBeanRegistry		定义了允许在运行期向容器注册单实例 Bean 的方法
+	AutowireCapableBeanFactory	定义了将容器中的 Bean 按某种规则 进行自动装配的方法
+	
+	BeanDefinitionRegistry		Spring 配置文件中每一个 <bean> 节点元素在 Spring 容器里都通过一个BeanDefinition 对象表示，
+								它描述了 Bean 的配置信息。而 BeanDefinitionRegistry 接口提供了向容器手工注册 BeanDefinition 对象的方法
+	
+	
+. 类
+	DefaultSingletonBeanRegistry 	该类实现了 SingletonBeanRegistry 接口
+		AbstractBeanFactory				并实现了 ConfigurableBeanFactory 接口 		
+			AbstractAutowireCapableBeanFactory
+											实现了 ConfigurableListableBeanFactory 、 AutowireCapableBeanFactory 接口
+	
+				DefaultListableBeanFactory 		该类扩展了实现了 ConfigurableListableBeanFactory 、BeanDefinitionRegistry 接口，
+
+				
+. beans.xml 文件结构
+	<?xml version="1.0" encoding="UTF-8" ?>
+	<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+		   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+		<bean id="carId" class="com.smart.Car" p:brand="红旗CA72" p:maxSpeed="200" 
+			p:color="黑色" /> 
+			
+	</beans>
+	
+	/*
+		bean 的属性
+			init-method="myInit"	 		初始调用 Bean 类的 myInit 方法
+			destroy-method="myDestory"		被销毁时 的钩子方法
+		
+		
+		Bean 类 可以实现的接口
+			BeanFactoryAware
+				void setBeanFactory(BeanFactory beanFactory) throws BeansException
+				
+			BeanNameAware
+				void setBeanName(String beanName)
+				
+			InitializingBean
+				 void afterPropertiesSet() throws Exception
+			
+			DisposableBean
+				void destroy() throws Exception
+	*/
+	
+	
+. 示例
+	// 创建资源加载器
+	ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+	Resource res= resolver.getResource("classpath:com/smart/beanfactory/beans.xml");
+	
+	// 初始化 BeanFactory
+	DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
+	XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
+	
+	// 装配 Bean 
+	reader.loadBeanDefinitions(res);
+	
+	// 获取 Bean
+	Car car = factory.getBean("carId", Car.class);
+	
+	
+	
+# ApplicationContext 介绍 ------------------------------------------------------------
+	ApplicationContext 由 BeanFactory 派生而来，提供饿了更多面向实际应用的功能。 在 BeanFactory ,很多功能需要编程的方式实现，
+	而在 ApplicationContext 中则可以通过配置的方式实现。
+	
+. ApplicationContext 类体系结构
+	ApplicationContext 接口主要的实现类是 ClassPathXmlApplicationContext 和 FileSystemXmlApplicationContext
+	分别从类路径加载配置文件 和从文件系统中装配文件
+	路径参数前缀 classpath:  file: 都可以省略
+	
+
+. 接口
+	ApplicationEventPublisher		让容器拥有发布应用上下文事件的功能，包括容器启动、关闭事件
+	
+	MessageSource					为应用提供 i18n国际化消息访问功能
+	ResourceLoader
+		ResourcePatternResolver		实现了类似于 PathMatchingResourcePatternResolver 的功能， 可以通过带前缀的Ant 风格的资源文件路径
+									装载 Spring 的配置文件
+	
+	LifeCycle						该接口提供了 start() 和 stop() 两个方法， 主要用于控制异步处理过程。 达到管理和控制 JMX、 任务调度等母的
+	
+	BeanFactory 
+		HierarchicalBeanFactory
+		ListableBeanFactory
+			ApplicationContext		还实现了 HierarchicalBeanFactory  ApplicationEventPublisher MessageSource 
+									ResourceLoaderPatternResolver 接口
+				
+				ConfigurableApplicationContext		还实现了 LifeCycle 接口
+					
+					
+. 类
+	AbstractApplicationContext		该类实现了 ConfigurableApplicationContext 接口
+		AbstractRefreshableApplicationContext
+			AbstractRefreshableConfigApplicationContext
+				AbstractXmlApplicationContext
+					ClassPathXmlApplicationContext
+					FileSystemXmlApplicationContext
+					
+		GenericApplicationContext
+			AnnotationConfigApplicationContext		基于类注解的配置方式 
+			GenericGroovyApplicationContext			基于 Groovy 的配置方式 
+. 示例
+	
+	ApplicationContext ctx = new ClassPathXmlApplicationContext("com/smart/beanfactory/beans.xml");
+	Car car = ctx.getBean("carId", Car.class);
+	
+	/*
+		路径参数也可以为： new String[]{"1.xml","2.xml"}
+		将多个配置文件 整合一个配置文件
+	*/
+	
+	/*
+		相比 自己创建资源加载器, 在初始化 BeanFactory 方便很多
+		
+		ApplicationContext 和 BeanFactory 俩个方式有一个重大的区别：
+		BeanFactory 在初始化容器时，并未实例化 Bean,（ 通过 getBean() 方法获取Bean时） 直到第一次访问某个 Bean 时才实例化目标 Bean;
+		ApplicationContext 在初始化引用上下文时就实例化所有单实例的 Bean。
+		ApplicationContext 初始化的时间要长一些
+	*/
+	
+# Spring 基于类注解的配置方式 
+	主要功能来自Spring 的一个名为 javaConfig 的子项目。 
+	一个标注@Configuration 注解的 POJO 即可提供Spring 所需的Bean 配置信息
+	
+	
+. 示例
+	@Configuration
+	public class CarBeans {
+		@Bean(name = "carId")
+		public Car buildCar() {
+			Car car = new Car();
+			car.setBrand("红旗H7");
+			return car;
+		}
+	}
+	
+	
+	public class BeanFactory {
+		@Test
+		public void getBean(){
+			ApplicationContext ctx = new AnnotationConfigApplicationContext(CarBeans.class);
+			Car car = ctx.getBean("carId", Car.class);
+		}
+	}
+	
+	/*
+		AnnotationConfigApplicationContext 将加载 Beans.class 中的 Bean 定义并调用 CarBeans.class 中的方法实例化 Bean
+		启动并装配 Bean
+	*/
+	
+	
+# 基于 Groovy 的配置方式	
+		
+groovy-beans.groovy 文件, 需要放在 java 文件夹下
+	
+	package com.smart
+	import com.smart.Car
+
+	beans{
+		car(Car){
+			brand = "红旗 CA72"
+			maxSpeed = "200"
+			color = "red"
+		}
+	}
+	
+public class BeanFactory {
+	@Test
+	public void getBean(){
+		ApplicationContext ctx = new GenericGroovyApplicationContext("classpath:com/smart/groovy-beans.groovy");
+		Car car = ctx.getBean("carId", Car.class);
+	}	
+}
+	
+	
+# WebApplicationContext 类体系结构 -------------------------------------------------
+	WebApplicationContext 是专门为 Web 应用准备的，它允许从相对于 Web 根目录的路径中装载配置文件完成初始化工作
+	从WebApplicationContext 获得 ServletContext 的引用，整个Web 应用上下文对象将作为属性放置到 ServletContext中。
+	以便 Web 应用环境可以访问 Spring 应用上下文。
+	
+	在非 Web 应用的环境下，Bean 只有 singleton 和 prototype 两种作用域。
+	WebApplicationContext 为 Bean 添加了三个新的作用域： request、 session、 global session
+	
+. 接口
+	ApplicationContext
+		WebApplicationContext
+			ConfigurableWebApplicationContext 	它允许通过配置的方式实例化 WebApplicationContext
+				/*
+					方法：
+					setServletContext(ServletContext servletContext) 		为Spring 设置Web 应用上下文
+					setConfigLocations(String[] configLocations)
+						设置 Spring 配置文件地址, 一般情况下配置文件地址是相对于 Web 根目录的地址
+						如 /WEB-INF/**.xml.
+						但用户也可以带资源类型前缀的地址，如： classpath:com/smart?**.xml
+				*/
+			
+
+. 类
+	AbstractRefreshableWebApplicationContext  该类现实了 ConfigurableWebApplicationContext AbstractRefreshableConfigApplicationContext 接口
+		XmlWebApplicationContext
+		AnnotationApplicationContext
+		GroovyApplicationContext
+	
+	
+. WebApplicationContext 和 ServletContext 之间的相互访问，
+	WebApplicationContext 定义了一个常量 ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, 
+	在上下文启动时，WebApplicationContext 实例即以此为键放置在 ServletContext 的属性列表中
+	
+	WebApplicationContext wac = (WebApplicationContext)servletContext.getAttribute(ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+	
+	
+	WebApplicationContext 的getServletContext()方法 返回对 ServletContext 的引用
+		ServletContext getServletContext()
 	
 	
 	
