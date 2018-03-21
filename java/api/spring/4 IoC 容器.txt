@@ -114,7 +114,7 @@
 	
 	地址前缀：			示例：
 	classpath:			classpath:com/smart/beans.xml
-		从类路径中加载资源， classpath: 和 classpath:/ 是等价的，都是相对于类的根路径。 资源文件可以在标准的文件系统中
+		从类路径(resources)中加载资源， classpath: 和 classpath:/ 是等价的，都是相对于类的根路径。 资源文件可以在标准的文件系统中
 		也可以在 JAR ZIP 的类包中
 	classpath*:
 		使用通配符
@@ -172,11 +172,21 @@
 	*/
 	
 	
+# BeanFactory 的类体系结构
+	Spring 为BeanFactory 提供了多种实现，最常用的是XmlBeanFactory, 但是在 Sptring 3.2 中已经被废弃，
+	建议使用 XmlBeanDefinitionReader、DefaultListableBeanFactory 替代
 	
+. 接口
+	BeanFactory					该接口位于类结构树的顶端，它最主要的方法就是 getBean(String beanName), 该方法返回特定名称的Bean,
+								BeanFactory 的功能通过其他接口得到不断的扩展
+						
+		ListableBeanFactory			该接口定义访问容器中 Bean 基本信息的若干方法，如查看 Bean 的个数，获取某一类型 Bean的配置名，
+									查看是否包含某一 Bean 等
 	
-	
-	
-	
+		HierarchicalBeanFactory	   	父子级联IoC 容器的接口，子容器可以通过接口方法访问父容器
+			ConfigurableBeanFactory		这是一个重要的接口，增强了 IoC 容器的可定制性。
+										它定义了设置类装载器、属性编辑器、容器初始化后置处理器等方法	
+				
 	
 	
 	
