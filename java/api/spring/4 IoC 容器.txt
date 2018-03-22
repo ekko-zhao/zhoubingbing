@@ -208,37 +208,7 @@
 				DefaultListableBeanFactory 		该类扩展了实现了 ConfigurableListableBeanFactory 、BeanDefinitionRegistry 接口，
 
 				
-. beans.xml 文件结构
-	<?xml version="1.0" encoding="UTF-8" ?>
-	<beans xmlns="http://www.springframework.org/schema/beans"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-		xsi:schemaLocation="http://www.springframework.org/schema/beans
-		   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
-		<bean id="carId" class="com.smart.Car" p:brand="红旗CA72" p:maxSpeed="200" 
-			p:color="黑色" /> 
-			
-	</beans>
-	
-	/*
-		bean 的属性
-			init-method="myInit"	 		初始调用 Bean 类的 myInit 方法
-			destroy-method="myDestory"		被销毁时 的钩子方法
-		
-		
-		Bean 类 可以实现的接口
-			BeanFactoryAware
-				void setBeanFactory(BeanFactory beanFactory) throws BeansException
-				
-			BeanNameAware
-				void setBeanName(String beanName)
-				
-			InitializingBean
-				 void afterPropertiesSet() throws Exception
-			
-			DisposableBean
-				void destroy() throws Exception
-	*/
 	
 	
 . 示例
@@ -412,6 +382,18 @@ public class BeanFactory {
 		ServletContext getServletContext()
 	
 	
+	可以使用Spring提供的工具类取出上下文对象： WebApplicationContextUtils.getWebApplicationContext(ServletContext);
+	
+	
+	/*
+		获取 ServletContext
+		ServletContext servletContext = request.getServletContext();
+		ServletContext servletContext = ContextLoader.getCurrentWebApplicationContext().getServletContext();
+		
+		@Autowired
+		private ServletContext servletContext;
+	*/
+	
 # WebApplicationContext 初始化 -----------------------------------------------------------------
 	WebApplicationContext 的初始化和 BeanFactory、ApplicationContext 有所区别，
 	因为 WebApplicationContext 需要 servletContext 实例，必须在拥有Web容器的前提下才能完成启动工作，
@@ -463,33 +445,109 @@ public class BeanFactory {
 	
 	
 	
+. 使用标注 @Configuration 的Java 类提供配置信息的配置
+	<!-- 指定contex参数，让Spring 使用 AnnotationConfigWebApplicationContext 而非 XmlWebApplicationContext -->
+	context-param>
+		<param-name>contextClass</param-name>
+		<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+	</context-param>
+	<!-- 指定标注了@Configuration 的配置类， 多个可以使用逗号或空格分隔 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>com.smart.CarBeans</param-value>
+	</context-param>
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+	
+. 使用 Groovy DSL配置Bean 信息
+	
+	<context-param>
+		<param-name>contextClass</param-name>
+		<param-value>org.springframework.web.context.support.GroovyWebApplicationContext</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:com/smart/groovy-beans.groovy</param-value>
+	</context-param>
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+	
+	
+	
+# 父子容器
+	通过 HierarchiclaBeanFactory 接口，Spring 的IoC 容器可以建立父子层级关联的容器体系， 子级可以访问父级，父级不能访问子级
+	子容器可以拥有一个和父容器相同的 id Bean
+	比如在 Spring MVC 中，展现层 Bean 位于一个子容器， 而业务层和持久层Bean 位于父容器，这样展现层就可以引用 而业务层和持久层。
 	
 	
 	
 	
+# Bean 的生命周期 
+	Bean 的自身方法：如调用 Bean 构造函数实例化 Bean、 调用 Setter 设置 Bean 的属性值及通过 <bean> 的 init-method 和 destroy-method
+		/*
+			init-method="myInit"	 		初始调用 Bean 类的 myInit 方法
+			destroy-method="myDestory"		被销毁时 的钩子方法
+		*/
+	Bean 生命周期接口方法： BeanNameAware BeanFactory InitializingBean DisposableBean 
+		/*
+			
+			Bean 类可以实现的接口
+					
+				BeanNameAware
+					void setBeanName(String beanName)
+					
+				BeanFactoryAware
+					void setBeanFactory(BeanFactory beanFactory) throws BeansException
+					
+				InitializingBean
+					 void afterPropertiesSet() throws Exception
+				
+				DisposableBean
+					void destroy() throws Exception
+		*/		
 	
 	
 	
+	容器级生命级周期接口方法：由 InitialiationAwareBeanPostProcessor 和 BeanPostProcessor 两个接口实现的
+		InitialiationAwareBeanPostProcessor 接口定义的方法
+		该接口通过类 InitialiationAwareBeanPostProcessorAdapter 的扩展来实现的
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		public class Test extends InitialiationAwareBeanPostProcessorAdapter{
+			// 接口方法： 在实例化Bean 前调用
+			public Object postProcessorBeforeInstantiation(Class beanClass, String beanName){
+				// ...
+				return null;
+			}
+		
+			// 接口方法： 在实例化Bean 后调用
+			public boolean postProcessorAfterInstantiation(Object bean, String beanName) throws BeansException{
+				// 仅对容器中的 bean 进行处理
+				
+				if(beanName.equals("car")){
+					Car car = (Car)bean;
+					car.serColor("黑色");
+				}
+				
+				return true;
+			}
+		
+			// 接口方法： 在设置某个属性时调用
+			public PropertyValues postProcessorPropertyValues(PropertyValues pvs,PropertyDescriptor[] pds, Object bean, String beanName)
+			throws BeansException{
+				// ...
+				return PropertyValues;
+			}
+		}
+		public class Test implements BeanPostProcessor{
+			// ...
+		}
 	
 	
 	
