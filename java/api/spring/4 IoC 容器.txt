@@ -90,8 +90,8 @@
 	
 	
 . Resource 接口 的实现类
-	
-		WritableResource 可写资源接口
+	Resource
+		WritableResource 	可写资源接口
 			FileSystemResource		文件系统资源，资源以文件系统路径的方式表示， 如 D:/conf/bean.xml
 			PathResource			该类封装了 java.net.URL、java.nio.fiel.Path、文件系统资源，它使用户能够访问任何可以通过 URL
 									Path、系统文件表示的资源。 如文件系统的资源 HTTP资源 FTP 资源
@@ -388,7 +388,7 @@ public class BeanFactory {
 					方法：
 					setServletContext(ServletContext servletContext) 		为Spring 设置Web 应用上下文
 					setConfigLocations(String[] configLocations)
-						设置 Spring 配置文件地址, 一般情况下配置文件地址是相对于 Web 根目录的地址
+						设置 Spring 配置文件地址, 一般情况下配置文件地址是相对于 Web(webapp/*) 根目录的地址
 						如 /WEB-INF/**.xml.
 						但用户也可以带资源类型前缀的地址，如： classpath:com/smart?**.xml
 				*/
@@ -410,6 +410,123 @@ public class BeanFactory {
 	
 	WebApplicationContext 的getServletContext()方法 返回对 ServletContext 的引用
 		ServletContext getServletContext()
+	
+	
+# WebApplicationContext 初始化 -----------------------------------------------------------------
+	WebApplicationContext 的初始化和 BeanFactory、ApplicationContext 有所区别，
+	因为 WebApplicationContext 需要 servletContext 实例，必须在拥有Web容器的前提下才能完成启动工作，
+	可以在 web.xml 中配置自启动的 Servlet 或定义 Web 容器监听器（ServletContextListener） 都可以完成启动 Spring Web 应用上下文的工作
+	
+	/*
+		所有版本的Web 容器都可以定义自启动的servlet， 
+		Web容器监听器启动方式 需要2.3以上的 Web 容器，才支持
+	*/
+	
+. Spring 分别提供了用于启动 WebApplicationContext 的 Servlet 和 Web容器监听器, 它们都实现了启动 WebApplicationContext 实例的逻辑，
+	自启动的 Servlet：	org.springframework.web.context.ContextLoaderServlet
+	Web容器监听器:		org.springframework.web.context.ContextLoaderListener
+	
+	
+. 通过Web容器监听器引导
+
+	<!-- 指定配置文件 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			<!-- 逗号 和 空格 都可以作为多个文件的分隔符， 默认路径是 Web 的根路径，classpath:指定类文件路径， 前面的 / 可以省略-->
+			classpath:com/smart/beanfactory/beans.xml /WEB-INF/*.xml
+		</param-value>
+	</context-param>
+	<!-- 申明Web容器监听器 -->
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+
+
+. 通过自启动的Servlet引导， 在spring 3.0 之后版本 删除了  ContextLoaderServlet， 不推荐使用此方法启动 引导
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			WEB-INF/*.xml
+		</param-value>
+	</context-param>
+	
+	<servlet>
+		<servlet-name>springContextLoaderServlet</servlet-name>
+		<servlet-class>
+			org.springframework.web.context.ContextLoaderServlet
+		</servlet-class>
+	</servlet>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

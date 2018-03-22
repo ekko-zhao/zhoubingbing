@@ -21,8 +21,8 @@ import com.smart.CarBeans;
 public class BeanFactory {
 	@Test
 	public void getBean() throws Throwable {
-		ApplicationContext ctx = new GenericGroovyApplicationContext("classpath:com/smart/groovy-beans.groovy");
-		Car car = ctx.getBean("carId", Car.class);
+		/*ApplicationContext ctx = new GenericGroovyApplicationContext("classpath:com/smart/groovy-beans.groovy");
+		Car car = ctx.getBean("carId", Car.class);*/
 		
 		
 		// ApplicationContext ctx = new AnnotationConfigApplicationContext(CarBeans.class);
@@ -48,8 +48,6 @@ public class BeanFactory {
 		Car car = factory.getBean("carId", Car.class);
 		
 		System.out.println("car bean is ready for use");*/
-		
-		
 		
 		
 	}
