@@ -1,5 +1,7 @@
 package com.smart.beanfactory;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 import org.springframework.beans.factory.config.SingletonBeanRegistry;
 import org.springframework.beans.factory.support.AbstractBeanFactory;
@@ -14,13 +16,19 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
-
+import com.smart.Boss;
 import com.smart.Car;
 import com.smart.CarBeans;
+
+import groovyjarjarantlr.collections.List;
 
 public class BeanFactory {
 	@Test
 	public void getBean() throws Throwable {
+		
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("df");
+		list.add("df");
 		/*ApplicationContext ctx = new GenericGroovyApplicationContext("classpath:com/smart/groovy-beans.groovy");
 		Car car = ctx.getBean("carId", Car.class);*/
 		

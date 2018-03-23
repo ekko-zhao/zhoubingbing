@@ -268,24 +268,31 @@
 		GenericApplicationContext
 			AnnotationConfigApplicationContext		基于类注解的配置方式 
 			GenericGroovyApplicationContext			基于 Groovy 的配置方式 
-. 示例
 	
-	ApplicationContext ctx = new ClassPathXmlApplicationContext("com/smart/beanfactory/beans.xml");
-	Car car = ctx.getBean("carId", Car.class);
-	
-	/*
-		路径参数也可以为： new String[]{"1.xml","2.xml"}
-		将多个配置文件 整合一个配置文件
-	*/
-	
-	/*
-		相比 自己创建资源加载器, 在初始化 BeanFactory 方便很多
+	. 示例
+		ClassPathXmlApplicationContext 类构造函数
+			ApplicationContext ClassPathXmlApplicationContext(path)
+			ApplicationContext ClassPathXmlApplicationContext(path, ApplicationContext parent)			parent 为父容器
 		
-		ApplicationContext 和 BeanFactory 俩个方式有一个重大的区别：
-		BeanFactory 在初始化容器时，并未实例化 Bean,（ 通过 getBean() 方法获取Bean时） 直到第一次访问某个 Bean 时才实例化目标 Bean;
-		ApplicationContext 在初始化引用上下文时就实例化所有单实例的 Bean。
-		ApplicationContext 初始化的时间要长一些
-	*/
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("com/smart/beanfactory/beans.xml");
+		Car car = ctx.getBean("carId", Car.class);
+		
+		/*
+			路径参数也可以为： new String[]{"1.xml","2.xml"}
+			将多个配置文件 整合一个配置文件
+			
+			Car car = (Car)ctx.getBean("carId");
+			
+		*/
+		
+		/*
+			相比 自己创建资源加载器, 在初始化 BeanFactory 方便很多
+			
+			ApplicationContext 和 BeanFactory 俩个方式有一个重大的区别：
+			BeanFactory 在初始化容器时，并未实例化 Bean,（ 通过 getBean() 方法获取Bean时） 直到第一次访问某个 Bean 时才实例化目标 Bean;
+			ApplicationContext 在初始化引用上下文时就实例化所有单实例的 Bean。
+			ApplicationContext 初始化的时间要长一些
+		*/
 	
 # Spring 基于类注解的配置方式 
 	主要功能来自Spring 的一个名为 javaConfig 的子项目。 

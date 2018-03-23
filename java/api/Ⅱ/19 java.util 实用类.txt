@@ -363,6 +363,9 @@
 				timer.cancel(); //Terminate the timer thread
 			}
 		}
+		
+		Timer t = new Timer();
+		Timer(TTask,0,10000)
 	*/
 	
 # Timer

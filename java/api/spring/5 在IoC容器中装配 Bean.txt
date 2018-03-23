@@ -25,6 +25,9 @@
 		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
 	">
 		为每个命名空间指定具体的Schema 文件
+
+
+
 		
 . Spring 4.0 的Schema 文件
 	
@@ -82,7 +85,6 @@
 	}
 	
 	
-	
 	<bean id="boss" class="com.smart.Boss">
 		<constructor-arg> <value>John</value> </constructor-arg>
 		<constructor-arg> <ref bean="carid"></constructor-arg>
@@ -120,21 +122,39 @@
 		<bean id="carid" class="carFactoryid" factory-method="createHongQicar" />
 	
 
-# 注入参数详解
+# 注入参数详解-------------------------------------------------------------------------------
 	XML 特殊字符需要用 <![CDATA[奇瑞&lt; 006]]>
 	
 	< &lt;		
 	> &gt;
 	& &amp;
-	" quot;
-	' &apos;                                                                                                                                                                                                                                                
+	" &quot; '&apos;                                                                                                                                                                                                                                                
 	                                                                                                                                                       
 . 字面值
 	<property name="maxSpeed">
 		<value>200</value>
 	<property>
+
 	
 . 通过 ref 引用其它 Bean
+	
+	<ref> 元素的属性
+		local 	属性不被允许
+		bean	通过该属性可以引用统一容器或父容器的Bean, 子集容器的Bean 优先级高, 如果同级容器没有找到，继续向父级容器查找 Bean
+		parent	在父级容器中查找 Bean
+	
+	
+	public class Boss {
+		public void setCar(Car car){
+			this.car = car;
+		}
+		public Car getCar(){
+			return this.car = car;
+		}
+	}
+	
+	
+	// bean
 	<bean id="carid" class="com.smart.car">
 	<bean id="boss" class="com.smart.boss">
 		<property name="car">
@@ -142,62 +162,340 @@
 		<property>
 	</bean>
 	
+	// parent
+	<bean id="carId" class="com.smart.Car" p:brand="奇瑞qq" p:maxSpeed="50" />
+	<bean id="bossId" class="com.smart.Boss" >
+		<property name="car">
+			<ref bean="carId"/>
+		</property>
+	</bean>
+	
+	// 通过 xml 方式指定父级容器
+	ApplicationContext parent = new ClassPathXmlApplicationContext("com/smart/beanfactory/beans.xml");
+	ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[]{"com/smart/beanfactory/beans2.xml"}, parent);
+	Boss boos = ctx.getBean("bossId", Boss.class);
+		// 这里获取的是 beans.xml 中的 carId， 同级容器的 carId 无效
+	
+	
+. 内部 Bean
+	如果 car Bean 只被 boss Bean 应用，而不被容器中任何其他的 Bean 引用，则可以将 car 以内部 Bean 的方式注入 Boss
+	
+	<bean id="bossId" class="com.smart.Boss" >
+		<property name="car">
+			<bean id="carId" class="com.smart.Car" p:brand="奇瑞qq" p:maxSpeed="50" />
+		</property>
+	</bean>
+	
+. null 值
+	<property name="car"><null /></property>
+	
+. 链接属性
+	public class Boss {
+		private Car car = new Car();
+		public void setCar(Car car){
+			this.car = car;
+		}
+		public Car getCar(){
+			return this.car = car;
+		}
+	}
+	
+	<bean id="bossId" class="com.smart.Boss" >
+		<property name="car.brand" value="奇瑞qq" /></property>
+	</bean>
+	
+	需要在 Boss 类中 给 car 属性初始化， 按照上面的配置 ，Spring 将调用 Boss.getCar().setBrand("奇瑞qq");
+	
+. 集合类型属性
+	// List
+	<bean name="" class="">
+		<property name="property">
+			<list>
+				<value>0</value>
+				<value>2</value>
+				<value>2</value>
+			</list>
+		</property>
+	</bean>
+	
+	
+	// Set
+	<bean name="" class="">
+		<property name="property">
+			<set>
+				<value>0</value>
+				<value>2</value>
+				<value>2</value>
+			</set>
+		</property>
+	</bean>
+	
+	
+	// Map
+	<bean name="" class="">
+		<property name="property">
+			<map>
+				<entry>
+					<key><value>key</value><key>
+					<value>value</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	如果 键或值 是引用对象
+		<entry>
+			<key> <ref bean="b" /> </key>
+			<ref bean="b" />
+		</entry>
+	
+	
+	// Properties
+	Properties 类型其实可以看作 Map 类型的特例。Map 元素的键和值可以是任何类型的对象，而Properties 属性的键和值都只能是字符串。
+	
+	public class Boss{
+		private Properties mails = new Properties();
+		
+		public Properties getMails(){
+			return mails;
+		}
+		
+		public void getMails(Properties mails){
+			this.mails = mails;
+		}
+	}
+	
+	<bean name="" class="">
+		<property name="mails">
+			<props>
+				<prop key="zhoubingbing">zhoubbmls@sina.com</prop>
+				<prop key="zhangsan">zhangsan@sina.com</prop>
+			</props>
+		</property>
+	</bean>
+	
+	
+	// 集合合并
+	Spring 支持集合合并的功能， 允许子 <bean> 继承同名（<property name=""> 相同的属性）属性集合元素，并将子 <bean> 中配置的集合属性值合并起来
+	作为最终 Bean 的属性值
+	
+	<bean id="parentBoss" abstract="true" class="">
+		<property name="favorites">
+			<set>
+				<value>1</value>
+				<value>2</value>
+			</set>
+		</property>
+	</bean>
+	
+	<!-- 通过parent 指定父容器 -->
+	<bean id="childBoss" parent="parentBoss" class="">
+		<property name="favorites">
+			<set merge="true">  						<!-- merge 指定是否合并 -->
+				<value>3</value>
+				<value>4</value>
+			</set>
+		</property>
+	</bean>
+	
+	
+	// 通过util 命名空间配置集合类型的 Bean
+	<beans
+		xmlns:util="http://www.springframework.org/schema/util"
+		
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/util
+			http://www.springframework.org/schema/util/spring-util-4.0.xsd
+		"
+	>
+	</beans>
+	
+	<!-- 支持 value-type -->
+	<util:list id="" list-class="com.smart.class">
+		<value>0</value>
+		<value>1</value>
+	<util:list>
+	
+	<util:set id="" set-class="com.smart.class">
+		<value>0</value>
+		<value>1</value>
+	<util:set>
+	
+	
+	<!-- 支持 value-type key-type -->
+	<util:map id="" map-class="com.smart.class">
+		<entry key="key1" value="1"></entry>
+		<entry key="key1" value="2"></entry>
+	<util:map>
+
+
+
+# 简化配置方式
+	如果使用简化的方式，则将无法使用<![CDATA[ ]]> 处理 XML 特殊字符，只能用 value="红旗&amp;CA72"
+
+	字面值属性：
+				<property name="maxSpeed" value="200"/>
+	
+	构造函数参数：
+				<constructor-arg type="" value="奇瑞q5"/>
+	
+	集合元素：
+				<map>
+					<entry key="AM" value="会见客户">
+					<entry key="PM" value="会见客户">
+				</map>
+	
+. 引用对象属性
+	 字面值属性：
+				<property name="maxSpeed" ref="bean"/>
+	
+	
+	构造函数参数：
+				<constructor-arg ref="bean"/>
+	
+	集合元素：
+				<map>
+					<entry key-ref="keybean" value-ref="valuebean">
+				</map>
+		
+	
+. 使用 p 命名空间
+		
+	xmlns:p="http://www.springframework.org/schema/p"
+	
+	<bean id="boss" class="" p:car-ref="car" /> 
+	
+	
+	
+. 自动装配
+	<bean> 元素提供了一个指定自动装配类型的属性： autowire="type"
+	在实际开发中，XML 配置方式很少启用自动装配功能， 而基于注解的配置方式默认采用 byType 自动装配策略
+	
+	
+	自动装配类型：
+	byName		根据名称进行自动匹配。假设 Boss 有一个名为 car 的属性，如果容器中刚好有一个名为 car 的Bean, Spring 就会自动将其
+				装配给 Boss 的 car 属性
+					
+	byType		根据类型进行自动匹配。假设 Boss 有一个Car 类型的属性，如果容器中刚好有一个 Car 类型的Bean, Spring 就会自动将其
+				装配给 Boss 的 car 属性
+	
+	constructor	与byType 类似，只不过它是针对构造函数注入而言的。如果Boss 有一个构造函数，且含一个 Car 类型的入参，如果容器中
+				有一个 Car 类型的Bean，Spring 就会自动把这个Bean  作为Boss 构造函数的入参，如果没有找到 匹配类型的Bean 则抛出异常
+	
+	autodetect	根据Bean 的自省机制决定采用 byType 还是 autodetect。 如果Bean 提供了 默认的构造函数，则采用 byType, 否则采用 constructor
 	
 	
 	
 	
+# 方法注入
+	lookup 方法注入
+	
+	MagicBoss 接口
+		public interface MagicBoss{
+			Car getCar();
+		}
+		
+	
+	// applicationContext.xml
+	<bean id="car" class="com.smart.Car"> p:brand="" scope="prototype"/>
+	<bean id="MagicBoss" class="com.smart.MagicBoss">
+		<lookup-method name="getCar" bean="car">
+	</bean>
+	
+	@test
+	ApplicationContext app = new ClassPathXmlApplicationContext("classpath:resource/applicationContext.xml");
+	MagicBoss mb1= (FruitPlate)app.getBean("MagicBoss");
+	MagicBoss mb2= (FruitPlate)app.getBean("MagicBoss");
+	
+	
+	每次调用 MagicBoss 的 getCar 都会返回 car 的实例
+	
+	
+# 方法替换
+	用于替换他人的 Bean 必须实现 MethodReplacer 接口， Spring 将利用该接口的方法去替换目标 Bean 的方法。
+	
+	public class Boss1{
+		public Car getCar(){
+			
+		}
+	}
+	public class Boss2 implments MethodReplacer{
+		public Object reimplement(Object agr, Method agr1, Object[] agr2) throws{
+			return car;
+		}
+	}
 	
 	
 	
+	<bean id="boss1" class="com.smart.Boss1">
+		<replaced-method name="getCar" replacer="boss2">
+	</bean>
+	<bean id="boss2" class="com.smart.Boss2"></bean>
+	
+	
+# <bean> 之间的关系
+. 继承
+	不但可以通过<ref> 引用另一个 Bean，建立起 Bean 和 Bean 之间的依赖关系，
+	<bean> 元素标签之间也可以建立类似的关系，完成一些特殊的功能
+	
+	<!-- abstract="true" 表示 这个<bean> 不实例化一个对应的Bean  -->
+	<bean id="abstractCar" class="com.smart.Car" p:brand="红旗" p:price="2000.00" abstract="true">
+	<bean id="car1"  p:color="red" parent="abstractCar">
+	<bean id="car2"  p:color="yellow" parent="abstractCar">
 	
 	
 	
+# 依赖
+	Spring 允许用户通过 depends-on 属性显示指定 Bean 前置依赖的 Bean，前置依赖的Bean 会在本Bean 实例化之前创建好。
+
+	public class SystemSettings{
+		public static int SESSION_TIMEOUT = 30;
+		public static int REFRESH_CYCLE = 60;
+	}
+	
+	public class SysInit{
+		public SysInit{
+			SystemSettings.SESSION_TIMEOUT = 10;
+			SystemSettings.REFRESH_CYCLE = 100;
+		}
+	}
+	
+	public class CacheManager{
+		public CacheManager{
+			Timer time = new Timer();
+			TimerTask task = new TimerTask();
+			time.schedule(time, 0 , SystemSettings.REFRESH_CYCLE)
+		}
+	}
+	
+	<bean id="manager" class="com.sarmt.CacheManager" depends-on="sysInit"/>
+	<bean id="sysInit" class="com.smart.SysInit" />
 	
 	
+# 引用
+	假设一个<bean> 要引用另一个 <bean> 的id 属性值，则可以直接使用以下配置方式：
+		<bean id="car" class="">
+		<bean id="boss" class="" p:carId="car" scope="prototype" />
+	
+	这样的写法不好的地方是 当 p:carId="carnone" 写错时， 知道编译是才能报错
+	
+	<bean id="car" class="">
+	<bean id="boss" class="" scope="prototype">
+		<property name="carId" >
+			<idref bean="car"/>	// 这里 bean 属性值被写错时 报错；
+		</property>
+	</bean>
 	
 	
+# 整合多个配置文件
 	
+	<import resource="classpath:com/car.xml">
+	<bean id="boss1" class="" p:name="John" p:car-ref="car1">
+	<bean id="boss2" class="" p:name="John" p:car-ref="car2">
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/*
+		在 car.xml 中已经配置了bean car1、car2 
+	*/
 	
 	
 	
