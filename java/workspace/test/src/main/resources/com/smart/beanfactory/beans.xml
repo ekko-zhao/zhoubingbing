@@ -8,7 +8,7 @@
 	<!-- <bean id="car" class="com.smart.Car" p:brand="红旗CA72" p:maxSpeed="200" 
 		p:color="黑色" /> -->
 	<bean id="carId" class="com.smart.Car" init-method="myInit"
-		destroy-method="myDestory" pc:brand="红旗CA72" pc:maxSpeed="200" />
+		destroy-method="myDestory" pc:brand="红旗&lt;CA72" pc:maxSpeed="200" />
 	<!-- <bean id="customAutowireConfigurer"
 		class="org.springframework.beans.factory.annotation.CustomAutowireConfigurer">
 		<property name="customQualifierTypes">

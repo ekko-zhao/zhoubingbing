@@ -119,15 +119,28 @@
 		}
 		<bean id="carid" class="carFactoryid" factory-method="createHongQicar" />
 	
+
+# 注入参数详解
+	XML 特殊字符需要用 <![CDATA[奇瑞&lt; 006]]>
 	
+	< &lt;		
+	> &gt;
+	& &amp;
+	" quot;
+	' &apos;                                                                                                                                                                                                                                                
+	                                                                                                                                                       
+. 字面值
+	<property name="maxSpeed">
+		<value>200</value>
+	<property>
 	
-	
-	
-	
-	
-	
-	
-	
+. 通过 ref 引用其它 Bean
+	<bean id="carid" class="com.smart.car">
+	<bean id="boss" class="com.smart.boss">
+		<property name="car">
+			<ref bean="carid"/>
+		<property>
+	</bean>
 	
 	
 	
