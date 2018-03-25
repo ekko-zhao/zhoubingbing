@@ -498,12 +498,235 @@
 	*/
 	
 	
+# bean的作用域
+	1. singleton (scope 默认值) 
+		当一个bean的作用域设置为singleton,那么SpringIOC容器中只会存在一个共享的bean实例，并且所有对bean的请求，只要id与该bean定义相匹配，则只会返回bean的同一实例。
+		如果不希望在容器启动是提前实例化 singleton 的Bean，则可以通过 lazy-init="true"， 不过在其它Bean 需要的时候会被提前初始化
+			<bean id="role" class="spring.chapter2.maryGame.Role" scope="singleton"/> 
+	
+	2. prototype
+		prototype作用域部署的bean，每一次请求（将其注入到另一个bean中，或者以程序的方式调用容器的getBean()方法）都会产生一个新的bean实例，
+		相当与一个new的操作，对于prototype作用域的bean，有一点非常重要，那就是Spring不能对一个prototypebean的整个生命周期负责，
+		容器在初始化、配置、装饰或者是装配完一个prototype实例后，将它交给客户端，随后就对该prototype实例不闻不问了。
+		不管何种作用域，容器都会调用所有对象的初始化生命周期回调方法，而对prototype而言，任何配置好的析构生命周期回调方法都将不会被调用。
+	
+		<bean id="role" class="spring.chapter2.maryGame.Role" scope="prototype"/>
+		
+	3. request
+		request表示该针对每一次HTTP请求都会产生一个新的bean，同时该bean仅在当前HTTP request内有效。
+		
+		配置实例：request、session、global session使用的时候首先要在初始化web的web.xml中做如下配置：如果你使用的是Servlet 2.4及以上的web容器，那么你仅需要在web应用的XML声明文件web.xml中增加下述ContextListener即可:
+			<listener>
+				<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+			</listener>
+		
+		如果是Servlet2.3以前的web容器,那么你要使用一个javax.servlet.Filter的实现：
+		<filter> 
+			<filter-name>requestContextFilter</filter-name> 
+			<filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
+		</filter> 
+		<filter-mapping> 
+			<filter-name>requestContextFilter</filter-name> 
+			<url-pattern>/*</url-pattern>
+		</filter-mapping>
+	
+		接着既可以配置bean的作用域了：
+			<bean id="role" class="spring.chapter2.maryGame.Role" scope="request"/>
+			
+			/*
+				<bean id="" class="" scope="request">
+					<!-- 创建代理  -->
+					<aop:scope-proxy>
+				</bean>
+			*/
+	
+	4. session
+		session作用域表示该针对每一次HTTP请求都会产生一个新的bean，同时该bean仅在当前HTTP session内有效，配置实例：配置实例：和request配置实例的前提一样，配置好web启动文件就可以如下配置：
+
+		<bean id="role" class="spring.chapter2.maryGame.Role" scope="session"/>
+		
+	5. global session 
+		global session作用域类似于标准的HTTP Session作用域，不过它仅仅在基于portlet的web应用中才有意义。
+		在global session作用域中定义的bean被限定于全局portlet Session的生命周期范围内。如果你在web中使用global session作用域来标识bean，那么web会自动当成session类型来使用。
+		配置实例：和request配置实例的前提一样，配置好web启动文件就可以如下配置：
+		<bean id="role" class="spring.chapter2.maryGame.Role" scope="global session"/>
+	
+	
+# 依赖作用域问题
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	">
+	
+	<bean name="car" class="" scope="request">
+		<aop:scope-proxy>
+	</bean>
+			
+	<bean name="boss" class="">
+		<property name="car" ref="car"/>
+	</bean>
+			
+	
+	/*
+		car Bean 是 request 作用域，被 singleton 作用域的 boss Bean 引用。
+		为了使Boss 能够从适当作用域中获取 car Bean 的引用，需要使用 Spring AOP 的标签，需要在文档申明头中定义aop 命名空间
+	*/
+
+	
+	
+# 基于注解的配置 --------------------------------------------------------------------------------
+	@Component("userDao")
+	public class UserDao{
+		// ...
+	}
+	
+	// 和一下 配置是等效的：
+	public class UserDao{
+		// ...
+	}
+	
+	<baen id="userDao" class="com.smart.userDao" />
+	
+	
+	除 @Component 外，Spring 还提供了 3 个功能基本和@Component 等效的注解，
+	分别用于 DAO、Service、及 Web 层的 Controller 进行注解
+	
+	@Repository:	用于对DAO 实现类进行标注
+	@Service:		用于对 Service 实现类进行标注
+	@Controller:	用于对 Controller 实现类进行标注
+	
+. 扫描注解定义的 Bean
+	xmlns:aop="http://www.springframework.org/schema/context"
+	
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	">
+	<context:component-scan base-package="com.smart" />
+		base-package		该属性设置基类包
+		resource-pattern	默认值 "**/*.class", 既 base-package 包内所有的 class,  anno/*.class 指定com.smart.anno内的类
+	
+	
+	<context:component-scan base-package="com.smart">
+		<context:include-filter type="" expression="" />
+		<context:exclude-filter type="" expression="" />
+	</context:component-scan>
+	
+	/*
+		include-filter 和 exclude-filter 均支持多种类型的过滤表达式
+		
+		type:			示例：
+		annotation		com.smart.XxxAnnotation 所有标注了 XxxAnnotation 的类，该类型采用目标类是否标注了某个注解进行过滤
+		assignable		com.smart.XxxService	所有继承或扩展 XxxService 的类，该类型采用目标类是否继承或扩展了某个特定类进行过滤
+		aspectj			com.smart..*Service+	所有类名以 Service 结束的类以及继承或扩展它们的类，该类型采用 Aspectj 表达式进行过滤
+		
+		regex			com\.smart\.anno\..*	所有 com.smart.anno 包下的类。该类型采用正则表达式根据目标类的类名进行过滤
+		custom			com.smart.XxxTypeFilter	采用 XxxTypeFilter 代码方式实现过滤规则，该类必须实现 org.springframework.core.type.TypeFilter 接口
+		
+	*/
+	
+. use-defualt-filters 属性
+	该属性默认值为 use-defualt-filters="true" 标识默认会对标注 @Component @Repository @Service @Controller 的Bean 进行扫描，
+	如果想仅扫描 @Controller 的Bean，则必须将 该属性值设为 false
+	<context:component-scan base-package="com.smart" use-defualt-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller">
+	</context:component-scan>
 	
 	
 	
+# 自动装配
+. 使用@Autowired 进行自动注入
+	
+	@Service
+	public class LogonService{
+		@Autowired
+		private LogDao logDao;
+		
+		@Autowired
+		private UserDao userDao;
+	}
+	
+	@Autowired(required=false)	表示找不到匹配的 Bean 时不报错
+	
+	@Qualifier("beanName") 多个 Bean 可以匹配时，需要 @Qualifier限定Bean 的名称
+	
+	@Lazy	
+		对于在Bean 上标注@Lazy 及 @Autowired 注解的属性，不会立即注入属性值，而是延迟到调用此属性的时候才会注入属性值
+	
+	@Resource 、@Inject 和 @Autowired 功能类似 @Resource 需要限定Bean 的名称 @Resource("beanName")
+	
+. Bean 作用域范围及生命过程方法
+	@Scope("property")
+	@Component
+	public class Test{
+	
+	}
+	 
+	@PostConstruct和 @PreDestroy 方法注解注解， 相当于 xml文件配置中的 (init-method  destory-method) 属性 
+	
+	
+# 基于 Java 类的配置
+	@Configuration 注解本身已经标注了 @Component 注解，所以任何标注@Configuration的类相当于标注了 @Component
+
+	@Configuration
+	public class ServiceConfig{
+		@Scope("")
+		@Bean
+		public Car getCar(){
+			Car car = new Car();
+			return car;
+		}
+		
+		@Bean
+		public LoginService loginService(){
+			LoginService loginService = new LoginService();
+			loginService.setLogDao(getCar());
+			return loginService;
+		}
+		
+	}
+	
+. 使用基于 Java 类的配置信息启动 Spring 容器
+	
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(CarBeans.class);
+	Car car = ctx.getBean("carId", Car.class);
+	
+	/*
+		AnnotationConfigApplicationContext 类还支持注册多个 @Configuration 配置
+			ApplicationContext ctx = new AnnotationConfigApplicationContext();
+			ctx.register(A.class);
+			ctx.register(B.class);
+			ctx.refresh();      
+			
+		可以通过代码一个一个地注册配置类，也可以通过 @Import 将多个配置类组装到一个配置类中，这样仅需要注册这个配置类就可以启动容器了
+		
+		@Configuration
+		@Import(SomeConfig.class)
+		public class ServiceConfig{
+		
+		}
+		
+	*/
+	
+. 通过 XML 配置文件引用 @Configuration 的配置
+	<context:component-scan base-package="com.smart.cof resource-pattern="Config.class" />
 	
 	
 	
+. 通过@Configuration 配置类引用 XML 配置信息
+	@Configuration
+	@ImportResource("classpath:*.xml")
+	public class LoginAppConfig{
+		@Bean
+		@Autowired
+		public loginService(UserDao userDao){
+			//... 
+			return loginService;
+		}
+	}
 	
 	
 	
