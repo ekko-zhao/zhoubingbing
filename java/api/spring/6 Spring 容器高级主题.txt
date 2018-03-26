@@ -1,0 +1,330 @@
+
+# 使用外部属性文件
+
+.使用 PropertyPlaceholderConfigurer 属性文件
+	. jdbc.properties 文件
+	url=jdbc:mysql://
+	username=root
+	password=123456
+	
+	<!-- 引入 jdbc.properties 属性文件 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+		p:location="classpath:com/jdbc.properties"
+		p:fileEncodeing="utf-8"
+	/>
+	
+	<!-- 通过属性引用值 -->
+	<bean id="" class="" 
+		p:url="${url}"
+		p:username="${username}"
+	/>
+	
+	
+. PropertyPlaceholderConfigurer 属性
+	
+	locations		
+	fileEncodeing 	指定文件编码格式。默认使用操作系统默认编码读取文件
+	order:			如果指定多个配置文件，该属性可以指定加载顺序
+	placehoPrefix	设置前缀
+	placehoSuffix	设置后缀
+	
+	
+. 使用 <context:property-placeholder> 引用属性文件
+	但如果希望自定义一些额外的高级功能，如加密的属性文件 使用数据库表来保存配置等信息 就必须使用 PropertyPlaceholderConfigurer
+	<context:property-placeholder location="com/jdbc.properties" />
+	
+	
+. 在基于注解及基于 Java 类的配置中引用属性
+	@value 注解可以为Bean 注入一个字面值，也可以通过 @value("${proName}") 的形式根据属性名注入值
+	
+	@Component
+	public class A{
+		@value("${proName}")
+		private String name;
+		
+		@value("${url}")
+		private String url;
+		
+		
+	}
+
+# 使用加密的属性文件
+	// DESUtils.java
+	public class DESUtils {
+		private static Key key;
+		private static String KEY_STR = "myKey";
+		static {
+			try {
+				KeyGenerator generator = KeyGenerator.getInstance("DES");
+				generator.init(new SecureRandom(KEY_STR.getBytes()));
+				key = generator.generateKey();
+				generator = null;
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		/**
+		 * 对str进行DES加密
+		 * 
+		 * @param str
+		 * @return
+		 */
+		public static String getEncryptString(String str) {
+			BASE64Encoder base64en = new BASE64Encoder();
+			try {
+				byte[] strBytes = str.getBytes("UTF8");
+				Cipher cipher = Cipher.getInstance("DES");
+				cipher.init(Cipher.ENCRYPT_MODE, key);
+				byte[] encryptStrBytes = cipher.doFinal(strBytes);
+				return base64en.encode(encryptStrBytes);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		/**
+		 * 对str进行DES解密
+		 * 
+		 * @param str
+		 * @return
+		 */
+		public static String getDecryptString(String str) {
+			BASE64Decoder base64De = new BASE64Decoder();
+			try {
+				byte[] strBytes = base64De.decodeBuffer(str);
+				Cipher cipher = Cipher.getInstance("DES");
+				cipher.init(Cipher.DECRYPT_MODE, key);
+				byte[] decryptStrBytes = cipher.doFinal(strBytes);
+				return new String(decryptStrBytes, "UTF8");
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public static void main(String[] args) throws Exception {
+			if (args == null || args.length < 1) {
+				System.out.println("请输入要加密的字符，用空格分隔.");
+			} else {
+				for (String arg : args) {
+					System.out.println(arg + ":" + getEncryptString(arg));
+				}
+			}
+			
+			//System.out.println(getDecryptString("WnplV/ietfQ="));
+			//System.out.println(getDecryptString("gJQ9O+q34qk="));
+		}
+	}
+	
+	
+	
+	// EncryptPropertyPlaceholderConfigurer.java
+	public class EncryptPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {	
+		private String[] encryptPropNames ={"userName","password"};
+		
+		@Override
+		protected String convertProperty(String propertyName, String propertyValue) {		
+			if(isEncryptProp(propertyName)){
+				String decryptValue = DESUtils.getDecryptString(propertyValue);
+				System.out.println(decryptValue);
+				return decryptValue;
+			}else{
+				return propertyValue;
+			}
+		}
+		
+		/**
+		 * 判断是否是加密的属性
+		 * @param propertyName
+		 * @return
+		 */
+		private boolean isEncryptProp(String propertyName){
+			for(String encryptPropName:encryptPropNames){
+				if(encryptPropName.equals(propertyName)){
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+	
+	
+	// bean 的配置
+	<bean class="com.smart.EncryptPropertyPlaceholderConfigurer"
+		p:location="classpath:com/jdbc.properties"
+		p:fileEncodeing="utf-8"
+	/>
+	
+	<!-- 通过属性引用值 -->
+	<bean id="" class="org.apache.commons.dpcp.BasicDataSource" 
+		p:userName="${userName}"
+		p:password="${password}"
+	/>
+	
+	
+# 引用 Bean 的属性值
+	<bean id="carId" class="" 
+		p:brand="红旗"
+		p:color="red"
+	/>
+	
+	<bean id="" class="" 
+		p:pro1="#{carId.brand}"
+		p:pro2="#{carId.color}"
+	/>
+	
+	
+	
+# 国际化信息	
+	对应语言为中文、国家/地区为中国大陆的本地化资源文件命名为: resource_zh_CN.properties
+	资源文件对文件内容有严格的要求，只能包含 ASCII 字符， 非 ASCII 字符的内容转换为 Unicode 代码的表示方式
+	pro=\u60a6\u597d\uff01
+	
+. 通过 ResourceBoundle 读取资源文件
+	ResourceBoundle rb1 = ResourceBoundle.getBundle("com/smart/i18n.resource", Local.US)
+	//获取属性值
+	rb1.getString("pro");
+	
+. 在资源文件中使用格式化串
+	pro=How are you!{0},today is {1}
+	pro2=Good morning!{0 time short}
+	
+	
+	String[] params={"John", time}
+	String str1 = new MessageFormat( 
+			rb1.getString("pro"),
+			Local.US
+		).format(params)
+	
+	
+. MessageSource 的类结构
+	MessageSource 接口最重要的俩个实现类是： ResourceBundleMessageSource 和 ReloadableResourceBundleMessageSource
+	
+	// ResourceBundleMessageSource 类的用法
+	// beans.xml
+	<bean id="myResource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>com/smart/i18n/fmt_resource</value>
+			</list>
+		</property>
+	</bean>
+	
+	
+	
+	// 访问国际化信息
+	String[] configs = {"com/samrt/i18n/beans.xml"};
+	ApplicationContext ctx = new ClassPathXmlApplicationContext(configs);
+	// 获取 MessageSource 的Bean
+	MessageSource ms = (MessageSource)ctx.getBean("myResource");
+	String str1 = ms.getMessage("pro",params, local)
+	
+	/*
+		无需显示使用 MessageFormat 操作国际化信息
+		
+		ReloadableResourceBundleMessageSource 类唯一的区别在于 程序不重启的情况下感知资源的变化。
+		
+		<bean id="myResource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+			<property name="basenames">
+				<list>
+					<value>com/smart/i18n/fmt_resource</value>
+				</list>
+			</property>
+			<property name="cacheSeconds" value="5" /> 			// 刷新资源的周期
+		</bean>
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

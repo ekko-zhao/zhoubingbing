@@ -593,7 +593,7 @@
 	除 @Component 外，Spring 还提供了 3 个功能基本和@Component 等效的注解，
 	分别用于 DAO、Service、及 Web 层的 Controller 进行注解
 	
-	@Repository:	用于对DAO 实现类进行标注
+	@Repository:	用于对 DAO 实现类进行标注
 	@Service:		用于对 Service 实现类进行标注
 	@Controller:	用于对 Controller 实现类进行标注
 	

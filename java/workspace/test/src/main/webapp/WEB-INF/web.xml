@@ -5,18 +5,5 @@
 	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 	<display-name>Archetype Created Web Application</display-name>
 
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>
-			<!-- 逗号 和 空格 都可以作为多个文件的分隔符， 默认路径是 Web 的根路径，classpath:指定类文件路径， 前面的 / 可以省略-->
-			classpath:com/smart/beanfactory/beans.xml
-		</param-value>
-	</context-param>
-	<!-- 申明Web容器监听器 -->
-	<listener>
-		<listener-class>
-			org.springframework.web.context.ContextLoaderListener
-		</listener-class>
-	</listener>
 	
 </web-app>

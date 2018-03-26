@@ -266,7 +266,14 @@
 	
 
 # Locale
-
+	Locale locale = new Locale("zh", "CN")			带有语言和国家/地区信息的本地化对象
+	Locale locale = new Locale("zh")				只有语言的本地化对象
+	Locale locale = Locale.CHINA					同等于 new Locale("zh", "CN")	
+	Locale locale = Locale.CHINESE					同等于new Locale("zh")
+	Locale locale = Locale.getDefault()				获取本地系统默认的本地化对象
+	
+	
+	
 # Random
 	构造函数：
 		Random()
@@ -415,6 +422,7 @@
 		String toString()
 
 
+
 # Formatter 类
 	在使用 Formatter 格式化输出之前，必须穿件Formatter 对象。
 	通常 将程序使用的数据的二进制形式转换成格式化的文本进行工作。在缓冲区中存储格式化文本 无论何时需要，都可以通过程序获取缓冲区中的内容
@@ -447,7 +455,14 @@
 		Locale locale()				返回调用对象的地区
 		Appendable out()			返回指向底层对象的引用，底层对象是输出的目标
 		String toString()			返回包含格式化输出的 String 对象
+
+# NumberFormat 类
 	
+	NumberFormat currFmt = NumberFormat.getCurrencyInstance(locale)
+	currFmt.format(123456.89)
+
+
+
 	
 .格式化的基础知识
 	format(String fmtString, Object ...args)

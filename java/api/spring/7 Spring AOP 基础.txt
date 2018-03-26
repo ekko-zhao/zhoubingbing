@@ -1,0 +1,108 @@
+
+# 增强类型
+	AOP 联盟为增强定义了 org.aopalliance.aop.Advice 接口， Spring 支持 5种类型的增强。
+	
+.接口关系
+	Advice
+		ThrowsAdvice
+		BeforeAdvice						是为了将来版本扩展需要而定义的
+			MethidBeforeAdvice				前置增强，表示在方法执行前实施执行
+		AfterReturningAdvice				代表后置增强，表示在目标方法执行后实施增强
+			DynamicIntroductionAdvice
+				IntroductionInterceptor
+			
+		Interceptor
+			MethidInterceptor				代表环绕增强，表示在目标方法执行前后实施增强
+				IntroductionInterceptor		代表引介增强，表示在目标类中添加一些新的方法和属性
+		
+. 前置增强 实例
+	
+	public class NaiveWaiter {
+		public void greetTo(){
+			System.out.println("你好 :name");
+		}
+		public void serveTo(){
+			System.out.println("服务 :serve");
+		}
+	}
+
+	public class GreetingBeforeAdvice implements MethodBeforeAdvice {
+		@Override
+		public void before(Method arg0, Object[] arg1, Object arg2) throws Throwable {
+			// TODO Auto-generated method stub
+			System.out.println("befor");
+		}
+	}
+	
+	public class TestDome {
+		@Test
+		public void befor(){
+			NaiveWaiter target = new NaiveWaiter();
+			BeforeAdvice advice = new GreetingBeforeAdvice();
+			
+			// Spring 提供的代理工厂
+			ProxyFactory pf = new ProxyFactory();
+			
+			// 设置代理目标
+			pf.setTarget(target);
+			
+			// 为代理目标添加增强
+			pf.addAdvice(advice);
+			
+			// 生成代理实例
+			NaiveWaiter proxy = (NaiveWaiter)pf.getProxy();
+			proxy.greetTo();
+		}
+	}
+	
+	
+	/*
+		befor
+		你好 :name
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
