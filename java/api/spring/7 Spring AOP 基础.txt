@@ -61,12 +61,33 @@
 		你好 :name
 	*/
 	
+. 在 spring 中的 ProxyFactoryBean 配置
+	<bean id="greetingAdvice" class="com.smart.GreetingBeforeAdvice" />
+	<bean id="target" class="com.smart.NaiveWaiter" />
+	<bean id="waiter" class="org.springframework.aop.framework.ProxyFactoryBean"
+		p:interceptorNames="greetingAdvice"
+		p:target-ref="target"
+	/>
+		属性：
+			target: 代理的目标对象
+			proxyInterfaces: 代理所要实现的接口，可以是多个接口。该属性还有一个别名 interfaces
+			interceptorNames: 增强 Bean,
+			singleton: 			返回的代理是否是单实例，默认为单实例
+			optimize：			为true 时，强制使用 GGlib 动态代理，对于 singleton 的代理推荐使用 CGlib 动态代理，
+								CGlib 动态代理创建代理时速度慢，单其创建出的代理对象运行效率高。JDK 创建的代理正好相反
+			proxyTargetClass:	是否对类进行代理（而不是对接口进行代理），当设置为 true 时，使用 CGlib 动态代理
+			
 	
-	
-	
-	
-	
-	
+	@Test
+	public void befor(){
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("com/smart/beanfactory/beans.xml");
+		NaiveWaiter proxy = (NaiveWaiter) ctx.getBean("waiter");
+		proxy.greetTo();
+	}
+	/*
+		befor
+		你好 :name
+	*/
 	
 	
 	

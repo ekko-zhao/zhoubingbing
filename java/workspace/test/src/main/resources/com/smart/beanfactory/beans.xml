@@ -5,7 +5,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
-	<bean id="carId" class="com.smart.Car" init-method="myInit"
-		destroy-method="myDestory" p:brand="红旗&lt;CA72" p:maxSpeed="200" />
-		
+	<bean id="greetingAdvice" class="com.smart.GreetingBeforeAdvice" />
+	<bean id="target" class="com.smart.NaiveWaiter" />
+	<bean id="waiter" class="org.springframework.aop.framework.ProxyFactoryBean"
+		p:interceptorNames="greetingAdvice"
+		p:target-ref="target"
+	/>
 </beans>
