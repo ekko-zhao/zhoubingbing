@@ -1,12 +1,13 @@
 
-# JDK 动态代理 和  CGLIB 动态代理
+# JDK 动态代理 和 CGLib 动态代理
 	如果目标对象实现了接口，默认情况下会采用JDK的动态代理实现AOP 
 	如果目标对象实现了接口，可以强制使用CGLIB实现AOP 
 	如果目标对象没有实现了接口，必须采用CGLIB库，spring会自动在JDK动态代理和CGLIB之间转换
 	
+	
 区别：
-	JDK动态代理只能对实现了接口的类生成代理，而不能针对类
-	CGLIB是针对类实现代理，主要是对指定的类生成一个子类，覆盖其中的方法
+	JDK动态代理只能对实现了接口的类生成代理，(通过实现的接口方法 拦截)而不能针对类
+	CGLIB是针对类实现代理，主要是对指定的类生成一个子类，覆盖其中的方法。所以目标方法必须定义为非 final 非私有
 	
 	
 	
@@ -217,41 +218,106 @@
 	}
 	
 	
+. 切点类型
+	静态方法切点： 	org.springframework.aop.support.StaticMethodMatcherPointcut
+						是静态方法切点的抽象基类，默认情况下它匹配所有的类
+						该类的来个重要子类 分别是 NameMathchMethodPointcut AbstractRegexpMethodPointcut
+						NameMathchMethodPointcut 提供简单字符串匹配方法签名
+						AbstractRegexpMethodPointcut 使用正则表达式匹配方法签名
+	
+	动态方法切点：	org.springframework.aop.support.DynamicMethodMatcherPointcut
+						是动态方法切点的抽象基类，默认情况下它匹配所有的类
+	
+	注解切点：		AnntationMatcherPointcut
+	
+	表达式切点：	ExpressionPointcut
+						该接口主要是为了 支持 Aspectj 切点表达式语法而定义的接口
+						
+	流程切点：		ControlFlowPointcut
+	
+	复合切点：		ComposablePointcat
+						它的实现类是为创建多个切点而提供的方便操作类
+	
+	
+
+. 静态普通方法名匹配切面
+	
+	public class GreetingAdvisor extends StaticMethodMatcherPointcutAdvisor{
+		public boolean matches(Method method, Class clazz){
+			return "greetTo".equals(method.getName());
+		}
+		public ClassFilter getClassFilter(){
+			return new ClassFilter(){
+				public boolean matches(Class clazz){
+					return Waiter.class.isAssignableFrom(clazz);
+				}
+			}
+		}
+		
+	}
+	
+	
+	<bean id="waiterTarget" class=""
+	<bean id="greetingBeforAdvice" class="GreetingBeforAdvice"
+	<bean id="greetingAdvisor" class="GreetingAdvisor"
+		p:advice-ref="greetingBeforAdvice"> //需要向切面注入一个前置增强
+	
+	<bean id="parent" abstract="true" class=""
+		p:
+		p:
+	>
+	<bean id="waiter" parent="parent" p:target-ref="waiterTarget">
 	
 	
 	
+. 静态正则表达式方法匹配切面
+	<bean id="regexpAdvistor" class="org.springframework.aop.support.ExpressionPointcutAdvistor"
+		p:advice-ref="bean"
+		<property name="patterns">
+			<list>
+				<value>.*great.*</value>
+			</list>
+		</property>
+	>
 	
 	
+# 自动创建代理
+
+. 通过 BeanNameAutoProxyCreator 类完成 ProxyFactoryBean 相同的功能
+	该类会对容器中的所有Advisor 进行扫描，自动将这些切面应用到匹配的Bean 中（为目标 Bean 创建代理实例）
+	
+	<bean id="waiter" class="com.smart.Waiter" />
+	<bean id="seller" class="com.smart.Seller" />
+	<bean id="greetingAdvice" class="com.smart.GreetingAdvice" />
+	
+	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator"
+		p:beanNames="*er"
+		p:interceptorNames="greetingAdvice"
+		p:optimize="true"
+	>
+		/*
+			beanNames 属性可以通过<list> 子元素设定多个Bean 名称，或者通过逗号 空格分号方式设定多个 Bean 名称
+			beanNames="waiter,seller"
+		*/
 	
 	
+. DefaultAdvisorAutoProxyCreator 类
+	该类能够扫码容器中的Advisor, 并将 Advisor 自动织入匹配的目标Bean 中，即为匹配的咪表 Bean 自动创建代理
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	<bean id="waiter" class="com.smart.Waiter" />
+	<bean id="seller" class="com.smart.Seller" />
+	<bean id="greetingAdvice" class="com.smart.GreetingAdvice" />
+	<bean class="org.springframework.aop.support.ExpressionPointcutAdvistor"
+		p:advice-ref="bean"
+		<property name="patterns">
+			<list>
+				<value>.*great.*</value>
+			</list>
+		</property>
+		// p:patterns=".*great.*"
+	>
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
 	
 	
 	

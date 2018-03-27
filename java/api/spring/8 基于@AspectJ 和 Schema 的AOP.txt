@@ -1,0 +1,28 @@
+
+# @AspectJ
+. 通过编程方式使用 @Aspect
+	@Aspect
+	public class PreGreetingAspect {
+		@Before("execution(* greetTo(..))")
+		public void beforeGreeting(){
+			System.out.println("bbb");
+		}
+	}
+	
+	
+	public class TestDome {
+		@Test
+		public void befor(){
+			Waiter target = new NaiveWaiter();
+			AspectJProxyFactory factory = new AspectJProxyFactory();
+			// 设置目标对象
+			factory.setTarget(target);
+			
+			// 添加到切面类
+			factory.addAspect(PreGreetingAspect.class);
+			
+			// 生成织入前面的代理对象
+			Waiter proxy = factory.getProxy();
+			proxy.greetTo();
+		}
+	}

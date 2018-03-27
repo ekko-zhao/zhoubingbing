@@ -146,6 +146,16 @@
 	@MyAnno(str="", int=12)
 	当注解没有参数是 圆括号不是必须的， 可省略
 	
+	// 成员为字符串数组的注解
+	@MyAnno(value={"str1","str2"});
+	
+	// 成员为字符串数组的注解
+	@MyAnno({
+		@Review(),
+		@Review(),
+	});
+	
+	
 # 使用默认值
 	type member() default value;
 	
@@ -161,7 +171,8 @@
 # 注解的保留策略
 	SOURCE		只在源文件中保留，在编译期间会被抛弃
 	CLASS		在编译时被存储到.class 文件中，但是，在运行时通过 JVM 不能得到这些注解
-	RUNTIME		 在编译时被存储到.class 文件中，并且在运行是可以通过 JVM 获得这些注解。RUNTIME 提供了最永久的注解
+	RUNTIME		在编译时被存储到.class 文件中，注解信息在目标类加载到 JVM 后依然保留，在运行期间通过反射机制读取类中的注解信息
+				RUNTIME 提供了最永久的注解
 	
 	
 	/*

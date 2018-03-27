@@ -21,6 +21,13 @@
 		<slf4j.version>1.7.5</slf4j.version>
 		<testng.version>6.8.7</testng.version>
 		<groovy.version>2.3.6</groovy.version>
+
+		<asm.version>4.0</asm.version>
+		<cglib.version>3.0</cglib.version>
+		<aspectj.version>1.8.1</aspectj.version>
+		<aopalliance.version>1.0</aopalliance.version>
+		<commons-codec.version>1.9</commons-codec.version>
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -37,6 +44,11 @@
 		</dependency>
 
 		<!-- spring 依赖 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
@@ -75,12 +87,20 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
-		
+
+
+		<!-- asm/cglib依赖（spring依赖） -->
+
+
 
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
@@ -99,11 +119,6 @@
 			<version>${mysql.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-			<version>${aspectj.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>

@@ -561,7 +561,7 @@
 	">
 	
 	<bean name="car" class="" scope="request">
-		<aop:scope-proxy>
+		<aop:scope-proxy />
 	</bean>
 			
 	<bean name="boss" class="">
@@ -712,7 +712,7 @@
 	*/
 	
 . 通过 XML 配置文件引用 @Configuration 的配置
-	<context:component-scan base-package="com.smart.cof resource-pattern="Config.class" />
+	<context:component-scan base-package="com.smart.cof" resource-pattern="Config.class" />
 	
 	
 	
