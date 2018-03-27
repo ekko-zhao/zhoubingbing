@@ -1,4 +1,15 @@
 
+# JDK 动态代理 和  CGLIB 动态代理
+	如果目标对象实现了接口，默认情况下会采用JDK的动态代理实现AOP 
+	如果目标对象实现了接口，可以强制使用CGLIB实现AOP 
+	如果目标对象没有实现了接口，必须采用CGLIB库，spring会自动在JDK动态代理和CGLIB之间转换
+	
+区别：
+	JDK动态代理只能对实现了接口的类生成代理，而不能针对类
+	CGLIB是针对类实现代理，主要是对指定的类生成一个子类，覆盖其中的方法
+	
+	
+	
 # 增强类型
 	AOP 联盟为增强定义了 org.aopalliance.aop.Advice 接口， Spring 支持 5种类型的增强。
 	
@@ -12,12 +23,17 @@
 				IntroductionInterceptor
 			
 		Interceptor
-			MethidInterceptor				代表环绕增强，表示在目标方法执行前后实施增强
+			MethodInterceptor				代表环绕增强，表示在目标方法执行前后实施增强
 				IntroductionInterceptor		代表引介增强，表示在目标类中添加一些新的方法和属性
-		
+	
 . 前置增强 实例
 	
-	public class NaiveWaiter {
+	public interface Waiter {
+		void greetTo();
+		void serveTo();
+	}
+	
+	public class NaiveWaiter implements Waiter {
 		public void greetTo(){
 			System.out.println("你好 :name");
 		}
@@ -30,13 +46,13 @@
 		@Override
 		public void before(Method arg0, Object[] arg1, Object arg2) throws Throwable {
 			// TODO Auto-generated method stub
-			System.out.println("befor");
+			System.out.println("before");
 		}
 	}
 	
 	public class TestDome {
 		@Test
-		public void befor(){
+		public void before(){
 			NaiveWaiter target = new NaiveWaiter();
 			BeforeAdvice advice = new GreetingBeforeAdvice();
 			
@@ -57,7 +73,7 @@
 	
 	
 	/*
-		befor
+		before
 		你好 :name
 	*/
 	
@@ -69,25 +85,223 @@
 		p:target-ref="target"
 	/>
 		属性：
-			target: 代理的目标对象
-			proxyInterfaces: 代理所要实现的接口，可以是多个接口。该属性还有一个别名 interfaces
-			interceptorNames: 增强 Bean,
+			target: 			代理的目标对象
+			proxyInterfaces: 	代理所要实现的接口，可以是多个接口。该属性还有一个别名 interfaces
+			interceptorNames: 	增强 Bean, 多个 增强用逗号分开
 			singleton: 			返回的代理是否是单实例，默认为单实例
 			optimize：			为true 时，强制使用 GGlib 动态代理，对于 singleton 的代理推荐使用 CGlib 动态代理，
 								CGlib 动态代理创建代理时速度慢，单其创建出的代理对象运行效率高。JDK 创建的代理正好相反
 			proxyTargetClass:	是否对类进行代理（而不是对接口进行代理），当设置为 true 时，使用 CGlib 动态代理
 			
-	
+			
 	@Test
-	public void befor(){
+	public void before(){
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("com/smart/beanfactory/beans.xml");
+		
+		// 如果 NaiveWaiter 类没有实现 Waiter 接口，则只能用 CGLIB 代理
 		NaiveWaiter proxy = (NaiveWaiter) ctx.getBean("waiter");
+		
+		/*
+			使用 JDK 代理 的目标类必须实现 代理接口， 这里的代理接口为 (Waiter)
+			Waiter proxy = (Waiter) ctx.getBean("waiter");
+		*/
+		
 		proxy.greetTo();
 	}
 	/*
-		befor
+		before
 		你好 :name
 	*/
+	
+	
+. 后置增强
+	public class GreetingAfterAdvice implements AfterReturningAdvice {
+		@Override
+		public void AfterReturning(Object returnobj, Method method, Object[] args, Object arg) throws Throwable {
+			// TODO Auto-generated method stub
+			System.out.println("After");
+		}
+	}
+	
+. 环绕增强
+	public class GreetingInterceptor implements MethodInterceptor {
+		@Override
+		public Object invoke(MethodInvocation invocation) throws Throwable{
+			Object[] args = invocation.getArguments();  // 明白方法入参
+			String clientName = (String)args[0];
+			// before
+				Object obj = invocation.proceed();
+			// after
+		}
+	}
+	
+. 异常抛出增强
+	异常抛出增强最适合的应用场景是事务管理，当参与事务的某个 DAO 发送异常时，事务管理器就必须回滚事务
+	
+	public class forumService{
+		public void removeForum(int forumId){
+			// do sm
+			throw new RuntimeException("运行异常")
+		}
+	}
+	
+	public class TransactionManager implements ThrowsAdvice{
+		// 定义增强逻辑
+		public void afterThrowing(Method method, Object[] args, Object target, Exception ex)
+			throws Throwable{
+				// do sm
+			}
+		
+	}
+	
+	/*
+		afterThrowing() 方法前三个参数是可选的
+		
+		推荐使用 CGlib 代理
+	*/
+	
+	
+. 引介增强
+	引介增强是一种比较特殊的增强类型，它不是在目标方法周围织入增强，而是为目标类创建新的方法和属性
+	所以引介增强的链接点是类级别的，而非方法级别的。
+	Spring 为 IntroductionInterceptor 接口提供了 DelegatingIntroductionInterceptor 实现类，一般情况下通过扩展该
+		实现类定义自己的引介增强类
+	
+	
+	1.必须指定引介增强所实现的接口
+	2.只能通过为目标创建子类的方式生成引介增强的代理，所以必须将 proxyTargetClass 设置为 true
+	3. 如果没有对 ControllablePerformanceMonitor 进行线程的安全特殊处理就必须将 singletion 属性设置为true
+		如果让 ProxyFactory 产生 prototype 作用域的代理，这就带来了一个严重的性能问题，
+		CGLib 动态创建代理的性能很低，使用效率高， 而每次通过 getBean() 方法从容器中获取作用域类型为 prototype 的 Bean 时 都会产生一个新的实例
+
+
+	示例：
+	
+	public interface Moitorable{
+		void setMonitorActive(boolean active)
+	}
+	
+	public class ControllablePerformanceMonitor 
+		extends DelegatingIntroductionInterceptor 
+		implements Moitorable{
+			
+			
+		private ThreadLocal<Boolean> MonitorStatusMap = new ThreadLocal<Boolean>();
+		public void setMonitorActive(boolean active){
+			MonitorStatusMap.set(active);
+		}
+		
+		// 拦截方法
+		public Object invoke(MethodInvocation invocation) throws Throwable{
+			Object obj = null;
+			if(MonitorStatusMap.get() != null && MonitorStatusMap.get()){
+				PerformanceMonitor.begin(invocation.getClass().getName()+" "+ invocation.getMethod().getName());
+				obj = super.invoke(invocation);
+				PerformanceMonitor.end();
+			}else{
+				obj = super.invoke(invocation)
+			}
+			return obj;
+		}
+		
+	}
+	
+	
+	@Test
+	m{
+		// 开启性能监视功能
+		Moitorable moitorable = (Moitorable) ctx.getBean("bean");
+		moitorable.setNeedMonitor(true);
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

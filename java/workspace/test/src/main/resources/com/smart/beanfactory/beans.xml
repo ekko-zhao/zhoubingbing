@@ -10,5 +10,6 @@
 	<bean id="waiter" class="org.springframework.aop.framework.ProxyFactoryBean"
 		p:interceptorNames="greetingAdvice"
 		p:target-ref="target"
+		
 	/>
 </beans>

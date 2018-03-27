@@ -10,7 +10,9 @@ public class TestDome {
 	@Test
 	public void befor(){
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("com/smart/beanfactory/beans.xml");
-		NaiveWaiter proxy = (NaiveWaiter) ctx.getBean("waiter");
+		Waiter proxy = (Waiter) ctx.getBean("waiter");
 		proxy.greetTo();
+		proxy.serveTo();
+		
 	}
 }
