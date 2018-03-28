@@ -10,9 +10,9 @@
        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
        ">
 
-
 	<aop:aspectj-autoproxy />
 	<bean id="waiter" class="com.smart.NaiveWaiter" />
+	
 	<bean class="com.smart.PreGreetingAspect" />
 
 

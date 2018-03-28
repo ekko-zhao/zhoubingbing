@@ -3,8 +3,10 @@
 . 通过编程方式使用 @Aspect
 	@Aspect
 	public class PreGreetingAspect {
+		// 增强
 		@Before("execution(* greetTo(..))")
-		public void beforeGreeting(){
+		// 连接点
+		public void beforeGreeting(){			
 			System.out.println("bbb");
 		}
 	}
@@ -54,6 +56,274 @@
 	<aop:aspectj-autoproxy />
 	<bean id="waiter" class="com.smart.NaiveWaiter" />
 	<bean class="com.smart.PreGreetingAspect" />
+	
+	
+	
+# @AspectJ 语法
+	
+. 在函数入参中使用通配符
+	*		匹配任意字符，但它只能匹配上下文中的一个元素
+	..		匹配任意字符, 可匹配上下文中的任意多个元素。在表示入参时则单独使用，但在表示类时，必须和* 联合使用，
+	+		表示按类型匹配指定的类的所有类，必须跟在类名后面， 如com.smart.Car+。 匹配继承或扩展该类的类，同时包括该类本身
+	/*
+		@AspectJ 函数对通配符的支持
+		execution() within()  支持所有通配符， 如 within(com.smart.*) within(com.smart.service..**Service+)
+		
+		args()  this()	target()	仅支持 + 通配符，
+		
+		@args()	@within() @target()	@annotation() 不支持通配符
+		
+		
+		
+	*/
+. 逻辑运算符
+	&&		"within(com.smart..*)"+" && agrs(String)"	
+			表示在 com.smart 包下所有类（当前包下的说所有子孙包）且只有一个 String 入参的方法
+	||
+	！
+	
+. 增强类型
+	@Before			前置增强，相当于 BeforeAdvice,  Before 注解类拥有俩个成员
+		value			该成员用于定义切点
+		argNames		由于无法通过 Java 反射机制获取方法入参名，在 Java 编译时未启用调试信息，或者在运行期间解析切点
+						就必须通过这个成员指定所标注增强方法的参数名（两者名字需完全相同）
+		
+	@afterReturning	后置增强，相当于 afterReturningAdvice
+		value
+		pointcut		表示切点的信息。如果显示指定 pointcut ，
+						那么它将覆盖 value 的设置值，可以将 pointcut 成员看作 value的同义词
+		
+		returning		将目标对象方法的返回值绑定给增强的方法
+		argNames
+	
+	@Around			环绕增强，相当于 MethodInterceptor
+		value
+		argNames
+		
+	@AfterThrowing	抛出增强，相当于 ThrowsAdvice
+		value
+		pointcut
+		throwing		将抛出的方法绑定到增强方法中
+		argNames
+	
+	@After			Final 增强，不管是抛出异常还是正常退出，改增强都会得到执行。 
+					可以把它看作 afterReturningAdvice 和 ThrowsAdvice 的混合物，一般用于释放资源
+		value
+		argNames
+	
+	
+	@DeclareParents	引介增强，相当于 IntroductionInterceptor
+		value
+		defaultImpl		默认的接口实现类
+	
+	
+	/*
+		引介增强用法
+		为目标对象添加 指定接口(Seller) 的实现类(SmartSeller) 方法
+		SmartSeller类 现实了 Seller接口
+		
+		@Aspect
+		public class EnableSellerAspect{
+			@DeclareParents(value="com.smart.NaiveWaiter", defaultImpl="SmartSeller.class")
+			public Seller seller
+		}
+		
+		<aop:aspectj-autoproxy />
+		<bean id="waiter" class="com.smart.NaiveWaiter" />
+		<bean class="com.smart.EnableSellerAspect" />
+		
+		@Test
+		public void m{
+			// ...
+			Seller seller = (Seller) waiter;
+			// 调用 seller 方法
+		}
+	*/
+	
+	
+# 切点函数详解
+	
+. 方法切点函数
+	@annotation()		
+		"@annotation(com.samrt.anno.MyAnno)"	表示目标类对象含有指定注解的方法
+	
+	execution()			"execution(<访问修饰符>? <返回类型模式> (<参数模式>) <异常模式>?)"
+	
+	// 通过方法名定义切点
+		execution(public * *(..))	匹配目标类的public 方法 不匹配 protected private 方法。
+		第一个* 代表返回类型， 第二个*代表方法名， .. 代表任意入参的方法
+		
+		execution(* *To(..))	匹配目标类所有以 To 为后缀的方法
+	
+	// 通过类定义切点
+		execution(* com.samrt.Waiter.*(..))		
+			匹配实现Waiter 接口的类的(接口方法)方法， 第一个* 表示任意类型，  第二个* 表示该类的所有方法
+	
+		execution(* com.samrt.Waiter+.*(..))	
+			匹配实现Waiter 接口的类的所有方法
+	
+	// 通过类包定义切点
+		在类名模式中， .* 表示包下的所有类  ..* 包含子包中所有的包
+		
+		execution(* com.smart.*(..))	包下的所有类
+		execution(* com.smart..*(..))	包含子包中所有的包
+		execution(* com..*.*Dao.fing*(..)) com子孙包中的 以Dao为后缀名 find为前缀的方法
+	
+	// 通过方法入参定义切点
+		* 表示任意类型的参数，  .. 表示任意类型的参数且参数个数不限
+		execution(* joke(String,int))
+		execution(* joke(String,*))
+		execution(* joke(String,..))
+		execution(* joke(Object+))		匹配参数为 Object 的子类
+	
+. 方法入参切点函数
+	args()
+		改函数接受一个类名，表示目标方法入参对象是指定类（包含子类）时，切点匹配
+		args(com.samrt.Waiter) 目标对象方法参数匹配 Waiter， 痛等于 execution(* *(com.samrt.Waiter+))
+		
+		
+	@args()
+		args(com.samrt.MyAnno) 		入参对象是否有 @MyAnno 注解，匹配类和它的子类, 但是该注解的类不能是 参数类 类型的超类
+			fun(T1 t)	匹配T1 含有@MyAnno注解的子类，如果@MyAnno注解类 是T1 的超类则不匹配
+	
+	
+. 目标类切点函数
+	链接点最小范围只能是类， 匹配类的所有方法
+	
+	Within()
+		Within(<匹配模式>) 它指定的链接点最小范围只能是类，不能是接口
+		execution() 函数功能涵盖了 within() 函数的功能,  
+	
+		within(com.smart.NaiveWaiter)	匹配目标类, 包含子类
+		within(com.smart.*)
+		within(com.smart..*)
+	
+	@target(com.samrt.anno.MyAnno)	入参类匹配有指定注解的类， 不包含子类( 不匹配 接口的引用类型 )
+	@within(com.samrt.anno.MyAnno)	入参类匹配有指定注解的类， 包含子类( 不匹配 接口的引用类型 )
+	
+	
+	target(com.samrt.Waiter)	 	判断目标类是否按类型匹配指定类型来决定连接点是否匹配，包含实现接口的子类
+	
+	
+. 代理类切点函数	
+	this()
+		通常情况下 target(com.smart.Waiter) 等价于 this(com.smart.Waiter)
+					target(com.smart.NaiveWaiter) 等价于 this(com.smart.NaiveWaiter)
+		
+		用于通过引介切面产生代理对象时的具体表现不同
+	
+	
+	/*
+		@Aspect
+		public class TestAspect{
+			@Before("this(com.smart.Seller)")
+			public void println(){
+				// 这里 NaiveWaiter 的俩个方法也匹配了切点
+				// 如果 target(com.smart.Seller) 则不匹配 NaiveWaiter 中的方法
+			}
+		}
+	*/
+	
+	
+# 命名切点
+	public class TestNamePointcut {
+		@Pointcut("within(com.smart.*)")
+		private void inPackageTo1(){}
+		
+		@Pointcut("within(com.smart.*)")
+		protected void inPackageTo2(){}
+		
+		@Pointcut("within(com.smart.*)")
+		public void inPackageTo3(){}
+		
+	}
+	
+	TestNamePointcut 类不需要再 bean 中配置的
+	
+	
+	// 用法：
+	public class TestAspect{
+		@Before("@annotation(com.smart.MyAnno) && com.smart.TestNamePointcut.inPackageTo()")
+		public void beforeGreeting(){
+			System.out.println("bbb");
+		}
+	}
+	
+# 增强织入的顺序
+	如果增强在同一个切面类中声明，则依照增强在切面类中定义的顺序进行织入
+	如果位于不同的切面类中，且这些切面都实现  org.springframework.core.Ordered 接口，则有接口方法的顺序号决定的， 
+	没有实现 Ordered 接口 顺序不定
+	ClassName implements Ordered{
+		@Override
+		public int getOrder() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+	}
+	
+# 访问连接点信息
+	org.aspectj.lang.JoinPoint 接口 表示目标类连接点对象，如果是环绕增强，则使用 ProceedingJoinPoint 表示连接点对象
+	ProceedingJoinPoint 接口扩展了 JoinPoint 接口
+	
+	JoinPoint 定义的方法
+		Object[] getArgs()			获取连接点方法运行时的入参列表
+		Signature getSignature()	获取连接点的方法签名对象
+		Object	getTarget()			获取连接点所在的目标对象
+		Object	getThis()			获取代理对象本身
+	
+	Object proceed() throws Throwable	通过反射执行目标对象的连接点处的方法
+	Object proceed(Object args) throws Throwable
+		通过反射执行目标对象的连接点处的方法, 不过使用新的入参替换原来的入参
+	
+	/*
+		@Around("@annotation(com.smart.MyAnno)")
+		public void beforeGreeting(ProceedingJoinPoint pjp){
+			System.out.println(pjp.getSignature());
+		}
+	*/
+	
+# 绑定连接点 方法入参
+	agrs()、 this()、target、@args()、@within、@target() 和@annotation() 这7个 函数除了可以指定类名外，还可以指定参数名
+	将目标对象链接点上的方法入参绑定到增强的方法中
+	
+	
+	public class PreGreetingAspect  {
+		@Before("@annotation(com.smart.MyAnno) && args(name, num)")
+		public void beforeGreeting(String name, int num){
+			System.out.println(name);
+			System.out.println(num);
+		}
+	}
+	/*
+		args(name, num)
+		此时 参数 name 和 num 在 beforeGreeting(String name, int num) 方法中查找对应的类型， 属性名必须一致，
+		此时执行切点的 的方法参数就绑定到 增强中了
+		
+		// waiter.greetTo("zhoubb",23);
+	*/
+	
+# 绑定代理对象
+	使用this() 或 target() 函数可绑定被代理对象实例
+	
+	public class PreGreetingAspect  {
+		@Before("@annotation(com.smart.MyAnno) && this(waiter)")
+		public void beforeGreeting(Waiter waiter){
+			System.out.println(waiter);
+			
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
