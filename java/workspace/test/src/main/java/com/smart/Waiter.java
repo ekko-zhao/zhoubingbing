@@ -2,6 +2,6 @@ package com.smart;
 
 @MyAnno
 public interface Waiter {
-	void greetTo(String str, int age);
+	int greetTo(String str, int age);
 	void serveTo();
 }

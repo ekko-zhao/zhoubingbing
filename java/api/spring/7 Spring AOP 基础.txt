@@ -309,7 +309,7 @@
 	<bean id="seller" class="com.smart.Seller" />
 	<bean id="greetingAdvice" class="com.smart.GreetingAdvice" />
 	<bean class="org.springframework.aop.support.ExpressionPointcutAdvistor"
-		p:advice-ref="bean"
+		p:advice-ref="greetingAdvice"
 		<property name="patterns">
 			<list>
 				<value>.*great.*</value>

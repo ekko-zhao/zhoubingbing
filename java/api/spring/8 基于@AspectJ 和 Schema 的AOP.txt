@@ -88,7 +88,7 @@
 		argNames		由于无法通过 Java 反射机制获取方法入参名，在 Java 编译时未启用调试信息，或者在运行期间解析切点
 						就必须通过这个成员指定所标注增强方法的参数名（两者名字需完全相同）
 		
-	@afterReturning	后置增强，相当于 afterReturningAdvice
+	@AfterReturning	后置增强，相当于 afterReturningAdvice
 		value
 		pointcut		表示切点的信息。如果显示指定 pointcut ，
 						那么它将覆盖 value 的设置值，可以将 pointcut 成员看作 value的同义词
@@ -183,7 +183,7 @@
 		
 		
 	@args()
-		args(com.samrt.MyAnno) 		入参对象是否有 @MyAnno 注解，匹配类和它的子类, 但是该注解的类不能是 参数类 类型的超类
+		@args(com.samrt.MyAnno) 		入参对象是否有 @MyAnno 注解，匹配类和它的子类, 但是该注解的类不能是 参数类 类型的超类
 			fun(T1 t)	匹配T1 含有@MyAnno注解的子类，如果@MyAnno注解类 是T1 的超类则不匹配
 	
 	
@@ -224,8 +224,8 @@
 		}
 	*/
 	
-	
-# 命名切点
+# AspectJ 进阶	
+. 命名切点
 	public class TestNamePointcut {
 		@Pointcut("within(com.smart.*)")
 		private void inPackageTo1(){}
@@ -249,7 +249,7 @@
 		}
 	}
 	
-# 增强织入的顺序
+. 增强织入的顺序
 	如果增强在同一个切面类中声明，则依照增强在切面类中定义的顺序进行织入
 	如果位于不同的切面类中，且这些切面都实现  org.springframework.core.Ordered 接口，则有接口方法的顺序号决定的， 
 	没有实现 Ordered 接口 顺序不定
@@ -261,7 +261,7 @@
 		}
 	}
 	
-# 访问连接点信息
+. 访问连接点信息
 	org.aspectj.lang.JoinPoint 接口 表示目标类连接点对象，如果是环绕增强，则使用 ProceedingJoinPoint 表示连接点对象
 	ProceedingJoinPoint 接口扩展了 JoinPoint 接口
 	
@@ -282,7 +282,7 @@
 		}
 	*/
 	
-# 绑定连接点 方法入参
+. 绑定连接点 方法入参
 	agrs()、 this()、target、@args()、@within、@target() 和@annotation() 这7个 函数除了可以指定类名外，还可以指定参数名
 	将目标对象链接点上的方法入参绑定到增强的方法中
 	
@@ -302,9 +302,10 @@
 		// waiter.greetTo("zhoubb",23);
 	*/
 	
-# 绑定代理对象
+. 绑定代理对象
 	使用this() 或 target() 函数可绑定被代理对象实例
 	
+	@Aspect
 	public class PreGreetingAspect  {
 		@Before("@annotation(com.smart.MyAnno) && this(waiter)")
 		public void beforeGreeting(Waiter waiter){
@@ -312,6 +313,96 @@
 			
 		}
 	}
+	
+	
+. 绑定类注解对象
+	@Aspect
+	public class PreGreetingAspect  {
+		@Before("within(m)")
+		public void beforeGreeting(MyAnno m){
+			System.out.println(m);
+		}
+	}
+	
+	
+. 绑定返回值
+	@Aspect
+	public class PreGreetingAspect  {
+		@AfterReturning(value="@annotation(com.smart.MyAnno)", returning="retVal")
+		public void beforeGreeting(int retVal){
+			System.out.println(retVal);
+		}
+	}
+	
+. 绑定抛出的异常
+	@Aspect
+	public class PreGreetingAspect  {
+		@AfterThrowing(value="@annotation(com.smart.MyAnno)", throwing="iae")
+		public void beforeGreeting(IllegalArgumentException iae){
+			System.out.println(iae);
+			
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
