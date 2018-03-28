@@ -389,7 +389,7 @@ public class BeanFactory {
 		ServletContext getServletContext()
 	
 	
-	可以使用Spring提供的工具类取出上下文对象： WebApplicationContextUtils.getWebApplicationContext(ServletContext);
+	可以使用Spring提供的工具类取出上下文对象： WebApplicationContext context =  WebApplicationContextUtils.getWebApplicationContext(ServletContext);
 	
 	
 	/*

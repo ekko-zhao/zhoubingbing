@@ -9,6 +9,6 @@ public class GreetingBeforeAdvice implements MethodBeforeAdvice {
 	@Override
 	public void before(Method arg0, Object[] arg1, Object arg2) throws Throwable {
 		// TODO Auto-generated method stub
-		System.out.println("befor");
+		System.out.println("before");
 	}
 }

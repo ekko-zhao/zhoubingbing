@@ -9,9 +9,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestDome {
 	@Test
-	public void befor(){
-		/*ApplicationContext ctx = new ClassPathXmlApplicationContext("com/smart/beanfactory/beans.xml");
+	public void before(){
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("com/smart/beanfactory/beans.xml");
 		Waiter waiter = (Waiter)ctx.getBean("waiter");
-		waiter.greetTo();*/
+		waiter.greetTo();
 	}
 }

@@ -489,9 +489,9 @@
 	
 # 整合多个配置文件
 	
-	<import resource="classpath:com/car.xml">
-	<bean id="boss1" class="" p:name="John" p:car-ref="car1">
-	<bean id="boss2" class="" p:name="John" p:car-ref="car2">
+	<import resource="classpath:com/car.xml" />
+	<bean id="boss1" class="" p:name="John" p:car-ref="car1" />
+	<bean id="boss2" class="" p:name="John" p:car-ref="car2" />
 	
 	/*
 		在 car.xml 中已经配置了bean car1、car2 

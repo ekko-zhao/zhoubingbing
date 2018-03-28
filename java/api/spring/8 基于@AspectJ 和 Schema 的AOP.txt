@@ -26,3 +26,92 @@
 			proxy.greetTo();
 		}
 	}
+	
+. 通过配置使用 @AspectJ 切面	
+	<!-- 这里可以使用 <import resource="classpath: " /> -->
+	<bean id="waiter" class="com.smart.NaiveWaiter" />
+	<bean class="com.smart.PreGreetingAspect" />
+	<bean
+		class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator" />
+	
+	
+	@Test
+	public void befor(){
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("com/smart/beanfactory/beans.xml");
+		Waiter waiter = (Waiter)ctx.getBean("waiter");
+		waiter.greetTo();
+	}
+	
+	
+. 使用基于Schema 的aop 命名空间进行配置
+
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	
+	xsi:schemaLocation="http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
+	
+	
+	<aop:aspectj-autoproxy />
+	<bean id="waiter" class="com.smart.NaiveWaiter" />
+	<bean class="com.smart.PreGreetingAspect" />
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

@@ -5,7 +5,7 @@ import org.aspectj.lang.annotation.Before;
 
 @Aspect
 public class PreGreetingAspect {
-	@Before("execution(* greetTo(..))")
+	@Before("@within(MyAnno)")
 	public void beforeGreeting(){
 		System.out.println("bbb");
 	}
