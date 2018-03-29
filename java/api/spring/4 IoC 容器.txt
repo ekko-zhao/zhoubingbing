@@ -458,6 +458,7 @@ public class BeanFactory {
 		<param-name>contextClass</param-name>
 		<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
 	</context-param>
+	
 	<!-- 指定标注了@Configuration 的配置类， 多个可以使用逗号或空格分隔 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>

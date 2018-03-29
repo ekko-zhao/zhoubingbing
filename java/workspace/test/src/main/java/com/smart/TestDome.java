@@ -11,7 +11,7 @@ public class TestDome {
 	@Test
 	public void before(){
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("com/smart/beanfactory/beans.xml");
-		Waiter waiter = (Waiter)ctx.getBean("waiter");
+		Waiter waiter = (Waiter)ctx.getBean("naiveWaiter");
 		waiter.greetTo("zhoubb",23);
 	}
 }

@@ -25,8 +25,8 @@
 	locations		
 	fileEncodeing 	指定文件编码格式。默认使用操作系统默认编码读取文件
 	order:			如果指定多个配置文件，该属性可以指定加载顺序
-	placehoPrefix	设置前缀
-	placehoSuffix	设置后缀
+	placehoPrefix	设置使用的前缀 默认 "${"
+	placehoSuffix	设置使用的后缀 默认 "}"
 	
 	
 . 使用 <context:property-placeholder> 引用属性文件

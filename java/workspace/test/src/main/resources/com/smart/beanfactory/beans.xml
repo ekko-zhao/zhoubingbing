@@ -9,10 +9,25 @@
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
-	<aop:aspectj-autoproxy />
+	<!-- <aop:aspectj-autoproxy />
 	<bean id="waiter" class="com.smart.NaiveWaiter" />
 	
-	<bean class="com.smart.PreGreetingAspect" />
-
-
+	<bean class="com.smart.PreGreetingAspect" /> -->
+	
+	
+	<bean id="adviceBean" class="com.smart.PreGreetingAspect" />
+	<bean id="naiveWaiter" class="com.smart.NaiveWaiter" />
+	
+	
+	<aop:config proxy-target-class="true">
+		<aop:aspect ref="adviceBean">
+			<aop:pointcut id="greetToPointcut" expression="target(com.smart.NaiveWaiter) and execution(* greetTo(..))" />
+			
+			<aop:before 
+				pointcut-ref="greetToPointcut"
+				method="beforeGreeting" />
+		</aop:aspect>
+	</aop:config>
+	
+	
 </beans>

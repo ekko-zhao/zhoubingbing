@@ -1,7 +1,7 @@
 package com.smart;
 
 public class NaiveWaiter implements Waiter {
-	@MyAnno
+	// @MyAnno
 	public int greetTo(String str, int age){
 		System.out.println("你好 :name");
 		return 100;

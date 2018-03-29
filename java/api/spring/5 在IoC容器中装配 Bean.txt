@@ -454,6 +454,7 @@
 	}
 	
 	public class SysInit{
+		// 模拟读取数据
 		public SysInit{
 			SystemSettings.SESSION_TIMEOUT = 10;
 			SystemSettings.REFRESH_CYCLE = 100;

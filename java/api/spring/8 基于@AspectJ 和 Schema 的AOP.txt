@@ -1,11 +1,23 @@
 
 # @AspectJ
+/*
+	切面类型 有以下定义方式：
+		1. 基于@AspectJ 注解的方法
+		2. 基于<aop:aspect> 的方式
+		3. 基于<aop:advisor> 的方式
+		3. 基于 advisor类 的方式
+	
+	在项目开发中，根据项目的实际需要采用单一的实现方式，以保证技术的单一性
+*/
+
+
+
+
 . 通过编程方式使用 @Aspect
 	@Aspect
 	public class PreGreetingAspect {
-		// 增强
+		// 切点
 		@Before("execution(* greetTo(..))")
-		// 连接点
 		public void beforeGreeting(){			
 			System.out.println("bbb");
 		}
@@ -14,7 +26,7 @@
 	
 	public class TestDome {
 		@Test
-		public void befor(){
+		public void before(){
 			Waiter target = new NaiveWaiter();
 			AspectJProxyFactory factory = new AspectJProxyFactory();
 			// 设置目标对象
@@ -38,7 +50,7 @@
 	
 	
 	@Test
-	public void befor(){
+	public void before(){
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("com/smart/beanfactory/beans.xml");
 		Waiter waiter = (Waiter)ctx.getBean("waiter");
 		waiter.greetTo();
@@ -238,11 +250,14 @@
 		
 	}
 	
-	TestNamePointcut 类不需要再 bean 中配置的
+	TestNamePointcut 类不需要再 bean 中配置的,  
+	他主要的作用是配置切点的匹配规则， 该方法应该是空方法体
+	匹配规则可以是多个条件
 	
 	
 	// 用法：
 	public class TestAspect{
+		<!-- 引用切点 -->
 		@Before("@annotation(com.smart.MyAnno) && com.smart.TestNamePointcut.inPackageTo()")
 		public void beforeGreeting(){
 			System.out.println("bbb");
@@ -346,48 +361,101 @@
 	
 	
 	
+# 基于 Schema 配置切面
+	
+. 前置增强
+	<aop:config proxy-target-class="true">
+		<aop:aspect ref="adviceBean">
+			<aop:before method="preGreeting"
+				pointcut="target(com.smart.NaiveWaiter) and execution(* greetTo(..))" />
+		</aop:aspect>
+	</aop:config>
+	
+	<bean id="adviceBean" class="com.smart.AdviceMethods" />
+	<bean id="naiveWaiter" class="com.smart.NaiveWaiter" />
+	<bean id="naiveWaiterChild" class="com.samrt.NaiveWaiterChild" />
+	
+	/*
+		method: 	表示增强的方法， 增强 adviceBean 的 preGreeting() 方法，
+		pointcut：	表示匹配规则
+	*/
+	
+	public class AdviceMethods{
+		public void preGreeting(){
+			System.out.println("1");
+		}
+	}
+	
+	
+. 配置命名切点
+	<aop:config proxy-target-class="true">
+		<aop:aspect ref="adviceBean">
+			<!-- 命名切点 -->
+			<aop:pointcut id="greetToPointcut" expression="target(com.smart.NaiveWaiter)" />
+			
+			<!-- 切点引用 -->
+			<aop:before method="preGreeting" pointcut-ref="greetToPointcut" />
+		</aop:aspect>
+	</aop:config>
+	
+	/*
+		<aop:config> 中可以有多个 切面<aop:aspect>
+		
+		<aop:pointcut />  可以配置在 <aop:aspect>中也可以 配置在<aop:config> 中，
+		如果在 <aop:config> 中， 可被多个 <aop:aspect> 引用
+		
+	*/
+	
+	
+. 后置增强
+	<aop:after-returning method="" pointcut="" />
+	<aop:after-returning method="" pointcut="" returning="retVal" />		// 绑定返回值
+	
+	
+. 环绕增强
+	<aop:around   method="" pointcut="" />
+	
+. 抛出异常增强	
+	<aop:after-throwing
+	
+. Final 增强	
+	<aop:after
+	
+	
+. 引介增强
+	<aop:config proxy-target-class="true">
+		<aop:aspect ref="adviceBean">
+			<aop:declare-parents
+				implement-interface="com.samrt.Seller"		// 要引用实现的接口
+				default-impl="com.samrt.SmartSeller"		// 默认的实现类
+				types-matching="com.samrt.Waiter+"			// 那些类需要引介接口的实现
+			/>
+		</aop:aspect>
+	</aop:config>
+	
+
+. 绑定连接点信息
+	<aop:before method="" pointcut="target and args(name,num)" />
+	
+	
+. 其它绑定方法和 编程式 实现一致
+
 	
 	
 	
+# Advisor 配置
+	<aop:config proxy-target-class="true">
+		<aop:advisor advice-ref="testAdvice"
+			pointcut="execution(* com..*.Waiter.greetTo(..))">
+	</aop:config>
 	
+	<bean id="testAdvice" class="com.smart.TestBeforeAdvice" />
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public class TestBeforeAdvice implements MethodBeforeAdvice{
+		public void before(Method method, Object[] args, Object target) throws Throwable{
+			// do sm
+		}
+	}
 	
 	
 	
