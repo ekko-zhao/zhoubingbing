@@ -173,7 +173,10 @@
 		p:pro1="#{carId.brand}"
 		p:pro2="#{carId.color}"
 	/>
-	
+	/*
+		#{} 可以获取系统变量中的值
+		#{T(java.lang.Math).random()*100.0}
+	*/
 	
 	
 # 国际化信息	

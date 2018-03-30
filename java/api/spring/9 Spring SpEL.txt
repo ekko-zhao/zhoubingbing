@@ -206,52 +206,109 @@
 	如果用户名时 是 tom, 添加用户10积分，否则返回当前积分Credits
 	
 	
+. Elvis操作符号 
+	该操作符号是三元操作符的缩写
+	
+	<var>?: value	如果 var 变量的值为null 就去value 否则取自身的值
 	
 	
+. 赋值、类型、构造器、变量
+	
+	赋值
+		parser.parseExpression("proName").setvalue(context, "str");
+		parser.parseExpression("proName='str'").setvalue(context);
 	
 	
+	类型
+		T 操作符是一个非常实用的类型操作符，通过它可以从类路径加载指定类名称（全类定名）的Class 对象， 
+		表达式为 “T(全限定类名)”; 
+		其功能类似于 ClassLoader#loadClass() 方法，如果目标泪位于 java.lang 包下，则可以不带报名
+		
+		
+		Class stringClass = parser.parseExpression("T(java.lang.String)").getValue(Class.class)
+			// stringClass == java.lang.String.class
+		Class userClass = parser.parseExpression("T(com.smart.User)").getValue(Class.class)
+			// userClass == com.smart.User.class
+		
+		// T 操作符还可以直接调用类的静态方法
+		parser.parseExpression("T(java.lang.Math).random()").getValue()
 	
 	
+	构造器
+		User user = parser.parseExpression("new com.smart.User('tom')").getValue(User.class)
+	
+	变量
+		变量可以在表达式中使用语法 “#变量名” 引用， 使用  EvaluationContext#setVariable(var, value)
+		只能引用 EvaluationContext 中的变量值， 并不是 uesr
+		
+		
+		User uesr = new User();
+		ExpressionParser parser = new SpelExpressionParser();
+		
+		EvaluationContext context = new StandardEvaluationContext(uesr);
+		context.setVariable("newPro", "value");
+		
+		String age = (String)parser.parseExpression("username=#newPro").getValue(context);
 	
 	
+# 集合过滤
+	集合过滤是动态语言的一个强大功能，它允许通过一个过滤条件获取原集合的子集，
+	语法为 “?[selectExpression]”, 例如从一个积分列表中找到大于 100 的积分的集合
+	
+	对于 List 或 Set 来说， 过滤条件是对集合内的每个元素进行比较， #this 表示每个元素
+	对于 Map 来说  过滤条件是对集合内的每个条目(Map.Entry)进行比较, #this 表示每个元素 Map.Entry, #value 表示该条目的值
+	
+	^[selectExpression]		仅返回第一个匹配项
+	$[selectExpression]		仅返回最后一个匹配项
+	
+	@Test
+	public void script(){
+		User uesr = new User();
+		ExpressionParser parser = new SpelExpressionParser();
+		EvaluationContext context = new StandardEvaluationContext(uesr);
+		
+		List<Integer> credits = new ArrayList<Integer>();
+		credits.addAll(Arrays.asList(150,100,90,100,130,70));
+		context.setVariable("credits", credits);
+		
+		List<Integer> list = (List<Integer>)parser.parseExpression("#credits.?[#this>100]").getValue(context);
+		System.out.println(list);
+	}
+	
+！集合转换
+	语法为 “![selectExpression]”
+	也可以对Map 元素处理
+	
+	List<Integer> list = (List<Integer>)parser.parseExpression("#credits.![#this>100]").getValue(context);
+	
+		// -> [true, false, false, false, true, false]
 	
 	
+# 在 Spring 中使用 SpEL
+	在XML 配置方式或注解配置方式中都可以使用 SpEL 表达式进行一些高级配置，
+	俩种方式都采用统一的语法使用 SpEL 表达式：#(<expression string>)
+	
+	<bean id="" class="" p:randomNumber="T(java.lang.Math).random()*100.0" />
+	<bean id="" class="" p:osName="systemProperties['os.name']" />
+	<bean id="" class="" p:classPath="systemProperties['java.class.path']" />
 	
 	
+# 基于注解的配置
 	
+	<util:properties id="propertiesId" location="classPath:jdbc.properties"/>
 	
+	@Component
+	public class MyDataSource{
+		@value("#{propertiesId['proName']}")
+		private String proName;
+	}
 	
+	// 更加简洁的写法, 直接使用占位符 就可以了
+	<util:properties id="propertiesId" location="classPath:jdbc.properties"/>
+	<context:property-placeholder properties-ref="propertiesId"/>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Component
+	public class MyDataSource{
+		@value("${proName}")
+		private String proName;
+	}
