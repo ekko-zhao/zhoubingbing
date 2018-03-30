@@ -197,10 +197,13 @@
 	// 逻辑操作符支持 && || ！
 	
 	
+. 安全导航操作符
+	parser.parseExpression("PlaceOfBirth?.city").getValue(context,String.class)
+
+. 三元操作符
+	parser.parseExpression("userName == 'tom'? Credits+20: Credits").getValue(context,Integer.class)
 	
-	
-	
-	
+	如果用户名时 是 tom, 添加用户10积分，否则返回当前积分Credits
 	
 	
 	
