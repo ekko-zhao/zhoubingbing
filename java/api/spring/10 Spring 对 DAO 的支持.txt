@@ -1,0 +1,175 @@
+
+# 配置一个数据源
+	Spring 在第三方依赖包中包含了两个数据源的实现类包： 
+	其一是 Apache 的DBCP，其二是 C3P0, 可以在Spring 配置文件中利用二者中的任何一个配置数据库
+	
+. DBCP 数据源
+	DBCP 是一个依赖 Jakarta commons-pool 对象池机制的数据库连接池，所以在类路径下还必须包括 commons-pool 的类包
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+		p:driverClassName="com.mysql.jdbc.Driver"
+		p:url="jdbc:mysql://localhost:3309/sampledb"
+		p:username="root"
+		p:password="1234" />
+		
+		BasicDataSource 提供了close() 方法关闭数据源，所以必须设定 destroy-method="close" 属性，以便Spring 容器关闭时，数据源能够正常关闭
+	
+	DBCP 其他参数说明：
+		事务属性
+		defaultAutoCommit		true		连接池创建的默认auto-commit 状态
+		defaultReadOnly			默认驱动	连接池创建的连接的默认 read-only 状态。如果没有设置，则 setReadOnly() 方法将不会被调用
+		defaultReadOnly			默认驱动	连接池创建的连接的默认 read-only 状态。可选值包括： NONE、READ_COMMITTED、READ_UNCOMMITTED、
+											REPEATABLE_READ、SERIALIZABLE
+		
+		数据源连接数量
+		initialSize				0			连接池启动时创建的初始化连接数量
+		maxActive				8			最大活动连接：连接池中允许保持空闲状态的最大连接数量，
+												超过的空闲连接将被释放。如果是负值，表示不限制
+		minIdle					0			最小空闲连接： 连接池中允许保持空闲状态的最小连接数量，低于这个数量将创建新的连接。如果设置0， 则不创建
+		maxWait					无限		最大等待时间(ms)： 没有可用连接时，连接池等待连接被归还的最大时间，超时抛出异常， 如果设置-1， 则无限等待
+		
+		链接情况 维护和检查
+		validationQuery			无默认值	SQL 查询语句。在链接返回给调用者之前，用此 SQL 验证从连接池取出的链接是否可用。
+												在 MySQL 中可以设置为 "select 1", 在Oracle 中可以设置为 "select 1 from dual"
+		testOnBorrow 			true		指明是否需要进行 validationQuery 验证， validationQuery 参数必须设置正确
+		testWhileIdle			false		指明连接是否被空闲链接回收器进行检验，如果检测失败，则链接将被从链接中去除， validationQuery 参数必须设置正确
+		timeBetweenEvictionRunsMills -1		空闲链接回收器线程运行的周期，以毫秒为单位，如果是 负数则不运行连接回收器线程
+		numTestsPerEvictionRuns	3			在每次空闲连接回收器运行时检查的连接数量
+		minEvictableIdleTimeMills 1000*60*30  连接在可被空闲连接回收器钱已经在连接池中的空闲时间
+	
+		缓存语句
+		poolPreparedStatements	false		开启连接池的 prepared statement 池功能。当设置为true 时， 
+												所有 CallableStatement 和 PreparedStatement 都会被缓存起来
+		
+		maxOpenPreparedStatements 无限制 	PreparedStatement 池能够同时分配的打开 statements 的最大数量。 0 为不限制
+		
+		连接泄漏回收
+		removeAbandoned			false		标记是否删除泄漏的链接
+		removeAbandonedTimeout	300			泄漏的连接可以被回收的超时值，单位为秒
+		logAbandoned			false		标记当 Statement 或链接被泄漏时是否打印程序的 stack traces 日志
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

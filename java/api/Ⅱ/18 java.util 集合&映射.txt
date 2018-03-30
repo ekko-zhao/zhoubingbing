@@ -310,8 +310,9 @@
 		default void forEachRemaining(Consumer<? super E> action)		对于集合中每个未处理的元素，执行 action 指定的动作
 		booblean hasNext() 		如果还有更多的元素，就返回 true, 否则返回 false
 		E next()				返回下一个元素， 没有则抛出 NoSuchElementExcetion
+		
 		default void remove		移除当前元素。 如果在调用next() 方法之前视图调用remove() 方法，就会抛出 IllegalStateExcetion
-							默认版本抛出 UnsupportedOperationException
+									默认版本抛出 UnsupportedOperationException
 							
 	ListIterator 接口方法：
 		void add(E obj)			将 obj 插入到列表中， 新插入的元素位于下一次 next() 方法调用返回的元素之前
@@ -335,9 +336,9 @@
 		
 		default Comparator<? super T> getComparator()	返回调用spliterator 使用的比较器；如果使用了自然顺序，就返回null
 														如果未被排序就抛出 IllegalStateExcetion 异常
-		default long getExactSizeIfKnown()		如果调用 spliterator 是 SIZED， 就返回剩余的要迭代的元素数，否则返回 false
+		default long getExactSizeIfKnown()				如果调用 spliterator 是 SIZED， 就返回剩余的要迭代的元素数，否则返回 false
 		default booblean hasCharacteristics(int val)	如果val 中传递了调用 spliterator 的特征，返回true; 否则 返回false
-		Spliterator<T> trySplit()		在操纵成功时，原 spliterator 会迭代序列的一部分，返回的 spliterator 迭代序列的其它部分
+		Spliterator<T> trySplit()						在操纵成功时，原 spliterator 会迭代序列的一部分，返回的 spliterator 迭代序列的其它部分
 	
 	/*
 		Consumer 是一个函数是接口，向对象应用一个动作，
@@ -601,7 +602,7 @@
 	default <U extends Comparable<? super U> > Comparator<T>
 		thenComparing(Function<? super T, ? extends U> getKey)
 	
-	efault <U> Comparator<T>
+	default <U> Comparator<T>
 		thenComparing(
 			Function<? super T, ? extends U> getKey,
 			Comparator<? super U> keyComp

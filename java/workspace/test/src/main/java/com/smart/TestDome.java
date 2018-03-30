@@ -17,20 +17,9 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 public class TestDome {
 	@Test
 	public void script(){
-		User uesr = new User();
-		ExpressionParser parser = new SpelExpressionParser();
+		List list = new ArrayList();
 		
-		EvaluationContext context = new StandardEvaluationContext(uesr);
-		
-		List<Integer> credits = new ArrayList<Integer>();
-		credits.addAll(Arrays.asList(150,100,90,100,130,70));
-		context.setVariable("credits", credits);
-		
-		Expression exp = parser.parseExpression("function f(){return 100;}");
-		
-		
-		System.out.println(exp);
-		
+		System.out.println();
 		/*
 		System.out.println(message);*/
 	}
