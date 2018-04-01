@@ -13,14 +13,22 @@ import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
+import com.mysql.jdbc.Connection;
+
 
 public class TestDome {
 	@Test
 	public void script(){
-		List list = new ArrayList();
+		Connection conn;
 		
-		System.out.println();
-		/*
-		System.out.println(message);*/
+		try {
+			// conn
+			
+		}catch(Exception e) {
+			
+		}
+		
+		
+		// System.out.println();
 	}
 }

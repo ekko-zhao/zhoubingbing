@@ -1,0 +1,111 @@
+
+# 事务隔离级别
+	
+	隔离级别			脏读	不可充读	幻想读 		第一类丢失更新		第二类丢失更新
+	
+	READ UNCOMMITED		允许	允许		允许		不允许				允许
+	READ COMMITED		不允许	允许		允许		不允许				允许
+	REPEATABLE READ 	不允许	不允许		允许		不允许				不允许
+	SERIALIZABLE		不允许	不允许		不允许		不允许				不允许
+	
+	
+# JDBC 对事务的支持
+	并不是所有的数据库都支持事务，即使支持事务的数据库也并非支持所有的事务隔离级别。
+	用户可以通过 Connection#getMetaData() 方法获取 DatabaseMetaData 对象，并通过该对象的 supportsTransactions()、supportsTransactionIsolationLevel(int level) 方法查看底层数据库的事务支持情况
+	
+	Connection 
+		setAutoCommit(false)			默认情况下是自动提交的，每条执行的 SQL 语句都对应一个事务。
+										为了将多条 SQL 语句当成一个事务执行，阻止 Connection 自动提交
+										
+		setTransactionIsolation() 		设置事务的隔离级别
+		commit()						提交事务
+		rollback()						回滚事务
+	
+	
+	/*
+		Connection conn;
+		try{
+			conn = DriverManager.getConnection();
+			conn.setAutoCommit(false);
+			conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+			Statement stmt = conn.createStatement();
+			
+			int rows = stmt.executeUpdate(..);
+			rows = stmt.executeUpdate(..);
+			
+			conn.commit();
+		}catch(Exception e){
+		
+			conn.rollback();
+		}
+	*/
+	
+	JDBC 3.0 中 引入了全新的保存点特性， Savepoint 接口允许用户将事务分割为多个阶段，用户可以指定回滚到事务的特定保存点，而并非 像JDBC 2.0 一样只能回到回滚事务到开始事务的点
+	/*
+		Statement stmt = conn.createStatement();
+			
+		int rows = stmt.executeUpdate(..);
+		
+		Savepoint point1 = rows.setSavepoint('savePoint1');
+		rows = stmt.executeUpdate(..);
+		
+		conn.rollback(point1);
+		conn.commit();
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
