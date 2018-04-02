@@ -24,15 +24,39 @@
 <!-- Spring Aspects：Spring提供的对AspectJ框架的整合 -->
 
 <!-- Spring Core：Spring的核心工具包 -->
-<!-- Spring JDBC：对JDBC 的简单封装 -->
+
 <!-- Spring JMS：为简化jms api的使用而做的简单封装 -->
 <!-- Spring Messaging -->
-<!-- Spring orm：整合第三方的orm实现，如hibernate，ibatis，jdo以及spring 的jpa实现 -->
 <!-- Spring oxm：Spring对于object/xml映射的支持，可以让JAVA与XML之间来回切换 -->
 <!-- Spring test：对JUNIT等测试框架的简单封装 -->
-<!-- Spring tx：为JDBC、Hibernate、JDO、JPA等提供的一致的声明式和编程式事务管理。 -->
+
 <!-- Spring websocket：提供 Socket通信， web端的推送功能 -->
 <!-- Spring expression：Spring表达式语言 -->
 <!-- Spring Instrument：Spring对服务器的代理接口 -->
 <!-- Spring Instrument Tomcat：Spring对tomcat连接池的集成 -->
+
+<!-- Spring JDBC：对JDBC 的简单封装 -->
+<!-- Spring orm：整合第三方的orm实现，如hibernate，ibatis，jdo以及spring 的jpa实现 -->
+<!-- Spring tx：为JDBC、Hibernate、JDO、JPA等提供的一致的声明式和编程式事务管理。 -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

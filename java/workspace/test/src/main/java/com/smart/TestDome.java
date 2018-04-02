@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.junit.Test;
-import com.mysql.jdbc.Connection;
+import org.springframework.orm.jpa.LacalContainerEntityManagerFactoryBean;
 
 /*class TestClient extends Thread{
 	
@@ -12,9 +12,13 @@ import com.mysql.jdbc.Connection;
 
 public class TestDome extends Thread {
 	
-	public static void main(String[] str) {
+	public void run(){
+		
+	}
+	
+	public static void main(String[] str) throws InterruptedException {
 		
 	}
 
-	// System.out.println(sn.getNextNum());
+	// System.out.println();
 }
