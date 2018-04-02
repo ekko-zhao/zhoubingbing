@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.junit.Test;
-import org.springframework.orm.jpa.LacalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 /*class TestClient extends Thread{
 	
