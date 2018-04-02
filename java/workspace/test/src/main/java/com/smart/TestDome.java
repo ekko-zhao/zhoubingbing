@@ -1,34 +1,20 @@
 package com.smart;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.junit.Test;
-import org.springframework.expression.EvaluationContext;
-import org.springframework.expression.Expression;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.SpelCompilerMode;
-import org.springframework.expression.spel.SpelParserConfiguration;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
-
 import com.mysql.jdbc.Connection;
 
+/*class TestClient extends Thread{
+	
+}*/
 
-public class TestDome {
-	@Test
-	public void script(){
-		Connection conn;
+public class TestDome extends Thread {
+	
+	public static void main(String[] str) {
 		
-		try {
-			// conn
-			
-		}catch(Exception e) {
-			
-		}
-		
-		
-		// System.out.println();
 	}
+
+	// System.out.println(sn.getNextNum());
 }

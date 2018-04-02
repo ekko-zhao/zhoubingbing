@@ -54,16 +54,73 @@
 	*/
 	
 	
+# ThreadLocal
+	ThreadLocal 不是一个线程，而是保存线程本地化对象的容器。当运行多线程的某个对象使用 ThreadLocal 维护变量时，ThreadLocal 为每个使用该变量的线程分配一个独立的变量副本。
+	所以每个线程都可以独立地改变自己的副本，而不会影响其他线程所对应的副本。
+	
+	* 在 ThreadLocal 类中有一个 Map, 用于储存每个线程的变量副本， key 为当前线程对象， 值为对应线程的变量副本。
+	
+	InheritableThreadLocal 继承与 ThreadLocal， 它自动为子线程复制一份从父线程那里继承而来的本地变量：在创建子线程时，子线程会接受所有可继承的线程变量自动传送给所有穿件的子线程时，应尽可能使用 InheritableThreadLocal
+	
+	泛型类： ThreadLocal<T>
 	
 	
+	方法：
+		void set(Object value)			设置当前线程的 线程局部变量的值
+		public Object get()				返回当前线程所对应的线程局部变量
+		public void remove()			将当前线程局部变量的值删除，目的时为了减少内存的占用。 
+										当线程结束后，对应的线程的局部变量将被自动被回收， 所以显示调用该方法不是必须的
+		
+		protected Object initialValue()	返回该线程局部变量的初始值，该方法是一个 protected 的方法， 为让子类覆盖而设计的
 	
 	
+	示例：
+		public class SequenceNumber{
+			private static ThreadLocal<Integer> seqNum = new ThreadLocal<Integer>(){
+				public Integer initialValue(){
+					return 0;
+				}
+			};
+			public int getNextNum(){
+				seqNum.set(seqNum.get()+1);
+				return seqNum.get();
+			}
+			public static void main(String[] args){
+				TestDome sn1 = new TestDome();
+				TestDome sn2 = new TestDome();
+				
+				// sn1 sn2 运行互不干扰
+				System.out.println(sn1.getNextNum());
+				System.out.println(sn2.getNextNum());
+				System.out.println(sn1.getNextNum());
+				System.out.println(sn2.getNextNum());
+				System.out.println(sn1.getNextNum());
+				System.out.println(sn2.getNextNum());
+			}
+		}
 	
 	
-	
-	
-	
-	
+. 将非线程安全成员变量保存在 ThreadLocal 中,
+	public class TopicDao{
+		// 使用 ThreadLocal 保存 Connection 变量
+		private static ThreadLocal<Connection> connThreadLocal = new ThreadLocal<Connection>();
+		
+		public static Connection getConnection(){
+			if(connThreadLocal.get() == null){
+				Connection conn = ConnectionManager.getConnection();
+				connThreadLocal.set(conn);
+				return conn;
+			}else{
+				return connThreadLocal.get();
+			}
+		}
+		
+		public void addTopic() throws SQLException{
+			// 从 ThreadLocal 中获取线程对应的 Connection
+			Statement stat = getConnection().createStatement();
+		}
+		
+	}
 	
 	
 	
