@@ -1,5 +1,5 @@
 
-# 事务隔离级别
+# ANSI/ISO SQL 92 定义的标准事务隔离级别
 	
 	隔离级别			脏读	不可充读	幻想读 		第一类丢失更新		第二类丢失更新
 	
@@ -13,14 +13,18 @@
 	并不是所有的数据库都支持事务，即使支持事务的数据库也并非支持所有的事务隔离级别。
 	用户可以通过 Connection#getMetaData() 方法获取 DatabaseMetaData 对象，并通过该对象的 supportsTransactions()、supportsTransactionIsolationLevel(int level) 方法查看底层数据库的事务支持情况
 	
-	Connection 
-		setAutoCommit(false)			默认情况下是自动提交的，每条执行的 SQL 语句都对应一个事务。
+	Connection
+		DatabaseMetaData getMetaData()	获取 DatabaseMetaData 对象
+		void setAutoCommit(false)			默认情况下是自动提交的，每条执行的 SQL 语句都对应一个事务。
 										为了将多条 SQL 语句当成一个事务执行，阻止 Connection 自动提交
 										
-		setTransactionIsolation() 		设置事务的隔离级别
-		commit()						提交事务
-		rollback()						回滚事务
+		void setTransactionIsolation() 		设置事务的隔离级别
+		void commit()						提交事务
+		void rollback()						回滚事务
 	
+	DatabaseMetaData
+		supportsTransactions()							返回数据库对事务的支持
+		supportsTransactionIsolationLevel(int level)	返回事务隔离级别
 	
 	/*
 		Connection conn;
@@ -124,16 +128,33 @@
 	
 	
 	
-# 对事务管理的支持
+# 对事务管理的支持--------------------------------------------
 
 # 事务管理关键抽象
-	在 Spring 事务管理 SPI(Service Provider Interface)的抽象层主要包括3个接口，分别是  PlatformTransactionManager 、 TransactionDefinition、TransactionStatus. 他们位于 org.springframework.transaction包中
+	在 Spring 事务管理 SPI(Service Provider Interface)的抽象层主要包括3个接口，分别是  PlatformTransactionManager  TransactionDefinition   TransactionStatus. 他们位于 org.springframework.transaction包中
 	
-	
-	TransactionDefinition 接口
+.  TransactionDefinition 接口
 	该接口定义了Spring 兼容的事务属性，这些属性对事务管理控制的若干方面进行配置
 	
-	. 隔离事务： 当前事务和其他事务的隔离程度， 4个 隔离级别是： 
+	接口定义的方法：
+		int getPropagetionBehavior()		事务的传播行为
+		int getIsolationLevel()				事务的隔离级别
+		int getTimeout()					事务的过期时间
+		boolean isReadOnly()				事务的读/写特性
+	
+	事务传播行为：
+		该接口中规定了 7 中类型的事务传播行为，它规定了事务方法和事务方法发生嵌套调用时事务如何进行传播
+		
+		PROPAGATION_REQUIRED		如果当前没有事务，则新建一个事务； 如果已经存在一个事务，则加入到这个事务中。
+		PROPAGATION_SUPPORTS		支持当前事务。如果当前没有事务，则以非事务方式执行
+		PROPAGATION_MANDATORY		使用当前的事务。如果当前没有事务，则抛出异常
+		PROPAGATION_REQUIRES_NEW	新建事务。如果当前存在事务，则把当前事务挂起
+		PROPAGATION_NOT_SUPPORTED	以非事务方式执行。如果当前存在事务，则把当前事务挂起
+		PROPAGATION_NEVER			以非事务方式执行。如果当前存在事务，则抛出异常
+		PROPAGATION_NESTED			如果当前存在事务，则在嵌套事务内执行；如果当前没有事务 与 PROPAGATION_REQUIRED 类似
+									使用 PROPAGATION_NESTED 选项时，必须基于 JDBC 3.0, 并且实现者需要支持保存点事务机制
+	
+	隔离事务： 当前事务和其他事务的隔离程度， 4个 隔离级别是： 
 		ISOLATION_READ_UNCOMMITTED、
 		ISOLATION_READ_COMMITTED、
 		ISOLATION_REPEATABLE_READ、
@@ -141,35 +162,33 @@
 		
 		此外还定义一个默认的隔离级别 ISOLATION_DEFAULT 它表示使用底层数据库的默认隔离级别
 	
-	. 事务传播： Spring 提供了EJB CMT 所支持的事务传播类型。 例如参与到现有的事务中，或者挂起当前的事务，穿件一个新的事务
-	
 	. 事务超时：
-	
+		timeout
 	. 只读状态：
+		readOnly
 	
-	
-	TransactionStatus 接口 扩展了 SavepointManager 接口 
+. TransactionStatus 接口 扩展了 SavepointManager 接口 
 		
-		SavepointManager
-			Object createSavepoint() 					创建一个保存点
-			void releaseSavepoint(Object savepoint)		释放一个保存点。如果事务提交，则所有的保持点将自动释放，无需手工清除
-			void rollbackToSavepoint(Object savepoint)	将事务回滚到特定的保存点上，被回滚的保存点将自动释放
-			
+	SavepointManager
+		Object createSavepoint() 					创建一个保存点
+		void releaseSavepoint(Object savepoint)		释放一个保存点。如果事务提交，则所有的保持点将自动释放，无需手工清除
+		void rollbackToSavepoint(Object savepoint)	将事务回滚到特定的保存点上，被回滚的保存点将自动释放
 		
-		TransactionStatus 定义的方法
-			boolean hasSavepoint()			判断当前事务是否在内部穿件了一个保存点
-			boolean isNewTransaction()		判断当前事务是否是一个新的事务，如果返回 false，则表示当前事务是一个已经存在的事务
-											或者当前操作未运行在事务环境中
-			boolean isCompleted()			判断当前事务是否已经结束（已经提交或回滚）
-			boolean isRollbackOnly()		判断当前事务是否已经被标识为 rollback-only
-			void setRollbackOnly()			当前事务设置为 rollback-only
 	
-	
-	
-	PlatformTransactionManager 接口
-		commit()
-		rollback()
-		TransactionStatus getTransaction(TransactionDefinition definition)
+	TransactionStatus 定义的方法
+		boolean hasSavepoint()			判断当前事务是否在内部穿件了一个保存点
+		boolean isNewTransaction()		判断当前事务是否是一个新的事务，如果返回 false，则表示当前事务是一个已经存在的事务
+										或者当前操作未运行在事务环境中
+		boolean isCompleted()			判断当前事务是否已经结束（已经提交或回滚）
+		boolean isRollbackOnly()		判断当前事务是否已经被标识为 rollback-only
+		void setRollbackOnly()			当前事务设置为 rollback-only
+
+
+
+. PlatformTransactionManager 接口
+	commit()
+	rollback()
+	TransactionStatus getTransaction(TransactionDefinition definition)
 	
 	
 # Spring 的事务管理器实现类
@@ -232,11 +251,11 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
-				<prop key="hibernate.show_sql">trues</prop>
+				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.generate_statistics">true</prop>
 			</props>
 		</property>
-	<bean/>
+	</bean>
 	
 	<bean id="transactionManager" 
 		class="org.springframework.orm.hibernateX.HibernateTransactionManager"
@@ -273,20 +292,7 @@
 		而不应该直接动 DataSource 或 SessionFactory 中获取。因为不能获得与本线程相关的资源，无法让数据操作参与到本线程相关的事务环境中
 	*/
 	
-	
-# 事务传播行为
-	TransactionDefinition 接口中规定了 7 中类型的事务传播行为，它规定了事务方法和事务方法发生嵌套调用时事务如何进行传播
-	
-	
-	PROPAGATION_REQUIRED		如果当前没有事务，则新建一个事务； 如果已经存在一个事务，则加入到这个事务中。
-	PROPAGATION_SUPPORTS		支持当前事务。如果当前没有事务，则以非事务方式执行
-	PROPAGATION_MANDATORY		使用当前的事务。如果当前没有事务，则抛出异常
-	PROPAGATION_REQUIRES_NEW	新建事务。如果当前存在事务，则把当前事务挂起
-	PROPAGATION_NOT_SUPPORTED	以非事务方式执行。如果当前存在事务，则把当前事务挂起
-	PROPAGATION_NEVER			以非事务方式执行。如果当前存在事务，则抛出异常
-	PROPAGATION_NESTED			如果当前存在事务，则在嵌套事务内执行；如果当前没有事务 与 PROPAGATION_REQUIRED 类似
-								使用 PROPAGATION_NESTED 选项时，必须基于 JDBC 3.0, 并且实现者需要支持保存点事务机制
-								
+
 # 编程式的事务管理
 	@Service
 	public class ForumService{
@@ -311,7 +317,6 @@
 	
 # 使用 XML 配置声明式事务
 
-	
 . 使用原始的 TransactionProxyFactoryBean, 
 	在 spring 2.0 后由于可以通过 aop/tx 命名空间声明事务，因此通过该代理类实施声明式事务的方法以及不被推荐
 	
@@ -356,7 +361,7 @@
 	
 	
 # 基于 aop/tx 命名空间的配置
-	
+
 	<import resuorce="classpath:applicationContext-dao.xml">
 	
 	<!-- 声明事务管理器 -->
@@ -367,27 +372,26 @@
 	<!-- 使用强大的切点表达式语言轻松定义目标方法 -->
 	<aop:config>
 		<aop:pointcut id="serviceMethod"
-			expression="execution(* com.smart.service.*Forum.*(..))">
+			expression="execution(* com.smart.service.*Forum.*(..))" />
 		
-		<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice"/>
+		<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice" />
 	</aop:config>
 	
 	<!-- 事务增强 -->
 	<tx:advice id="txAdvice" transaction-manager="txManager">
 		<tx:attributes>
-			<tx:method name="get*" read-only="false">
-			<tx:method name="add*" rollback-for="Exception">
-			<tx:method name="update*" >
+			<tx:method name="get*" read-only="false" />
+			<tx:method name="add*" rollback-for="Exception" />
+			<tx:method name="update*" />
 		</tx:attributes>
 	</tx:advice>
 	
-	<tx:method> 元素属性表
-	
+. <tx:method> 元素属性表
 	属性				是否必须	默认值						描述
 	
 	name				是			与事务关联的方法名，可用统配符号
 																如 get*、handle*、on*Event
-	
+																
 	propagetion			否			REQUIRED					事务传播行为 REQUIRED、SUPPORTS、MANDATORY、REQUIRES_NEW、NOT_SUPPORTED、NEVER、NESTED
 	isolation			否			DEFAULT						事务隔离级别, 可选值 READ_UNCOMMITED、READ_COMMITED、REPEATABLE_READ、SERIALIZABLE、DEFAULT
 	timeout				否			-1							事务超时的时间（ms）， 如果设置为 -1，则事务超时的时间由底层事务系统决定
@@ -422,18 +426,16 @@
 	<bean id="txManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
 		p:dataSource-ref="dataSource" />
-	
 	<tx:annotation-driven transaction-manager="txManager" />
+
 	transaction-manager 属性的默认值为 transactionManager， 如果事务管理器的 id 属性为 "transactionManager"， 则可以忽略该属性。
 		
-		简化：<tx:annotation-driven />
+	简化：<tx:annotation-driven />
 	
 	其他属性：
 		proxy-target-driven		如果为 true， 则Spring 将通过创建子类来代理业务类；如果为false, 则使用基于接口的代理。
 								如果使用子类来代理，则需要在类路径中添加CGLib.jar 类库
 		order					如果业务类除事务切面外，还需要织入其他的切面，则通过该属性可以控制事务切面在目标连接点的织入顺序
-	
-	
 	
 . @Transaction 注解属性说明
 	属性名					说明
@@ -459,6 +461,7 @@
 	public class BtnForum{
 		@Transaction(readOnly=true) // 覆盖类的 @Transaction 注解
 		public void addTopic(Topic topic)throws Exception{
+		
 		}
 	}
 	

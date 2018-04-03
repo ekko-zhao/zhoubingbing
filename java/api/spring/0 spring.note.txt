@@ -1,0 +1,31 @@
+
+SPRING中常用的注解（@ENTITY，@TABLE，@COLUMN，@REPOSITORY，@SERVICE）
+
+
+@Entity
+	 对实体注释。任何Hibernate映射对象都要有这个注释
+	 
+@Table		
+	@Table("T_USER")
+	声明此对象映射到数据库的数据表，通过它可以为实体指定表(talbe),目录(Catalog)和schema的名字。
+	该注释不是必须的，如果没有则系统使用默认值(实体的短类名)。
+	
+@Version
+	该注释可用于在实体Bean中添加乐观锁支持。
+	
+@Id
+	声明此属性为主键。该属性值可以通过应该自身创建，但是Hibernate推荐通过Hibernate生成
+	 
+@GeneratedValue
+	指定主键的生成策略。有如下四个值:
+		TABLE：使用表保存id值
+		IDENTITY：identitycolumn
+		SEQUENCR ：sequence
+		AUTO：根据数据库的不同使用上面三个
+		
+@Column	
+	声明普通属性
+	@Column(nam=”category_name” length=20)
+	Public void getCategoryName(){
+		Return this.categoryName;
+	} 
