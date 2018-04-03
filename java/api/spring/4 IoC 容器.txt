@@ -412,12 +412,10 @@ public class BeanFactory {
 	*/
 	
 . Spring 分别提供了用于启动 WebApplicationContext 的 Servlet 和 Web容器监听器, 它们都实现了启动 WebApplicationContext 实例的逻辑，
-	自启动的 Servlet：	org.springframework.web.context.ContextLoaderServlet
 	Web容器监听器:		org.springframework.web.context.ContextLoaderListener
-	
+	自启动的 Servlet：	org.springframework.web.context.ContextLoaderServlet
 	
 . 通过Web容器监听器引导
-
 	<!-- 指定配置文件 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -426,13 +424,13 @@ public class BeanFactory {
 			classpath:com/smart/beanfactory/beans.xml /WEB-INF/*.xml
 		</param-value>
 	</context-param>
+	
 	<!-- 申明Web容器监听器 -->
 	<listener>
 		<listener-class>
 			org.springframework.web.context.ContextLoaderListener
 		</listener-class>
 	</listener>
-
 
 . 通过自启动的Servlet引导， 在spring 3.0 之后版本 删除了  ContextLoaderServlet， 不推荐使用此方法启动 引导
 	

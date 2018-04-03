@@ -599,7 +599,7 @@
 	@Controller:	用于对 Controller 实现类进行标注
 	
 . 扫描注解定义的 Bean
-	xmlns:aop="http://www.springframework.org/schema/context"
+	xmlns:context="http://www.springframework.org/schema/context"
 	
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/context
@@ -609,6 +609,13 @@
 		base-package		该属性设置基类包
 		resource-pattern	默认值 "**/*.class", 既 base-package 包内所有的 class,  anno/*.class 指定com.smart.anno内的类
 	
+		use-defualt-filters 
+							该属性默认值为 use-defualt-filters="true" 标识默认会对标注 @Component @Repository @Service @Controller 的Bean 进行扫描，
+							如果想仅扫描 @Controller 的Bean，则必须将 该属性值设为 false
+							<context:component-scan base-package="com.smart" use-defualt-filters="false">
+								<context:include-filter type="annotation"
+									expression="org.springframework.stereotype.Controller">
+							</context:component-scan>
 	
 	<context:component-scan base-package="com.smart">
 		<context:include-filter type="" expression="" />
@@ -619,7 +626,7 @@
 		include-filter 和 exclude-filter 均支持多种类型的过滤表达式
 		
 		type:			示例：
-		annotation		com.smart.XxxAnnotation 所有标注了 XxxAnnotation 的类，该类型采用目标类是否标注了某个注解进行过滤
+		annotation		com.smart.XxxAnnotation 所有标注了 XxxAnnotation  注解 的类，该类型采用目标类是否标注了某个注解进行过滤
 		assignable		com.smart.XxxService	所有继承或扩展 XxxService 的类，该类型采用目标类是否继承或扩展了某个特定类进行过滤
 		aspectj			com.smart..*Service+	所有类名以 Service 结束的类以及继承或扩展它们的类，该类型采用 Aspectj 表达式进行过滤
 		
@@ -627,16 +634,6 @@
 		custom			com.smart.XxxTypeFilter	采用 XxxTypeFilter 代码方式实现过滤规则，该类必须实现 org.springframework.core.type.TypeFilter 接口
 		
 	*/
-	
-. use-defualt-filters 属性
-	该属性默认值为 use-defualt-filters="true" 标识默认会对标注 @Component @Repository @Service @Controller 的Bean 进行扫描，
-	如果想仅扫描 @Controller 的Bean，则必须将 该属性值设为 false
-	<context:component-scan base-package="com.smart" use-defualt-filters="false">
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Controller">
-	</context:component-scan>
-	
-	
 	
 # 自动装配
 . 使用@Autowired 进行自动注入

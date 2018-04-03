@@ -1,33 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-       
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
-
-	<!-- <aop:aspectj-autoproxy />
-	<bean id="waiter" class="com.smart.NaiveWaiter" />
+	<context:component-scan base-package="com.smart" />
 	
-	<bean class="com.smart.PreGreetingAspect" /> -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+		p:driverClassName="com.mysql.jdbc.Driver"
+		p:url="jdbc:mysql://localhost:3306/spring"
+		p:username="root"
+		p:password="123456" />
 	
-	
-	<bean id="adviceBean" class="com.smart.PreGreetingAspect" />
-	<bean id="naiveWaiter" class="com.smart.NaiveWaiter" />
-	
-	
-	<aop:config proxy-target-class="true">
-		<aop:aspect ref="adviceBean">
-			<aop:pointcut id="greetToPointcut" expression="target(com.smart.NaiveWaiter) and execution(* greetTo(..))" />
-			
-			<aop:before 
-				pointcut-ref="greetToPointcut"
-				method="beforeGreeting" />
-		</aop:aspect>
-	</aop:config>
-	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" 
+		p:dataSource-ref="dataSource"/>
 	
 </beans>

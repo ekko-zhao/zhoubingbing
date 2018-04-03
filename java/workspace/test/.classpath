@@ -36,7 +36,7 @@
 	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-web/4.2.2.RELEASE/spring-web-4.2.2.RELEASE.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-webmvc/4.2.2.RELEASE/spring-webmvc-4.2.2.RELEASE.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-context-support/4.2.2.RELEASE/spring-context-support-4.2.2.RELEASE.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-jdbc/4.2.2.RELEASE/spring-jdbc-4.2.2.RELEASE.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-jdbc/4.2.2.RELEASE/spring-jdbc-4.2.2.RELEASE.jar" sourcepath="/M2_REPO"/>
 	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-tx/4.2.2.RELEASE/spring-tx-4.2.2.RELEASE.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-aspects/4.2.2.RELEASE/spring-aspects-4.2.2.RELEASE.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/aspectj/aspectjweaver/1.8.7/aspectjweaver-1.8.7.jar"/>
