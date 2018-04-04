@@ -51,7 +51,7 @@
 	
 	<!-- 事务增强 -->
 	<aop:config proxy-target-class="true">
-		<aop:pointcut id="serviceJdbcMethod" expression="@within(com.smart.mixdao.BaseService)" />
+		<aop:pointcut id="serviceJdbcMethod" expression="within(com.smart.mixdao.BaseService+)" />
 		<aop:advisor pointcut-ref="serviceJdbcMethod" advice-ref="hiberAdvice" />
 	</aop:config>
 	<tx:advice id="hiberAdvice" transaction-manager="hiberManager">

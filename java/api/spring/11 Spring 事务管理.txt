@@ -9,10 +9,13 @@
 	SERIALIZABLE		不允许	不允许		不允许		不允许				不允许
 	
 	
+
+	
 # JDBC 对事务的支持
 	并不是所有的数据库都支持事务，即使支持事务的数据库也并非支持所有的事务隔离级别。
 	用户可以通过 Connection#getMetaData() 方法获取 DatabaseMetaData 对象，并通过该对象的 supportsTransactions()、supportsTransactionIsolationLevel(int level) 方法查看底层数据库的事务支持情况
 	
+
 	Connection
 		DatabaseMetaData getMetaData()	获取 DatabaseMetaData 对象
 		void setAutoCommit(false)			默认情况下是自动提交的，每条执行的 SQL 语句都对应一个事务。
@@ -29,7 +32,7 @@
 	/*
 		Connection conn;
 		try{
-			conn = DriverManager.getConnection();
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/spring","root","123456");
 			conn.setAutoCommit(false);
 			conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 			Statement stmt = conn.createStatement();
@@ -278,7 +281,7 @@
 	
 	
 # 事务同步管理器
-	持久化技术					线程绑定资源获取工具
+	数据访问技术框架			线程绑定资源获取工具
 	Spirng JDBC 或 MyBatis		org.springframework.jdbc.datasource.DataSourceUtils
 	HibernateX					org.springframework.orm.hibernateX.SesstionFactoryUtils
 	JPA							org.springframework.orm.jpa.EntityManagerFactoryUtils
@@ -292,7 +295,20 @@
 		而不应该直接动 DataSource 或 SessionFactory 中获取。因为不能获得与本线程相关的资源，无法让数据操作参与到本线程相关的事务环境中
 	*/
 	
-
+	DataSourceUtils 抽象类 定义的方法
+		static Connection doGetConnection(DataSource dataSource)	
+			首先动事务上下文中获取链接，失败后尝试在从数据源获取链接
+		static Connection getConnection(DataSource dataSource)		
+			和 doGetConnection 功能一样，实际上，其内部就是通过调用 doGetConnection() 方法获取链接的
+			
+		static void doReleaseConnection(Connection con, DataSource dataSource)
+			释放链接，放回到链接池中
+		static void releaseConnection(Connection con, DataSource dataSource)
+			同上
+	
+	
+	
+	
 # 编程式的事务管理
 	@Service
 	public class ForumService{

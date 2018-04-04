@@ -13,7 +13,28 @@ beans.xml
 	<!-- jdbcTemplate -->
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
 		p:dataSource-ref="dataSource" />
-	
+		
+		/*	
+			
+			<bean id="jdbcManager"
+				class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+				p:dataSource-ref="dataSource" />
+			
+			<!-- 事务增强 -->
+			<aop:config proxy-target-class="true">
+				<aop:pointcut id="serviceJdbcMethod" expression="within(com.smart.mixdao.BaseService+)" />
+				<aop:advisor pointcut-ref="serviceJdbcMethod" advice-ref="hiberAdvice" />
+			</aop:config>
+			<tx:advice id="hiberAdvice" transaction-manager="jdbcManager">
+				<tx:attributes>
+					<tx:method name="*" />
+				</tx:attributes>
+			</tx:advice>
+		*/
+		
+		
+		
+		
 	<!-- hibernateTemplate -->
 	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate"
 		p:sessionFactory-ref="sessionFactory" />
@@ -201,28 +222,49 @@ ScoreService.class
 		}
 	}
 
+# Spring JDBC 数据连接泄漏
+	public void addScore(String userName, int toAdd) throws SQLException {
+		// 直接从数据源获取链接，后续程序没有显示通过 Connection#close() 方法释放该链接
+    	Connection conn = jdbcTemplate.getDataSource().getConnection();
+			
+        String sql = "UPDATE t_user u SET u.score = u.score + ? WHERE user_name =?";
+        jdbcTemplate.update(sql, toAdd, userName);
+    }
+	
+# 事务环境下通过 DataSourceUtils 获取数据连接
+	Connection conn = DataSourceUtils.getConnection(jdbcTemplate.getDataSource())
+	在事务环境下获取Connection 不会造成链接泄漏
+
+# 非事务环境下通过 DataSourceUtils 获取数据连接
+	如果没有对 方法进行事务增强，这需要
+	try{
+		
+	}catch(){
+		DataSourceUtils.releaseConnection(conn, dataSource);
+	}
+	
+# 使用 TransactionAwareDataSourceProxy
+	如果不得已要显示获取数据连接，除了可以使用 DataSourceUtils 获取事务上下文绑定的链接，还可以通过 TransactionAwareDataSourceProxy 对数据源进行代理。
+	数据对象被代理后就具有了事务上下文感知的能力，通过代理数据源的getConnection() 方法获取链接和使用 DataSourceUtils.getConnection() 是一样的
+	
+	<bean id="originDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close" p:driverClassName="com.mysql.jdbc.Driver"
+		p:url="jdbc:mysql://localhost:3306/spring" p:username="root"
+		p:password="123456" />
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy" 
+		p:dataSource-ref="originDataSource"/>
+	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+		p:dataSource-ref="dataSource" />
 	
 	
+	数据访问技术框架			
+	Spirng JDBC 或 MyBatis 			org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	Hibernate						org.springframework.orm.hibernateX.LocalSessionFactoryBean
+	JPA								无
+	JDO								org.springframework.orm.jdo.TransactionAwarePersistenceFactoryProxy
 	
 	
 	

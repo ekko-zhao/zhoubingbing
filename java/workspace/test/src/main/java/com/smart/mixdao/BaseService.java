@@ -7,6 +7,5 @@ import java.lang.annotation.RetentionPolicy;
  * @author 陈雄华
  * @version 1.0
  */
-@Retention(RetentionPolicy.RUNTIME)
-public @interface BaseService {
+public class BaseService {
 }
