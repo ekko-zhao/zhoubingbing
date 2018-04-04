@@ -12,8 +12,9 @@ import org.springframework.stereotype.Service;
  * @author 陈雄华
  * @version 1.0
  */
+@BaseService
 @Service("userService")
-public class UserService extends BaseService {
+public class UserService{
 
     private HibernateTemplate hibernateTemplate;
     private ScoreService scoreService;
@@ -43,7 +44,7 @@ public class UserService extends BaseService {
         user.setLastLogonTime(System.currentTimeMillis());
         hibernateTemplate.update(user);
         hibernateTemplate.flush();//③请看下文的分析
-    }
+    } 
 
      public static void main(String[] args) {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("com/smart/beans.xml");

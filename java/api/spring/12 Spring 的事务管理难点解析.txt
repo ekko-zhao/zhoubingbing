@@ -1,68 +1,59 @@
 
 
-
-
-
-# JDBC 访问数据库
-	// beans.xml
+# JDBC 、Hibernate 访问数据库
+beans.xml
 	<context:component-scan base-package="com.smart" />
 	
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
-		p:driverClassName="com.mysql.jdbc.Driver"
-		p:url="jdbc:mysql://localhost:3306/spring"
-		p:username="root"
+	<!-- 配置数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close" p:driverClassName="com.mysql.jdbc.Driver"
+		p:url="jdbc:mysql://localhost:3306/spring" p:username="root"
 		p:password="123456" />
 	
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" 
-		p:dataSource-ref="dataSource"/>
-		
-	/*
-		这里没有配置 事务管理器，但是数据可以持久化到数据库中
-	*/
+	<!-- jdbcTemplate -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+		p:dataSource-ref="dataSource" />
 	
-	@Service("userService")
-	public class UserJdbcWithoutTransManagerService {
-		@Autowired
-		private JdbcTemplate jdbcTemplate;
-
-		public void addScore(String userName,int toAdd){
-			String sql = "UPDATE t_user u SET u.score = u.score + ? WHERE user_name =?";
-			jdbcTemplate.update(sql,toAdd,userName);
-		}
-
-		public static void main(String[] args) {
-			ApplicationContext ctx = new ClassPathXmlApplicationContext("com/smart/beanfactory/beans.xml");
-			UserJdbcWithoutTransManagerService service = (UserJdbcWithoutTransManagerService)ctx.getBean("userService");
-			JdbcTemplate jdbcTemplate = (JdbcTemplate)ctx.getBean("jdbcTemplate");
-			BasicDataSource basicDataSource = (BasicDataSource)jdbcTemplate.getDataSource();
-			
-			//检查数据源autoCommit的设置
-			System.out.println("autoCommit:"+ basicDataSource.getDefaultAutoCommit());
-		   
-		   //插入一条记录，初始分数为10
-			jdbcTemplate.execute("INSERT INTO t_user(user_name,password,score) VALUES('tom','123456',10)");
-			//调用工作在无事务环境下的服务类方法,将分数添加20分
-			service.addScore("tom",20);
-			
-			//查看此时用户的分数
-			int score = jdbcTemplate.queryForObject("SELECT score FROM t_user WHERE user_name ='tom'", Integer.class);
-			System.out.println("score:"+score);
-			// jdbcTemplate.execute("DELETE FROM t_user WHERE user_name='tom'");
-		}
-	}
+	<!-- hibernateTemplate -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate"
+		p:sessionFactory-ref="sessionFactory" />
 	
-	/*
-		autoCommit:true
-		score:30
-	*/
+	<!-- hibernate 配置 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+		p:dataSource-ref="dataSource">
+		<property name="annotatedClasses">
+			<list>
+				<value>com.smart.User</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
 	
+	<!--如果没有配置事务管理器 hibernateTemplate 只能读取数据不能 update 操作-->
+	<!-- 事务管理器 -->
+	<bean id="hiberManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory" />
 	
-# Hibernate 访问数据库
-	如果使用 Hibernate 访问数据库，需要配置事务管理器， 否则Spring 就会采用默认的事务管理策略搜索(PROPAGATION_REQUERED,readOnly)
-	如有修改操作是不允许的，会抛出异常
+	<!-- 事务增强 -->
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="serviceJdbcMethod" expression="within(com.smart.mixdao.BaseService+)" />
+		<aop:advisor pointcut-ref="serviceJdbcMethod" advice-ref="hiberAdvice" />
+	</aop:config>
+	<tx:advice id="hiberAdvice" transaction-manager="hiberManager">
+		<tx:attributes>
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
 	
 	
-	// User.class
+User.class  Hibernate 需要配置的实体类
 	@Entity
 	@Table(name="T_USER")
 	public class User implements Serializable{
@@ -73,6 +64,9 @@
 		private String password;
 
 		private int score;
+
+		@Column(name = "LAST_LOGON_TIME")
+		private long lastLogonTime = 0;
 
 
 		public String getUserName() {
@@ -99,6 +93,15 @@
 			this.score = score;
 		}
 
+		public long getLastLogonTime() {
+			return lastLogonTime;
+		}
+
+		public void setLastLogonTime(long lastLogonTime) {
+			this.lastLogonTime = lastLogonTime;
+		}
+
+
 		public String toString() {
 			return (new ReflectionToStringBuilder(this) {
 				protected boolean accept(Field f) {
@@ -112,79 +115,92 @@
 		}
 	}
 	
-	// beans.xml
-	<context:component-scan base-package="com.smart.hiber" />
 	
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
-		p:driverClassName="com.mysql.jdbc.Driver"
-		p:url="jdbc:mysql://localhost:3306/spring"
-		p:username="root"
-		p:password="123456" />
-	
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" 
-		p:dataSource-ref="dataSource"/>
-		
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
-		p:dataSource-ref="dataSource"
-	>
-		<property name="annotatedClasses">
-			<list>
-				<value>com.smart.User</value>
-			</list>
-		</property>
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-				<prop key="hibernate.show_sql">true</prop>
-			</props>
-		</property>
-	</bean>
-	
-	<bean id="hibernateTemplate" 
-		class="org.springframework.orm.hibernate4.HibernateTemplate"
-		p:sessionFactory-ref="sessionFactory"/>
-	
-	
-	
-	@Service("hiberService")
-	public class UserHibernateWithoutTransManagerService {
+BaseService.class
+	public class BaseService {}
+
+UserService.class
+	@Service("userService")
+	public class UserService extends BaseService {
+
 		private HibernateTemplate hibernateTemplate;
+		private ScoreService scoreService;
 
 		@Autowired
 		public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
 			this.hibernateTemplate = hibernateTemplate;
 		}
-		
-		// 这里使用 hibernateTemplate, 但是xml中没有配置 事务管理
-		
-		public void addScore(String userName, int toAdd) {
-			User user = hibernateTemplate.get(User.class, userName);
-			// 以下语句取消注释后，由于默认事务管理器不支持数据更改将报异常
-			/*
-			 * user.setScore(user.getScore() + toAdd);
-			 * hibernateTemplate.update(user);
-			 */
+
+		@Autowired
+		public void setScoreService(ScoreService scoreService) {
+			this.scoreService = scoreService;
 		}
 
-		public static void main(String[] args) {
-			// 同上 UserJdbcWithoutTransManagerService.main()
+		public void logon(String userName) {
+			System.out.println("before userService.updateLastLogonTime()..");
+			updateLastLogonTime(userName);
+			System.out.println("end userService.updateLastLogonTime()..");
+			
+			System.out.println("before scoreService.addScore()..");
+			scoreService.addScore(userName, 20);
+			System.out.println("end scoreService.addScore()..");
+			/*
+				默认在 logon() 方法返回前才同步到数据库中
+			*/
+		}
+
+		public void updateLastLogonTime(String userName) {
+			User user = hibernateTemplate.get(User.class,userName);
+			user.setLastLogonTime(System.currentTimeMillis());
+			hibernateTemplate.update(user);
+			hibernateTemplate.flush();
+			/*
+				logon() 方法中同时采用了 Hibernate 和 JDBC 数据访问技术，而Spring JDBC 无法感知Hibernate一级缓存；
+				所以需要及时调用 flush() 方法将 Hibernate 记录数据更改的一级缓存同步到数据库中，否则 通过JDBC 的数据更改将被 Hibernate一级缓存 覆盖。Hibernate一级缓存要等待logon() 方法返回前才同步到数据库中
+				
+				如果没有调用 flush() 方法， 分数是 10
+			*/
+		}
+
+		 public static void main(String[] args) {
+			ApplicationContext ctx = new ClassPathXmlApplicationContext("com/smart/beans.xml");
+			UserService service = (UserService) ctx.getBean("userService");
+			JdbcTemplate jdbcTemplate = (JdbcTemplate) ctx.getBean("jdbcTemplate");
+			//插入一条记录，初始分数为10
+			jdbcTemplate.execute("INSERT INTO t_user(user_name,password,score,last_logon_time) VALUES('tom','123456',10,"+System.currentTimeMillis()+")");
+
+			//调用工作在无事务环境下的服务类方法,将分数添加20分
+			System.out.println("before userService.logon()..");
+			service.logon("tom");
+			System.out.println("after userService.logon()..");
+			 
+			int score = jdbcTemplate.queryForObject("SELECT score FROM t_user WHERE user_name ='tom'", Integer.class);
+			System.out.println("score:"+score);
+			//jdbcTemplate.execute("DELETE FROM t_user WHERE user_name='tom'");
 		}
 	}
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+ScoreService.class
+	@Service("scoreService")
+	public class ScoreService extends BaseService{
+
+		private JdbcTemplate jdbcTemplate;
+
+		@Autowired
+		public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+			this.jdbcTemplate = jdbcTemplate;
+		}
+
+		public void addScore(String userName, int toAdd) {
+			String sql = "UPDATE t_user u SET u.score = u.score + ? WHERE user_name =?";
+			jdbcTemplate.update(sql, toAdd, userName);
+			BasicDataSource basicDataSource = (BasicDataSource) jdbcTemplate.getDataSource();
+			System.out.println("[scoreUserService.addScore]激活连接数量："+basicDataSource.getNumActive());
+		}
+	}
+
 	
 	
 	

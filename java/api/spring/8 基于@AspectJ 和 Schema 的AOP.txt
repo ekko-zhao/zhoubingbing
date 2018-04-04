@@ -85,8 +85,6 @@
 		
 		@args()	@within() @target()	@annotation() 不支持通配符
 		
-		
-		
 	*/
 . 逻辑运算符
 	&&		"within(com.smart..*)"+" && agrs(String)"	
@@ -157,7 +155,7 @@
 	
 . 方法切点函数
 	@annotation()		
-		"@annotation(com.samrt.anno.MyAnno)"	表示目标类对象含有指定注解的方法
+		"@annotation(com.samrt.anno.MyAnno)"	匹配目标类具有指定的注解的方法
 	
 	execution()			"execution(<访问修饰符>? <返回类型模式> (<参数模式>) <异常模式>?)"
 	
@@ -190,9 +188,9 @@
 	
 . 方法入参切点函数
 	args()
-		改函数接受一个类名，表示目标方法入参对象是指定类（包含子类）时，切点匹配
+		改函数接受一个 接口或类 作为参数，表示目标方法入参对象 是该参数的引用类型（包含子类）时，切点匹配
 		args(com.samrt.Waiter) 目标对象方法参数匹配 Waiter， 痛等于 execution(* *(com.samrt.Waiter+))
-		
+			args() 方法入参可以为 接口 或 类
 		
 	@args()
 		@args(com.samrt.MyAnno) 		入参对象是否有 @MyAnno 注解，匹配类和它的子类, 但是该注解的类不能是 参数类 类型的超类
@@ -203,15 +201,15 @@
 	链接点最小范围只能是类， 匹配类的所有方法
 	
 	Within()
-		Within(<匹配模式>) 它指定的链接点最小范围只能是类，不能是接口
+		Within(<匹配模式>) 它指定的链接点最小范围只能是类，不能是接口。 接口不能被实例化，所以 Within(接口) 是没有意义的
 		execution() 函数功能涵盖了 within() 函数的功能,  
 	
-		within(com.smart.NaiveWaiter)	匹配目标类, 包含子类
+		within(com.smart.NaiveWaiter)	匹配目标类, 不包含子类
 		within(com.smart.*)
 		within(com.smart..*)
 	
-	@target(com.samrt.anno.MyAnno)	入参类匹配有指定注解的类， 不包含子类( 不匹配 接口的引用类型 )
-	@within(com.samrt.anno.MyAnno)	入参类匹配有指定注解的类， 包含子类( 不匹配 接口的引用类型 )
+	@target(com.samrt.anno.MyAnno)	目标类有指定注解的类， 不包含子类( 不匹配 接口的引用类型 )
+	@within(com.samrt.anno.MyAnno)	匹配标注了指定注解 的目标类，及目标类的子类 ( 不匹配 接口的引用类型 )
 	
 	
 	target(com.samrt.Waiter)	 	判断目标类是否按类型匹配指定类型来决定连接点是否匹配，包含实现接口的子类
