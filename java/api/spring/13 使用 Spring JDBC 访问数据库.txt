@@ -48,6 +48,216 @@
 	}
 	
 	
+# 基本的数据操作
+	String sql = "create table t_user(user_id int primary key,user_name varchar(60))";
+	jdbcTemplate.excute(sql)
+	
+
+update:
+	String sql = "INSERT INFO t_forum(forum_name,forum_desc) VALUS(?,?)";
+	jdbcTemplate.update(sql, new Object[]{agr0,agr1});
+	
+	/*
+		需要指出的是，在实际开发中，应优先考虑使用不带回调接口的 JdbcTemplate 方法。
+		回调使代码臃肿，并不能带来额外的好处
+	*/
+	int update(String sql)							为不带占位符的 SQL 语句所提供的便利方法
+	int update(String sql, Object ...agrs)			使用不定参数的方法，和 update(sql, Object[] agrs)	相似
+	int update(String sql, Object[] agrs)	
+	int update(String sql, Object[] agrs, int[] argTypes)		new int[]{Types.VARCHAR, Types.VARCHAR}
+	
+
+	int update(String sql, PreparedStatementSetter pss)	
+		PreparedStatementSetter 是一个回调接口，该回调接口定义了一个 void setValues(PreparedStatement pss) 接口方法
+		
+		jdbcTemplate.update("INSERT INTO t_user(user_name,password,score,last_logon_time) VALUES('tom',?,?,"+System.currentTimeMillis()+")",
+		new PreparedStatementSetter() {
+			@Override
+			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
+				// TODO Auto-generated method stub
+				ps.setInt(parameterIndex, x);
+				ps.set*
+			}
+		});
+	
+	update(PreparedStatementCreator psc)    
+		PreparedStatementCreator 是一个回调接口，它负责创建一个 PreparedStatement 实例，该回调接口定义一个 PreparedStatement createPreparedStatement(Connection conn)方法。
+	
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+				// TODO Auto-generated method stub
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setString(parameterIndex, x);
+				return null;
+			}});
+	
+	
+	protected int update(PreparedStatementCreator psc, PreparedStatementSetter pss)
+	
+	
+# 返回数据库的表自增主键值
+	
+. KeyHolder 接口
+	该接口是一个回调接口，spring 使用它保存新增记录对应的主键，GeneratedKeyHolder 类实现了该接口；
+	
+	接口方法：
+	
+	Number getKey() throws InvalidDataAccessApiUsageException
+		当仅插入一行数据，主键不是复合主键或多个主键，且主键类型需要为数字类型
+		
+	Map<String, Object> getKey() InvalidDataAccessApiUsageException
+		复合主键，列名和列值构成Map 中的一个Entry.
+		
+	List<Map<String, Object>> getKeyList()
+		新增了多个主键，每个主键对应一个Map，多个Map 构成一个List
+
+	KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
+	PreparedStatementCreator psc = new PreparedStatementCreator() {
+		@Override
+		public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+			// TODO Auto-generated method stub
+			String sql = "INSERT INTO t_user(user_name,password,score,last_logon_time) VALUES('tom',?,?,"+System.currentTimeMillis()+")";
+			PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, "123456");
+			ps.setInt(2, 30);
+			return ps;
+		}
+	};
+	jdbcTemplate.update(psc, generatedKeyHolder);
+	// 返回更新数据的主键
+	System.out.println(generatedKeyHolder.getKey().intValue());
+	
+	
+# 批量更改数据
+	如果需要一次插入多条记录，可以多次通过update() 方法完成任务。
+	更好的选择是使用批量更改的方法。如果底层的 JDBC Driver 不支持批量更新操作，那么Spring 将采用逐条更新的方式模拟批量操作
+	
+	int[] batchUpdate(String[] sql)		多条sql 语句组成一个数组（不带参数）
+	int[] batchUpdate(String sql, BatchPreparedStatementSetter pss)
+		使用同一结构的sql 语句多次进行数据更新操作。通过 BatchPreparedStatementSetter 回调接口进行批量参数的绑定工作
+	
+		BatchPreparedStatementSetter 接口定义了两个方法
+			int getBatchSize()		指定本批次的大小
+			void setValues(PreparedStatement ps, int i)
+	
+	public void addForums(final List<Forum> forums)
+		jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter(){
+			@Override
+			public int getBatchSize(){
+				return forums.size()
+			}
+			@Override
+			public void setValues(java.sql.PreparedStatement ps, int index) throws SQLException {
+				// TODO Auto-generated method stub
+				Forum forum = forums.get(index);
+				ps.setInt(parameterIndex, forum.pro());
+				
+			}
+		});
+	}
+	
+	
+# 查询数据
+. 使用 RowCallbackHandler 处理结果集
+	Spring 提供了 org.springframework.jdbc.core.RowCallbackHandler 回调接口，该接口定义如何从结果中获取数据。
+	
+	该接口仅有一个方法 void processRow(ResultSet rs) throws SQLException。 
+	Spring 会遍历结果集，对结果集中的每一行调用 RowCallbackHandler 回调接口处理数据。所以无需显示的调用 ResultSet#next() 方法
+	
+	public Forum getForum(final int forumId){
+		String sql = "SELECT forum_name,forum_desc FROM t_from WHERE forum_id=?";
+		final Forum forum = new Forum();
+		
+		jdbcTemplate.query(sql,new Object[]{forumId},
+		new RowCallbackHandler(){
+			public void processRow(ResultSet rs) throws SQLException{
+				forum.setForumId(forumId);
+				forum.setForumName(rs.getString("forum_name"));
+			}
+		})
+		return forum;
+	}
+	
+. 查询多条数据 - RowCallbackHandler
+	没有查询到数据时不会发生异常
+	RowCallbackHandler 的操作方式是一边获取数据一边处理，处理完就丢弃，适用流花处理策略
+	
+	public List<Forum> getForums(final int formId,final int toId){
+		String sql = "SELECT forum_id,forum_name,forum_desc FROM t_forum WHERE forum_id between ? and ?";
+		final List forums = new ArrayList();
+		
+		jdbcTemplate.query(sql,new Object[]{forumId},
+		new RowCallbackHandler(){
+			public void processRow(ResultSet rs) throws SQLException{
+				Forum forum = new Forum()
+				forum.setForumName(rs.getString("forum_name"));
+				forums.add(forum)
+			}
+		})
+		return forums;
+	}
+	
+	重载版本
+	void query(String sql, Object[] agrs, int[] argTypes, RowCallbackHandler rch)
+	void query(String sql, RowCallbackHandler rch)
+	void query(String sql, PreparedStatementSetter pss, RowCallbackHandler rch)
+	void query(PreparedStatementCreator psc, RowCallbackHandler rch)
+	
+	
+. 查询多条数据 - RowMapper<T>
+	与 RowCallbackHandler 回调接口相似， RowMapper<T> 自动添加 T 到 List 中， 无需手动添加
+	RowMapper 的操作方式是先获取数据，然后在处理数据。适用于批量化数据处理策略
+	
+	public List<Forum> getForums(final int formId,final int toId){
+		String sql = "SELECT forum_id,forum_name,forum_desc FROM t_forum WHERE forum_id between ? and ?";
+		
+		return jdbcTemplate.query(sql, new Object[]{formId, toId},
+			new RowMapper<Forum>(ResultSet rs, int index) throws SQLException{
+				Forum forum = new Forum()
+				forum.setForumName(rs.getString("forum_name"));
+				return forum;
+			})
+	}
+	
+	重载版本
+	<T>List<T> query(String sql, Object[] agrs, int[] argTypes, RowMapper<T> rowMapper)
+	<T>List<T> query(String sql, RowMapper<T> rowMapper)
+	<T>List<T> query(String sql, PreparedStatementSetter pss, RowMapper<T> rowMapper)
+	<T>List<T> query(PreparedStatementCreator psc, RowMapper<T> rowMapper)
+	
+
+# 查询单值数据
+	推荐使用 Object 类型返回， 其它类型不推荐使用
+	在使用带Class<T> requiredType 参数方法时，结果必须是 一行一列
+	
+	<T> T queryForObject(String sql, Class<T> requiredType)
+	<T> T queryForObject(String sql, Object[] agrs, Class<T> requiredType)
+	<T> T queryForObject(String sql, Object[] agrs, int[] argTypes, Class<T> requiredType)
+	
+	<T> T queryForObject(String sql, RowMapper<T> rowMapper)
+	<T> T queryForObject(String sql, Object[] agrs, RowMapper<T> rowMapper)
+	<T> T queryForObject(String sql, Object[] agrs, int[] argTypes, RowMapper<T> rowMapper)
+	
+	
+	String sql = "SELECT topic_replies,topic_views FROM t_topic WHERE user_id=?"
+	return rate = jdbc.queryForObject(sql, new Object[]{userId},
+		new RowMapper<Forum>(ResultSet rs, int index) throws SQLException{
+			return rs.getInt("topic_replies")/rs.getInt("topic_views");
+		})
+	
+	/*
+		String sql = "SELECT topic_replies/topic_views reply_rate FROM t_topic WHERE user_id=?";
+		实际上，可以通过 SQL 语句，在数据库中直接计算
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

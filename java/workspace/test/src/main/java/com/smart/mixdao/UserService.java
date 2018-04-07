@@ -1,15 +1,24 @@
 package com.smart.mixdao;
 
+
 import com.smart.User;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
@@ -65,18 +74,32 @@ public class UserService extends BaseService{
 		UserService service = (UserService) ctx.getBean("userService");
 		JdbcTemplate jdbcTemplate = (JdbcTemplate) ctx.getBean("jdbcTemplate");
 		//插入一条记录，初始分数为10
-		jdbcTemplate.execute("INSERT INTO t_user(user_name,password,score,last_logon_time) VALUES('tom','123456',10,"+System.currentTimeMillis()+")");
+		// jdbcTemplate.execute("INSERT INTO t_user(user_name,password,score,last_logon_time) VALUES('tom','123456',?,"+System.currentTimeMillis()+")");
 		
-		// JdbcTemplate jdbcTemplate = (JdbcTemplate) ctx.getBean("jdbcTemplate");
+		KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
+		PreparedStatementCreator psc = new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+				// TODO Auto-generated method stub
+				String sql = "INSERT INTO t_user(user_name,password,score,last_logon_time) VALUES('tom',?,?,"+System.currentTimeMillis()+")";
+				PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				ps.setString(1, "123456");
+				ps.setInt(2, 30);
+				
+				return ps;
+			}
+		};
+		jdbcTemplate.update(psc, generatedKeyHolder);
 		
-		
-		//调用工作在无事务环境下的服务类方法,将分数添加20分
-		System.out.println("before userService.logon()..");
-		service.logon("tom");
-		System.out.println("after userService.logon()..");
-		 
-		int score = jdbcTemplate.queryForObject("SELECT score FROM t_user WHERE user_name ='tom'", Integer.class);
-		System.out.println("score:"+score);
-		//jdbcTemplate.execute("DELETE FROM t_user WHERE user_name='tom'");
+		System.out.println(generatedKeyHolder.getKey().intValue());
 	}
 }
+
+
+
+
+
+
+
+
+
