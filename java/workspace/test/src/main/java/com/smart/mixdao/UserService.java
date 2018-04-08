@@ -3,6 +3,7 @@ package com.smart.mixdao;
 
 import com.smart.User;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -13,6 +14,8 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.CallableStatementCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementSetter;
@@ -76,22 +79,21 @@ public class UserService extends BaseService{
 		//插入一条记录，初始分数为10
 		// jdbcTemplate.execute("INSERT INTO t_user(user_name,password,score,last_logon_time) VALUES('tom','123456',?,"+System.currentTimeMillis()+")");
 		
-		KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
-		PreparedStatementCreator psc = new PreparedStatementCreator() {
+		String sql = "{call score(?,?)}";
+		CallableStatementCallback<Integer> action = new CallableStatementCallback<Integer>(){
+
 			@Override
-			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+			public Integer doInCallableStatement(CallableStatement cs) throws SQLException, DataAccessException {
 				// TODO Auto-generated method stub
-				String sql = "INSERT INTO t_user(user_name,password,score,last_logon_time) VALUES('tom',?,?,"+System.currentTimeMillis()+")";
-				PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-				ps.setString(1, "123456");
-				ps.setInt(2, 30);
-				
-				return ps;
+				cs.setInt(1, 50);
+				cs.registerOutParameter(2, Types.INTEGER);
+				cs.execute();
+				return cs.getInt(2);
 			}
 		};
-		jdbcTemplate.update(psc, generatedKeyHolder);
 		
-		System.out.println(generatedKeyHolder.getKey().intValue());
+		Integer num = jdbcTemplate.execute(sql, action);
+		System.out.println(num);
 	}
 }
 

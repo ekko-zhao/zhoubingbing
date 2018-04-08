@@ -33,7 +33,7 @@
 		(CharSequence chars)	将 chars 追加到调用输出流的末尾，返回对调用流的引用	
 	
 	Writer append
-		(CharSequence chars, int begin, int end)	chars 中的 begin 至 end-1 位置 追加到调用输出流的末尾，返回对调用流的引用	
+		(CharSequence chars, int begin, int end)	chars 中的 begin 至 end-1 位置 追加到调用输出流的末尾，返回对调用流的引用
 	
 	abstract void close()
 	abstract void flush()		完成输出状态，从而清空所有缓冲区，即刷新输出缓冲区
