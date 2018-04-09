@@ -20,10 +20,17 @@
 
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
 		p:dataSource-ref="dataSource" />
-	
+		
+	<bean id="incre"
+		class="org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer"
+		p:incrementerName="seq_post_id"
+		p:columnName="sequence_id"
+		p:cacheSize="10"
+		p:dataSource-ref="dataSource" />
+
 	<bean id="jdbcManager"
-			class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-			p:dataSource-ref="dataSource" />
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="dataSource" />
 	
 	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate"
 		p:sessionFactory-ref="sessionFactory" />
@@ -43,12 +50,12 @@
 			</props>
 		</property>
 	</bean>
-	
+
 	<!-- 事务管理 -->
 	<bean id="hiberManager"
 		class="org.springframework.orm.hibernate5.HibernateTransactionManager"
 		p:sessionFactory-ref="sessionFactory" />
-	
+
 	<!-- 事务增强 -->
 	<aop:config proxy-target-class="true">
 		<aop:pointcut id="serviceJdbcMethod" expression="within(com.smart.mixdao.BaseService+)" />

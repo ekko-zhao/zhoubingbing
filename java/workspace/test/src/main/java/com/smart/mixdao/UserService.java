@@ -22,6 +22,9 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.support.incrementer.AbstractDataFieldMaxValueIncrementer;
+import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
+import org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +38,11 @@ public class UserService extends BaseService{
 
 	private HibernateTemplate hibernateTemplate;
 	private ScoreService scoreService;
-
+	
+	@Autowired
+	public static DataFieldMaxValueIncrementer incre;
+	
+	
 	@Autowired
 	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
 		this.hibernateTemplate = hibernateTemplate;
@@ -77,25 +84,38 @@ public class UserService extends BaseService{
 		UserService service = (UserService) ctx.getBean("userService");
 		JdbcTemplate jdbcTemplate = (JdbcTemplate) ctx.getBean("jdbcTemplate");
 		//插入一条记录，初始分数为10
-		// jdbcTemplate.execute("INSERT INTO t_user(user_name,password,score,last_logon_time) VALUES('tom','123456',?,"+System.currentTimeMillis()+")");
+		// jdbcTemplate.execute("INSERT INTO t_user(user_name,password,score,last_logon_time) VALUES('tom','123456',20,"+System.currentTimeMillis()+")");
+		// jdbcTemplate.update("INSERT INTO t_user(user_name,password,score,last_logon_time) VALUES('tom','123456',20,"+System.currentTimeMillis()+")");
 		
-		String sql = "{call score(?,?)}";
-		CallableStatementCallback<Integer> action = new CallableStatementCallback<Integer>(){
-
-			@Override
-			public Integer doInCallableStatement(CallableStatement cs) throws SQLException, DataAccessException {
-				// TODO Auto-generated method stub
-				cs.setInt(1, 50);
-				cs.registerOutParameter(2, Types.INTEGER);
-				cs.execute();
-				return cs.getInt(2);
-			}
-		};
+		String sql = "SELECT user_id,password FROM t_user WHERE user_name='tom'";
 		
-		Integer num = jdbcTemplate.execute(sql, action);
-		System.out.println(num);
+		System.out.println(jdbcTemplate.queryForRowSet(sql).getString("password"));
+		
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

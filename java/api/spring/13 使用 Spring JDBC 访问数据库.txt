@@ -416,15 +416,15 @@ update:
 	
 . 插入 LOb 类型的数据
 	
-	<bean id="nativeJdbcExtractor" lazy-init="true"
-		class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor" />
-	
 	<!-- 使用设置本地 JDBC 对象抽取 -->
 	<bean id="lobHandler" lazy-init="true"
 		class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
 	
 	/*
 		如果是 Oracle 9i 或以下 的数据库需要配置 OracleLobHandler 类
+		<bean id="nativeJdbcExtractor" lazy-init="true"
+		class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor" />
+		
 		<bean id="lobHandler" lazy-init="true"
 			class="org.springframework.jdbc.support.lob.OracleLobHandler"
 			p:nativeJdbcExtractor-ref="nativeJdbcExtractor"/>
@@ -495,36 +495,43 @@ update:
 	
 	
 # 自增键和行集
-	使用 DateFileMaxValueInctementer 产生主键
-	DateFileMaxValueInctementer 接口 定义了获取3个下一个主键值的方法。
+	使用 DataFieldMaxValueIncrementer 产生主键
+	DataFieldMaxValueIncrementer 接口 定义了获取3个下一个主键值的方法。
 		int nextIntValue()		获取下一个主键值，主键数据为 int 类型
 		long nextLongValue()	主键数据为 long 类型
 		String nextStringValue	主键数据为 String 类型
 	
 	
-. AbstractDataFiledMaxValueIncrementer 抽象类实现了 DateFileMaxValueInctementer 接口
-	AbstractSequenceMaxIncrementer
-		OracleSequenceMaxIncrementer
+. AbstractDataFieldMaxValueIncrementer 抽象类实现了 DataFieldMaxValueIncrementer 接口
+	AbstractSequenceMaxValueIncrementer
+		OracleSequenceMaxValueIncrementer
 		
-	AbstractColumnMaxIncrementer
-		MySQLMaxIncrementer
-		SqlServerMaxIncrementer
-	
+	AbstractColumnMaxValueIncrementer
+		MySQLMaxValueIncrementer
+		SqlServerMaxValueIIncrementer
+
+. 以序列方式产生主键值
 	
 
+. 以表方式产生主键值
+	create table t_post_id(sequence_id int) type = MYISAM
+	insert into t_post_id valus(0)
+
 	<bean id="incre"
-		class="org.springframework.jdbc.support.incrementer.OracleSequenceMaxIncrementer"
-		// 指定序列名
-		p:incrementerName="form_id"
+		class="org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer"
+		// 设置维护主键的表名
+		p:incrementerName="t_post_id"
+		// 用于生产主键值的列名
+		p:columnName="sequence_id"
+		// 缓存大小
+		p:cacheSize="10"
 		p:dataSource-ref="dataSource" />
 	
 	
-	
-	
-	
-	
-	
-	
+. 以行集返回数据
+	SqlRowSet queryForRowSet(String sql)
+	SqlRowSet queryForRowSet(String sql, Object... args)
+	SqlRowSet queryForRowSet(String sql, Object[] args， int[] argTypes)
 	
 	
 	
