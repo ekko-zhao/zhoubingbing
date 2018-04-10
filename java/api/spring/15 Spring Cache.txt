@@ -215,6 +215,63 @@
 	
 	
 # 基于 XML 的 Cache 声明
+	<!-- 定义需要使用缓存的类 -->
+	<bean id="userService" class="com.smart.service.UserService" />
+	
+	<!-- 缓存定义 -->
+	<cache:advice id="cacheAdvice" cache-manager="cacheManager">
+		<cache:caching cache="users" />
+			<!-- userId 为该方法的参数 -->
+			<cache:cacheable method="findUser" key="#userId" />	
+			<cache:cache-evict method="loadUsers" all-entries="true" />
+		</cache:caching>
+	</aop:advice>
+	<aop:config>
+		<aop:advisor advice-ref="cacheAdvice" pointcut="execution(* com.smart.service.UserService.*(..))" />
+	</aop:config>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
