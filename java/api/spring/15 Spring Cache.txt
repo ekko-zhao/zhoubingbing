@@ -1,0 +1,244 @@
+
+# 过期策略
+	FIFO(First In First Out) 		先进先出策略，即先放入缓存的数据先被移除
+	LRU(Least Recently Used)		最久为使用策略，即使用时间距离离现在最久的哪个缓存数据被移除
+	LFU(Least Frequently Used)		在一定时间段类使用次数最少哪个缓存数据被移除
+	TTL(Time To Live)				在创建时间点开始直至到期的一个时间段都没有被访问过
+	TTI(Time To Idle)				空闲期，即一个数据多久没被访问就从缓存中移除的时间
+	
+	
+# 使用 Spring Cache
+	//启用基于注解的缓存驱动 这个配置项默认使用了一个定义为 cacheManager  的缓存管理器
+	<cache:annotation-driven  />
+
+	<bean id="accountServiceBean" class="com.smart.cache.UserService" />
+	<!--  缓存管理器 -->
+	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+		<!-- 配置缓存区 -->
+		<property name="caches">
+			<set>
+				<!-- 使用ConcurrentMapCacheFactoryBean工程Bean生产缓存区 -->
+				<!-- 定义缓存区名称 -->
+				<bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+				p:name="default" />
+				<bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+				p:name="users" />
+			</set>
+		</property>
+	</bean>
+	
+	
+	@Service(value="userServiceBean")
+	public class UserService {
+		// 缓存 该方法返回的对象
+		@Cacheable(cacheNames="users")
+		public User getUserById(String userId) {
+			System.out.println("no cache");
+			return new User();
+		}
+		
+		@Test
+		public void t() {
+			ApplicationContext ctx = new ClassPathXmlApplicationContext("com/smart/beans.xml");
+			UserService service = (UserService) ctx.getBean("userServiceBean");
+			service.getUserById("123456");
+			// 第二次执行该方法传入相同的参数，读取缓存
+			service.getUserById("123456");
+		}
+	}
+	
+# 掌握Spring Cache 抽象
+. 缓存注解
+@Cacheable 
+	@Cacheable 是最主要的注解，它指定了被注解方法的返回值是可被缓存的，其工作原理是Spring 首先在缓存中查找数据，如果没有则执行 方法并缓存
+	缓存名是必须提供的，可以使用引号、Value或者 cacheNames 属性来定义名称
+	
+	@Cacheable(value="users")	
+	@Cacheable(cacheNames="users")		// 推荐使用
+	@Cacheable(cacheNames={"users","users2"})
+	
+	.键生成器
+	如果在 Cache 注解上没有指定 key, 则spring 会使用 KeyGenerator 来生成一个key
+	
+	KeyGenerator 接口 
+	SimpleKeyGenerator 类实现了KeyGenerator 接口 
+	
+	
+	.@Cacheable 注解参数说明
+	
+	valu/cahceNames
+		缓存的名称，在spring 配置文件中定义，必须指定至少一个
+		
+	key			key=""#userName"
+		可以为空，如果指定，则按照 SpEL 表达式编写；如果不指定，默认按照方法的所有参数进行组合
+	
+	condition 	condition="#userName.length()>2"
+		缓存的条件，可以为空，是用 SpEL 表达式编写，返回true 或者false，只有返回true 才进行缓存
+		
+	unless 属性与 condition相反，满足条件下不进行缓存
+	
+	
+. @CachePut
+	@CachePut 注解与 @Cacheable注解效果几乎一样
+	在同一个方法上不能同时使用 @CachePut 和 @Cacheable，因为他们拥有不同的特性
+	
+	/*
+		@CachePut：这个注释可以确保方法被执行，同时方法的返回值也被记录到缓存中。
+		@CachePut 可以与 @Cacheable 结合使用，用于更新缓存。
+		
+		// 必须是同一个缓存实例, 且key值必须是相同的
+		@Cacheable(cacheNames="userCache",key="1000")  
+		public String getUserByName(String userName) {   
+		   System.out.println("两次调用第一次会执行，第二次不会执行！");  
+		   return getFromDB(userName);
+		}
+		
+		@CachePut(cacheNames="userCache",key="1000")
+		public String updateUserPut(String userName) {
+		   return updateDB(userName);
+		}
+
+	*/
+	
+	
+. @CacheEvict
+	@CacheEvict 的属性
+		valu/cahceNames
+		key
+		condition
+		unless
+		allEntries 			该属性指定是否清空整个缓存区
+		beforeInvocation 	该属性指定是否在执行方法之前清除缓存。默认是在方法成功完成之后才清除缓存。
+		
+	
+	@CacheEvict注解修饰的方法可用于清除缓存,
+	
+	@CacheEvict(cacheNames="users")
+	public void evictUser(String name, int age) {
+		System.out.println("--正在清空" + name + "," + age + "对应的缓存--");
+	}
+
+	@Override
+	@CacheEvict(cacheNames="users",allEntries=true)
+	public void evictAll() {
+		System.out.println("--正在情况整个缓存--");
+	}
+	
+. @Caching
+	@Caching 是一个组注解，可以为一个方法定义提供基于  @Cacheable @CachePut @CacheEvict 注解的数组
+	
+	User
+		Member
+		Visitor
+	
+	@Caching(cacheable={
+		@Cacheable(cahceNames="members",condition="#obj instanceOf t(com.smart.Member)")
+		@Cacheable(cahceNames="visitor",condition="#obj instanceOf t(com.smart.Visitor)")
+	})
+	public User getUser(User obj){
+		return new User();
+	}
+	
+	
+. @CacheConfig
+	Spring 4.0+
+	用于类级别的全局缓存注解
+	
+	@CacheConfig(cacheNames="uers")
+	public class UserService{
+		@Cacheable
+		public User findA(){
+			...
+		}
+		
+		@Cacheable
+		public User findB(){
+			...
+		}
+	}
+	/*
+		可以看到在 @CacheConfig 注解中定义了类级别的缓存，那么在 findA findB 方法中不在重复指定属性值
+	*/
+	
+	
+	
+# 缓存管理器
+	
+	SimpleCacheManager
+	
+	NoOpCacheManager
+		NoOpCacheManager 主要用于测试，但实际上它并不缓存任何数据
+		<bean id="cacheManager" class="org.springframework.cache.support.NoOpCacheManager" />
+	
+	ConcurrentMapCacheManager
+		ConcurrentMapCacheManager 使用了 JDK ConcurrentMap。 它提供了 SimpleCacheManager 类似的功能 ，但是它不需要配置缓存区 
+		<bean id="cacheManager" class="org.springframework.cache.concurrent.ConcurrentMapCacheManager" />
+	
+	
+	CompositeCacheManager
+		可以将多个缓存管理器定义组合到一起
+		<baen id="cacheManager"
+		class="org.springframework.cache.support.CompositeCacheManager">
+			<list>
+				<property name="cacheManagers">
+					<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+						...
+					</bean>
+					<bean class="com.hazelcast.spring.cache.CompositeCacheManager">
+						<constructor-agr ref="hazelcast"/>
+					</baen>
+				</property>
+			</list>
+			
+			
+		</bean>
+	
+	
+# 使用 SpEL 表达式
+	key condition unless 属性中可以使用 SpEL 表达式，
+	
+	
+	SpEL 表达式：
+	
+	#root 表示 root对象， 有以下属性
+		#root.methodname	当前被调用的方法名
+		#root.method.name	当前被调用的方法
+		#root.target		当前被调用的目标对象实例
+		#root.targetClass	当前被调用的目标对象的类
+		#root.args[0]		当前被调用的方法参数列表
+		#root.caches		当前方法调用使用的缓存列表
+		
+	Argument name	#user.id
+		当前被调用方法的参数， 如 method(User user){}
+	
+	#result	 方法执行后的返回值（仅当方法执行之后的判断有效， 如  nuless  beforeInvocation）
+	
+	
+# 基于 XML 的 Cache 声明
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

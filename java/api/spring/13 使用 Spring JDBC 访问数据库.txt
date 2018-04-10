@@ -54,7 +54,7 @@
 	
 
 update:
-	String sql = "INSERT INFO t_forum(forum_name,forum_desc) VALUS(?,?)";
+	String sql = "INSERT INFO t_forum(forum_name,forum_desc) VALUES(?,?)";
 	jdbcTemplate.update(sql, new Object[]{agr0,agr1});
 	
 	/*
@@ -515,7 +515,7 @@ update:
 
 . 以表方式产生主键值
 	create table t_post_id(sequence_id int) type = MYISAM
-	insert into t_post_id valus(0)
+	insert into t_post_id values(0)
 
 	<bean id="incre"
 		class="org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer"
@@ -534,17 +534,30 @@ update:
 	SqlRowSet queryForRowSet(String sql, Object[] args， int[] argTypes)
 	
 	
+# NamedParameterJdbcTemplate 模板类
+	
+	SqlParameterSource 接口
+		BeanPropertyParameterSource 
+			该类将一个 JavaBean 对象封装成一个参数源
+		MapSqlParameterSource 
+			该实现类内部有一个 Map 存储参数，可以通过 一下方法添加函数，并通过参数名和SQL 语句中参数匹配的方式绑定参数
+			addValue(String paramName,Object value)
+			addValue(Map values)
 	
 	
+	<bean class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-agr ref="dataSource" />
+	</bean>
 	
+	String sql = "INSERT INFO t_forum(forum_name, forum_desc) VALUES(:forumName,forumDesc)";
+	SqlParameterSource sps = new BeanPropertyParameterSource(forum);
+	/*
+		MapSqlParameterSource sps = new MapSqlParameterSource();
+		sps.addValue("forumName",value);
+		sps.addValue("forumDesc",value);
+	*/
 	
-	
-	
-	
-	
-	
-	
-	
+	namedParameterJdbcTemplate.update(sql,sps);
 	
 	
 	
