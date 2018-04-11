@@ -108,18 +108,19 @@
 		condition
 		unless
 		allEntries 			该属性指定是否清空整个缓存区
-		beforeInvocation 	该属性指定是否在执行方法之前清除缓存。默认是在方法成功完成之后才清除缓存。
+		beforeInvocation 	该属性指定是否在执行方法之前清除缓存。默认false 是在方法成功完成之后才清除缓存。
 		
 	
 	@CacheEvict注解修饰的方法可用于清除缓存,
 	
 	@CacheEvict(cacheNames="users")
 	public void evictUser(String name, int age) {
+		// 如果执行期间抛出异常 会导致缓存清空不被执行
 		System.out.println("--正在清空" + name + "," + age + "对应的缓存--");
 	}
 
 	@Override
-	@CacheEvict(cacheNames="users",allEntries=true)
+	@CacheEvict(cacheNames="users", allEntries=true)
 	public void evictAll() {
 		System.out.println("--正在情况整个缓存--");
 	}
@@ -189,8 +190,10 @@
 					</baen>
 				</property>
 			</list>
-			
-			
+			<!-- 
+				// 在不具备缓存条件的时候，可以在不更改代码的前提下，禁用缓存
+				<property name="fallbackToNoOpCache" value="true" />
+			-->
 		</bean>
 	
 	
@@ -231,41 +234,104 @@
 	</aop:config>
 	
 	
+# 以编程方式初始化缓存
+	
+	通过 @PostConstruct 注解 初始化 users Cache
+	
+	private Map<Integer,User> users = new HashMap<Integer,User>();
+	{
+		users.put(1, new User(1));
+		users.put(2, new User(2));
+		
+	}
+	@PostConstruct
+	public void setup(){
+		Cache usersCache = cacheManager.getCache("users");
+		for(Integer key : uers.keySet()){
+			usersCache.put(key, uers.get(key) )
+		};
+	}
+	
+	@Cacheable(value="users")
+	public User getUser(int id){
+		return users.get(id)
+	}
+	
+. 自定义缓存注解
+	@Caching(
+		put={
+			@CachePut(cacheNames="user", key="#user.id"),
+			@CachePut(cacheNames="user", key="#user.username")
+		}
+	)
+	@Target(ElementType.TYPE)  
+	@Retention(RetentionPolicy.RUNTIME) 
+	@Inherited 
+	public @interface UserSaveCache {}
+	
+	// 使用
+	@UserSaveCache
+	public User save(User user){}
+	
+	
+# 配置 Cache 存储
+	在日常开发过程中，大部分情况下会使用 第三方的缓存实现，而不是 SimpleCacheManager 的简单实现
+. EhCache
+	<dependency>
+		<groupId>net.sf.ehcache</groupId>
+		<artifactId>ehcache</artifactId>
+		<version>2.8.3</version>
+	</dependency>
+	
+	
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
+		p:cacheManager="ehcache" />
+	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
+		p:configLocation="classPath:ehcache.xml" />
 	
 	
 	
+	// ehcache.xml
+	<ehcache>
+		<cache name="users" maxElementsInMemory="1000" />
+	<ehcache>
+	
+. Guava
+	<dependency>
+		<groupId>com.google.guava</groupId>
+		<artifactId>guava</artifactId>
+		<version>18.0</version>
+	</dependency>
+	
+	<bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager" />
+	
+. HazelCast
+	HazelCast 需要实体类实现 Serializable 接口，并包含默认构造函数
+
+	<dependency>
+		<groupId>com.hazelCast</groupId>
+		<artifactId>hazelCast-all</artifactId>
+		<version>3.3</version>
+	</dependency>
+	
+	<bean id="cacheManager" class="org.hazelCast.spring.cache.HazelCastCacheManager">
+		<constructor-agr ref="hazelCast" />
+	</bean>
+	
+	<hz:hazelCast>
+		<hz:config>
+			<hz:map>
+				<hz:map-store enabled="true" class-name="com.smart.cache.User"
+					write-delay-seconds="0" />
+			</hz:map>
+		</hz:config>
+	</hz:hazelCast>
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+. GemFire
+	<gfe:cache id="gemfire-cache">
+	<bean id="cacheManager" class="org.springframework.data.gemfire.support.GemfireCacheManager"
+		p:cache-ref="gemfire-cache"/>
 	
 	
 	

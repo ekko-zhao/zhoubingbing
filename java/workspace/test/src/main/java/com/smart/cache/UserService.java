@@ -19,8 +19,10 @@ public class UserService {
 		System.out.println("no cache");
 		return new User();
 	}
+	
 	@CacheEvict(cacheNames="users")
 	public void clear() {
+		
 		System.out.println("no cache");
 	}
 	
