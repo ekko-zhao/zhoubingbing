@@ -1,4 +1,30 @@
 
+
+# JDK
+	新建系统变量 JAVA_HOME ，值为JDK安装路径 C:\Program Files\Java\jdk1.7.0
+	配置Path变量	%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin
+	新建系统变量 CLASSPATH ，值为 .;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar
+	
+	测试cmd: javac，java
+	
+	
+	
+# tomcat环境变量配置
+	新建系统变量 TOMCAT_HOME ，值为tomcat安装路径 C:\Program Files\Tomcat8.0.3
+	新建系统变量 CATALINA_HOME ，值为tomcat安装路径 C:\Program Files\Tomcat8.0.3
+	
+	配置Path变量 %TOMCAT_HOME%\lib;%TOMCAT_HOME%\bin
+	
+	测试cmd: startup
+	
+	
+	
+# maven环境变量配置
+	新建系统变量 MAVEN_HOME ，值为maven安装路径 C:\tools\apache-maven-3.1.1
+	配置Path变量 %MAVEN_HOME%\bin
+	
+
+	
 # server runtime  没有tomcat
 	windows->preferences->Server->RuntimeEnvironments点击Add按钮找到tomcat安装路径确定即可
 
@@ -48,6 +74,28 @@
 # Warning( i items)
 	Classpath entry **
 	删除除了 src文件夹和 pom.xml 以外的文件， 重新import mvn项目
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
