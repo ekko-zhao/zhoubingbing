@@ -7,10 +7,15 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerFactory;
 import org.quartz.SimpleTrigger;
 import org.quartz.impl.StdSchedulerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class SimpleTriggerRunner {
 	public static void main(String agrs[]) {
-		try {
+		
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("com/smart/beans.xml");
+		
+		/*try {
 			JobDetail jobDetail = new JobDetail("job1_1","jgroup1", SimpleJob.class);
 			
 			SimpleTrigger simpleTrigger = new SimpleTrigger("grigger1_1","tgroup1");
@@ -24,6 +29,6 @@ public class SimpleTriggerRunner {
 			scheduler.scheduleJob(jobDetail, simpleTrigger);
 			scheduler.start();
 			
-		}catch(Exception e) {}
+		}catch(Exception e) {}*/
 	}
 }

@@ -45,5 +45,25 @@
 	</web-app>
 
 	
+# Warning( i items)
+	Classpath entry **
+	删除除了 src文件夹和 pom.xml 以外的文件， 重新import mvn项目
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	

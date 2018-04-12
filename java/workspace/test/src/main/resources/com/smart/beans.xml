@@ -14,11 +14,7 @@
        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
-	<context:component-scan base-package="com.smart.cache" />
-	<cache:annotation-driven />
-	<bean id="accountServiceBean" class="com.smart.cache.UserService" />
-	<bean id="cacheManager" class="org.springframework.cache.concurrent.ConcurrentMapCacheManager" />
-	
+	<context:component-scan base-package="com.smart.job" />
 	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" p:driverClassName="com.mysql.jdbc.Driver"
@@ -27,13 +23,46 @@
 
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
 		p:dataSource-ref="dataSource" />
-		
 	<bean id="jdbcManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
 		p:dataSource-ref="dataSource" />
 	
+	<bean name="jobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean" 
+		p:jobClass="com.smart.job.SimpleJob"
+		p:applicationContextJobDataKey="applicationContext">
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="size" value="10" />
+			</map>
+		</property>
+	</bean>
 	
-
+	<bean id="simpleTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean"
+		p:jobDetail-ref="jobDetail"
+		p:startDelay="1000"
+		p:repeatInterval="2000"
+		p:repeatCount="10">
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="size" value="10" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="scheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="simpleTrigger" />
+			</list>
+		</property>
+		<property name="schedulerContextAsMap">
+			<map>
+				<entry key="timeout" value="30"/>
+			</map>
+		</property>
+	</bean>
 	
 
 </beans>

@@ -63,7 +63,7 @@
 	SimpleTrigger(String name, String group, Date startTime)	
 		startTime 指定触发的开始时间 
 		
-	SimpleTrigger(String name, String group,Date startTime Date endTime, int repeatCount, long repeatInterval)	
+	SimpleTrigger(String name, String group, Date startTime, Date endTime, int repeatCount, long repeatInterval)	
 		除指定以上信息外，还可以指定结束时间、重复执行次数、时间间隔等参数。
 	
 	SimpleTrigger(String name, String group, String jobName, String jobGroup, Date startTime Date endTime, int repeatCount, long repeatInterval )	
@@ -142,6 +142,42 @@
 	
 	CronTrigger cronTrigger = new CronTrigger("trigger1_2","tgroup1");
 	CronExpression cexp = new CronExpression("0/5 * * * * ?")
+	
+
+# 使用 Calendar
+	
+	...
+	// 法定节日是以每年为周期的，所以使用 AnnualCalendar
+	AnnualCalendar holidays = new AnnualCalendar();
+	
+	// 51劳动节
+	Calendar laborDay = new GregorianCalendar();
+	laborDay.add(Calendar.MONTH,5);
+	laborDay.add(Calendar.DATE,1);
+	
+	Calendar nationalDay = new GregorianCalendar();
+	nationalDay.add(Calendar.MONTH,10);
+	nationalDay.add(Calendar.DATE,1);
+	
+	ArrayList<Calendar> calendars = new ArrayList<Calendar>();
+	calendars.add(laborDay);
+	calendars.add(nationalDay);
+	
+	
+	// 排除这俩个日期
+	holidays.setDaysExcluded(calendars);
+	
+	// 向 Scheduler 注册日历
+	scheduler.addCalendar("holidays", holidays, false, false);
+	
+	...
+	
+	// 让 Trigger 应用指定的日历规则
+	trigger.setCalendarName("holidays");
+	
+	...
+	
+	
 	
 # 任务调度信息存储
 	
@@ -234,46 +270,152 @@
 	}
 	
 	
+# 在Spring 中使用 Quartz ----------------------------------------------------
+	通过 XML 配置的 Bean 会立即执行任务
+
+	
+# 创建 JobDetail
+. JobDetailFactoryBean
+	<bean name="jobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean" 
+		p:jobClass="com.smart.quartz.MyJob"
+		p:applicationContextJobDataKey="applicationContext">
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="size" value="10" />
+			</map>
+		</property>
+	</bean>
+	
+	// 属性 
+	name			默认为Bean的 id， 对应任务的名称
+	jobClass		实现Job接口的类
+	JobDataAsMap	为任务所对应的 JobDataMap 提供值
+	applicationContextJobDataKey
+		将 ApplicationContext 的引用保存到 JobDataMap 中，为了达到这个目的需要指定一个键，用于在JobDataAsMap 保存 ApplicationContext
+	
+	JobListenerNames	类型为 String[], 指定注册在 Scheduler 中的 JobListeners 名称，以便让这些监听器对本任务的事件进行监听
 	
 	
 	
+	public class SimpleJob implements Job {
+		@Override
+		public void execute(JobExecutionContext jctx) throws JobExecutionException {
+			Map dataMap = jctx.getJobDetail().getJobDataMap();
+			ApplicationContext ctx = (ApplicationContext)dataMap.get("applicationContext");
+		}
+	}
+	
+. MethodInvokingJobDetailFactoryBean
+	通常情况下，任务定义在一个业务类方法中。 同上 SimpleJob 类
+	但是如果不想创建这个只包含一行调用代码的 Job 实现类，Spring 提供了 MethodInvokingJobDetailFactoryBean， 可以将一个 Bean 的某个方法封装成满足 Quartz 要求的Job. 
+	该方法可以是 static 的，也可以是非static， 但是不能拥有方法入参。通过 MethodInvokingJobDetailFactoryBean 产生的 JobDetail 不能被实例化，所以不能持久化任务
+	
+	<bean id="jobDetail_1"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
+		p:targetObject-ref="myService"
+		p:targetMethod="doJob"
+		p:concurrent="false"
+		/>
+		/*
+			targetMethod	指定目标 Bean 的方法
+			concurrent		指定最终封装出的任务是否有状态
+		*/
+	<bean id="myService" class="com.smart.MyService" />
+	
+	
+	public class MyService(){
+		public void doJob(){
+			// ...
+		}
+	}
+	
+	
+# 创建 Trigger
+. SimpleTriggerFactoryBean
+	<bean id="simpleTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean"
+		p:jobDetail-ref="jobDetail"
+		p:startDelay="1000"
+		p:repeatInterval="2000"
+		p:repeatCount="100">
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="size" value="10" />
+			</map>
+		</property>
+	</bean>
+	
+	/*
+		jobDetail 		对应 jobDetail Bean
+		beanName		默认为Bean的 id 名，通过该属性显示指定 Bean 名称，它对应Trigger 的名称
+		
+		jobDataAsMap	以Map 类型为 Trigger 关联的 JobDataMap 提供者
+		startDelay		延迟多少时间开始触发，单位为毫秒， 默认值为0
+		triggerListenerNames	类型为 String[], 指定注册在 Scheduler 中的 triggerListener 名称
+	*/
 	
 	
 	
+	public class SimpleJob implements Job {
+		@Override
+		public void execute(JobExecutionContext jctx) throws JobExecutionException {
+			Map dataMap = jctx.getTrigger().getJobDataMap();
+			String count = dataMap.get("count");
+			dataMap.put("count","30")
+		}
+	}
+	
+.CronTriggerFactoryBean
+	<bean id="simpleTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"
+		p:jobDetail-ref="jobDetail"
+		p:cronExpression="0/5 * * * * *"
+		/>
 	
 	
+# 创建 Scheduler
+	<bean id="scheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="simpleTrigger" />
+			</list>
+		</property>
+		<property name="schedulerContextAsMap">
+			<map>
+				<entry key="timeout" value="30"/>
+			</map>
+		</property>
+		<property name="configLocation" value="classPath:com/smart/quartz.properties" />
+	</bean>
+	
+	triggers		为Tigger[] 类型，可以通过该属性注册多个Trigger
+	schedulerContextAsMap
+		以Map 的形式设置 SchedulerContext 的参数
+		
+	calendars	类型为 Map, 通过该属性向 Scheduler 注册 Calendar
+	jobDetails	类型为 JobDetail[], 通过该属性向 Scheduler 注册 JobDetail
+	autoStartup	 SchedulerFactoryBean 在初始化后是否马上启动 Scheduler, 默认为 true.
+				如果是false ,需要手动启动 Scheduler
+				
+	
+	startupDelay	SchedulerFactoryBean初始完成后，延迟多少秒启动。默认 0 马上启动。
+					一般情况下 可以通过 该属性 让 Scheduler 延迟一小段时间后启动，以便让Spring 能够更快初始化容器中剩余的bean
 	
 	
+	quartzProperties
+		通过该属性配置 替代 quartz.properties 文件， 在配置是需要查看 Quartz 的相关文档
+		
+	dataSource		
+		当需要使用数据库来持久化任务调度数据是，通过该属性指定数据源，如果指定了该属性，quartz.properties 文件的内容会被替换
+					
+	transactionManager 
+		配置事务管理器
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	nonTransactionalDataSource
+		在全局事务的情况下，如果用户不希望 Scheduler 执行的相关数据操作操作参与到全局事务中，
+		则可以通过该属性指定数据源。
+		一般情况下在 Spring 本地事务的情况下，使用 dataSource 就足够了
 	
 	
 	
