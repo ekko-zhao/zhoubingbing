@@ -657,7 +657,7 @@
 	@Resource 、@Inject 和 @Autowired 功能类似 @Resource 需要限定Bean 的名称 @Resource("beanName")
 	
 . Bean 作用域范围及生命过程方法
-	@Scope("property")
+	@Scope("prototype")
 	@Component
 	public class Test{
 	
@@ -711,7 +711,6 @@
 	
 . 通过 XML 配置文件引用 @Configuration 的配置
 	<context:component-scan base-package="com.smart.cof" resource-pattern="Config.class" />
-	
 	
 	
 . 通过@Configuration 配置类引用 XML 配置信息

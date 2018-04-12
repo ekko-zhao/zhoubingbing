@@ -1,14 +1,9 @@
 package com.smart;
 
 public class TestDome extends Thread {
-	
-	
-	public static void main(String[] str)  {
-		MyAnno my = new MyAnno() {
-			public void mm() {
-				
-			}
-		};
+
+	public static void main(String[] str) {
+
 	}
 	// System.out.println();
 }

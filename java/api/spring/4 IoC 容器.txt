@@ -415,7 +415,7 @@ public class BeanFactory {
 	Web容器监听器:		org.springframework.web.context.ContextLoaderListener
 	自启动的 Servlet：	org.springframework.web.context.ContextLoaderServlet
 	
-. 通过Web容器监听器引导
+. 通过Web容器监听器引导 
 	<!-- 指定配置文件 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
