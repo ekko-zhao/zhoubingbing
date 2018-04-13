@@ -4,11 +4,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+<meta http-equiv="Cache-Control" content="max-age=7200" />
+<title>index</title>
+<script src="./js/jquery-1.9.0.min.js"></script>
 </head>
 
 <body>
 	<nav>this is a test</nav>
+	<button type="button" class="btn">button</button>
 </body>
-
+<script>
+	$('.btn').on('click',function(){
+		$.ajax({
+			type: 'POST',
+			url: 'register',
+			//headers:{"Content-Type":"text/plain;charset=UTF-8"},
+			data: {
+				userId: 1114,
+				userName: 'zhoubingbing'
+			},
+			success: function(response){
+				console.log(response);
+			}
+		})
+	})
+</script>
 </html>
