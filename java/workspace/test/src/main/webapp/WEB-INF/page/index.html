@@ -4,9 +4,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="max-age=7200" />
+<meta http-equiv="Cache-Control" content="no-chache" />
 <title>index</title>
-<script src="./js/jquery-1.9.0.min.js"></script>
+<script src="/test/js/jquery-1.9.0.min.js"></script>
 </head>
 
 <body>
@@ -16,13 +16,14 @@
 <script>
 	$('.btn').on('click',function(){
 		$.ajax({
-			type: 'POST',
-			url: 'register',
+			type: 'GET',
+			url: '/test/api/register/111;author=tom;author2=tom2',
+			cache: false,
 			//headers:{"Content-Type":"text/plain;charset=UTF-8"},
-			data: {
+			/* data: {
 				userId: 1114,
 				userName: 'zhoubingbing'
-			},
+			}, */
 			success: function(response){
 				console.log(response);
 			}

@@ -1,5 +1,25 @@
 
 
+# pom.xml
+. 使用 maven-compiler-plugin 插件, 使用 cmd:mvn tomcat7:run 启动 项目。 http://localhost:8089 为项目根路径。
+	/*
+		为了解决 ajax 请求url 使用根路径后修改项目名称带来的问题( 例如 项目名称为 test, 那么ajax url 必须为 /test/url  ),
+		使用tomcat7-maven-plugin 插件，配置path为 /, ajax 请求url 根路径为 /url。
+	*/
+	<plugins>
+		...
+		<plugin>
+			<groupId>org.apache.tomcat.maven</groupId>
+			<artifactId>tomcat7-maven-plugin</artifactId>
+			<version>2.2</version>
+			<configuration>
+				<path>/</path>
+				<port>8089</port>
+				<uriEncoding>UTF-8</uriEncoding>
+			</configuration>
+		</plugin>
+	</plugins>
+
 # web.xml -------------------------------------------------------------------------------------------
 	<?xml version="1.0" encoding="UTF-8"?>
 	<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -263,15 +283,17 @@
 	@CookieValue(value = "cacheName", required = true, defaultValue = "value")
 	
 	
-# 使用矩阵变量绑定参数
+# 使用矩阵变量（@MatrixVariable）绑定参数
+	需要在 apring-mvc.xml 文件中添加配置，允许使用矩阵变量
+	<mvc:annotation-driven enable-matrix-variables="true"/>
 	
+	矩阵变量 需要url中使用占位符( {userId} ), /book/{id};name=javaBook
 	
-	
-	
-	
-	
-	
-	
+	// 请求的url /book/111;author=libai
+	@RequestMapping(path="/book/{id}")
+	public void handle1(@MatrixVariable String author){
+		
+	}
 	
 	
 	
