@@ -1,5 +1,8 @@
 package com.smart.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -22,7 +25,7 @@ public class UserController {
 	 * "hello, world! This com from spring!"; }
 	 */
 
-	@RequestMapping(path = { "index/child/cc" })
+	@RequestMapping(path = { "index", "" })
 	public String index() {
 		// System.out.println(a); method = RequestMethod.GET
 		// System.out.println(author);
@@ -34,12 +37,11 @@ public class UserController {
 	public String success() {
 		return "success";
 	}
-	
-	
+
 	@RequestMapping(path = { "api/register/{id}" }, method = RequestMethod.GET)
-	public String register(User user, @MatrixVariable String author2, @MatrixVariable String author) {
+	public String register(User user, @MatrixVariable(required=false) String author2, @MatrixVariable(value="author") Map<String,String> a) {
 		System.out.println("register");
-		System.out.println(author);
+		System.out.println(a.get("age"));
 		System.out.println(author2);
 		return "success";
 	}

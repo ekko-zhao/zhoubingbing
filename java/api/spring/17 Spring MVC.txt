@@ -206,7 +206,7 @@
 		* 		匹配 0 或多个字符，但不包含 / 字符	/user/*/create 匹配	/user/create、/user/a/create
 		**		匹配多个字符，包含 / 字符	/user/**/create 匹配 /user/create、/user/a/b/create
 		?		表示一个字符的占位符		/user/create??	匹配 /user/createaa 、/user/createbb
-		{xxx}	表示占位符					company/{companyId}/user/{userId}/detail
+		{xxx}	表示占位符 variable					company/{companyId}/user/{userId}/detail
 
 	
 	@RequestMapping 属性
@@ -266,6 +266,11 @@
 	}
 	
 . @RequestParam
+	@RequestParam 属性
+		value			参数名
+		required		是否必须， 默认为true
+		defaultValue	默认参数值，不推荐使用
+
 	@RequestParam 用来获取 url?searchName=value search字段
 	
 	@RequestMapping(path="/handle1")
@@ -274,11 +279,17 @@
 	}
 
 . @RequestHeader
+	属性同上
+	
 	用于获取报文头的参数值
 	@RequestHeader("Cookie") String cookie
 	@RequestHeader("User-Agent") String cookie
 	
 . @CookieValue
+	属性同上
+	required	默认为false
+
+
 	用于获取浏览器 cookies 信息指定的值
 	@CookieValue(value = "cacheName", required = true, defaultValue = "value")
 	
@@ -288,6 +299,8 @@
 	<mvc:annotation-driven enable-matrix-variables="true"/>
 	
 	矩阵变量 需要url中使用占位符( {userId} ), /book/{id};name=javaBook
+	多个变量用 分号";" 分隔符分开
+	一个变量可以有多个值 kind=kind1,kind2,kind3
 	
 	// 请求的url /book/111;author=libai
 	@RequestMapping(path="/book/{id}")
@@ -296,12 +309,33 @@
 	}
 	
 	
+	@MatrixVariable 属性
+		value			指定 url 中的变量，定义该变量的别名 @MatrixVariable(value="author") String sliasName 
+		pathVar			当url 中有多个占位符(variable)时，通过 该属性指定所属占位符
+		
+		required		是否必须
+		defaultValue	指定默认值
+
+	@MatrixVariable(value="author", defaultValue)
+	
+	// 获取属性多个值  @MatrixVariable List<String> kind
+	// 把绑定的占位符 的属性 合并到 Map 结果中
+		//GET /owners/42;q=11;r=12/pets/petId;q=22;s=23
+		 
+		// 不指定占位符 
+		@MatrixVariable Map<String,String> matrixVars
+			matrixVars = ["q" : [11,22], "r" : 12, "s" : 23]
+		
+		// 指定占位符
+		 @MatrixVariable(pathVar = "petId") Map<String,String> petMatrixVars)		
+			petMatrixVars = ["q" : 11,"s" : 23]
 	
 	
+. 使用 Servlet API 对象作为入参
 	
-	
-	
-	
+	m(HttpServletRequest request, HttpServletResponse response){
+		WibUtils.findParameterValue(request,"userName")
+	}
 	
 	
 	

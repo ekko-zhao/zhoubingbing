@@ -17,7 +17,7 @@
 	$('.btn').on('click',function(){
 		$.ajax({
 			type: 'GET',
-			url: '/test/api/register/111;author=tom;author2=tom2',
+			url: '/test/api/register/111;author=["name"="tom","age"="aa"]',
 			cache: false,
 			//headers:{"Content-Type":"text/plain;charset=UTF-8"},
 			/* data: {
