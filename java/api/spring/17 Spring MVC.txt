@@ -233,19 +233,7 @@
 			params="!param1"	表示请求不能包含名为 param1 的请求参数
 			params={"param1=value1", "param2"}	表示请求必须包含名为 param1 param2 俩个请求参数，且 param1 的值必须为 value1
 	
-. ModelAndView 类
-	一般用于 jsp 页面，给 jsp 提供 ${value}
-	
-	@RequestMapping{value="/user", method=RequestMethod.POST}
-	public ModelAndView createUser(User user){
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("url");
-		mav.addObject("user",user);
-	}
-	// .jsp
-	<p>恭喜 ${user.userName} 您创建成功！</p>
-	
-	
+
 	
 # 请求处理方法签名
 	Spring 会将请求方法的参数 进行自动转换
@@ -336,6 +324,148 @@
 	m(HttpServletRequest request, HttpServletResponse response){
 		WibUtils.findParameterValue(request,"userName")
 	}
+	
+	
+. 使用 I/O 对象作为入参，
+	m(OutputStream os) throw IOException{
+		Resource res = new ClassPathResoruce("/image.jpg");
+		FileCopyUtils.copy(res.getInputStream(), os)
+	}
+	
+. 其它类型的参数
+	Locale
+	Principal
+	
+	
+	
+# 使用 HttpMessageConverter<T>
+	它负责将请求信息转换为一个对象(类型为T)，将对象(类型为T) 输出为响应信息
+	
+	DispatcherServlet 已经默认安装了 RequestMappingHandlerAdapter 作为 HandlerAdapter 的组件实现类
+	
+. @RequestBody
+	将请求的 实体部分转换成字符串，将 POST 请求中的 data 部分转换成字符串
+	public String register(@RequestBody String requestBody) {
+	
+	}
+	
+. @ResponseBody
+	将返回结果以字符串的方式返回, 以下 ajax 返回的结果为 success 字符串, 或者返回图片流
+	@ResponseBody
+	public String register() {
+		return "success";
+	}
+	
+	/*
+		public @ResponseBody String register() {
+			return "success";
+		}
+	*/
+	
+. HttpEntity<T>
+	与 @RequestBody 类似，
+	HttpEntity 不但可以访问请求和响应报文体的数据， 还可以访问请求和访问报文头的数据
+	
+	m(HttpEntity<String> httpEntity){
+		long contentLen = httpEntity.getHeaders().getContentLength();
+		httpEntity.getBody()
+		...
+	}
+	
+. ResponseEntity<T>
+	ResponseEntity<byte[]> responseEntity = new ResponseEntity<byte[]>(fileData, HttpStatus.OK);
+	return responseEntity;
+	
+	
+# 使用 @RestController 和 AsyncTestTemplate
+	
+. @RestController  
+	改注解已经标注了@ResponseBody 和 @Controller
+	
+	如果在控制器类上标注 @RestController， 就不需要再 每个方法是添加 @ResponseBody
+	
+	@RestController
+	public class UserController{}
+	
+# 处理数据模型
+. ModelAndView 类
+	控制器处理的返回值如果为 ModelAndView, 则其即包含视图信息，又包含模型数据信息
+	
+	一般用于 jsp 页面，给 jsp 提供 ${value}
+	
+	@RequestMapping{value="/user", method=RequestMethod.POST}
+	public ModelAndView createUser(User user){
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("url");
+		mav.addObject("user",user);
+	}
+	// .jsp
+	<p>恭喜 ${user.userName} 您创建成功！</p>
+	
+	ModelAndView 方法
+		ModelAndView addObject(String attributeName, Object attributeValue)
+		ModelAndView addAllObject(Map<String,?> modelMap)
+	
+		void setView(View view)
+		void setViewName(String viewName)
+	
+. @ModelAttribute 模型属型
+	将方法入参对象添加到模型中, 在 jsp 页面中可以直接使用 模型对象 ${user.name}
+	
+	public String handle(@ModelAttribute("user") User user){
+		return "url"
+	}
+	
+. Map 及 ModelMap
+	如果方法入参为 Map 或 ModelMap 类型，则Spring MVC 会将隐含模型的引用传递给这些入参
+	可以通过入参对象访问到模型中的所有数据， 也可以像模型添加新的属性数据
+	
+	
+	public String handle(ModelMap modelMap){
+		modelMap.addAttribute("key","value");
+		User user = (User)modelMap.get("user");
+		return "url"
+	}
+	
+. @SessionAttrbutes
+	实现多个请求公用某个数据属性数据，
+	@SessionAttrbutes(value={"user1","user2"})			将名为 user1 及 user2  的模型属性添加到 会话中，
+	@SessionAttrbutes(types={User.class, Dept.class})	将模型中所有类型为 User 及 Dept 的属性添加到 会话中
+	@SessionAttrbutes(value={"user1","user2"}, types={User.class, Dept.class})
+	
+	
+	
+	@SessionAttrbutes("user")
+	public class UserController{
+		
+		// 自动将此处的 user 模型属性保存到 HttpSession 中
+		@RequestMapping
+		handle(@ModelAttribute("user") User user){
+		
+		}
+		
+		handle2(ModelMap modelMap,SessionStatus sessionStatus){
+			// 读取数据模型中的数据
+			User user = (User)modelMap.get("user");
+			if(user != null){
+				sessionStatus.setComplete();
+			}
+			return "url"
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

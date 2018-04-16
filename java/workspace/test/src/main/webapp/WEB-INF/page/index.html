@@ -12,19 +12,20 @@
 <body>
 	<nav>this is a test</nav>
 	<button type="button" class="btn">button</button>
+	
 </body>
 <script>
-	$('.btn').on('click',function(){
+	$('.btn').on('click', function() {
 		$.ajax({
-			type: 'GET',
-			url: '/test/api/register/111;author=["name"="tom","age"="aa"]',
-			cache: false,
-			//headers:{"Content-Type":"text/plain;charset=UTF-8"},
-			/* data: {
-				userId: 1114,
-				userName: 'zhoubingbing'
-			}, */
-			success: function(response){
+			type : 'POST',
+			url : '/test/api/register',
+			cache : false,
+			headers:{"Content-Type":"application/json;charset=UTF-8"},
+			data : {
+				userId : 1114,
+				userName : 'zhoubingbing'
+			},
+			success : function(response) {
 				console.log(response);
 			}
 		})
