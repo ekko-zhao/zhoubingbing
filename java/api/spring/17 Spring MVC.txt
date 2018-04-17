@@ -455,6 +455,338 @@
 	}
 	
 	
+# 数据转换
+. ConversionService 接口
+	boolean canConvert(Class<?> sourceType, Class<?> targetType)
+		判断是否可以将一个类转换为另一个类
+	<T> T convert(Object source, Class<T> targetType)
+		将原类型队形转换为目标类型对象
+	
+	boolean canConvert(TypeDescriptor sourceType, TypeDescriptor targetType)
+		需要转换的类将以成员变量的方式出现在宿主类中。
+		TypeDescriptor 不但描述了需转换类的信息，还描述了从宿主类的上下文信息，如成员变量上的注解，成员变量是否已数组 集合 Map 的方式呈现
+		
+	Object convert(Object source, TypeDescriptor sourceType, TypeDescriptor targetType)
+		将对象从元类型对象转换为目标类型对象，此时往往会用到所在宿主类的上下文信息
+	
+	
+	/*
+		可以利用 org.springframework.context.support.ConversionServiceFactoryBean 在 Spring 的上下文中定义一个 ConversionService
+	*/
+	
+	<mvc:annotation-driven conversion-service="conversionService"/>
+	<bean id="conversionService">
+		class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property>
+			<list>
+				// 注册转换器
+				<bean class="com.smart.StringToUserConverter"
+			</list>
+		</property>
+	</bean>
+	
+	注册到 ConversionServiceFactoryBean 的类必须实现  Spring 支持的转换器接口
+	
+	Converter<S, T>
+		public interface Converter<S, T>{
+			T convert(S source)
+		}
+		
+	ConverterFactory
+		public interface ConverterFactory<S, R>{
+			<T extends R> Converter<S, T> getConverter(Class<T> targetType)
+		}
+		
+	GenericConverter
+		public interface GenericConverter{
+			public Set<ConvertiblePair> getConvertibleTypes();
+			Object convert(Object source, TypeDescriptor sourceType, TypeDescriptor targetType);
+		}
+	
+	示例：
+	
+	public class StringToUserConverter implements Converter<String, User>{
+		public User convert(String source){
+			User user = new User();
+			if(source!=null){
+				String[] items = source.split(":");
+				user.setName=items[0];
+			}
+			return user;
+		}
+	}
+	
+	// GET: /book?user=nameV,passwordV,ageV
+	@RequsetParam("user") User user
+	
+# 使用 @InitBinder 和 WebBindingInitializer 装配自定义编辑器
+	
+	@RequestMapping()
+	public class UserController{
+		@InitBinder
+		public void initBinder(WebDataBinder binder){
+			binder.registerCustomEditor(User.class, new UserEditor();
+		}
+	}
+	
+	
+# 数据格式化
+	Spring 的 org.springframework.format.datatime 包中提供了用于时间格式化的 DateFromatter 实现类
+	
+	org.springframework.format.number 包中提供了 3个用于数字对象格式化的实现类
+		NumberFromatter			用于数字
+		CurrencyFromatter		用于货币
+		PercentFromatter		用于百分比
+	
+	在开发中可以手工调用这些 Formatter 接口实现类进行对象数据格式化工作， 但是不推荐使用。
+	Spring 提供了注解驱动模型数据输出时自动通过注解应用格式化功能
+	
+. 注解驱动
+	org.springframework.format.annotation 包
+	@NumberFromat
+	@DateTimeFromat
+	
+	
+	
+	<mvc:annotation-driven conversion-service="conversionService"/>
+	<bean id="conversionService">
+		class="org.springframework.context.support.FromattingConversionServiceFactoryBean">
+		<property>
+			<list>
+				// 注册转换器
+				<bean class="com.smart.StringToUserConverter"
+			</list>
+		</property>
+	</bean>
+	
+	/*
+		FromattingConversionService 的工厂类不仅支持自定义的转换器，还可以组侧自定义注解驱动逻辑
+	*/
+	
+	
+	public class User{
+		@DateTimeFromat(pattern="yyyy-MM-dd")
+		private Date birthday;
+		
+		@NumberFromat(pattern="#,###.##")
+		private long salary
+	}
+	
+. @DateTimeFromat
+	该注解可对java.util.Date、java.util.Calendar、java.long.Long 及 Joda 时间类型的属性进行注解。
+	
+	它支持以下几个互斥的属性：
+	iso 类型为 DateTimeFromat.ISO
+		DateTimeFromat.ISO.DATE: 格式为 yyyy-MM-dd
+		DateTimeFromat.ISO.DATE_TIME: 格式为 yyyy-MM-dd hh:mm:ss.SSSZ
+		DateTimeFromat.ISO.TIME: 格式为 hh:mm:ss.SSSZ
+		DateTimeFromat.ISO.NONE: 表示不应该使用ISO 格式的时间
+		
+	pattern		类型为 String, 使用自定义的时间格式化 如 yyyy-MM-dd hh:mm:ss
+	
+	style		类型为String，通过样式指定日期/时间的格式，有俩位字符组成，第一位表示日期的样式，第二位表示时间的样式
+		S 	短日期/时间的样式
+		M	中日期/时间的样式
+		L	长日期/时间的样式
+		F	完整日期/时间的样式
+		-	忽略日期或时间的样式
+	
+. @NumberFromat
+	该注解拥有俩个互斥的属性
+	pattern		类型为String ,使用自定义的数字格式化串，如 "##,###.##"
+	style 		类型为NumberFormat.Style
+		NumberFormat.Style.CURRENCY 货币类型
+		NumberFormat.Style.NUMBER	正常数字类型
+		NumberFormat.Style.PERCENT	百分数类型
+	
+	
+# 数据校验
+. JSR-303 Bean 数据合法校验的标准框架
+	@Null 			被注释的元素必须为 null
+	@NotNull		必须不为 null
+	
+	@AssertTrue		必须为 true
+	@AssertFalse	必须为 false
+	
+	@Min(value)		被注释的元素必须为是一个数字， 必须 >= 指定的值
+	@Max(value)		必须 <= 指定的值
+	
+	@DecimalMin(value)	同@Min
+	@DecimalMax(value)	同@Max
+	
+	@Size(max,min)		被注释的元素的大小必须指定的范围内
+	@Digits(integer,fraction)	被注释的元素必须为是一个数字，其值必须在可接受的范围内
+	
+	@Past			被注释的元素必须是一个过去的日期
+	@Future			被注释的元素必须是一个将来的日期
+	
+	@Pattern(regexp, flag)
+	
+	
+	
+. Hibernate Validator 扩展注解
+	@Email
+	@URL(protocol, host, port, regexp, flags)
+	
+	@Length(min, max)	被注释的字符串的大小必须在指定的范围内
+	
+	@NotEmpty			被注释的字符串必须为非。空功能强于@NotNull
+	@NotBlank			不为null，不为空值，不为全空格。功能强大于@NotEmpty
+	
+	@Range(min, max)	被注释的元素必须在合适的范围内,判断数值的范围，不仅支持数值类型，还支持字符串、字节等等类型
+	
+	
+. Spring 校验框架
+	
+	<dependency>
+		<groupId>javax.validation</groupId>
+		<artifactId>validation-api</artifactId>
+		<version>2.0.0.Final</version>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate.validator</groupId>
+		<artifactId>hibernate-validator</artifactId>
+		<version>6.0.7.Final</version>
+	</dependency>
+	<dependency>
+		<groupId>javax.el</groupId>
+		<artifactId>javax.el-api</artifactId>
+		<version>3.0.0</version>
+	</dependency>
+		
+		
+
+	// 如果没有指定 validator 属性，annotation-driven会自动装配一个 LocalValidatorFactoryBean
+	<mvc:annotation-driven />
+	
+	<!-- 
+		<bean id="validator"
+			class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+			<property name="validationMessageSource" ref="messageSource"/>
+		</bean>
+	-->
+	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+			<value>classpath:i18n/messages</value>
+        </property>
+    </bean>
+	
+	使用：
+	
+	@Pattern(regexp="w{4,30}")
+	@Length(min=2,max=4)
+	
+	
+	// 获取校验结果
+	BindingResult 类定义的方法
+		FieldError getFieldError(String field)		根据属性名获取对应的校验错误
+		List<FieldError> getFieldErrors()
+		Object getFildValue(String field)			获取属性值
+		int getErrorCount							获取错误数量
+	
+	FieldError 对象实现了 org.springframework.content.MessageSourceResolvale 接口
+		Object getArguments() 返回一组参数对象
+		String[] getCodes()		返回一组消息代码，每个代码对应一个资源属性
+		String getDefaultMessage() 默认的消息， 如果指定了相应的国际化资源，将会返回 messages.properties 中对应的值
+
+	. 错误代码生成规则
+		Pattern.user.password
+		Pattern.password
+		Pattern.java.lang.String
+		Pattern
+	
+	
+	
+	
+	
+	public String handle(@Valid @ModelAttribute("user") User user, BindingResult bindingResult){
+		
+	}
+	
+	
+	// 在jsp 中显示 错误值
+	<%@ page language="java" content="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp.jstl/core" %>
+	<%@ taglib prefix="form" uri="http://www.springframework.org/tags/from" %>
+	
+	...
+		<from:errors path="password" />
+		<from:password path="password" />
+	...
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+. Hibernate validator 校验框架
+	<mvc:annotation-driven validator="validator"/>
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+		<property name="validationMessageSource" ref="messageSource"/>
+	</bean>
+	
+	<!-- 国际化的消息资源文件（本系统中主要用于显示/错误消息定制） -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <!-- 在web环境中一定要定位到classpath 否则默认到当前web应用下找  -->
+                <value>classpath:i18n/messages</value>
+                <value>classpath: **/*.properties</value>
+            </list>
+        </property>
+        <property name="useCodeAsDefaultMessage" value="false"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="cacheSeconds" value="60"/>
+    </bean>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

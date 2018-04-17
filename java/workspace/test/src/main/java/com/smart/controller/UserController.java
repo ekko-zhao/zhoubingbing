@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -16,8 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.MatrixVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -41,8 +44,6 @@ public class UserController {
 
 	@RequestMapping(path = { "index", "" })
 	public String index() {
-		// System.out.println(a); method = RequestMethod.GET
-		// System.out.println(author);
 		System.out.println("index");
 		return "/index";
 	}
@@ -54,12 +55,13 @@ public class UserController {
 	
 	
 	@RequestMapping(path = { "api/register" }, method = RequestMethod.POST)
-	public String register(User user, HttpSession httpSession) {
-		Enumeration name = httpSession.getAttributeNames();
-		if(name.hasMoreElements()) {
-			name.nextElement();
-		}
+	public String register(@Valid User user, BindingResult bindingResult) {
 		
+		// @Valid @ModelAttribute("user")  , BindingResult bindingResult
+		System.out.println(bindingResult.getFieldError("userName"));
+		
+		System.out.println(bindingResult.getErrorCount());
+		System.out.println(user.getUserName());
 		System.out.println("register");
 		return "success";
 	}
