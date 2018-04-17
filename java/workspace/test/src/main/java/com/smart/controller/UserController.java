@@ -1,6 +1,7 @@
 package com.smart.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -53,6 +55,18 @@ public class UserController {
 		return "success";
 	}
 	
+	@RequestMapping(path = { "showUserListByJson" })
+	public String json(ModelMap mm) {
+		List<User> userList = new ArrayList<User>();
+		
+		User user1 = new User();
+		user1.setUserName("tom");
+		user1.setUserId(123);
+		userList.add(user1);
+		mm.addAttribute("userList", userList);
+		
+		return "userList";
+	}
 	
 	@RequestMapping(path = { "api/register" }, method = RequestMethod.POST)
 	public String register(@Valid User user, BindingResult bindingResult) {

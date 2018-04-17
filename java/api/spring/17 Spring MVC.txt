@@ -547,7 +547,6 @@
 	@DateTimeFromat
 	
 	
-	
 	<mvc:annotation-driven conversion-service="conversionService"/>
 	<bean id="conversionService">
 		class="org.springframework.context.support.FromattingConversionServiceFactoryBean">
@@ -656,27 +655,37 @@
 		
 		
 
-	// 如果没有指定 validator 属性，annotation-driven会自动装配一个 LocalValidatorFactoryBean
+	// annotation-driven会自动装配一个 LocalValidatorFactoryBean
 	<mvc:annotation-driven />
-	
 	<!-- 
 		<bean id="validator"
 			class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
 			<property name="validationMessageSource" ref="messageSource"/>
 		</bean>
 	-->
-	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basenames">
+        <property name="basename">
 			<value>classpath:i18n/messages</value>
         </property>
+		
+		/*
+			<property name="basenames">
+				<list>
+					<value>classpath:i18n/messages</value>
+					<value>classpath:i18n/messages2</value> 
+				</list>
+			</property>
+		*/
     </bean>
 	
-	使用：
+	/*
+		装配此国际化资源后jsp 自动使用国际化资源显示消息
+	*/
 	
+	
+	使用：
 	@Pattern(regexp="w{4,30}")
 	@Length(min=2,max=4)
-	
 	
 	// 获取校验结果
 	BindingResult 类定义的方法
@@ -697,9 +706,6 @@
 		Pattern
 	
 	
-	
-	
-	
 	public String handle(@Valid @ModelAttribute("user") User user, BindingResult bindingResult){
 		
 	}
@@ -714,6 +720,7 @@
 		<from:errors path="password" />
 		<from:password path="password" />
 	...
+	
 	
 	
 	
