@@ -364,10 +364,14 @@ public class BeanFactory {
 				/*
 					方法：
 					setServletContext(ServletContext servletContext) 		为Spring 设置Web 应用上下文
+					
+					
 					setConfigLocations(String[] configLocations)
 						设置 Spring 配置文件地址, 一般情况下配置文件地址是相对于 Web(webapp/*) 根目录的地址
 						如 /WEB-INF/**.xml.
 						但用户也可以带资源类型前缀的地址，如： classpath:com/smart?**.xml
+						
+						
 				*/
 			
 
@@ -395,10 +399,24 @@ public class BeanFactory {
 	/*
 		获取 ServletContext
 		ServletContext servletContext = request.getServletContext();
+		
 		ServletContext servletContext = ContextLoader.getCurrentWebApplicationContext().getServletContext();
 		
 		@Autowired
 		private ServletContext servletContext;
+		
+		public class ResourcePathExposer implements ServletContextAware{
+			private ServletContext servletContext;
+			
+			@Override
+			public ServletContext setServletContext(ServletContext servletContext){
+				this.servletContext = servletContext;
+			}
+			public ServletContext getServletContext(){
+				return servletContext;
+			}
+		}
+		
 	*/
 	
 # WebApplicationContext 初始化 -----------------------------------------------------------------

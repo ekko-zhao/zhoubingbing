@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -45,7 +46,12 @@ public class UserController {
 	 */
 
 	@RequestMapping(path = { "index", "" })
-	public String index() {
+	public String index(HttpServletRequest request, ServletRequest servletRequest) {
+		
+		
+		System.out.println("getMethod-"+request.getMethod());
+		System.out.println("getPathInfo-"+request.getPathInfo());
+		
 		System.out.println("index");
 		return "/index";
 	}

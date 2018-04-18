@@ -51,6 +51,8 @@
 	
 # ServletRequest 接口
 	Object getAttribute(String attr)		返回名为 attr 的特性的值
+	Enumeration<Object> getAttributeNames
+	
 	String getCharacterEncoding()			返回请求的字符编码
 	int getContentLength()					返回请求内容的大小。如果无法获得，就返回 -1
 	String getContentType()					返回请求内容的类型。如果不能确定请求的类型，就返回null
@@ -132,6 +134,10 @@
 # HttpServletRequest 接口
 	String getAuthType()				返回验证模式
 	Cookie[] getCookies()				返回这一请求中的cookie 数组
+	
+	HttpSession getSession()			返回这一请求的会话。如果不存在会话，就创建会话并返回
+	HttpSession getSession(boolean new)	如果new 为true, 如果会话不存在，就创建并返回这个请求的会话； 否则，返回这一请求已经存在的会话
+	
 	long getDateHeader(String field)	返回名为field 的日期标题字段的值
 	String getHeader(String field)		返回名为 field 的标题字段的值
 	
@@ -144,13 +150,12 @@
 	String getRemoteUser()				返回提出请求的用户名
 	
 	String getRequestedSessionId()		返回会话的 ID
-	String getRequestURI()				返回 URL
+	
+	String getContextPath()				返回项目的根路径 ，例如项目名称为 test, 将返回  "/test"
+	Servlet getServletPath()			返回 URL 中标识 servlet 的那一部分,   如果在 Spring 中， @RequestMapping(path = { "/index"}) 返回 "/index"
+	String getRequestURI()				返回 URL	getContextPath+getServletPath
 	StringBuffer getRequestURI()		返回 URL
 	
-	Servlet getServletPath()			返回 URL 中标识 servlet 的那一部分
-	
-	HttpSession getSession()			返回这一请求的会话。如果不存在会话，就创建会话并返回
-	HttpSession getSession(boolean new)	如果new 为true, 如果会话不存在，就创建并返回这个请求的会话； 否则，返回这一请求已经存在的会话
 	boolean isRequestedSessionIdFromCookie()		如果 cookie 包含会话ID，就返回true；否则返回 false
 	boolean isRequestedSessionIdFromURL() 			如果 URL 包含会话ID，就返回true；否则返回 false
 	boolean	isRequestedSessionIdvAalid()			在当前的会话上下文中，如果请求的会话ID 有效，就返回 false
@@ -161,7 +166,7 @@
 	boolean containsHeader(String field)	如果 HTTP 响应标题包含名为field 的字段，就返回 true
 	String encodeURL(String url)			判定会话ID 是否必须编码到url 标识的 URL 中。如果是，就返回修改后的 url 版本；否则返回 url 版本；
 											否则返回返回 url。 由servlet 产生的所有 URL, 都应当由这个方法进行处理
-	
+											
 	String encodeRedirectURL(String url)	判定会话ID 是否必须编码到url 标识的 URL 中。如果是，就返回修改后的 url 版本；否则返回 url 版本；
 											否则返回返回 url。传递给 sendRedirect() 方法的所有URL， 都应当这个方法进行处理
 	
@@ -187,15 +192,26 @@
 	HttpSession 接口使 servlet 能够读取并且写入与 HTTP 会话关联的状态信息。
 	如果会话已经无效， 那么所有这些方法都会抛出 IllegalStateException 异常
 	
+	void invalidate()						使会话无效，并将之从上下文中移除
+	
+	void setAttribute(String attr, Object val)
 	Object getAttribute(String attr) 		返回与attr 传递的名称相关联的值，如果没有找到 attr,就返回null
+	void removeAttribute(String attr)		从会话中移除 attr 指定的特性
+	
 	Enumeration<String> getAttributeNames()	返回与会话关联的特性名称的枚举
 	long getCreation Time()					返回这个会话创建的时间，毫秒数
 	String getId()							返回会话ID
 	long getLastAccessedTime()				返回客户端最后一次请求的时间
-	void invalidate()						使会话无效，并将之从上下文中移除
 	boolean isNew()							如果服务器创建了会话，并且客户端还没有访问，就返回true
-	void removeAttribute(String attr)		从会话中移除 attr 指定的特性
-	void setAttribute(String attr, Object val)
+	
+	void setMaxInactiveInterval(time)		设置 session 的有效时间， 以秒为单位
+	
+	
+. 设置 session 的默认有效时间
+	// web.xml
+	<session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
 	
 	
 # Cookie 类

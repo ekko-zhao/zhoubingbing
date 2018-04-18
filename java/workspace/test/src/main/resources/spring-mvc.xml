@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        http://www.springframework.org/schema/mvc
@@ -13,7 +15,11 @@
        http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 	<mvc:annotation-driven />
 	<!-- 组件扫描器 -->
-	<context:component-scan base-package="com.smart.controller" />
+	<context:component-scan
+		base-package="com.smart.controller" />
+
+	<mvc:default-servlet-handler />
+
 	<!-- 视图解析器 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -30,11 +36,10 @@
 		</property>
 	</bean>
 
-
-
 	<!-- XMl及JSON视图解析器配置 -->
 	<bean id="userListJson"
 		class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"
 		p:modelKeys="userList" />
+
 
 </beans>

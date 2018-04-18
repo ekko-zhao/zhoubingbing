@@ -726,17 +726,6 @@
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 . Hibernate validator 校验框架
 	<mvc:annotation-driven validator="validator"/>
 	<bean id="validator"
@@ -758,6 +747,137 @@
         <property name="defaultEncoding" value="UTF-8"/>
         <property name="cacheSeconds" value="60"/>
     </bean>
+	
+	
+	
+# 加载静态资源 ---------------------------------------
+
+<mvc:default-servlet-handler />
+	定义后Spring 将通过  DefaultServletHttpRequestHandler 它对进入 DispatcherServlet 的 URL 进行筛查。
+	如果发现是静态资源的请求，就将该请求转悠 Web 应用服务器默认的 Servlet 处理，
+	如果不是静态资源的请求，则由 DispatcherServlet 继续处理。
+	
+		Servlet 默认的名称都是 default，因此 DefaultServletHttpRequestHandler 可以找到它，
+		如果用户所使用的Web 服务器的的默认 Servlet名称不是default，则要通过 default-servlet-name 属性显示指定
+	
+	就不需要再web.xml 文件中定义 静态资源的映射 
+		<servlet-mapping>
+			<servlet-name>default</servlet-name>
+			<url-pattern>*.js</url-pattern>
+		</servlet-mapping>
+		
+# 重定向静态资源访问路径 ---------------------------------------
+	<mvc:resources mapping="/resources/**" location="/, /path2">
+	以上配置将 /resources/**  url的请求重定向到根路径 "/ " 、"/path2" 中。
+	/*
+		/resources/images/test.png 定向到 /webapp/images/test.png
+	*/
+	
+	cache-period="31536000"	该属性为客户端的缓存时间
+	
+. 解决静态文件缓存问题
+	<bean id="rep" class="com.smart.ResourcePathExposer"
+		init-method="init">
+	<mvc:resources mapping="#{rep.resourceRoot}/**" location="/">
+	
+	在jsp中使用 servletContext 中的属性
+	<img src="${resourceRoot}/images/img.png">
+	
+	public class ResourcePathExposer implements ServletContextAware{
+		private ServletContext servletContext;
+		private	String resourceRoot;
+		
+		public void init(){
+			String version = "1.2.1"; 发布版本号
+			resourceRoot = "resosurces-"+version;
+			getServletContext().setAttribute("resourceRoot", getServletContext().getContextPath()+resourceRoot);
+		}
+
+		public String getResourceRoot(){
+			return resourceRoot;
+		}
+		
+		@Override
+		public ServletContext setServletContext(ServletContext servletContext){
+			this.servletContext = servletContext;
+		}
+		
+		public ServletContext getServletContext(){
+			return servletContext;
+		}
+		
+	}
+	
+# 装配拦截器 ---------------------------------------
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/secure/*" />
+			<bean class="com.smart.MyInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	// MyInterceptor.class
+	public class MyInterceptor implements HandlerInterceptor {
+		@Override
+		public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+			
+			HttpSession session = request.getSession();
+			String username = (String) session.getAttribute("username");
+			if (username != null) {
+				return true;
+			} else {
+				session.setAttribute("username", "zhoubingbing");
+				response.sendRedirect(request.getContextPath() + "/success");
+				return false;
+			}
+			
+			// 只有返回true才会继续向下执行，返回false取消当前请求
+			// return true;
+		}
+		
+		@Override
+		public void postHandle(
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			Object handler,
+			ModelAndViewmodelAndView) throws Exception { }
+		
+		
+		@Override
+		public void afterCompletion(
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			Object handler, 
+			Exception ex) throws Exception {}
+			
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
