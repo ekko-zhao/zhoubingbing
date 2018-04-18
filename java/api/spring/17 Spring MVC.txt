@@ -722,16 +722,13 @@
 	...
 	
 	
-	
-	
-	
-	
 . Hibernate validator 校验框架
-	<mvc:annotation-driven validator="validator"/>
+	<mvc:annotation-driven validator="validator" />
 	<bean id="validator"
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-		<property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
-		<property name="validationMessageSource" ref="messageSource"/>
+		<property name="providerClass"
+			value="org.hibernate.validator.HibernateValidator" />
+		<property name="validationMessageSource" ref="messageSource" />
 	</bean>
 	
 	<!-- 国际化的消息资源文件（本系统中主要用于显示/错误消息定制） -->
@@ -743,10 +740,26 @@
                 <value>classpath: **/*.properties</value>
             </list>
         </property>
-        <property name="useCodeAsDefaultMessage" value="false"/>
+        <property name="useCodeAsDefaultMessage" value="true"/>
         <property name="defaultEncoding" value="UTF-8"/>
         <property name="cacheSeconds" value="60"/>
     </bean>
+	
+	// messages_zh_CN.properties
+	Pattern.user.userName=error message
+	
+	public class User(){
+		@Pattern(regexp = ".{6,32}",message="{Pattern.user.userName}")
+		private String userName;
+	}
+	
+	/*
+		此时 bindingResult 中的Errors#getDefaultMessage() 返回的错误消息 从 messages_zh_CN.properties 文件中读取
+	*/
+	
+	
+	
+	
 	
 	
 	
@@ -852,100 +865,152 @@
 			
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+# 异常处理 ------------------------------------------
+	Spring MVC 通过 HandlerExceptionResolver 处理程序的异常，包括处理器映射、数据绑定及处理器执行异常时发生的异常
+	HandlerExceptionResolver 只有一个接口方法
+		ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response,
+			Object handler, Exception ex)
+	
+	HandlerExceptionResolver 接口拥有4个 实现类，分别是	
+		DefaultHandelerExceptionResoler
+		AnnotationMethodHandlerExceptionResoler
+		ResponseStatusExceptionResoler
+		SimpleMappingExceptionResoler
+		
+
+	.DefaultHandelerExceptionResoler
+	Spring MVC 默认装配了 DefaultHandelerExceptionResoler， 将 Spring MVC 框架的异常转换为响应的状态相应码
+		500		web 服务器内部错误		ConversionNotSupportedException		HttpMessageNotWritableException
+		
+		400		坏的请求				HttpMessageNotReadableException MissingServletRequestParameterException	TypeMismatchException
+		404		找不到匹配的资源		NoSuchRequestHandlingMethodException
+		406		无和请求 accept 匹配的 MIME 类型	HttpMediaTypeNotAcceptableException
+		415		不支持的 MIME 类型		HttpMediaTypeNotSupportedException
+		
+		可以在web.xml 中卫响应状态吗配置一个对应的页面， 
+		
+		<error-page>
+			<error-code>404</error-code>
+			<location>/404.html</location>
+		</error-page>
+	
+	.AnnotationMethodHandlerExceptionResoler
+	Spring MVC 默认装配了 AnnotationMethodHandlerExceptionResoler, 它允许通过 @ExceptionHandler 注解指定处理特定异常的方法
+	
+		@RequestMapping
+		public String throwException(){
+			throw new RuntimeException("add");
+			return "url"
+		}
+		
+		@ExceptionHandler(RuntimeException.class)
+		public String handleException(RuntimeException re, HttpServletRequest request){
+			...
+			return "forward:/error.html"
+		}
+	
+	.ResponseStatusExceptionResoler
+		与	AnnotationMethodHandlerExceptionResoler 类似， 通过@ResponseStatus 注解标注一个方法用于处理特定类型的响应状态码
+	
+	.SimpleMappingExceptionResoler
+		如果希望对所有异常进行统一处理，则可以使用 SimpleMappingExceptionResoler，它将异常类名映射为视图名
+		
+		<bean id="handlerExceptionResoler">
+			class="org.springframework.web.servlet.handle.SimpleMappingExceptionResoler">
+			<props>
+				<prop key="org.springframework.dao.DataAcdessException">
+					servlet-url
+				<prop>
+				<prop key="org.springframework.dao.TransactionException">
+					servlet-url
+				<prop>
+			</props>
+		</bean>
+	
+	
+	
+# 通过 工具类(RequestContextHolder)在 Controller 中获取 request 和 session 对象。
+	
+	HttpServletRequest request = ( (ServletRequestAttributes)RequestContextHolder.getRequestAttributes() ).getRequest();
+	
+	// web.xml
+	<listener>
+		<listener-class>
+			org.springframework.web.context.request.RequestContextListener
+		</listener-class>
+	</listener>
+	
+	
+	
+# Ajax 提交数据
+. 以 application/x-www-form-urlencoded 方式提交
+	
+	该方式是 Jquery ajax 默认的提交方式，实际上提交的是 "id=1&name=foo&mobile=13612345678" 字符串
+	$.ajax({
+		type : 'POST',
+		url : '/test/api/register',
+		data:{
+			id: 1,
+			name: foo,
+			mobile: 13612345678
+		},
+		success : function(response) {}
+	})
+	
+	服务端接收数据
+	@RequestMapping(path = { "api/register" }, method = RequestMethod.POST)
+	public String register(User user) {
+		return "success";
+	}
+	
+	
+. 以 application/json 方式提交
+	$.ajax({
+		type : 'POST',
+		url : '/test/api/register',
+		contentType: "application/json; charset=utf-8",
+		data:JSON.stringify({
+			id: 1,
+			name: foo,
+			mobile: 13612345678
+		}),
+		success : function(response) {}
+	})
+	
+	服务端接收数据 需要添加 @RequestBody 注解
+	@RequestMapping(path = { "api/register" }, method = RequestMethod.POST)
+	public String register(@RequestBody User user) {
+		return "success";
+	}
+	
+	// pom.xml 添加依赖
+	<!--springmvc 转 Json -->
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-core</artifactId>
+		<version>2.6.3</version>
+	</dependency>
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+		<version>2.6.3</version>
+	</dependency>
+	<dependency>
+		<groupId>com.fasterxml.jackson.module</groupId>
+		<artifactId>jackson-module-jaxb-annotations</artifactId>
+		<version>2.6.3</version>
+	</dependency>
+	<dependency>
+		<groupId>javax.xml.bind</groupId>
+		<artifactId>jaxb-api</artifactId>
+		<version>2.2</version>
+	</dependency>
+	
+	
+# 返回 json 
+	Json-lib
+	
+	依赖包
 	
 	
 	
