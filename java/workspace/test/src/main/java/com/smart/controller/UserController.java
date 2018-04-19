@@ -3,6 +3,7 @@ package com.smart.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +39,6 @@ import com.smart.entity.User;
 
 import net.sf.json.JSON;
 
-
 @Controller
 @RequestMapping("/")
 public class UserController {
@@ -50,9 +50,10 @@ public class UserController {
 	@RequestMapping(path = { "index", "" })
 	public String index(HttpServletRequest request, ServletRequest servletRequest) {
 
-		/*System.out.println("getMethod-" + request.getMethod());
-		System.out.println("getPathInfo-" + request.getPathInfo());
-*/
+		/*
+		 * System.out.println("getMethod-" + request.getMethod());
+		 * System.out.println("getPathInfo-" + request.getPathInfo());
+		 */
 		System.out.println("index");
 		return "/index";
 	}
@@ -70,25 +71,22 @@ public class UserController {
 	}
 
 	@RequestMapping(path = { "api/register" }, method = RequestMethod.POST)
-	public String register(@RequestBody @Valid User user, BindingResult bindingResult, HttpServletRequest request) {
-		
+	@ResponseBody
+	public Map register(@RequestBody @Valid User user, BindingResult bindingResult, HttpServletRequest request) {
 		System.out.println(user.getUserName());
-		
+		System.out.println(user.getUserId());
+
 		System.out.println(bindingResult.getErrorCount());
 		System.out.println(request.getHeader("Content-Type"));
 		System.out.println("register");
+
+		Map map = new HashMap();
+		map.put("user", user);
 		
+		System.out.println(HttpStatus.UNAUTHORIZED);
 		
-		return "success";
+
+		return map;
 	}
 
 }
-
-
-
-
-
-
-
-
-

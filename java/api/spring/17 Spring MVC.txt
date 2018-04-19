@@ -353,12 +353,12 @@
 	将返回结果以字符串的方式返回, 以下 ajax 返回的结果为 success 字符串, 或者返回图片流
 	@ResponseBody
 	public String register() {
-		return "success";
+		return "{name:zhoubingbing,age:23}";
 	}
 	
 	/*
 		public @ResponseBody String register() {
-			return "success";
+			return "{name:zhoubingbing,age:23}";
 		}
 	*/
 	
@@ -1006,11 +1006,22 @@
 		<version>2.2</version>
 	</dependency>
 	
+# spring-mvc 返回 json Array  图片数据流
+	需要使用 @ResponseBody 注解， 可以 方法返回类型可以为 java 对象， List或Map 集合。
+	Spring 将自动将他们转换为 json 或 数组，供js Ajax 接受
 	
-# 返回 json 
-	Json-lib
+	@RequestMapping
+	@ResponseBody
+	public List register() {
+		List list = new ArrayList();
+		list.add(1);
+		list.add(2);
+		return list;
+	}
 	
-	依赖包
+	
+	
+	
 	
 	
 	

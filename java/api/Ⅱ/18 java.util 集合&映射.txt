@@ -212,7 +212,7 @@
 
 	LinkedList()
 	LinkedList(Collection(? extends E) c)
-	
+
 
 # HashSet 类
 	class HashSet<E>
