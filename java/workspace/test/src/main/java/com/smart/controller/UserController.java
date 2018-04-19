@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,23 +36,23 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.smart.entity.User;
 
+import net.sf.json.JSON;
+
+
 @Controller
 @RequestMapping("/")
 public class UserController {
 	/*
-	 * @RequestMapping("/index") 
-	 * public @ResponseBody String test() { 
-	 * return "hello, world! This com from spring!"; 
-	 * }
+	 * @RequestMapping("/index") public @ResponseBody String test() { return
+	 * "hello, world! This com from spring!"; }
 	 */
 
 	@RequestMapping(path = { "index", "" })
 	public String index(HttpServletRequest request, ServletRequest servletRequest) {
-		
-		
-		System.out.println("getMethod-"+request.getMethod());
-		System.out.println("getPathInfo-"+request.getPathInfo());
-		
+
+		/*System.out.println("getMethod-" + request.getMethod());
+		System.out.println("getPathInfo-" + request.getPathInfo());
+*/
 		System.out.println("index");
 		return "/index";
 	}
@@ -60,35 +61,28 @@ public class UserController {
 	public String success() {
 		return "success";
 	}
-	
+
 	@RequestMapping(path = { "showUserListByJson" })
 	public String json(ModelMap mm) {
 		List<User> userList = new ArrayList<User>();
-		
-		User user1 = new User();
-		user1.setUserName("tom");
-		user1.setUserId(123);
-		userList.add(user1);
-		mm.addAttribute("userList", userList);
-		
+
 		return "userList";
 	}
-	
+
 	@RequestMapping(path = { "api/register" }, method = RequestMethod.POST)
-	public String register(@Valid User user, BindingResult bindingResult) {
+	public String register(@RequestBody @Valid User user, BindingResult bindingResult, HttpServletRequest request) {
 		
-		// @Valid @ModelAttribute("user")  , BindingResult bindingResult
-		System.out.println(bindingResult.getFieldError("userName"));
+		System.out.println(user.getUserName());
 		
 		System.out.println(bindingResult.getErrorCount());
-		System.out.println(user.getUserName());
+		System.out.println(request.getHeader("Content-Type"));
 		System.out.println("register");
+		
+		
 		return "success";
 	}
 
 }
-
-
 
 
 

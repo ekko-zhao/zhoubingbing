@@ -15,6 +15,7 @@ public class MyInterceptor implements HandlerInterceptor {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("username");
+		
 		if (username != null) {
 			return true;
 		} else {

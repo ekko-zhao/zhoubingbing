@@ -3,16 +3,16 @@ package com.smart.entity;
 import javax.validation.constraints.Pattern;
 
 public class User {
-	private int userId;
+	private String userId;
 	
-	@Pattern(regexp = ".{6,32}")
+	@Pattern(regexp = ".{6,32}",message="{Pattern.user.userName}")
 	private String userName;
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

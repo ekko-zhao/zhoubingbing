@@ -12,7 +12,7 @@
 <body>
 	<nav>this is a test</nav>
 	<button type="button" class="btn">button</button>
-	
+
 </body>
 <script>
 	$('.btn').on('click', function() {
@@ -20,11 +20,12 @@
 			type : 'POST',
 			url : '/test/api/register',
 			cache : false,
-			// headers:{"Content-Type":"application/json;charset=UTF-8"},
-			data : {
+			contentType: "application/json; charset=utf-8",
+			/* data : {
 				userId : 1114,
-				userName : 'abcd'
-			},
+				userName : 'zhoubing'
+			}, */
+			data : JSON.stringify({"userId":1114,"userName":"zhoub"}),
 			success : function(response) {
 				console.log(response);
 			}
