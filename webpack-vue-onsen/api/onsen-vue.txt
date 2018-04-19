@@ -78,12 +78,12 @@ Events 为指令的回调方法
 
 #v-ons-row
 	Props
-		vertical-align: “top”, “center”, and “bottom”
+		vertical-align: "top", "center", and "bottom"
 		
 #v-ons-col
 	Props
-		vertical-align: “top”, “center”, and “bottom”
-		width: (“10%”, “50px”)
+		vertical-align: "top", "center", and "bottom"
+		width: ("10%", "50px")
 	
 	
 	
