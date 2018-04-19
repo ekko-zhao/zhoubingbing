@@ -1,6 +1,4 @@
 
-
-
 npm install vue-vuex
 
 如果在一个模块化工程中使用它，必须要通过 Vue.use() 明确地安装路由功能：
@@ -17,7 +15,6 @@ const store = new Vuex.Store({
 	//严格模式会深度监测状态树来检测不合规的状态变更——请确保在发布环境下关闭严格模式，以避免性能损失。
 	strict: process.env.NODE_ENV !== 'production',
 	
-
 	state: {
 		count: 0
 	},
@@ -75,19 +72,21 @@ const Counter = {
 	*当一个组件需要获取多个状态时候，将这些状态都声明为计算属性会有些重复和冗余。
 	为了解决这个问题，我们可以使用 mapState 辅助函数帮助我们生成计算属性
 
-import { mapState } from 'vuex'
-
-
+	
+	<p>computed 中的 m-count 方法， 会监听 state.count 属性  {{count}}</p>
+	
+import { mapState } from 'vuex';
 export default {
 	// ...
 	computed: mapState({
 		// 箭头函数可使代码更简练
-		count: state => state.count,
+		m-count: state => state.count,
 		
-		// 传字符串参数 'count' 等同于 `state => state.count`
+		// 传字符串参数 'count' 等同于 'state => state.count'
 		countAlias: 'count',
-		
-		// 为了能够使用 `this` 获取局部状态，必须使用常规函数
+		/*
+		*/
+		// 为了能够使用 'this' 获取局部状态，必须使用常规函数
 		countPlusLocalState (state) {
 			return state.count + this.localCount
 		}
@@ -106,9 +105,6 @@ export default {
 	}
 	
 	*/
-	
-	
-	
 }
 
 当映射的计算属性的名称与 state 的子节点名称相同时，我们也可以给 mapState 传一个字符串数组。
@@ -117,9 +113,7 @@ computed: mapState([
 	'count'
 ])
 
-
-
-
+	
 //Getters-------------------------------------------------------
 
 	*Vuex 允许我们在 store 中定义『getters』（可以认为是 store 的计算属性）。
@@ -160,7 +154,7 @@ getters: {
 	}
 
 
-	//mapGetters 辅助函数
+	// mapGetters 辅助函数
 	*用法同mapState
 
 
@@ -319,66 +313,6 @@ actions: {
 	默认情况下，模块内部的 action、mutation 和 getter 是注册在全局命名空间的——这样使得多个模块能够对同一 mutation 或 action 作出响应。
 	如果希望你的模块更加自包含或提高可重用性，你可以通过添加 namespaced: true 的方式使其成为命名空间模块。
 	当模块被注册后，它的所有 getter、action 及 mutation 都会自动根据模块注册的路径调整命名。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

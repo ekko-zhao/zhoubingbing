@@ -58,13 +58,10 @@ this.$http.get(...).then(function(response){
 		text() //把response.body 转换成字符串
 		json() //把response.body 解析成对象
 		blob()	//把response.body 解析成blob对象, 用于 图片 音频 二进制文件
-		
-		
 	*/
-},
-function(error){
-
-})
+	},
+	function(error){ }
+)
 
 
 

@@ -1,9 +1,6 @@
 
 
-
 在组件中通过 this.$router  来获得 router 实例
-
-
 
 npm install vue-router
 
