@@ -32,7 +32,7 @@ Events 为指令的回调方法
 			event.callParentHandler	
 	
 #v-ons-toolbar
-	页面顶部栏
+	页面工具栏
 	<v-ons-toolbar>
       <div class="center">{{ title }}</div>
       <div class="right">
@@ -49,16 +49,9 @@ Events 为指令的回调方法
 			transparent
 			noshadow
 			cover-content	// Displays the toolbar on top of the page’s content. 和 transparent 一起使用
-	
-#v-ons-bottom-toolbar
-	页面底部栏
-	Props
-		modifier ：String
-			transparent
-			aligned
-	
+			
 #v-ons-toolbar-button
-	用于 顶部栏 底部栏
+	工具栏按钮
 	<v-ons-toolbar-button>
 	  <v-ons-icon icon="ion-navicon, material: md-menu"></v-ons-icon>
 	</v-ons-toolbar-button>
@@ -69,7 +62,14 @@ Events 为指令的回调方法
 				outline
 				
 				
-				
+#v-ons-bottom-toolbar
+	页面底部工具栏
+	Props
+		modifier ：String
+			transparent
+			aligned
+	
+
 // 分栏 ---------------------------------------------------------------------------------------------------
 	<v-ons-row>
 	  <v-ons-col width="50px"><v-ons-icon icon="fa-twitter"></v-ons-icon></v-ons-col>
@@ -78,15 +78,12 @@ Events 为指令的回调方法
 
 #v-ons-row
 	Props
-		vertical-align: "top", "center", and "bottom"
+		vertical-align: "top" | "center" | "bottom"
 		
 #v-ons-col
 	Props
-		vertical-align: "top", "center", and "bottom"
+		vertical-align:  "top" | "center" | "bottom"
 		width: ("10%", "50px")
-	
-	
-	
 	
 // 列表 -----------------------------------------------------------------------------------------------------------
 	<v-ons-list-title>title</v-ons-list-title>
@@ -96,7 +93,6 @@ Events 为指令的回调方法
 		<div class="center">Center</div>
 		<div class="right">Right</div>
 	</v-ons-list-item>
-	
 	
 #v-ons-list-title
 	Props  
@@ -346,7 +342,7 @@ Events 为指令的回调方法
 	
 	
 	
-// 导航---------------------------------------------------------------------------------------------------------------------
+// 视图导航 ---------------------------------------------------------------------------------------------------------------------
 #v-ons-navigator
 	.Props
 		animation: String

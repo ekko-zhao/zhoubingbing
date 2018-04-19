@@ -110,6 +110,7 @@ module.exports = {
 </script>
 
 
+Vue.component('my-component', render)
 //父组件
 <my-component :message="message"><p>123</p></my-component>
 
