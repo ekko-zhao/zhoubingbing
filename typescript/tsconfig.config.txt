@@ -37,7 +37,13 @@ tsconfig.json 配置如下：
 		
 		
 	compilerOptions:{
-	
+		
+		/*
+			2.7+新增
+			strictPropertyInitialization: false			取消对静态属性初始化类型检查
+		*/
+		
+		
 		编译选项
 		[1] 这些选项是试验性的。
 		[2] 这些选项只能在tsconfig.json里使用，不能在命令行使用。
