@@ -113,7 +113,7 @@ module.exports = {
                 options: {
                     appendTsSuffixTo: [/\.vue$/],
                 }
-            },
+            }
         ]
     },
     resolve: {

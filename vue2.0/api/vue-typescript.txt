@@ -1,0 +1,321 @@
+
+vue-loader
+vue-template-compiler
+
+// tsconfig.json
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "sourceMap": false,
+        "strict": true,
+        "noImplicitReturns": true,
+        "module": "es2015",
+        "moduleResolution": "node",
+        "removeComments": true,
+        "target": "es5",
+
+        "noImplicitAny": false,
+        // 启用 vue-class-component 及 vuex-class 需要开启此选项
+        "experimentalDecorators": true,
+		"strictPropertyInitialization": false,
+        
+		// 启用 vuex-class 需要开启此选项
+        "strictFunctionTypes": false
+    },
+    "include": [
+        "./src/**/*"
+    ]
+}
+
+
+
+// webpack.config.js
+module.exports = {
+	entry: {
+		
+		index.ts
+		index: './src/index',
+	},
+	module: {
+		{
+			test: /\.vue$/,
+			use: 'vue-loader'
+		},
+		{
+			test: /\.tsx?$/,
+			loader: 'ts-loader',
+			exclude: /node_modules/,
+			options: {
+				appendTsSuffixTo: [/\.vue$/],
+			}
+		}
+	},
+	resolve: {
+        alias: {
+            'src': path.resolve(__dirname, './src'),
+            'components': path.resolve(__dirname, './src/app/components'),
+            'service': path.resolve(__dirname, './src/app/service'),
+            'vue$': 'vue/dist/vue.esm.js',
+            //'vue': 'vue/dist/vue.js',
+            //'vueResource': 'vue-resource/dist/vue-resource.min.js'
+        },
+        //extensions: [".tsx", ".ts", ".js"]
+        extensions: ['.ts', '.js', '.vue', '.json']
+    }
+}
+
+
+# component 以.vue后缀时， 
+	新增 src/vue-shims.d.ts 文件，不需要对文件进行其他操作
+	declare module "*.vue" {
+		import Vue from "vue";
+		export default Vue;
+	}
+	
+	src/index.ts
+		import Vue from "vue";
+		import HelloComponent from "./components/Hello.vue";
+		
+	. src/components/Hello.vue
+		<template>
+			...
+		</template>
+		// script部分添加属性lang="ts"
+		<script lang="ts">
+			// 和普通的 vue 写法一致
+		</script>
+		
+		<style>
+			...
+		</style>
+	
+	
+# 	component 以.ts 后缀时
+	.src/index.ts -------------------------------
+		import Vue from "vue";
+		import HelloComponent from "./components/Hello";
+
+		let v = new Vue({
+			
+		});
+	
+	.src/components/Hello.ts -------------------------------
+		import Vue from "vue";
+		export default Vue.extend({
+			template: `
+				<div>
+					<div>Hello {{name}}{{exclamationMarks}}</div>
+					<button @click="decrement">-</button>
+					<button @click="increment">+</button>
+				</div>
+			`,
+			props: ['name', 'initialEnthusiasm'],
+			data() {
+				return {
+					enthusiasm: this.initialEnthusiasm,
+				}
+			},
+			methods: {
+				increment() { this.enthusiasm++; },
+				decrement() {
+					if (this.enthusiasm > 1) {
+						this.enthusiasm--;
+					}
+				},
+			},
+			computed: {
+				exclamationMarks(): string {
+					return Array(this.enthusiasm + 1).join('!');
+				}
+			}
+		});
+
+
+# vue-property-decorator
+	npm install --save-dev vue-class-component vue-property-decorator
+
+	import { Vue, Component, Prop } from "vue-property-decorator";
+
+	@Component
+	export default class HelloDecorator extends Vue {
+		@Prop() name!: string;
+		@Prop() initialEnthusiasm!: number;
+
+		enthusiasm = this.initialEnthusiasm;
+
+		increment() {
+			this.enthusiasm++;
+		}
+		decrement() {
+			if (this.enthusiasm > 1) {
+				this.enthusiasm--;
+			}
+		}
+
+		get exclamationMarks(): string {
+			return Array(this.enthusiasm + 1).join('!');
+		}
+	}
+	
+	. api
+	@Emit
+	@Inject
+	@Model
+	@Provide
+	@Watch
+	@Component
+	@Prop
+	
+@Prop
+	@Prop()
+	propA: number
+	
+	@Prop({ default: 'default value' })
+	propB: string
+	
+	@Prop([String, Boolean])
+	propC: string | boolean
+	
+	
+	/*
+		props: {
+			checked: Boolean,
+			propA: Number,
+			propB: {
+			  type: String,
+			  default: 'default value'
+			},
+			propC: [String, Boolean],
+		}
+	*/
+	
+	
+@Watch
+	@Watch('child')
+	onChildChanged(val: string, oldVal: string) { }
+	
+
+	@Watch('person', { immediate: true, deep: true })
+	onPersonChanged(val: Person, oldVal: Person) { }
+	
+	/*
+		watch: {
+			'child': {
+			  handler: 'onChildChanged',
+			  immediate: false,
+			  deep: false
+			},
+			'person': {
+			  handler: 'onPersonChanged',
+			  immediate: true,
+			  deep: true
+			}
+		}
+	*/
+	
+	
+	
+@Emit()
+	@Emit()
+	addToCount(n: number){ this.count += n }
+		/*
+		 methods: {
+			addToCount(n){
+			  this.count += n
+			  this.$emit("add-to-count", n)
+			}
+		 }
+		*/
+	
+	@Emit('reset')
+	resetCount(){ this.count = 0 }
+		/*
+			resetCount(){
+				this.count = 0
+				this.$emit("reset")
+			}
+		*/
+	
+	
+	
+
+# vue-class-component
+	组件类需要 extends vue
+	
+	
+	<template>
+		...
+	</template>
+	<script>
+		import Vue from 'vue'
+		import Component from 'vue-class-component'
+		
+		@Component({
+		  props: {
+			propMessage: String
+		  }
+		})
+		export default class App extends Vue {
+			// initial data
+			msg = 123
+			helloMsg = 'Hello, ' + this.propMessage
+			
+			/*
+				data () {
+					return {
+					  // Will be reactive
+					  baz: undefined
+					}
+				}
+			*/
+			
+			
+			// lifecycle hook
+			  mounted () {
+				this.greet()
+			  }
+			  
+			// method
+			greet () {
+				alert('greeting: ' + this.msg)
+			}
+		}
+	</script>
+	
+. Using Mixins
+	
+	// mixin.js
+	import Vue from 'vue'
+	import Component from 'vue-class-component'
+	
+	// You can declare a mixin as the same style as components.
+	@Component
+	export class MyMixin extends Vue {
+	  mixinValue = 'Hello'
+	}
+	
+	.using 
+	@Component
+	export class MyComp extends mixins(MyMixin) {
+	  created () {
+		console.log(this.mixinValue) // -> Hello
+	  }
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+

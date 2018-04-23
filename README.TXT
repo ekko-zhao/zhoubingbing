@@ -45,7 +45,7 @@ git commit -m "" --author=""
 	git log
 
 # 恢复提交版本
-	git reset --head id
+	git reset --hard id
 
 # 添加环境变量
 	set PATH=%PATH%;C:\Program Files\Git\bin
@@ -53,7 +53,6 @@ git commit -m "" --author=""
 
 # Mac
 	$ssh-keygen -t rsa -C zhoubbmls@sina.com
-
 
 
 

@@ -284,6 +284,11 @@ new HtmlWebpackPlugin({
             _: "lodash"
         }
 	}
+	
+	在vue 中使用 新增src/vue-shim.d.ts
+		declare global {
+		  const _: typeof lodash
+		}
 
 
 // extract-text-webpack-plugin -----------------------------------------------------
