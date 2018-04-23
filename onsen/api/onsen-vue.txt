@@ -412,7 +412,7 @@ onsenui 图标库网址 预览：
 	  </v-ons-page>
 	</template>
 	<script>
-		export defaut {
+		export default {
 			methods:{
 				push(){
 					this.$emit('push-page', page1);
