@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "sourceMap": false,
+        "strict": true,
+        "noImplicitReturns": true,
+        "module": "es2015",
+        "moduleResolution": "node",
+        "removeComments": true,
+        "target": "ES2015",
+        "noImplicitAny": false,
+        "allowJs": true,
+        // 启用 vue-class-component 及 vuex-class 需要开启此选项
+        "experimentalDecorators": true,
+        "strictPropertyInitialization": false,
+        // 启用 vuex-class 需要开启此选项
+        "strictFunctionTypes": false,
+        "baseUrl": "./",
+        "paths": {
+            "vue-resource": [
+                "node_modules/vue-resource/dist/vue-resource.esm.js"
+            ]
+        },
+    },
+    "include": [
+        "./src/**/*"
+    ]
+}
