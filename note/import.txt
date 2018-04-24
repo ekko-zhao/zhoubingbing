@@ -16,7 +16,7 @@ o => {
     b
 }
 
-// 这里不用 { }
+// defualt
 export defualt  {
     name:'is b'
 }

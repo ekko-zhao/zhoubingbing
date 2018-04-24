@@ -33,7 +33,7 @@ node 更新到了 5.9 版本，执行 npm install 提示 Skipping failed optiona
 
 commonjs规范
 在编译过程中，Node对获取的JavaScript文件 进行头尾包装。{\n js文本 \n};
-(functin(require, exports, nmodule, __filename, __firname){
+(functin(require, exports, module, __filename, __firname){
 	exports.add = { }
 })
 
