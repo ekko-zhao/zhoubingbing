@@ -1,7 +1,19 @@
+
+
+git 地址
+	http://10.7.3.2/gitlab/groups/bu_industry_cooperation
+	zhoubingbing@lakala.com
+	Bing1014!
+
+民生银行二类户的git: http://10.7.3.2/gitlab/bu_industry_cooperation/cmbc_second_account.git 
+	
+	
+
 mvn clean install -Dmaven.test.skip=true
 mvn eclipse:clean
 mvn eclipse:eclipse
 mvn tomcot7:run
+
 
 http://10.7.111.52/svn/cloudpos/clouddoor/trunk
 
