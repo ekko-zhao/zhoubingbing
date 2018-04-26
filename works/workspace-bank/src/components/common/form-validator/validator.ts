@@ -8,8 +8,7 @@ const infoname = {
     max: 'maxlength',
     minchar: 'mincharlength',
     maxchar: 'maxcharlength',
-    pattern: 'pattern',
-    restForm: 'restForm'
+    pattern: 'pattern'
 }
 var chkstrlen = function (str) {
     var strlen = 0;
@@ -38,7 +37,6 @@ var contract = function ($scope, array) {
     }
     return form;
 }
-
 export class Validator {
     constructor(context) {
         if (!context.$attrs.name) throw "form no name property";
@@ -58,8 +56,9 @@ export class Validator {
         this.children = context.$el.children;
 
         // 绑定上下文
-        // this.inputAddEvent = this.inputAddEvent.bind(this);
-        this.restForm = this.restForm.bind(this);
+        this.resetForm = this.resetForm.bind(this);
+
+        // 初始化表单校验
         this.initialize();
     }
     private formname: string;
@@ -96,10 +95,11 @@ export class Validator {
         }
         // 数组去重
         let set = new Set(this.formNames);
-        this.formNames = [...set];
+        this.formNames = Array['from'](set);
 
         let models = new Set(this.vmodels);
-        this.vmodels = [...models];
+        this.vmodels = Array['from'](models);
+
     }
 
     // 表单和表单元素的状态
@@ -112,24 +112,22 @@ export class Validator {
         let pattern = eval(input.getAttribute('pattern'));
 
         // checkbox radio
-        let special = input.type === 'checkbox' || input.type === 'radio';
-        let value = special ? input.checked : input.value;
-        //let valueempty = (value === '' || value.trim() === '');
-        let valueempty = special ? (value === false) : (value === '');
-        let name = input.name;
+        let specialInput = input.type === 'checkbox' || input.type === 'radio';
+        let value = specialInput ? input.checked : input.value;
 
-        console.log(input.checked)
-        console.log(input.value)
+        // 是否为空值
+        let nullValue = specialInput ? (value === false) : (value === '');
 
         // 用于 this.$set
+        let name = input.name;
         if (!this.$parent[this.formname][name]) this.$parent[this.formname][name] = {};
         let objinput = this.$parent[this.formname][name];
 
         // 表单的状态， true 合法, false 非法
         let flag = true;
 
-        // 是否为空
-        if (required && valueempty) {
+        // required
+        if (required && nullValue) {
             flag = false;
             this.$parent.$set(objinput, infoname.required, true);
         } else if (required) {
@@ -137,7 +135,7 @@ export class Validator {
         }
 
         // 设置表单元素 class 属性, pristine dirty 状态
-        if (!valueempty) {
+        if (!nullValue) {
             this.$parent.$set(objinput, infoname.pristine, false);
             this.$parent.$set(objinput, infoname.dirty, true);
             input.classList.add(infoname.dirty);
@@ -147,30 +145,31 @@ export class Validator {
         // 最小长度
         if (minlength && value.length < minlength) {
             // 值不为空时赋值
-            if (!valueempty) flag = false;
+            if (!nullValue) flag = false;
             this.$parent.$set(objinput, infoname.min, true);
         } else if (minlength) {
             this.$parent.$set(objinput, infoname.min, false);
         }
+
         // 最大长度
         if (maxlength && value.length > maxlength) {
-            if (!valueempty) flag = false;
+            if (!nullValue) flag = false;
             this.$parent.$set(objinput, infoname.max, true);
         } else if (maxlength) {
             this.$parent.$set(objinput, infoname.max, false);
         }
+
         // 按字符最小长度
         if (mincharlength && chkstrlen(value) < mincharlength) {
-            // 值不为空时 赋值
-            if (!valueempty) flag = false;
+            if (!nullValue) flag = false;
             this.$parent.$set(objinput, infoname.minchar, true);
         } else if (mincharlength) {
             this.$parent.$set(objinput, infoname.minchar, false);
         }
+
         // 按字符最大长度
         if (maxcharlength && chkstrlen(value) > maxcharlength) {
-            // 值不为空时 赋值
-            if (!valueempty) flag = false;
+            if (!nullValue) flag = false;
             this.$parent.$set(objinput, infoname.maxchar, true);
         } else if (maxcharlength) {
             this.$parent.$set(objinput, infoname.maxchar, false);
@@ -178,23 +177,18 @@ export class Validator {
 
         // 正则
         if (pattern && !pattern.test(value)) {
-            if (!valueempty) flag = false;
+            if (!nullValue) flag = false;
             this.$parent.$set(objinput, infoname.pattern, true);
         } else if (pattern) {
             this.$parent.$set(objinput, infoname.pattern, false);
         }
 
-        // 表单状态
-        if (flag) {
-            input.classList.remove(infoname.invalid);
-            input.classList.add(infoname.valid);
+        // 表单元素 classList
+        input.classList.remove(flag ? infoname.invalid : infoname.valid);
+        input.classList.add(flag ? infoname.valid : infoname.invalid);
 
 
-        } else {
-            input.classList.remove(infoname.valid);
-            input.classList.add(infoname.invalid);
-        }
-        // 表单元素状态
+        // 表单元素校验状态
         this.$parent.$set(objinput, infoname.valid, flag);
         this.$parent.$set(objinput, infoname.invalid, !flag);
         return flag;
@@ -212,20 +206,19 @@ export class Validator {
         let flag = true;
         for (let input of this.formInputs) {
             // checkbox radio
-            let special = input.type === 'checkbox' || input.type === 'radio';
-            if (special) {
-                input.checked = true;
-
+            let specialInput = input.type === 'checkbox' || input.type === 'radio';
+            if (specialInput) {
+                input.checked = false;
             } else {
                 input.value = '';
             }
 
-            /* input.classList.remove(infoname.dirty);
+            input.classList.remove(infoname.dirty);
             input.classList.add(infoname.pristine);
 
             // 表单元素状态
             let f = this.inputvalidator(input);
-            if (!f) flag = f; */
+            if (!f) flag = f;
         }
         // 表单状态
         this.$parent.$set(this.$parent[this.formname], infoname.valid, flag);
@@ -234,12 +227,11 @@ export class Validator {
 
     // 状态更新监听 model 变化
     private statusWatch() {
-        /* for (let model of this.vmodels) {
+        for (let model of this.vmodels) {
             this.$parent.$watch(model, (nv, ov) => {
                 let flag = true;
                 for (let input of this.formInputs) {
                     if (model === input.getAttribute('data-model')) {
-
                         flag = this.inputvalidator(input);
                         break;
                     }
@@ -260,7 +252,7 @@ export class Validator {
                     this.$parent.$set(this.$parent[this.formname], infoname.invalid, !flag);
                 }
             })
-        } */
+        }
     }
 
     private initialize() {
@@ -270,16 +262,22 @@ export class Validator {
     }
 
     // 重置表单
-    public restForm() {
-        this.inputInit(true);
+    public resetForm() {
+        this.inputInit();
         for (let vmodel of this.vmodels) {
             let v = vmodel.split('.');
             let obj = contract(this.$parent, v);
-
             let value = obj[v[v.length - 1]];
-
-           、、 let t = value instanceof Array ? [] : typeof value === 'boolean';
-            this.$parent.$set(obj, v[v.length - 1], t ? [] : '');
+            if (value instanceof Array) {
+                // 初始值是 Array 型
+                this.$parent.$set(obj, v[v.length - 1], [])
+            } else if (typeof value === 'boolean') {
+                // 初始值是 boolean 型
+                this.$parent.$set(obj, v[v.length - 1], false);
+            } else {
+                // 其它类型
+                this.$parent.$set(obj, v[v.length - 1], '');
+            }
         }
     }
 }

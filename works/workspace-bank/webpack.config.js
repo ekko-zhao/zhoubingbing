@@ -13,6 +13,7 @@ var ExtractTextPlugin = new ETP({
 module.exports = {
     entry: {
         appcss: './src/appcss',
+        // polyfills: './src/polyfills',
         index: './src/index',
         login: './src/login'
     },

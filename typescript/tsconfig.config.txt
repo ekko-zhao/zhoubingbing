@@ -178,32 +178,39 @@ tsconfig.json 配置如下：
 			--lib	
 				// 编译过程中需要引入的库文件的列表。 可能的值为：
 				// 所有都是小写
-				► ES5
-				► ES6
-				► ES2015
-				► ES7
-				► ES2016
-				► ES2017
-				► DOM
-				► DOM.Iterable
-				► WebWorker
-				► ScriptHost
-				► ES2015.Core
-				► ES2015.Collection
-				► ES2015.Generator
-				► ES2015.Iterable
-				► ES2015.Promise
-				► ES2015.Proxy
-				► ES2015.Reflect
-				► ES2015.Symbol
-				► ES2015.Symbol.WellKnown
-				► ES2016.Array.Include
-				► ES2017.object
-				► ES2017.SharedMemory
+				► es5
+				► es6
+				► es2015
+				► es7
+				► es2016
+				► es2017
+				► es2018
+				► dom
+				► dom.iterable
+				► webworker
+				► scripthost
+				► es2015.core
+				► es2015.collection
+				► es2015.generator
+				► es2015.iterable
+				► es2015.promise
+				► es2015.proxy
+				► es2015.reflect
+				► es2015.symbol
+				► es2015.symbol.wellknown
+				► es2016.array.include
+				► es2017.object
+				► es2017.sharedmemory
+				► es2017.string
+				► es2017.typedarrays
+				► es2018.promise
+				► es2018.regexp
+				► esnext.array
+				► esnext.asynciterable
 
 				注意：如果--lib没有指定一个默认注入的库。默认注入的库为：
-				► 针对于--target ES5：DOM，ES5，ScriptHost
-				► 针对于--target ES6：DOM，ES6，DOM.Iterable，ScriptHost
+				► 针对于--target es5：dom，es5，scripthost
+				► 针对于--target es6：dom，es6，dom.iterable，scripthost
 
 
 		--listEmittedFiles	boolean	false	打印出编译后生成文件的名字。

@@ -7,7 +7,7 @@
         "module": "es2015",
         "moduleResolution": "node",
         "removeComments": true,
-        "target": "ES2015",
+        "target": "es5",
         "noImplicitAny": false,
         "allowJs": true,
         // 启用 vue-class-component 及 vuex-class 需要开启此选项
@@ -21,6 +21,11 @@
                 "node_modules/vue-resource/dist/vue-resource.esm.js"
             ]
         },
+        "lib": [
+            "es6",
+            "dom",
+            "scripthost"
+        ]
     },
     "include": [
         "./src/**/*"
