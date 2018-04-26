@@ -13,9 +13,7 @@
             </v-ons-list>
         </from-validator>
         <div class="padder">
-            <v-ons-button modifier="large" @click="submit" :disabled="editForm.invalid">登陆
-                <i>loading</i>
-            </v-ons-button>
+            <v-ons-button class="btn-info" modifier="large--cta">登陆<button-loading/></v-ons-button>
         </div>
     </v-ons-page>
 </template>

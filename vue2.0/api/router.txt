@@ -358,8 +358,6 @@ JavaScript:
 	*有时候，同一个路径可以匹配多个路由，此时，匹配的优先级就按照路由的定义顺序：谁先定义的，谁的优先级就最高。
 
 
-
-
 //路由嵌套--------------------------------------------
 
 <div id="app">
@@ -642,8 +640,6 @@ const Bar = r => require.ensure([], () => r(require('./Bar.vue')), 'group-bar')
 
 
 //滚动行为---------------------------------------------
-
-
 const router = new VueRouter({
 	routes: routes,
 	scrollBehavior(to, from, savedPosition) {
@@ -674,7 +670,6 @@ const router = new VueRouter({
 
 //API文档----------------------------------------------
 
-
 //路由信息对象
 
 router.beforeEach((to, from, next) => { })
@@ -702,8 +697,6 @@ router.scrollBehavior((to, from, savedPosition) => { })
 	
 .$route.name
 	当前路由的名称，如果有的话。
-	
-	
 	
 	
 	

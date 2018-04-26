@@ -20,10 +20,11 @@
     },
     "dependencies": {
         "core-js": "^2.5.1",
-        "onsenui": "^2.8.2",
+        "onsenui": "^2.9.2",
         "vue": "^2.5.9",
         "vue-onsenui": "^2.5.1",
         "vue-resource": "^1.5.0",
+        "vue-router": "^3.0.1",
         "vuex": "^3.0.1"
     },
     "devDependencies": {

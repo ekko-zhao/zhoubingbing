@@ -389,7 +389,11 @@ onsenui 图标库网址 预览：
 	new Vue({
 		el: '#app',
 		template: `
-			<v-ons-navigator swipeable :page-stack="pageStack" @push-page="pageStack.push($event)" @pop-page="pageStack.pop()">
+			<v-ons-navigator 
+				swipeable
+				:page-stack="pageStack" 
+				@push-page="pageStack.push($event)"
+				@pop-page="pageStack.pop()">
 			</v-ons-navigator>
 		`,
 		data() {
@@ -636,6 +640,32 @@ onsenui 图标库网址 预览：
 			news: newsPage
 		}
 	});
+  
+  
+. 如 vue router  使用
+	router: new VueRouter(routes),
+	template: `
+        <div>
+            <v-ons-navigator swipeable
+                :page-stack="pageStack"
+                @pop-page="goBack"
+            ></v-ons-navigator>
+        </div>
+    `,
+	methods: {
+        goBack() {
+			this.$router.push({ name: this.$route.matched[this.$route.matched.length - 2].name });
+        }
+    },
+	created() {
+		const mapRouteStack = route => this.pageStack = route.matched.map(m => m.components.default);
+        mapRouteStack(this.$route);
+        // this.$router.beforeEach((to, from, next) => mapRouteStack(to) && next());
+	}
+	
+	// 对router 进行操作即可进行页面跳转
+	
+	
 	
 #v-ons-splitter
 	Events
@@ -1254,11 +1284,11 @@ onsenui 图标库网址 预览：
 
 
 
-// $on 属性 ----------------------------------------------------------------------------------------------------------------------------
+// $ons 属性 ----------------------------------------------------------------------------------------------------------------------------
 	isReady()				// 返回 Onsen UI 是否被初始化
 	ready(callback)	
 	isWebView()				// 需在	ready 方法的回调函数中使用
-	setDefaultDeviceBackButtonListener(listener)		// Set default handler for device back button.
+	setDefaultDeviceBackButtonListener(listener)		// 为设备后退按钮设置默认处理程序
 	
 	disableDeviceBackButtonHandler()					// 禁用设备后退按钮事件处理程序		Must be called on $ons.ready.
 	enableDeviceBackButtonHandler()						
@@ -1334,7 +1364,8 @@ $ons.platform
 	isEdge()
 	
 	
-	
+	[en]Possible values are: "opera", "firefox", "safari", "chrome", "ie", "android", "blackberry", "ios" or "wp".[/en]
+	[ja]"opera", "firefox", "safari", "chrome", "ie", "android", "blackberry", "ios", "wp"のいずれかを指定します。[/ja]
 	
 	
 	
