@@ -104,31 +104,29 @@ export class Validator {
 
     // 表单和表单元素的状态
     private inputvalidator(input) {
-        var required = input.getAttribute('required');
-        var minlength = parseInt(input.getAttribute('min-length'));
-        var maxlength = parseInt(input.getAttribute('max-length'));
-        var mincharlength = parseInt(input.getAttribute('min-charlength'));
-        var maxcharlength = parseInt(input.getAttribute('max-charlength'));
-        var pattern = eval(input.getAttribute('pattern'));
+        let required = input.getAttribute('required');
+        let minlength = parseInt(input.getAttribute('min-length'));
+        let maxlength = parseInt(input.getAttribute('max-length'));
+        let mincharlength = parseInt(input.getAttribute('min-charlength'));
+        let maxcharlength = parseInt(input.getAttribute('max-charlength'));
+        let pattern = eval(input.getAttribute('pattern'));
 
-        // 支持复选框
-        var checkbox = input.type === 'checkbox' || input.type === 'radio';
-        var value = checkbox ? input.checked : input.value;
-        //var valueempty = (value === '' || value.trim() === '');
-        var valueempty = checkbox ? (value === false) : (value === '');
-        var name = input.name;
+        // checkbox radio
+        let special = input.type === 'checkbox' || input.type === 'radio';
+        let value = special ? input.checked : input.value;
+        //let valueempty = (value === '' || value.trim() === '');
+        let valueempty = special ? (value === false) : (value === '');
+        let name = input.name;
 
-
-        console.log(valueempty);
-        console.log(111);
-
+        console.log(input.checked)
+        console.log(input.value)
 
         // 用于 this.$set
         if (!this.$parent[this.formname][name]) this.$parent[this.formname][name] = {};
-        var objinput = this.$parent[this.formname][name];
+        let objinput = this.$parent[this.formname][name];
 
         // 表单的状态， true 合法, false 非法
-        var flag = true;
+        let flag = true;
 
         // 是否为空
         if (required && valueempty) {
@@ -190,6 +188,8 @@ export class Validator {
         if (flag) {
             input.classList.remove(infoname.invalid);
             input.classList.add(infoname.valid);
+
+
         } else {
             input.classList.remove(infoname.valid);
             input.classList.add(infoname.invalid);
@@ -204,38 +204,41 @@ export class Validator {
     private inputInit(reset?: boolean) {
         // 设置表单元素 pristine dirty 状态
         for (let name of this.formNames) {
-            var objinput = this.$parent[this.formname][name];
+            let objinput = this.$parent[this.formname][name];
             this.$parent.$set(objinput, infoname.pristine, true);
             this.$parent.$set(objinput, infoname.dirty, false);
         }
 
-        var flag = true;
+        let flag = true;
         for (let input of this.formInputs) {
-            input.value = '';
-            input.classList.remove(infoname.dirty);
+            // checkbox radio
+            let special = input.type === 'checkbox' || input.type === 'radio';
+            if (special) {
+                input.checked = true;
+
+            } else {
+                input.value = '';
+            }
+
+            /* input.classList.remove(infoname.dirty);
             input.classList.add(infoname.pristine);
 
             // 表单元素状态
-            var f = this.inputvalidator(input);
-            if (!f) flag = f;
+            let f = this.inputvalidator(input);
+            if (!f) flag = f; */
         }
         // 表单状态
         this.$parent.$set(this.$parent[this.formname], infoname.valid, flag);
         this.$parent.$set(this.$parent[this.formname], infoname.invalid, !flag);
     }
 
-
     // 状态更新监听 model 变化
     private statusWatch() {
-        for (let model of this.vmodels) {
+        /* for (let model of this.vmodels) {
             this.$parent.$watch(model, (nv, ov) => {
                 let flag = true;
                 for (let input of this.formInputs) {
                     if (model === input.getAttribute('data-model')) {
-
-
-                        console.log(22)
-                        console.log(input.checked);
 
                         flag = this.inputvalidator(input);
                         break;
@@ -257,15 +260,13 @@ export class Validator {
                     this.$parent.$set(this.$parent[this.formname], infoname.invalid, !flag);
                 }
             })
-        }
+        } */
     }
 
     private initialize() {
         this.childloop(this.children);
         this.inputInit();
         this.statusWatch();
-
-        console.log(this.formInputs)
     }
 
     // 重置表单
@@ -273,8 +274,11 @@ export class Validator {
         this.inputInit(true);
         for (let vmodel of this.vmodels) {
             let v = vmodel.split('.');
-            var obj = contract(this.$parent, v);
-            let t = obj[v[v.length - 1]] instanceof Array;
+            let obj = contract(this.$parent, v);
+
+            let value = obj[v[v.length - 1]];
+
+           、、 let t = value instanceof Array ? [] : typeof value === 'boolean';
             this.$parent.$set(obj, v[v.length - 1], t ? [] : '');
         }
     }
