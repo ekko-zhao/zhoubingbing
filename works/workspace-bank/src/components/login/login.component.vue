@@ -13,7 +13,9 @@
             </v-ons-list>
         </from-validator>
         <div class="padder">
-            <v-ons-button class="btn-info" modifier="large--cta">登陆<button-loading/></v-ons-button>
+            <v-ons-button class="btn-info" modifier="large--cta" @click="submit">登 陆
+                <button-loading :visiable="loadingStatus" />
+            </v-ons-button>
         </div>
     </v-ons-page>
 </template>
@@ -22,13 +24,16 @@ import Vue from "vue";
 import Component from "vue-class-component";
 @Component
 export default class LoginComponent extends Vue {
+    loadingStatus = false;
     item = {};
     password: string = "";
     editForm = {
         name: {},
         password: {}
     };
-    submit() {}
+    submit() {
+        this.loadingStatus = !this.loadingStatus;
+    }
     reset() {
         // this.$refs.form["validator"]["resetForm"]();
     }
