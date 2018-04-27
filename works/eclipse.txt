@@ -47,14 +47,12 @@ open.lakala.com
 	
 外包商服务网站
 	CPS是一个综合服务与代理商的平台，代理商只需通过此平台即可查询商户在拉卡拉产生的所有信息，主要包括进件，交易，D0 报表等主要功能。
-	http://10.7.111.52/svn/ocsp2/branches/ocsp-20171011
+	http://10.7.111.52/svn/ocsp2/branches/ocsp-20180426/ocsp
 	zhangfeifei
 	Zhangfeifei@123
 
 	zhoubingbing Zhoubb123!
-	
 	wanghuhuwang Wanghu812826!
-	
 	
 	110113014195253 北京中金鼎商贸有限公司 谢珍珠
 	6222020200114580364 褚国国 420923197908204913
