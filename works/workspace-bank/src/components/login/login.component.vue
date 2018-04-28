@@ -32,7 +32,18 @@ export default class LoginComponent extends Vue {
         password: {}
     };
     submit() {
-        this.loadingStatus = !this.loadingStatus;
+        this["$http"]
+            .post("/api/register", { userId: 1114, userName: "zhoub" })
+            .then(
+                response => {
+                    console.log("success");
+                    console.log(response);
+                    console.log(response.body);
+                    console.log(this.item);
+                },
+                error => {}
+            );
+        //this.loadingStatus = !this.loadingStatus;
     }
     reset() {
         // this.$refs.form["validator"]["resetForm"]();

@@ -1,6 +1,11 @@
 
+控制器地址的映射匹配：
+	<servlet-mapping>
+		<servlet-name>springmvc</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
 
-前端页面以静态资源 html 显示， spring视图解析器后缀配置为 ".html"
+前端页面以静态资源 html 显示，spring视图解析器后缀配置为 ".html"
 
 服务端返回数据规范：
 	{

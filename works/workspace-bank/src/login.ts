@@ -1,9 +1,9 @@
 import Vue from "vue";
-import vueResource from 'vue-resource';
+
 import VueRouter from 'vue-router'
 import VueOnsen from 'vue-onsenui';
+import './service/http.interceptors.service';
 
-Vue.use(vueResource);
 Vue.use(VueRouter);
 Vue.use(VueOnsen);
 

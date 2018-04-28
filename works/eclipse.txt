@@ -8,7 +8,6 @@ git 地址
 民生银行二类户的git: http://10.7.3.2/gitlab/bu_industry_cooperation/cmbc_second_account.git 
 	
 	
-
 mvn clean install -Dmaven.test.skip=true
 mvn eclipse:clean
 mvn eclipse:eclipse
@@ -43,6 +42,10 @@ open.lakala.com
 	
 	发票管家注册页面
 	http://127.0.0.1:8111/invoice/merchantReg
+	
+	扫码开票
+	http://127.0.0.1:8111/invoice/addHeader?weixinId=oF5THwUy5R2TMm5frfExmP-ihLKU&merchantId=92200000001455199014552
+	
 	
 	
 外包商服务网站

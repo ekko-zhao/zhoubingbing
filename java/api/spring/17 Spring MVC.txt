@@ -59,7 +59,7 @@
 		
 		/*
 		<!-- 布尔类型的属性。 决定是否将 WebApplicationContext 发布到 ServletContext 中，
-			如果容器中没有任何时间监听器，可以设置为false，一边提高运行性能
+			如果容器中没有任何时间监听器，可以设置为false，以便提高运行性能
 			默认为true
 			-->
 		<init-param>
@@ -86,6 +86,10 @@
 	<servlet-mapping>
 		<servlet-name>springmvc</servlet-name>
 		<url-pattern>/</url-pattern>
+		/*
+			这里不建议配置后缀名 例如.htm .shtml
+			当有后缀名时，js 请求服务端的地址为 servletUrl.htm
+		*/
 	</servlet-mapping>
 	
 . 静态资源过滤

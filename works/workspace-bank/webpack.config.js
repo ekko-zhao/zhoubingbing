@@ -68,7 +68,7 @@ module.exports = {
         overlay: true,
         proxy: {
             "/api": {
-                target: "http://localhost:8089/",
+                target: "http://localhost:8888/test/",
                 changeOrigin: true,
                 secure: false
             }
