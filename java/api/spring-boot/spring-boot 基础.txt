@@ -1,0 +1,258 @@
+# 生成mvn springboot 项目 地址：
+	http://start.spring.io
+	
+# 基本配置
+. 入口类 建议放置的位置在 groupId+arctifactId 组合的包下，因为 Spring Boot 会自动扫描@SpringBootApplication 所在类的同级包以及包里的 Bean。(若为 JPA 项目还可以扫描标注 @Entity 的实体类)
+	
+	@RestController
+	@SpringBootApplication
+	public class SpringbootApplication {
+		
+		// @RequestMapping(value={"/", "/index"})
+		@RequestMapping("/index")
+		String index() {
+			return "Hello Spring Boot";
+		}
+		public static void main(String[] args) {
+			SpringApplication.run(SpringbootApplication.class, args);
+			
+			/*  
+				其它启动方式
+				SpringApplication app = new SpringApplication(SpringbootApplication.class);
+				app.run();
+				
+				SpringApplicationBuilder app = new SpringApplicationBuilder(SpringbootApplication.class);
+				app.run();
+		
+			*/
+		}
+	}
+	
+. 通过 cli 方式启动
+	mvn clean install -Dmaven.test.skip=true		//打包mvn jar
+	java -jar springboot-0.0.1-SNAPSHOT.jar.jar		//在target 目录下
+	/*
+		命令行参数
+		java -jar springboot-0.0.1-SNAPSHOT.jar.jar --server.prot=9090
+	*/
+	
+	mvn spring-boot:run 也可以直接启动项目
+	
+. 关闭特定的自动配置应该使用 @SpringBootApplication 注解的exclude 参数
+	@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
+	
+. 定制 Banner	
+	打开网址 http://patorjk.com/software/taag, 复制文本到 resources 文件夹下的 banner.txt 中即可
+	
+# Spring Boot 的配置文件
+	Spring Boot 使用 src/main/resources 或 src/main/java 文件夹下的一个全局配置文件 application.properties | application.yml。 在日常开发中推荐使用 .properties 文件名
+	
+	
+# application.properties 文件
+	server.port=9090				配置端口号，默认 8080
+	server.session-timeout=1000 	session 过期时间，单位毫秒
+	server.context-path= /			配置项目的根路径
+	
+	server.comcat.uri-encoding=UTF-8	tomcat 默认端口，默认 UTF-8
+	server.tomcat.compression=off		tomcat 是否开启压缩，默认 off
+	
+	spring.http.encoding.charset: UTF-8			默认 UTF-8
+	spring.http.encoding.force: true			默认 true
+	
+		/*
+			如果要自动配置需要满足两个条件
+			
+			@ConfigurationProperties(prefix="spring.http.encoding")
+			public class HttpEncodingProperties{
+				private Charset charset = Charset.forName("UTF-8");
+				private boolean force = true;
+				
+				// getter setter
+			}
+			
+			@Configuration
+			@EnableConfigurationProperties(HttpEncodingProperties.class)	开启属性注入， 使用@Autowired 注入
+			@ConditionalOnClass(CharacterEncodingFilter.class)				在 CharacterEncodingFilter 类条件下
+			@ConditionalOnProperty(prefix="spring.http.encoding"
+				value="enable", matchIfMissing=true)	当设置 spring.http.encoding=enable 的情况下，没有设置默认为true， 即条件符合
+			public class HttpEncodingAutoConfiguration{
+				@Autowired
+				private HttpEncodingProperties httpEncodingProperties;
+				
+				@Bean									使用java配置类的方式配置 CharacterEncodingFilter Bean
+				@ConditionalOnMissingBean(HttpEncodingProperties.class)		当容器没有这个Bean 时，新建这个Bean
+				public CharacterEncodingFilter characterEncodingFilter(){
+					CharacterEncodingFilter filter = new OrderedCharacterEncodingFilter();
+					filter.setEncoding(this.httpEncodingProperties.getCharset().name();
+					filter.setForceEncoding(this.httpEncodingProperties.getForce();
+					return filter;
+				}
+			}
+			
+		*/
+	
+	# 修改默认的静态资源存放目录
+	spring.resources.static-locations= classpath:/static/
+		/*
+			默认路径为 /resources/ 下， 优先级别如下
+			"classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/"
+		*/
+	
+	# 视图解析器
+	spring.mvc.view.prefix= /dist/
+	spring.mvc.view.suffix= .html
+		/*
+			@Configuration
+			public class SpringConfig  {
+				@Bean
+				@ConditionalOnMissingBean(InternalResourceViewResolver.class)
+				public InternalResourceViewResolver defaultViewResolver() {
+					InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+					resolver.setPrefix("/dist/");
+					resolver.setSuffix(".html");
+					return resolver;
+				}
+			}
+		*/
+	
+	
+	
+	
+	
+	book.author: spring-boot
+	author.name: lisi
+	author.age: 18
+	
+. 通过 @Value 注解使用文件属性
+	@Value("${book.author}")
+	private String bookAuthor;
+	
+. 通过 @ConfigurationProperties 注解 使用文件属性, 1.5+取消了 locations 属性
+	@Component
+	@ConfigurationProperties(prefix="author")
+	public class AuthorSettings{
+		private String name;
+		private int age;
+		// getter setter
+	}
+	
+	在入口类中通过 @Autowired 自动注入，此时注入的Bean 的属性从 application.properties 文件中读取
+	
+	
+	
+	
+# profile 配置
+	全局 Profile 配置使用 application-{profile}.properties 格式
+	application.properties
+		spring.profiles.active=prod		使用配置文件， 优先使用指定配置文件的属性
+		
+		
+	application-dev.properties
+		server.port: 8080
+	
+	application-prod.properties
+		server.port: 9090
+
+. xml 文件使用
+	@ImprotResource({"classpath:some-content.xml","classpath:another-content.xml"})
+	
+	
+# 日志配置
+	logging.file=D:/mylog/log.log			配置日志级别
+	logging.level.org.springframework.web= DEBUG	配置日志文件，格式为 logging.level.包名=级别
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

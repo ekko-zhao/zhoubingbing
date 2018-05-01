@@ -12,64 +12,64 @@
 
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
 		p:dataSource-ref="dataSource" />
-		
+
 	/*
 		jdbcTemplate 其它属性:
-		queryTimeout	0		
+		queryTimeout	0
 			设置 JdbcTemplate 所创建的Statement 查询数据时的最大超时时间。默认为0，表示使用底层 JDBC 驱动程序的默认设置
-		
+
 		fetchSize		0
 			设置底层的ResultSet 每次从数据库返回的行数。该属性对程序的性能影响很大，如果设置过大 一次性载入的数据都放到内存中，所以内存的消耗很大。反之过小从数据库读取的次数将增大，也会影响性能。
 			默认为0，表示使用底层 JDBC 驱动程序的默认设置
 			Oracle 驱动程序的 fetchSize 的默认值为 10
-		
+
 		maxRows			0
 			设置底层的 ResultSet 从数据库返回的最大行数
-		
+
 		ignoreWarnings	true
 			是否忽略 SQL 的警告信息， 默认为true ,即所有的警告信息都被记录到日志中，
 			如果为false，则 JdbcTemplate 将抛出 SQLWarningException
-		
+
 	*/
-		
-		
+
+
 	// 声明一个 DAO 类
 	@Repository
 	public class ForumDao{
-		// ... 
+		// ...
 		@Autowired
 		public void setJdbcTemplate(JdbcTemplate jdbcTemplate){
 			this.jdbcTemplate = jdbcTemplate;
 		}
-		
+
 		public void initDb(){
 			jdbcTemplate.execute(sql);
 		}
 	}
-	
-	
+
+
 # 基本的数据操作
 	String sql = "create table t_user(user_id int primary key,user_name varchar(60))";
 	jdbcTemplate.execute(sql)
-	
+
 
 update:
 	String sql = "INSERT INFO t_forum(forum_name,forum_desc) VALUES(?,?)";
 	jdbcTemplate.update(sql, new Object[]{agr0,agr1});
-	
+
 	/*
 		需要指出的是，在实际开发中，应优先考虑使用不带回调接口的 JdbcTemplate 方法。
 		回调使代码臃肿，并不能带来额外的好处
 	*/
 	int update(String sql)							为不带占位符的 SQL 语句所提供的便利方法
 	int update(String sql, Object ...agrs)			使用不定参数的方法，和 update(sql, Object[] agrs)	相似
-	int update(String sql, Object[] agrs)	
+	int update(String sql, Object[] agrs)
 	int update(String sql, Object[] agrs, int[] argTypes)		new int[]{Types.VARCHAR, Types.VARCHAR}
-	
 
-	int update(String sql, PreparedStatementSetter pss)	
+
+	int update(String sql, PreparedStatementSetter pss)
 		PreparedStatementSetter 是一个回调接口，该回调接口定义了一个 void setValues(PreparedStatement pss) 接口方法
-		
+
 		jdbcTemplate.update("INSERT INTO t_user(user_name,password,score,last_logon_time) VALUES('tom',?,?,"+System.currentTimeMillis()+")",
 		new PreparedStatementSetter() {
 			@Override
@@ -79,10 +79,10 @@ update:
 				ps.set*
 			}
 		});
-	
-	update(PreparedStatementCreator psc)    
+
+	update(PreparedStatementCreator psc)
 		PreparedStatementCreator 是一个回调接口，它负责创建一个 PreparedStatement 实例，该回调接口定义一个 PreparedStatement createPreparedStatement(Connection conn)方法。
-	
+
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
@@ -91,24 +91,24 @@ update:
 				ps.setString(parameterIndex, x);
 				return ps;
 			}});
-	
-	
+
+
 	protected int update(PreparedStatementCreator psc, PreparedStatementSetter pss)
-	
-	
+
+
 # 返回数据库的表自增主键值
-	
+
 . KeyHolder 接口
 	该接口是一个回调接口，spring 使用它保存新增记录对应的主键，GeneratedKeyHolder 类实现了该接口；
-	
+
 	接口方法：
-	
+
 	Number getKey() throws InvalidDataAccessApiUsageException
 		当仅插入一行数据，主键不是复合主键或多个主键，且主键类型需要为数字类型
-		
+
 	Map<String, Object> getKey() InvalidDataAccessApiUsageException
 		复合主键，列名和列值构成Map 中的一个Entry.
-		
+
 	List<Map<String, Object>> getKeyList()
 		新增了多个主键，每个主键对应一个Map，多个Map 构成一个List
 
@@ -127,20 +127,20 @@ update:
 	jdbcTemplate.update(psc, generatedKeyHolder);
 	// 返回更新数据的主键
 	System.out.println(generatedKeyHolder.getKey().intValue());
-	
-	
+
+
 # 批量更改数据
 	如果需要一次插入多条记录，可以多次通过update() 方法完成任务。
 	更好的选择是使用批量更改的方法。如果底层的 JDBC Driver 不支持批量更新操作，那么Spring 将采用逐条更新的方式模拟批量操作
-	
+
 	int[] batchUpdate(String[] sql)		多条sql 语句组成一个数组（不带参数）
 	int[] batchUpdate(String sql, BatchPreparedStatementSetter pss)
 		使用同一结构的sql 语句多次进行数据更新操作。通过 BatchPreparedStatementSetter 回调接口进行批量参数的绑定工作
-	
+
 		BatchPreparedStatementSetter 接口定义了两个方法
 			int getBatchSize()		指定本批次的大小
 			void setValues(PreparedStatement ps, int i)
-	
+
 	public void addForums(final List<Forum> forums)
 		jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter(){
 			@Override
@@ -152,23 +152,23 @@ update:
 				// TODO Auto-generated method stub
 				Forum forum = forums.get(index);
 				ps.setInt(parameterIndex, forum.pro());
-				
+
 			}
 		});
 	}
-	
-	
+
+
 # 查询数据
 . 使用 RowCallbackHandler 处理结果集
 	Spring 提供了 org.springframework.jdbc.core.RowCallbackHandler 回调接口，该接口定义如何从结果中获取数据。
-	
-	该接口仅有一个方法 void processRow(ResultSet rs) throws SQLException。 
+
+	该接口仅有一个方法 void processRow(ResultSet rs) throws SQLException。
 	Spring 会遍历结果集，对结果集中的每一行调用 RowCallbackHandler 回调接口处理数据。所以无需显示的调用 ResultSet#next() 方法
-	
+
 	public Forum getForum(final int forumId){
 		String sql = "SELECT forum_name,forum_desc FROM t_from WHERE forum_id=?";
 		final Forum forum = new Forum();
-		
+
 		jdbcTemplate.query(sql,new Object[]{forumId},
 		new RowCallbackHandler(){
 			public void processRow(ResultSet rs) throws SQLException{
@@ -178,15 +178,15 @@ update:
 		})
 		return forum;
 	}
-	
+
 . 查询多条数据 - RowCallbackHandler
 	没有查询到数据时不会发生异常
 	RowCallbackHandler 的操作方式是一边获取数据一边处理，处理完就丢弃，适用流花处理策略
-	
+
 	public List<Forum> getForums(final int formId,final int toId){
 		String sql = "SELECT forum_id,forum_name,forum_desc FROM t_forum WHERE forum_id between ? and ?";
 		final List forums = new ArrayList();
-		
+
 		jdbcTemplate.query(sql,new Object[]{forumId},
 		new RowCallbackHandler(){
 			public void processRow(ResultSet rs) throws SQLException{
@@ -197,21 +197,21 @@ update:
 		})
 		return forums;
 	}
-	
+
 	重载版本
 	void query(String sql, Object[] agrs, int[] argTypes, RowCallbackHandler rch)
 	void query(String sql, RowCallbackHandler rch)
 	void query(String sql, PreparedStatementSetter pss, RowCallbackHandler rch)
 	void query(PreparedStatementCreator psc, RowCallbackHandler rch)
-	
-	
+
+
 . 查询多条数据 - RowMapper<T>
 	与 RowCallbackHandler 回调接口相似， RowMapper<T> 自动添加 T 到 List 中， 无需手动添加
 	RowMapper 的操作方式是先获取数据，然后在处理数据。适用于批量化数据处理策略
-	
+
 	public List<Forum> getForums(final int formId,final int toId){
 		String sql = "SELECT forum_id,forum_name,forum_desc FROM t_forum WHERE forum_id between ? and ?";
-		
+
 		return jdbcTemplate.query(sql, new Object[]{formId, toId},
 			new RowMapper<Forum>(ResultSet rs, int index) throws SQLException{
 				Forum forum = new Forum()
@@ -219,48 +219,48 @@ update:
 				return forum;
 			})
 	}
-	
+
 	重载版本
 	<T>List<T> query(String sql, Object[] agrs, int[] argTypes, RowMapper<T> rowMapper)
 	<T>List<T> query(String sql, RowMapper<T> rowMapper)
 	<T>List<T> query(String sql, PreparedStatementSetter pss, RowMapper<T> rowMapper)
 	<T>List<T> query(PreparedStatementCreator psc, RowMapper<T> rowMapper)
-	
+
 
 # 查询单值数据
 	推荐使用 Object 类型返回， 其它类型不推荐使用
 	在使用带Class<T> requiredType 参数方法时，结果必须是 一行一列
-	
+
 	<T> T queryForObject(String sql, Class<T> requiredType)
 	<T> T queryForObject(String sql, Object[] agrs, Class<T> requiredType)
 	<T> T queryForObject(String sql, Object[] agrs, int[] argTypes, Class<T> requiredType)
-	
+
 	<T> T queryForObject(String sql, RowMapper<T> rowMapper)
 	<T> T queryForObject(String sql, Object[] agrs, RowMapper<T> rowMapper)
 	<T> T queryForObject(String sql, Object[] agrs, int[] argTypes, RowMapper<T> rowMapper)
-	
-	
+
+
 	String sql = "SELECT topic_replies,topic_views FROM t_topic WHERE user_id=?"
 	return rate = jdbc.queryForObject(sql, new Object[]{userId},
 		new RowMapper<Forum>(ResultSet rs, int index) throws SQLException{
 			return rs.getInt("topic_replies")/rs.getInt("topic_views");
 		})
-	
+
 	/*
 		String sql = "SELECT topic_replies/topic_views reply_rate FROM t_topic WHERE user_id=?";
 		实际上，可以通过 SQL 语句，在数据库中直接计算
 	*/
-	
-	
+
+
 . 调用存储过程
 	<T> T execute(String callString, CallableStatementCallback<T> action)
-	
+
 	<T> T execute(CallableStatementCreator csc, CallableStatementCallback<T> action)
-	
-	
+
+
 	//方式1
 		String sql = "{call P_GET_TOPIC_NUM(?,?)}";
-		
+
 		Integer num = jdbcTemplate.execute(sql,
 		new CallableStatementCallback<Integer>() {
 			public Integer doInCallableStatement(CallableStatement cs)
@@ -272,217 +272,217 @@ update:
 			}
 		});
 		return num;
-	
-	
+
+
 	//方式2
 		String sql = "{call P_GET_TOPIC_NUM(?,?)}";
-		
-		CallableStatementCreatorFactory fac = new CallableStatementCreatorFactory(sql); 
-		fac.addParameter(new SqlParameter("userId",Types.INTEGER)); 
-		fac.addParameter(new SqlOutParameter("topicNum",Types.INTEGER)); 
-		
+
+		CallableStatementCreatorFactory fac = new CallableStatementCreatorFactory(sql);
+		fac.addParameter(new SqlParameter("userId",Types.INTEGER));
+		fac.addParameter(new SqlOutParameter("topicNum",Types.INTEGER));
+
 		Map<String,Integer> paramsMap = new HashMap<String,Integer>();
 		paramsMap.put("userId",userId);
-		
-		CallableStatementCreator csc = fac.newCallableStatementCreator (paramsMap);	
+
+		CallableStatementCreator csc = fac.newCallableStatementCreator (paramsMap);
 		Integer num = jdbcTemplate.execute(csc,new CallableStatementCallback<Integer>(){
-			public Integer doInCallableStatement(CallableStatement cs) 
+			public Integer doInCallableStatement(CallableStatement cs)
 				throws SQLException, DataAccessException {
 				cs.execute();
 				return cs.getInt(2);
-			}	
+			}
 		});
 	    return num;
-	
-	
+
+
 # BLOB/CLOB 类型数据的操作
 
 . 获取本地数据连接
 	为了获取本地 JDBC 对象，Spring 在 org.springframework.jdbc.support.nativejdbc 包下定义了 NativeJdbcExtractor 接口 并提供了实现类。
 	NativeJdbcExtractor 定义了从数据源的 JDBC 对象抽取本次 JDBC 对象的方法
-	
+
 	Connection getNativeConnection(Connection conn)
 		获取本地 Connection 对象
-		
+
 	Connection getNativeConnectionFromStatement(Statement statement)
 		获取本地 Statement 对象
-	
+
 	PreparedStatement getNativePreparedStatement(PreparedStatement ps)
 	ResultSet  getNativeResultSet(ResultSet rs)
 	CallableStatement getNativeCallableStatement(CallableStatement cs)
-	
+
 	// 依据不同的数据源选择合适的抽取器实现类
 	C3P0 数据源 		org.springframework.jdbc.support.nativejdbc.C3P0NativeJdbcExtractor
 	JDBC 数据源 		org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor
-	
-	
-	
+
+
+
 	<bean id="nativeJdbcExtractor" lazy-init="true"
 		class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor" />
-	
+
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
-		p:dataSource-ref="dataSource" 
+		p:dataSource-ref="dataSource"
 		p:nativeJdbcExtractor-ref="nativeJdbcExtractor" />
-	
-	
+
+
 	public void getNativeConn(){
 		try{
 			Connection conn = DataSourceUtils.getConnection(jdbcTemplate.getDataSource());
 			// 使用模板类的本地JDBC 抽取器获取本地连接
 			conn = jdbcTemplate.getNativeJdbcExtractor().getNativeConnection(conn);
-			
+
 			// 强制转换 oracle 类型
 			OracleConnection oconn = (OracleConnection)conn
-			
-			
+
+
 		}catch(Exception e){
 			e.printStackTrace()
 		}
 	}
-	
+
 # 相关的接口操作
-	
+
 	LOB 代表大对象数据，包括 BLOB/CLOB 两种类型，
 	BLOB 用于存储大块的二进制数据，如图片、视频数据等（一般不宜将文件存储到数据库中，而应该存储到文件服务器中）
 	CLOB 用于存储长文本数据，如论坛的帖子内容、产品的详细描述等。
-	
+
 	Oracle 对应的是 字段类型是 BLOB/CLOB
 	MySQL  对应的是 字段类型是 BLOB/LONGTEXT
 	SQL Server 对应IMAGE/TEXT
-	
+
 	MySQL 的LONGTEXT 的操作方式和 VARCHAR 类型一样
 	一般情况下，LOB 类型数据的访问方式不同于其它简单类型的数据，可能会以流的方式操作 LOB 类型的数据，
 	LOB 类型数据的访问不是线程安全的，需要分配相应的数据库资源，并在操作完成后释放，
-	
-	
+
+
 . Spring 在 org.springframework.jdbc.support.lob 包中提供了帮助类，以便开发者轻松对应以上问题。
 
 . LobCreator
 	Spring 定义了一个独立于 java.sql.Blob/Clob 接口，以统一的方式操作各种数据库 LOB 类型数据的 LobCreator 接口，
 	因为 LobCreator 本身只有 LOb 所对应的数据库资源，所以它不是线程安全的，一个 LobCreator 只能操作一个 LOB 数据。
-	
+
 	/*
-		为了方便在 PreparedStatement 中使用 LobCreator, 
+		为了方便在 PreparedStatement 中使用 LobCreator,
 		用户可以直接使用 JdbcTemplate#execute(String sql, AbstractLobCreatingPreparedStatementCallback lcpsc)
 	*/
-	
-	AbstractLobCreatingPreparedStatementCallback(LobHandler lobHandler) 定义了 setValues(PreparedStatement, LobCreator lobCreator) 方法 
-	
-	
+
+	AbstractLobCreatingPreparedStatementCallback(LobHandler lobHandler) 定义了 setValues(PreparedStatement, LobCreator lobCreator) 方法
+
+
 	LobCreator 接口方法：
 	void close()
 		关闭会话，并释放 LOB 资源
-	
+
 	void setBlobAsBinaryStream(PreparedStatement ps, int paramIndex, InputStream contentStream, int contentLength)
 		通过流填充 BLOB 数据
-		
+
 	void setBlobAsBytes(PreparedStatement ps, int paramIndex, byte[] content)
 		通过二进制数据填充 BLOB 数据
-		
+
 	void setClobAsAsciiStream(PreparedStatement ps, int paramIndex, InputStream asciiStream, int contentLength)
 		通过 ASCII 字符流填充 CLOB 数据
-		
+
 	void setClobAsCharacterStream(PreparedStatement ps, int paramIndex, Reader characterStream, int contentLength)
 		通过 Unicode 字符流填充 CLOB 数据
-	
-	void setClobAsString(PreparedStatement ps, int paramIndex, String content) 
+
+	void setClobAsString(PreparedStatement ps, int paramIndex, String content)
 		通过字符串填充 CLOB 数据
-	
-	
+
+
 . LobHandler 接口
 	LobHandler 接口为操作大 二进制字段和大文本字段提供了统一访问接口，不管底层数据库竟是以大对象的方式还是以一般数据的方式进行操作。
-	
+
 	LobHandler接口 的实现类 DefaultLobHandler
-	
+
 	LobHandler 接口定义的方法：
 	InputStream getBlobAsBinaryStream(ResultSet rs, int columnIndex)
 		从结果集中返回 InputStream, 通过 InputStream 读取 BLOB 数据
-		
+
 	byte[] getBlobAsBytes(ResultSet rs, int columnIndex)
 		以二进制数据的方式获取结果集中的 BLOB 数据
-	
+
 	InputStream getClobAsAsciiStream(ResultSet rs, int columnIndex)
 		从结果集中返回 InputStream, 通过 InputStream 以 ASCII字符流读取 CLOB 数据。
-		
+
 	Reader getClobAsCharacterStream(ResultSet rs, int columnIndex)
 		从结果集中获取 Unicode 字符流 Reader,并通过 Reader 以 Unicode 字符流的方式读取 CLOB 数据。
-	
+
 	String getClobAsString(ResultSet rs, int columnIndex)
 		从结果集中以字符串的方式获取 CLOB 数据。
-		
+
 	LobCreator getLobCreator()
 		生成一个会话相关的 LobCreator 对象
-	
-	
+
+
 . 插入 LOb 类型的数据
-	
+
 	<!-- 使用设置本地 JDBC 对象抽取 -->
 	<bean id="lobHandler" lazy-init="true"
 		class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
-	
+
 	/*
 		如果是 Oracle 9i 或以下 的数据库需要配置 OracleLobHandler 类
 		<bean id="nativeJdbcExtractor" lazy-init="true"
 		class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor" />
-		
+
 		<bean id="lobHandler" lazy-init="true"
 			class="org.springframework.jdbc.support.lob.OracleLobHandler"
 			p:nativeJdbcExtractor-ref="nativeJdbcExtractor"/>
 	*/
-	
+
 	// PostDao.java
 	public void addPost(final Post post){
 		String sql ="INSERT INFO t_post(post_id,user_name,post_text,post_attach) VALUES(?,?,?,?)";
-		
+
 		jdbcTemplate.execute(sql, new AbstractLobCreatingPreparedStatementCallback(this.lobHandler){
 			protected void setValues(PreparedStatement ps, LobCreator lobCreator) throws SQLException {
 				ps.setInt(1,1);
 				ps.setInt(2, post.getUserId());
-				
+
 				// 设置 CLOB 字段
 				lobCreator.setClobAsString(ps,3, post.getPostText());
-				
+
 				// 设置 BLOB 字段
 				lobCreator.setBlobAsBytes(ps,4, post.getPostAttach());
-				
+
 			}
 		})
 	}
-	
+
 	// 测试类
 	@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 	@Rollback
 	@Transactional
 	public class TestPostDao extends AbstractTransactionalTestNGSpringContextTests {
 		@Test
-		public void testgetAttachs() throws Throwable{   
+		public void testgetAttachs() throws Throwable{
 			Post post = new Post();
 			post.setUserId(2);
 			ClassPathResource res = new ClassPathResource("temp.jpg");
-			byte[] mockImg = FileCopyUtils.copyToByteArray(res.getFile());	
+			byte[] mockImg = FileCopyUtils.copyToByteArray(res.getFile());
 			post.setPostAttach(mockImg);
 			post.setPostText("测试帖子的内容");
 			postDao.addPost(post);
 		}
 	}
-	
+
 . 以块数据方式读取 LOb 数据
 	// jdbcTemplate.query()
 	byte[] attach = lobHandler.getBlobAsBytes(rs, 2);
-	
+
 . 以数据流方式读取 LOB 数据
 	Lob 数据的体积可能很大（100MB）， 如果直接以块的方式操作 LOB 数据，则需要消耗大量的内存，直接影响到程序的整体运行
-	
+
 	JdbcTemplate 为此提供了一个 Object query(String, Object[] agrs, ResultSetExtractor rse) 方法
-	
-	ResultSetExtractor 接口拥有一个处理流的抽象类 .jdbc.core.support.AbstractLobStreamingResultSetExtractor 
-	
-	
+
+	ResultSetExtractor 接口拥有一个处理流的抽象类 .jdbc.core.support.AbstractLobStreamingResultSetExtractor
+
+
 	// jdbcTemplate.query(sql, new Object[] {id}, new AbstractLobStreamingResultSetExtractor(){
 		protected void handlerNoRowFound() throws LobRetrieval FailureException{
 			System.
 		}
-		
+
 		public void streamData(ResultSet rs) throws SQLException, Exception{
 			InputStream is = lobHandler.getBlobAsBinaryStream(rs,1);
 			if(is!= null){
@@ -490,28 +490,28 @@ update:
 				FileCopyUtils.copy(is, os);
 			}
 		}
-		
+
 	})
-	
-	
+
+
 # 自增键和行集
 	使用 DataFieldMaxValueIncrementer 产生主键
 	DataFieldMaxValueIncrementer 接口 定义了获取3个下一个主键值的方法。
 		int nextIntValue()		获取下一个主键值，主键数据为 int 类型
 		long nextLongValue()	主键数据为 long 类型
 		String nextStringValue	主键数据为 String 类型
-	
-	
+
+
 . AbstractDataFieldMaxValueIncrementer 抽象类实现了 DataFieldMaxValueIncrementer 接口
 	AbstractSequenceMaxValueIncrementer
 		OracleSequenceMaxValueIncrementer
-		
+
 	AbstractColumnMaxValueIncrementer
 		MySQLMaxValueIncrementer
 		SqlServerMaxValueIIncrementer
 
 . 以序列方式产生主键值
-	
+
 
 . 以表方式产生主键值
 	create table t_post_id(sequence_id int) type = MYISAM
@@ -526,29 +526,29 @@ update:
 		// 缓存大小
 		p:cacheSize="10"
 		p:dataSource-ref="dataSource" />
-	
-	
+
+
 . 以行集返回数据
 	SqlRowSet queryForRowSet(String sql)
 	SqlRowSet queryForRowSet(String sql, Object... args)
 	SqlRowSet queryForRowSet(String sql, Object[] args， int[] argTypes)
-	
-	
+
+
 # NamedParameterJdbcTemplate 模板类
-	
+
 	SqlParameterSource 接口
-		BeanPropertyParameterSource 
+		BeanPropertyParameterSource
 			该类将一个 JavaBean 对象封装成一个参数源
-		MapSqlParameterSource 
+		MapSqlParameterSource
 			该实现类内部有一个 Map 存储参数，可以通过 一下方法添加函数，并通过参数名和SQL 语句中参数匹配的方式绑定参数
 			addValue(String paramName,Object value)
 			addValue(Map values)
-	
-	
+
+
 	<bean class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
 		<constructor-agr ref="dataSource" />
 	</bean>
-	
+
 	String sql = "INSERT INFO t_forum(forum_name, forum_desc) VALUES(:forumName,forumDesc)";
 	SqlParameterSource sps = new BeanPropertyParameterSource(forum);
 	/*
@@ -556,22 +556,21 @@ update:
 		sps.addValue("forumName",value);
 		sps.addValue("forumDesc",value);
 	*/
-	
+
 	namedParameterJdbcTemplate.update(sql,sps);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
