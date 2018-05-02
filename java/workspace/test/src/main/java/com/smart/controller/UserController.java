@@ -72,7 +72,8 @@ public class UserController {
 
 	@RequestMapping(path = { "api/register" }, method = RequestMethod.POST)
 	@ResponseBody
-	public Map register(@RequestBody @Valid User user, BindingResult bindingResult, HttpServletRequest request) throws Exception {
+	public Map register(@RequestBody @Valid User user, BindingResult bindingResult, HttpServletRequest request)
+			throws Exception {
 		System.out.println(user.getUserName());
 		System.out.println(user.getUserId());
 
@@ -85,8 +86,8 @@ public class UserController {
 		map.put("code", "000000");
 		map.put("message", "message");
 		// throw new Exception("asd");
-		
-		//System.out.println(HttpStatus.UNAUTHORIZED);
+
+		// System.out.println(HttpStatus.UNAUTHORIZED);
 		return map;
 	}
 
