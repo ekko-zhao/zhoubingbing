@@ -3,25 +3,25 @@ package com.smart.entity;
 import javax.validation.constraints.Pattern;
 
 public class User {
-	private String userId;
+	private String name;
 	
 	@Pattern(regexp = ".{6,32}",message="{Pattern.user.userName}")
-	private String userName;
+	private String password;
 
-	public String getUserId() {
-		return userId;
+	public String getName() {
+		return name;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	
-	public String getUserName() {
-		return userName;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setPassword(String password) {
+		this.password = password;
 	}
+
 }

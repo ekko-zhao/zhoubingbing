@@ -30,6 +30,13 @@
 	
 	首页地址: localhost:port | localhost:port/index
 
+# 重定向静态资源路径，dist 目录为 webpack 打包后放置到项目的文件夹， 例如： webapp/dist  resources/dist
+	<mvc:default-servlet-handler />
+	<mvc:resources mapping="/**/*.css" location="/dist/" />
+	<mvc:resources mapping="/**/*.js" location="/dist/" />
+	<mvc:resources mapping="/**/assets/**" location="/dist/" />
+	<mvc:resources mapping="/**/static/**" location="/dist/" />
+	
 	
 # 服务端返回数据规范：	
 	Response: {

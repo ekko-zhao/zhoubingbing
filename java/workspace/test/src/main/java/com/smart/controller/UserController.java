@@ -46,36 +46,26 @@ public class UserController {
 	 * @RequestMapping("/index") public @ResponseBody String test() { return
 	 * "hello, world! This com from spring!"; }
 	 */
-
+	
+	@RequestMapping(path = { "login" })
+	public String loginHandler(HttpServletRequest request, ServletRequest servletRequest) {
+		System.out.println("index");
+		return "login";
+	}
+	
 	@RequestMapping(path = { "index", "" })
 	public String index(HttpServletRequest request, ServletRequest servletRequest) {
-
-		/*
-		 * System.out.println("getMethod-" + request.getMethod());
-		 * System.out.println("getPathInfo-" + request.getPathInfo());
-		 */
 		System.out.println("index");
-		return "/index";
+		return "index";
 	}
+	
 
-	@RequestMapping(path = { "success" })
-	public String success() {
-		return "success";
-	}
-
-	@RequestMapping(path = { "showUserListByJson" })
-	public String json(ModelMap mm) {
-		List<User> userList = new ArrayList<User>();
-
-		return "userList";
-	}
-
-	@RequestMapping(path = { "api/register" }, method = RequestMethod.POST)
+	@RequestMapping(path = { "api/login" }, method = RequestMethod.POST)
 	@ResponseBody
 	public Map register(@RequestBody @Valid User user, BindingResult bindingResult, HttpServletRequest request)
 			throws Exception {
-		System.out.println(user.getUserName());
-		System.out.println(user.getUserId());
+		System.out.println(user.getName());
+		System.out.println(user.getPassword());
 
 		System.out.println(bindingResult.getErrorCount());
 		System.out.println(request.getHeader("Content-Type"));
@@ -88,6 +78,7 @@ public class UserController {
 		// throw new Exception("asd");
 
 		// System.out.println(HttpStatus.UNAUTHORIZED);
+		Thread.sleep(1000*1);
 		return map;
 	}
 

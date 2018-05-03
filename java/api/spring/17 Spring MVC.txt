@@ -124,13 +124,17 @@
 		<filter-name>SpringCharacterEncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
+	        <param-name>forceEncoding</param-name>  
+	        <param-value>true</param-value>  
+	    </init-param>
+		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>SpringCharacterEncodingFilter</filter-name>
-		<url-pattern>*.html</url-pattern>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
 	
@@ -711,7 +715,9 @@
 	
 	
 	public String handle(@Valid @ModelAttribute("user") User user, BindingResult bindingResult){
-		
+		if(bindingResult.getErrorCount()>0){
+			//... 
+		}
 	}
 	
 	
@@ -761,33 +767,41 @@
 		此时 bindingResult 中的Errors#getDefaultMessage() 返回的错误消息 从 messages_zh_CN.properties 文件中读取
 	*/
 	
-	
-	
-	
-	
-	
-	
 # 加载静态资源 ---------------------------------------
 
-<mvc:default-servlet-handler />
+	<mvc:default-servlet-handler />
+	<mvc:resources mapping="/**/*.css" location="/dist/" />
+	<mvc:resources mapping="/**/*.js" location="/dist/" />
+	<mvc:resources mapping="/**/assets/**" location="/dist/" />
+	<mvc:resources mapping="/**/static/**" location="/dist/" />
+	
 	定义后Spring 将通过  DefaultServletHttpRequestHandler 它对进入 DispatcherServlet 的 URL 进行筛查。
 	如果发现是静态资源的请求，就将该请求转悠 Web 应用服务器默认的 Servlet 处理，
 	如果不是静态资源的请求，则由 DispatcherServlet 继续处理。
 	
-		Servlet 默认的名称都是 default，因此 DefaultServletHttpRequestHandler 可以找到它，
+	/*
+		这里的 dist 是 webpack 打包后，指定放置的文件夹， /webapp/dist
+		mvc:resources 重新指定读取静态资源的路径，  默认路径为 /webapp/, 此时需要指定为 /webapp/dist 目录
+	*/
+	
+	
+	Servlet 默认的名称都是 default，因此 DefaultServletHttpRequestHandler 可以找到它，
 		如果用户所使用的Web 服务器的的默认 Servlet名称不是default，则要通过 default-servlet-name 属性显示指定
 	
-	就不需要再web.xml 文件中定义 静态资源的映射 
+	就不需要再web.xml 文件中定义 静态资源的映射, 需要放置在 DispatcherServlet 代码上面。
 		<servlet-mapping>
 			<servlet-name>default</servlet-name>
 			<url-pattern>*.js</url-pattern>
+			<url-pattern>*.css</url-pattern>
+			<url-pattern>*.html</url-pattern>
 		</servlet-mapping>
 		
 # 重定向静态资源访问路径 ---------------------------------------
-	<mvc:resources mapping="/resources/**" location="/, /path2">
-	以上配置将 /resources/**  url的请求重定向到根路径 "/ " 、"/path2" 中。
+	<mvc:resources mapping="/**/*.css" location="/dist/,"/path2/" />
+	以上配置将css文件的url重定向到根路径 "/dist/,"/path2/" 中
+	
 	/*
-		/resources/images/test.png 定向到 /webapp/images/test.png
+		./images/test.css 重定向到 /webapp/dist/images/test.css
 	*/
 	
 	cache-period="31536000"	该属性为客户端的缓存时间
