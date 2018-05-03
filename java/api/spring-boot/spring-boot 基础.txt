@@ -49,19 +49,20 @@
 	
 	
 # application.properties 文件
-	server.port=9090				配置端口号，默认 8080
-	server.session-timeout=1000 	session 过期时间，单位毫秒
+	server.port= 9090				配置端口号，默认 8080
+	server.session-timeout= 1000 	session 过期时间，单位秒
 	server.context-path= /			配置项目的根路径
 	
-	server.comcat.uri-encoding=UTF-8	tomcat 默认端口，默认 UTF-8
-	server.tomcat.compression=off		tomcat 是否开启压缩，默认 off
+	server.comcat.uri-encoding= UTF-8	tomcat 默认端口，默认 UTF-8
+	server.tomcat.compression= off		tomcat 是否开启压缩，默认 off
 	
-	spring.http.encoding.charset: UTF-8			默认 UTF-8
-	spring.http.encoding.force: true			默认 true
+	# HTTP encoding
+	spring.http.encoding.charset= UTF-8			默认 UTF-8
+	spring.http.encoding.enabled= true
+	spring.http.encoding.force= true			默认 true
 	
 		/*
 			如果要自动配置需要满足两个条件
-			
 			@ConfigurationProperties(prefix="spring.http.encoding")
 			public class HttpEncodingProperties{
 				private Charset charset = Charset.forName("UTF-8");
@@ -98,7 +99,7 @@
 			"classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/"
 		*/
 	
-	# 视图解析器
+	# Spring MVC 
 	spring.mvc.view.prefix= /dist/
 	spring.mvc.view.suffix= .html
 		/*
@@ -114,8 +115,6 @@
 				}
 			}
 		*/
-	
-	
 	
 	
 	
