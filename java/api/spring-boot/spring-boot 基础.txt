@@ -116,27 +116,24 @@
 			}
 		*/
 	
-	
-	
-	book.author: spring-boot
-	author.name: lisi
-	author.age: 18
+
+	book.author: lisi
+	book.name: spring-boot
 	
 . 通过 @Value 注解使用文件属性
 	@Value("${book.author}")
-	private String bookAuthor;
+	private String author;
 	
 . 通过 @ConfigurationProperties 注解 使用文件属性, 1.5+取消了 locations 属性
 	@Component
-	@ConfigurationProperties(prefix="author")
+	@ConfigurationProperties(prefix="book")
 	public class AuthorSettings{
+		private String author;
 		private String name;
-		private int age;
 		// getter setter
 	}
 	
-	在入口类中通过 @Autowired 自动注入，此时注入的Bean 的属性从 application.properties 文件中读取
-	
+	在含有@Configuration注解类或入口类中通过 @Autowired 自动注入，此时注入的Bean 的属性从 application.properties 文件中读取
 	
 	
 	
