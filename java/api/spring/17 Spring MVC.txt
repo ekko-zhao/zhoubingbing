@@ -630,7 +630,6 @@
 	@Pattern(regexp, flag)
 	
 	
-	
 . Hibernate Validator 扩展注解
 	@Email
 	@URL(protocol, host, port, regexp, flags)
@@ -651,18 +650,18 @@
 		<version>2.0.0.Final</version>
 	</dependency>
 	<dependency>
-		<groupId>org.hibernate.validator</groupId>
+		<groupId>org.hibernate</groupId>
 		<artifactId>hibernate-validator</artifactId>
-		<version>6.0.7.Final</version>
+		<version>5.4.1.Final</version>
 	</dependency>
 	<dependency>
 		<groupId>javax.el</groupId>
-		<artifactId>javax.el-api</artifactId>
-		<version>3.0.0</version>
+		<artifactId>el-api</artifactId>
+		<version>2.2</version>
+		<scope>provided</scope>
 	</dependency>
 		
 		
-
 	// annotation-driven会自动装配一个 LocalValidatorFactoryBean
 	<mvc:annotation-driven />
 	<!-- 

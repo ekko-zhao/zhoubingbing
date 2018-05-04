@@ -53,7 +53,17 @@ public class UserController {
 		return "login";
 	}
 	
-	@RequestMapping(path = { "index", "" })
+	@RequestMapping(path = { "api/logout" })
+	@ResponseBody
+	public Map logout(HttpServletRequest request, ServletRequest servletRequest) {
+		Map map = new HashMap();
+		//map.put("data", user);
+		map.put("code", "000000");
+		map.put("message", "ok");
+		return map;
+	}
+	
+	@RequestMapping(path = {  "", "index", "wel/ch"})
 	public String index(HttpServletRequest request, ServletRequest servletRequest) {
 		System.out.println("index");
 		return "index";

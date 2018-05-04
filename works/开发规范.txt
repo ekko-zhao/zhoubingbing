@@ -16,6 +16,10 @@
         return registration;
     }
 	
+	
+# 配置项目的根路径
+	server.context-path= /
+	
 # 前端页面以静态资源 html 显示，spring视图解析器后缀配置为 ".html"
 	// spring-boot
 	spring.resources.static-locations= classpath:/static/
