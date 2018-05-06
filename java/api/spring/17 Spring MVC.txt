@@ -29,24 +29,24 @@
 		...
 	</web-app>
 
-. 默认路径	
+. 默认路径
 	<welcome-file-list>
 		<welcome-file>index</welcome-file>
 	</welcome-file-list>
-		
-		
+
+
 . 配置监听器
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-	
+
 . 业务层和持久层的Spring 配置文件，这些配置文件被父Spring 容器所使用
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:application-context.xml</param-value>
 	</context-param>
-		
+
 . 中央控制器
 	<servlet>
 		<servlet-name>springmvc</servlet-name>
@@ -56,7 +56,7 @@
 			<!-- 默认是 /WEB-INF 文件夹下 springmvc-servlet.xml (<servlet-Name>-servlet.xml) -->
 			<param-value>classpath:spring-mvc.xml</param-value>
 		</init-param>
-		
+
 		/*
 		<!-- 布尔类型的属性。 决定是否将 WebApplicationContext 发布到 ServletContext 中，
 			如果容器中没有任何时间监听器，可以设置为false，以便提高运行性能
@@ -66,7 +66,7 @@
 			<param-name>publishContext</param-name>
 			<param-value>true</param-value>
 		</init-param>
-		
+
 		<!-- 布尔类型的属性。当 DispatcherServlet 处理完一个请求后，是否需要向容器发布一个 ServletRequestHandledEvent事件
 			默认为true
 			-->
@@ -74,14 +74,14 @@
 			<param-name>publishEvents</param-name>
 			<param-value>true</param-value>
 		</init-param>
-		
+
 		*/
-		
+
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	
-	
-	
+
+
+
 . servlet 映射
 	<servlet-mapping>
 		<servlet-name>springmvc</servlet-name>
@@ -91,7 +91,7 @@
 			当有后缀名时，js 请求服务端的地址为 servletUrl.htm
 		*/
 	</servlet-mapping>
-	
+
 . 静态资源过滤
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
@@ -112,20 +112,20 @@
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.css</url-pattern>
-	</servlet-mapping> 
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
-	
-		
+
+
 . 配置Spring提供的字符编码过滤器
 	<filter>
 		<filter-name>SpringCharacterEncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
-	        <param-name>forceEncoding</param-name>  
-	        <param-value>true</param-value>  
+	        <param-name>forceEncoding</param-name>
+	        <param-value>true</param-value>
 	    </init-param>
 		<init-param>
 			<param-name>encoding</param-name>
@@ -136,8 +136,8 @@
 		<filter-name>SpringCharacterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-	
+
+
 # spring-mvc.xml -------------------------------------------------------------------------------------------
 	<?xml version="1.0" encoding="UTF-8" ?>
 	<beans xmlns="http://www.springframework.org/schema/beans"
@@ -152,19 +152,19 @@
 		   http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 		...
 	</beans>
-	
+
 . 组件扫描器
 	<context:component-scan base-package="com.smart.controller" />
-	
+
 . 视图解析器
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/page/"></property>
 		<property name="suffix" value=".html"></property>
 	</bean>
-	
-	
-	
+
+
+
 # application-context.xml -------------------------------------------------------------------------------------------
 	<?xml version="1.0" encoding="UTF-8" ?>
 	<beans xmlns="http://www.springframework.org/schema/beans"
@@ -186,8 +186,8 @@
 		   http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 		...
 	</beans>
-	
-	
+
+
 # UserController.class -------------------------------------------------------------------------------------------
 	package com.smart.controller;
 	import org.springframework.stereotype.Controller;
@@ -201,26 +201,26 @@
 			return "index";
 		}
 	}
-	
-	
+
+
 # 注解驱动的控制器
-	
+
 . 使用 @RequestMapping 映射请求
 	在 POJO 类定义处标注 @Controller，在通过 <context:component-scan /> 扫描相应的类包，即可使 POJO 成为能够处理 HTTP 请求的控制器。
-	
-	
+
+
 	@RequestMapping 不但支持标准的 URL, 还支持 ？、*、** 和 {xxx} 的占位符
-		
+
 		* 		匹配 0 或多个字符，但不包含 / 字符	/user/*/create 匹配	/user/create、/user/a/create
 		**		匹配多个字符，包含 / 字符	/user/**/create 匹配 /user/create、/user/a/b/create
 		?		表示一个字符的占位符		/user/create??	匹配 /user/createaa 、/user/createbb
 		{xxx}	表示占位符 variable					company/{companyId}/user/{userId}/detail
 
-	
+
 	@RequestMapping 属性
 		value
 		method	请求方法	GET POST DELETE HEAD OPTIONS PUT TRACE
-		headers	报文头		
+		headers	报文头
 			Accept: */*
 			Referer: http://localhost:8888/test/index
 			Accept-Language: en,zh;q=0.9,zh-CN;q=0.8
@@ -235,24 +235,24 @@
 			Cache-Control 在 html 文件头部设置
 			<meta http-equiv="Cache-Control" content="max-age=7200" />
 		*/
-		
-		params	报文体		
+
+		params	报文体
 			params="param1"		表示请求必须包含名为 param1 的请求参数
 			params="!param1"	表示请求不能包含名为 param1 的请求参数
 			params={"param1=value1", "param2"}	表示请求必须包含名为 param1 param2 俩个请求参数，且 param1 的值必须为 value1
-	
 
-	
+
+
 # 请求处理方法签名
 	Spring 会将请求方法的参数 进行自动转换
 	例如  HttpServletRequest request, HttpServletResponse response
-	
+
 	如果参数是注解签名 Spring 会将在上下文获取注解的值， 如下：
-	
+
 . @PathVariable
 	URL 中的{xxx} 占位符可以通过  @PathVariable("xxx") 绑定到操作方法的入参中。
 	如果在类定位出使用 @PathVariable，则也可以绑定到处理方法的入参中
-	
+
 	@RequestMapping{"/{userId}"}
 	public class UserController{
 		@RequestMapping{"/{userName}"}
@@ -260,7 +260,7 @@
 			...
 		}
 	}
-	
+
 . @RequestParam
 	@RequestParam 属性
 		value			参数名
@@ -268,7 +268,7 @@
 		defaultValue	默认参数值，不推荐使用
 
 	@RequestParam 用来获取 url?searchName=value search字段
-	
+
 	@RequestMapping(path="/handle1")
 	public String handle1(@RequestParam("userName") String userName){
 		return "path";
@@ -276,11 +276,11 @@
 
 . @RequestHeader
 	属性同上
-	
+
 	用于获取报文头的参数值
 	@RequestHeader("Cookie") String cookie
 	@RequestHeader("User-Agent") String cookie
-	
+
 . @CookieValue
 	属性同上
 	required	默认为false
@@ -288,119 +288,160 @@
 
 	用于获取浏览器 cookies 信息指定的值
 	@CookieValue(value = "cacheName", required = true, defaultValue = "value")
-	
-	
+
+
 # 使用矩阵变量（@MatrixVariable）绑定参数
 	需要在 apring-mvc.xml 文件中添加配置，允许使用矩阵变量
 	<mvc:annotation-driven enable-matrix-variables="true"/>
-	
+
 	矩阵变量 需要url中使用占位符( {userId} ), /book/{id};name=javaBook
 	多个变量用 分号";" 分隔符分开
 	一个变量可以有多个值 kind=kind1,kind2,kind3
-	
+
 	// 请求的url /book/111;author=libai
 	@RequestMapping(path="/book/{id}")
 	public void handle1(@MatrixVariable String author){
-		
+
 	}
-	
-	
+
+
 	@MatrixVariable 属性
-		value			指定 url 中的变量，定义该变量的别名 @MatrixVariable(value="author") String sliasName 
+		value			指定 url 中的变量，定义该变量的别名 @MatrixVariable(value="author") String sliasName
 		pathVar			当url 中有多个占位符(variable)时，通过 该属性指定所属占位符
-		
+
 		required		是否必须
 		defaultValue	指定默认值
 
 	@MatrixVariable(value="author", defaultValue)
-	
+
 	// 获取属性多个值  @MatrixVariable List<String> kind
 	// 把绑定的占位符 的属性 合并到 Map 结果中
 		//GET /owners/42;q=11;r=12/pets/petId;q=22;s=23
-		 
-		// 不指定占位符 
+
+		// 不指定占位符
 		@MatrixVariable Map<String,String> matrixVars
 			matrixVars = ["q" : [11,22], "r" : 12, "s" : 23]
-		
+
 		// 指定占位符
-		 @MatrixVariable(pathVar = "petId") Map<String,String> petMatrixVars)		
+		 @MatrixVariable(pathVar = "petId") Map<String,String> petMatrixVars)
 			petMatrixVars = ["q" : 11,"s" : 23]
-	
-	
+
+
 . 使用 Servlet API 对象作为入参
-	
+
 	m(HttpServletRequest request, HttpServletResponse response){
 		WibUtils.findParameterValue(request,"userName")
 	}
-	
-	
-. 使用 I/O 对象作为入参，
-	m(OutputStream os) throw IOException{
+
+
+. 使用 I/O 对象作为入参
+    @RequestMapping(path="/handle")
+	public void m(OutputStream os) throw IOException{
+        // 读取类路径下的图片文件
 		Resource res = new ClassPathResoruce("/image.jpg");
+        // 将图片写到输出流中
 		FileCopyUtils.copy(res.getInputStream(), os)
 	}
-	
+
 . 其它类型的参数
 	Locale
 	Principal
-	
-	
-	
+
+
+
 # 使用 HttpMessageConverter<T>
 	它负责将请求信息转换为一个对象(类型为T)，将对象(类型为T) 输出为响应信息
-	
+
 	DispatcherServlet 已经默认安装了 RequestMappingHandlerAdapter 作为 HandlerAdapter 的组件实现类
-	
+
+    HttpMessageConverter 接口方法：
+        Boolean canRead(Class<?> clazz, MediaType mediaType)
+            指定转换器可以读取的对象类型，即转换器可将请求信息转换为 clazz 类型的对象。同时指定支持的 MIME 媒体类型 ( 如 text/html、 application/json 等)
+
+        Boolean canWrite(Class<?> clazz, MediaType mediaType)
+            指定转换器可以将 clazz 类型的对象写到响应流中， 响应流支持的媒体类型在 mediaType 中定义
+
+        List<MediaType> getSupportedMediaTypes()
+            该转换器支持的媒体类型
+
+        T read(class<? extends T>) clazz, HttpInputMesssage inputMessage)
+            将请求信息流转换为T 类型的对象
+
+        void write(T t, MediaType contentType, HttpOutputMesssage outputMessage)
+
+
+
+
+
+
 . @RequestBody
 	将请求的 实体部分转换成字符串，将 POST 请求中的 data 部分转换成字符串
 	public String register(@RequestBody String requestBody) {
-	
+
 	}
-	
+
 . @ResponseBody
-	将返回结果以字符串的方式返回, 以下 ajax 返回的结果为 success 字符串, 或者返回图片流
+	将返回结果以字符串的方式返回, 以下 ajax 返回的结果为 success 字符串 | java 对象 | 图片流
 	@ResponseBody
+    @RequestMapping(path="/handle")
 	public String register() {
 		return "{name:zhoubingbing,age:23}";
 	}
-	
+
 	/*
 		public @ResponseBody String register() {
 			return "{name:zhoubingbing,age:23}";
 		}
 	*/
-	
+
+    @ResponseBody
+    @RequestMapping(path="/handle44/{imageId}")
+    public ResponseEntity<byte[]> handle44(@PathVariable(imageId)String imageId) throws Throwable{
+        Resource res = new ClassPathResoruce("./image.png");
+        byte[] fileData = FileCopyUtils.copyToByteArray(res.getInputStream());
+	    return fileData;
+    }
+
+
+
 . HttpEntity<T>
-	与 @RequestBody 类似，
+	与 @RequestBody 类似
 	HttpEntity 不但可以访问请求和响应报文体的数据， 还可以访问请求和访问报文头的数据
-	
+
 	m(HttpEntity<String> httpEntity){
 		long contentLen = httpEntity.getHeaders().getContentLength();
 		httpEntity.getBody()
 		...
 	}
-	
+
 . ResponseEntity<T>
-	ResponseEntity<byte[]> responseEntity = new ResponseEntity<byte[]>(fileData, HttpStatus.OK);
-	return responseEntity;
-	
-	
+    与 @ResponseBody 类似
+    @RequestMapping(path="/handle44/{imageId}")
+    public ResponseEntity<byte[]> handle44(@PathVariable(imageId)String imageId) throws Throwable{
+        Resource res = new ClassPathResoruce("./image.png");
+        byte[] fileData = FileCopyUtils.copyToByteArray(res.getInputStream());
+        ResponseEntity<byte[]> responseEntity = new ResponseEntity<byte[]>(fileData, HttpStatus.OK);
+	    return responseEntity;
+    }
+
+
+
 # 使用 @RestController 和 AsyncTestTemplate
-	
-. @RestController  
+
+. @RestController
 	改注解已经标注了@ResponseBody 和 @Controller
-	
+
 	如果在控制器类上标注 @RestController， 就不需要再 每个方法是添加 @ResponseBody
-	
+
 	@RestController
 	public class UserController{}
-	
+
 # 处理数据模型
 . ModelAndView 类
 	控制器处理的返回值如果为 ModelAndView, 则其即包含视图信息，又包含模型数据信息
-	
+
 	一般用于 jsp 页面，给 jsp 提供 ${value}
-	
+
 	@RequestMapping{value="/user", method=RequestMethod.POST}
 	public ModelAndView createUser(User user){
 		ModelAndView mav = new ModelAndView();
@@ -409,49 +450,49 @@
 	}
 	// .jsp
 	<p>恭喜 ${user.userName} 您创建成功！</p>
-	
+
 	ModelAndView 方法
 		ModelAndView addObject(String attributeName, Object attributeValue)
 		ModelAndView addAllObject(Map<String,?> modelMap)
-	
+
 		void setView(View view)
 		void setViewName(String viewName)
-	
+
 . @ModelAttribute 模型属型
 	将方法入参对象添加到模型中, 在 jsp 页面中可以直接使用 模型对象 ${user.name}
-	
+
 	public String handle(@ModelAttribute("user") User user){
 		return "url"
 	}
-	
+
 . Map 及 ModelMap
 	如果方法入参为 Map 或 ModelMap 类型，则Spring MVC 会将隐含模型的引用传递给这些入参
 	可以通过入参对象访问到模型中的所有数据， 也可以像模型添加新的属性数据
-	
-	
+
+
 	public String handle(ModelMap modelMap){
 		modelMap.addAttribute("key","value");
 		User user = (User)modelMap.get("user");
 		return "url"
 	}
-	
+
 . @SessionAttrbutes
 	实现多个请求公用某个数据属性数据，
 	@SessionAttrbutes(value={"user1","user2"})			将名为 user1 及 user2  的模型属性添加到 会话中，
 	@SessionAttrbutes(types={User.class, Dept.class})	将模型中所有类型为 User 及 Dept 的属性添加到 会话中
 	@SessionAttrbutes(value={"user1","user2"}, types={User.class, Dept.class})
-	
-	
-	
+
+
+
 	@SessionAttrbutes("user")
 	public class UserController{
-		
+
 		// 自动将此处的 user 模型属性保存到 HttpSession 中
 		@RequestMapping
 		handle(@ModelAttribute("user") User user){
-		
+
 		}
-		
+
 		handle2(ModelMap modelMap,SessionStatus sessionStatus){
 			// 读取数据模型中的数据
 			User user = (User)modelMap.get("user");
@@ -461,27 +502,27 @@
 			return "url"
 		}
 	}
-	
-	
+
+
 # 数据转换
 . ConversionService 接口
 	boolean canConvert(Class<?> sourceType, Class<?> targetType)
 		判断是否可以将一个类转换为另一个类
 	<T> T convert(Object source, Class<T> targetType)
 		将原类型队形转换为目标类型对象
-	
+
 	boolean canConvert(TypeDescriptor sourceType, TypeDescriptor targetType)
 		需要转换的类将以成员变量的方式出现在宿主类中。
 		TypeDescriptor 不但描述了需转换类的信息，还描述了从宿主类的上下文信息，如成员变量上的注解，成员变量是否已数组 集合 Map 的方式呈现
-		
+
 	Object convert(Object source, TypeDescriptor sourceType, TypeDescriptor targetType)
 		将对象从元类型对象转换为目标类型对象，此时往往会用到所在宿主类的上下文信息
-	
-	
+
+
 	/*
 		可以利用 org.springframework.context.support.ConversionServiceFactoryBean 在 Spring 的上下文中定义一个 ConversionService
 	*/
-	
+
 	<mvc:annotation-driven conversion-service="conversionService"/>
 	<bean id="conversionService">
 		class="org.springframework.context.support.ConversionServiceFactoryBean">
@@ -492,27 +533,27 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	注册到 ConversionServiceFactoryBean 的类必须实现  Spring 支持的转换器接口
-	
+
 	Converter<S, T>
 		public interface Converter<S, T>{
 			T convert(S source)
 		}
-		
+
 	ConverterFactory
 		public interface ConverterFactory<S, R>{
 			<T extends R> Converter<S, T> getConverter(Class<T> targetType)
 		}
-		
+
 	GenericConverter
 		public interface GenericConverter{
 			public Set<ConvertiblePair> getConvertibleTypes();
 			Object convert(Object source, TypeDescriptor sourceType, TypeDescriptor targetType);
 		}
-	
+
 	示例：
-	
+
 	public class StringToUserConverter implements Converter<String, User>{
 		public User convert(String source){
 			User user = new User();
@@ -523,12 +564,12 @@
 			return user;
 		}
 	}
-	
+
 	// GET: /book?user=nameV,passwordV,ageV
 	@RequsetParam("user") User user
-	
+
 # 使用 @InitBinder 和 WebBindingInitializer 装配自定义编辑器
-	
+
 	@RequestMapping()
 	public class UserController{
 		@InitBinder
@@ -536,25 +577,25 @@
 			binder.registerCustomEditor(User.class, new UserEditor();
 		}
 	}
-	
-	
+
+
 # 数据格式化
 	Spring 的 org.springframework.format.datatime 包中提供了用于时间格式化的 DateFromatter 实现类
-	
+
 	org.springframework.format.number 包中提供了 3个用于数字对象格式化的实现类
 		NumberFromatter			用于数字
 		CurrencyFromatter		用于货币
 		PercentFromatter		用于百分比
-	
+
 	在开发中可以手工调用这些 Formatter 接口实现类进行对象数据格式化工作， 但是不推荐使用。
 	Spring 提供了注解驱动模型数据输出时自动通过注解应用格式化功能
-	
+
 . 注解驱动
 	org.springframework.format.annotation 包
 	@NumberFromat
 	@DateTimeFromat
-	
-	
+
+
 	<mvc:annotation-driven conversion-service="conversionService"/>
 	<bean id="conversionService">
 		class="org.springframework.context.support.FromattingConversionServiceFactoryBean">
@@ -565,39 +606,39 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	/*
 		FromattingConversionService 的工厂类不仅支持自定义的转换器，还可以组侧自定义注解驱动逻辑
 	*/
-	
-	
+
+
 	public class User{
 		@DateTimeFromat(pattern="yyyy-MM-dd")
 		private Date birthday;
-		
+
 		@NumberFromat(pattern="#,###.##")
 		private long salary
 	}
-	
+
 . @DateTimeFromat
 	该注解可对java.util.Date、java.util.Calendar、java.long.Long 及 Joda 时间类型的属性进行注解。
-	
+
 	它支持以下几个互斥的属性：
 	iso 类型为 DateTimeFromat.ISO
 		DateTimeFromat.ISO.DATE: 格式为 yyyy-MM-dd
 		DateTimeFromat.ISO.DATE_TIME: 格式为 yyyy-MM-dd hh:mm:ss.SSSZ
 		DateTimeFromat.ISO.TIME: 格式为 hh:mm:ss.SSSZ
 		DateTimeFromat.ISO.NONE: 表示不应该使用ISO 格式的时间
-		
+
 	pattern		类型为 String, 使用自定义的时间格式化 如 yyyy-MM-dd hh:mm:ss
-	
+
 	style		类型为String，通过样式指定日期/时间的格式，有俩位字符组成，第一位表示日期的样式，第二位表示时间的样式
 		S 	短日期/时间的样式
 		M	中日期/时间的样式
 		L	长日期/时间的样式
 		F	完整日期/时间的样式
 		-	忽略日期或时间的样式
-	
+
 . @NumberFromat
 	该注解拥有俩个互斥的属性
 	pattern		类型为String ,使用自定义的数字格式化串，如 "##,###.##"
@@ -605,45 +646,45 @@
 		NumberFormat.Style.CURRENCY 货币类型
 		NumberFormat.Style.NUMBER	正常数字类型
 		NumberFormat.Style.PERCENT	百分数类型
-	
-	
+
+
 # 数据校验
 . JSR-303 Bean 数据合法校验的标准框架
 	@Null 			被注释的元素必须为 null
 	@NotNull		必须不为 null
-	
+
 	@AssertTrue		必须为 true
 	@AssertFalse	必须为 false
-	
+
 	@Min(value)		被注释的元素必须为是一个数字， 必须 >= 指定的值
 	@Max(value)		必须 <= 指定的值
-	
+
 	@DecimalMin(value)	同@Min
 	@DecimalMax(value)	同@Max
-	
+
 	@Size(max,min)		被注释的元素的大小必须指定的范围内
 	@Digits(integer,fraction)	被注释的元素必须为是一个数字，其值必须在可接受的范围内
-	
+
 	@Past			被注释的元素必须是一个过去的日期
 	@Future			被注释的元素必须是一个将来的日期
-	
+
 	@Pattern(regexp, flag)
-	
-	
+
+
 . Hibernate Validator 扩展注解
 	@Email
 	@URL(protocol, host, port, regexp, flags)
-	
+
 	@Length(min, max)	被注释的字符串的大小必须在指定的范围内
-	
+
 	@NotEmpty			被注释的字符串必须为非。空功能强于@NotNull
 	@NotBlank			不为null，不为空值，不为全空格。功能强大于@NotEmpty
-	
+
 	@Range(min, max)	被注释的元素必须在合适的范围内,判断数值的范围，不仅支持数值类型，还支持字符串、字节等等类型
-	
-	
+
+
 . Spring 校验框架
-	
+
 	<dependency>
 		<groupId>javax.validation</groupId>
 		<artifactId>validation-api</artifactId>
@@ -660,11 +701,11 @@
 		<version>2.2</version>
 		<scope>provided</scope>
 	</dependency>
-		
-		
+
+
 	// annotation-driven会自动装配一个 LocalValidatorFactoryBean
 	<mvc:annotation-driven />
-	<!-- 
+	<!--
 		<bean id="validator"
 			class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
 			<property name="validationMessageSource" ref="messageSource"/>
@@ -674,33 +715,33 @@
         <property name="basename">
 			<value>classpath:i18n/messages</value>
         </property>
-		
+
 		/*
 			<property name="basenames">
 				<list>
 					<value>classpath:i18n/messages</value>
-					<value>classpath:i18n/messages2</value> 
+					<value>classpath:i18n/messages2</value>
 				</list>
 			</property>
 		*/
     </bean>
-	
+
 	/*
 		装配此国际化资源后jsp 自动使用国际化资源显示消息
 	*/
-	
-	
+
+
 	使用：
 	@Pattern(regexp="w{4,30}")
 	@Length(min=2,max=4)
-	
+
 	// 获取校验结果
 	BindingResult 类定义的方法
 		FieldError getFieldError(String field)		根据属性名获取对应的校验错误
 		List<FieldError> getFieldErrors()
 		Object getFildValue(String field)			获取属性值
 		int getErrorCount							获取错误数量
-	
+
 	FieldError 对象实现了 org.springframework.content.MessageSourceResolvale 接口
 		Object getArguments() 返回一组参数对象
 		String[] getCodes()		返回一组消息代码，每个代码对应一个资源属性
@@ -711,26 +752,26 @@
 		Pattern.password
 		Pattern.java.lang.String
 		Pattern
-	
-	
+
+
 	public String handle(@Valid @ModelAttribute("user") User user, BindingResult bindingResult){
 		if(bindingResult.getErrorCount()>0){
-			//... 
+			//...
 		}
 	}
-	
-	
+
+
 	// 在jsp 中显示 错误值
 	<%@ page language="java" content="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp.jstl/core" %>
 	<%@ taglib prefix="form" uri="http://www.springframework.org/tags/from" %>
-	
+
 	...
 		<from:errors path="password" />
 		<from:password path="password" />
 	...
-	
-	
+
+
 . Hibernate validator 校验框架
 	<mvc:annotation-driven validator="validator" />
 	<bean id="validator"
@@ -739,7 +780,7 @@
 			value="org.hibernate.validator.HibernateValidator" />
 		<property name="validationMessageSource" ref="messageSource" />
 	</bean>
-	
+
 	<!-- 国际化的消息资源文件（本系统中主要用于显示/错误消息定制） -->
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basenames">
@@ -753,19 +794,19 @@
         <property name="defaultEncoding" value="UTF-8"/>
         <property name="cacheSeconds" value="60"/>
     </bean>
-	
+
 	// messages_zh_CN.properties
 	Pattern.user.userName=error message
-	
+
 	public class User(){
 		@Pattern(regexp = ".{6,32}",message="{Pattern.user.userName}")
 		private String userName;
 	}
-	
+
 	/*
 		此时 bindingResult 中的Errors#getDefaultMessage() 返回的错误消息 从 messages_zh_CN.properties 文件中读取
 	*/
-	
+
 # 加载静态资源 ---------------------------------------
 
 	<mvc:default-servlet-handler />
@@ -773,20 +814,20 @@
 	<mvc:resources mapping="/**/*.js" location="/dist/" />
 	<mvc:resources mapping="/**/assets/**" location="/dist/" />
 	<mvc:resources mapping="/**/static/**" location="/dist/" />
-	
+
 	定义后Spring 将通过  DefaultServletHttpRequestHandler 它对进入 DispatcherServlet 的 URL 进行筛查。
 	如果发现是静态资源的请求，就将该请求转悠 Web 应用服务器默认的 Servlet 处理，
 	如果不是静态资源的请求，则由 DispatcherServlet 继续处理。
-	
+
 	/*
 		这里的 dist 是 webpack 打包后，指定放置的文件夹， /webapp/dist
 		mvc:resources 重新指定读取静态资源的路径，  默认路径为 /webapp/, 此时需要指定为 /webapp/dist 目录
 	*/
-	
-	
+
+
 	Servlet 默认的名称都是 default，因此 DefaultServletHttpRequestHandler 可以找到它，
 		如果用户所使用的Web 服务器的的默认 Servlet名称不是default，则要通过 default-servlet-name 属性显示指定
-	
+
 	就不需要再web.xml 文件中定义 静态资源的映射, 需要放置在 DispatcherServlet 代码上面。
 		<servlet-mapping>
 			<servlet-name>default</servlet-name>
@@ -794,29 +835,29 @@
 			<url-pattern>*.css</url-pattern>
 			<url-pattern>*.html</url-pattern>
 		</servlet-mapping>
-		
+
 # 重定向静态资源访问路径 ---------------------------------------
 	<mvc:resources mapping="/**/*.css" location="/dist/,"/path2/" />
 	以上配置将css文件的url重定向到根路径 "/dist/,"/path2/" 中
-	
+
 	/*
 		./images/test.css 重定向到 /webapp/dist/images/test.css
 	*/
-	
+
 	cache-period="31536000"	该属性为客户端的缓存时间
-	
+
 . 解决静态文件缓存问题
 	<bean id="rep" class="com.smart.ResourcePathExposer"
 		init-method="init">
 	<mvc:resources mapping="#{rep.resourceRoot}/**" location="/">
-	
+
 	在jsp中使用 servletContext 中的属性
 	<img src="${resourceRoot}/images/img.png">
-	
+
 	public class ResourcePathExposer implements ServletContextAware{
 		private ServletContext servletContext;
 		private	String resourceRoot;
-		
+
 		public void init(){
 			String version = "1.2.1"; 发布版本号
 			resourceRoot = "resosurces-"+version;
@@ -826,18 +867,19 @@
 		public String getResourceRoot(){
 			return resourceRoot;
 		}
-		
+
 		@Override
 		public ServletContext setServletContext(ServletContext servletContext){
 			this.servletContext = servletContext;
 		}
-		
+
 		public ServletContext getServletContext(){
 			return servletContext;
 		}
-		
+
 	}
-	
+
+
 # 装配拦截器 ---------------------------------------
 	<mvc:interceptors>
 		<mvc:interceptor>
@@ -845,12 +887,12 @@
 			<bean class="com.smart.MyInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
-	
+
 	// MyInterceptor.class
 	public class MyInterceptor implements HandlerInterceptor {
 		@Override
 		public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-			
+
 			HttpSession session = request.getSession();
 			String username = (String) session.getAttribute("username");
 			if (username != null) {
@@ -860,78 +902,78 @@
 				response.sendRedirect(request.getContextPath() + "/success");
 				return false;
 			}
-			
+
 			// 只有返回true才会继续向下执行，返回false取消当前请求
 			// return true;
 		}
-		
+
 		@Override
 		public void postHandle(
-			HttpServletRequest request, 
-			HttpServletResponse response, 
+			HttpServletRequest request,
+			HttpServletResponse response,
 			Object handler,
 			ModelAndViewmodelAndView) throws Exception { }
-		
-		
+
+
 		@Override
 		public void afterCompletion(
-			HttpServletRequest request, 
-			HttpServletResponse response, 
-			Object handler, 
+			HttpServletRequest request,
+			HttpServletResponse response,
+			Object handler,
 			Exception ex) throws Exception {}
-			
+
 	}
-	
+
 # 异常处理 ------------------------------------------
 	Spring MVC 通过 HandlerExceptionResolver 处理程序的异常，包括处理器映射、数据绑定及处理器执行异常时发生的异常
 	HandlerExceptionResolver 只有一个接口方法
 		ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response,
 			Object handler, Exception ex)
-	
-	HandlerExceptionResolver 接口拥有4个 实现类，分别是	
+
+	HandlerExceptionResolver 接口拥有4个 实现类，分别是
 		DefaultHandelerExceptionResoler
 		AnnotationMethodHandlerExceptionResoler
 		ResponseStatusExceptionResoler
 		SimpleMappingExceptionResoler
-		
+
 
 	.DefaultHandelerExceptionResoler
 	Spring MVC 默认装配了 DefaultHandelerExceptionResoler， 将 Spring MVC 框架的异常转换为响应的状态相应码
 		500		web 服务器内部错误		ConversionNotSupportedException		HttpMessageNotWritableException
-		
+
 		400		坏的请求				HttpMessageNotReadableException MissingServletRequestParameterException	TypeMismatchException
 		404		找不到匹配的资源		NoSuchRequestHandlingMethodException
 		406		无和请求 accept 匹配的 MIME 类型	HttpMediaTypeNotAcceptableException
 		415		不支持的 MIME 类型		HttpMediaTypeNotSupportedException
-		
-		可以在web.xml 中卫响应状态吗配置一个对应的页面， 
-		
+
+		可以在web.xml 中卫响应状态吗配置一个对应的页面，
+
 		<error-page>
 			<error-code>404</error-code>
 			<location>/404.html</location>
 		</error-page>
-	
+
 	.AnnotationMethodHandlerExceptionResoler
 	Spring MVC 默认装配了 AnnotationMethodHandlerExceptionResoler, 它允许通过 @ExceptionHandler 注解指定处理特定异常的方法
-	
+
 		@RequestMapping
 		public String throwException(){
 			throw new RuntimeException("add");
 			return "url"
 		}
-		
+
 		@ExceptionHandler(RuntimeException.class)
 		public String handleException(RuntimeException re, HttpServletRequest request){
 			...
 			return "forward:/error.html"
 		}
-	
+
 	.ResponseStatusExceptionResoler
 		与	AnnotationMethodHandlerExceptionResoler 类似， 通过@ResponseStatus 注解标注一个方法用于处理特定类型的响应状态码
-	
+
 	.SimpleMappingExceptionResoler
 		如果希望对所有异常进行统一处理，则可以使用 SimpleMappingExceptionResoler，它将异常类名映射为视图名
-		
+
 		<bean id="handlerExceptionResoler">
 			class="org.springframework.web.servlet.handle.SimpleMappingExceptionResoler">
 			<props>
@@ -943,25 +985,25 @@
 				<prop>
 			</props>
 		</bean>
-	
-	
-	
+
+
+
 # 通过 工具类(RequestContextHolder)在 Controller 中获取 request 和 session 对象。
-	
+
 	HttpServletRequest request = ( (ServletRequestAttributes)RequestContextHolder.getRequestAttributes() ).getRequest();
-	
+
 	// web.xml
 	<listener>
 		<listener-class>
 			org.springframework.web.context.request.RequestContextListener
 		</listener-class>
 	</listener>
-	
-	
-	
+
+
+
 # Ajax 提交数据
 . 以 application/x-www-form-urlencoded 方式提交
-	
+
 	该方式是 Jquery ajax 默认的提交方式，实际上提交的是 "id=1&name=foo&mobile=13612345678" 字符串
 	$.ajax({
 		type : 'POST',
@@ -973,14 +1015,14 @@
 		},
 		success : function(response) {}
 	})
-	
+
 	服务端接收数据
 	@RequestMapping(path = { "api/register" }, method = RequestMethod.POST)
 	public String register(User user) {
 		return "success";
 	}
-	
-	
+
+
 . 以 application/json 方式提交
 	$.ajax({
 		type : 'POST',
@@ -993,13 +1035,13 @@
 		}),
 		success : function(response) {}
 	})
-	
+
 	服务端接收数据 需要添加 @RequestBody 注解
 	@RequestMapping(path = { "api/register" }, method = RequestMethod.POST)
 	public String register(@RequestBody User user) {
 		return "success";
 	}
-	
+
 	// pom.xml 添加依赖
 	<!--springmvc 转 Json -->
 	<dependency>
@@ -1022,11 +1064,11 @@
 		<artifactId>jaxb-api</artifactId>
 		<version>2.2</version>
 	</dependency>
-	
+
 # spring-mvc 返回 json Array  图片数据流
 	需要使用 @ResponseBody 注解， 可以 方法返回类型可以为 java 对象， List或Map 集合。
 	Spring 将自动将他们转换为 json 或 数组，供js Ajax 接受
-	
+
 	@RequestMapping
 	@ResponseBody
 	public List register() {
@@ -1035,12 +1077,11 @@
 		list.add(2);
 		return list;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+

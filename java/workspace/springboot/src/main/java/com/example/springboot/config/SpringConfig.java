@@ -18,4 +18,5 @@ public class SpringConfig  {
 		BookProperties book = new BookProperties();
 		return book;
 	}
+	
 }
