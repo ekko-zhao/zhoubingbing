@@ -370,7 +370,17 @@
         void write(T t, MediaType contentType, HttpOutputMesssage outputMessage)
 
 
+    如果需要装配其它类型的 HttpMessageConverter, 则可以在 Spring de Web 容器上下文中自行定义一个 RequestMappingHandlerAdapter
 
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" p:messageConverters-ref="hessageConverters">
+    <util:list id="hessageConverters">
+        <bean class="org.springframework.http.converter.BufferedImageHttpMessageConverter" />
+        <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+        <bean class="org.springframework.http.converter.StringHttpMessageConverter" />
+        <bean class="org.springframework.http.converter.BufferedImageHttpMessageConverter" />
+        <bean class="org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter" />
+    </util>
 
 
 
@@ -529,7 +539,7 @@
 		<property>
 			<list>
 				// 注册转换器
-				<bean class="com.smart.StringToUserConverter"
+				<bean class="com.smart.StringToUserConverter" />
 			</list>
 		</property>
 	</bean>
@@ -541,7 +551,7 @@
 			T convert(S source)
 		}
 
-	ConverterFactory
+	ConverterFactory<S, R>
 		public interface ConverterFactory<S, R>{
 			<T extends R> Converter<S, T> getConverter(Class<T> targetType)
 		}
@@ -565,7 +575,7 @@
 		}
 	}
 
-	// GET: /book?user=nameV,passwordV,ageV
+	// GET: /book?user=nameV:passwordV:ageV
 	@RequsetParam("user") User user
 
 # 使用 @InitBinder 和 WebBindingInitializer 装配自定义编辑器
