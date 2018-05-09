@@ -94,6 +94,7 @@
 	
 	# 修改默认的静态资源存放目录
 	spring.resources.static-locations= classpath:/static/
+	spring.mvc.static-path-pattern=/static/**
 		/*
 			默认路径为 /resources/ 下， 优先级别如下
 			"classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/"
@@ -157,8 +158,9 @@
 	logging.file=D:/mylog/log.log			配置日志级别
 	logging.level.org.springframework.web= DEBUG	配置日志文件，格式为 logging.level.包名=级别
 	
-	
-
+# 自动配置Formatter和Converter
+	搜索Formatter，就能够找到addFormatters这个方法里的定义，
+	我们只需要定义Converter、GenericConverter和Formatter接口实现的实现类Bean，就会注册Bean到Spring MVC中了。
 	
 	
 	
