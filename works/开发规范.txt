@@ -7,7 +7,6 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
-	// spring-boot
 	@Bean  
     public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {  
         ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet);
@@ -41,6 +40,10 @@
 	<mvc:resources mapping="/**/assets/**" location="/dist/" />
 	<mvc:resources mapping="/**/static/**" location="/dist/" />
 	
+	// spring-boot
+	spring.resources.static-locations= classpath:/static/
+	spring.mvc.static-path-pattern=/static/**
+	
 	
 # 服务端返回数据规范：	
 	Response: {
@@ -57,7 +60,7 @@
 		
 		
 # Ajax sevlet url 命名规范
-	Ajax 请求的sevlet url部分需要以 "/api" 开始，作为前后端分离开发规范。
+	Ajax 请求的sevlet url部分需要以 "/api/" 开始，作为前后端分离开发规范。
 	Ajax 请求的sevlet url需要登陆权限的，以 "/api/authorize/" 开始，以方便拦截器匹配拦截，检查是否登陆、超时等
 	
 	public class MyInterceptor implements HandlerInterceptor {
@@ -68,7 +71,7 @@
 		}
 	}
 
-
+	
 # 服务端接受请求规范：
 	所有Ajax POST 请求以 Content-type："application/json; charset=utf-8;" 方式提交
 

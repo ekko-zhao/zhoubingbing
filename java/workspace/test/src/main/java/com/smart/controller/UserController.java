@@ -82,6 +82,8 @@ public class UserController {
 		System.out.println("register");
 
 		Map map = new HashMap();
+		
+		user.setLastLoginTime("2018-05-08 9:28:22");
 		map.put("data", user);
 		map.put("code", "000000");
 		map.put("message", "message");
