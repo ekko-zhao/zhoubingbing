@@ -104,6 +104,8 @@
 	spring.mvc.view.prefix= /dist/
 	spring.mvc.view.suffix= .html
 		/*
+			配置 InternalViewResolver	
+			
 			@Configuration
 			public class SpringConfig  {
 				@Bean
@@ -164,7 +166,31 @@
 	
 	
 	
+# 自动配置 HttpMessageConverters
+	在 Spring Boot,中如果要更新自定义的 HttpMessageConverter,则只需定义一个 你自己的 HttpMessageConverter 的Bean, 然后在此 Bean 中注册自定义 HttpMessageConverter即可；
 	
+	@Bean 
+	public HttpMessageConverters customConverters(){
+		HttpMessageConverter<?> customConverter1 = new CustomConverter1();
+		HttpMessageConverter<?> customConverter2 = new CustomConverter2();
+		return new HttpMessageConverters(CustomConverter1, CustomConverter2);
+	}
+	
+	
+	@Configuration
+	public class WebMvcConfg implements WebMvcConfigurer {
+		@Autowired
+		public HttpMessageConverters httpMessageConverters;
+		
+		@Override
+		public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+			for (HttpMessageConverter<?> messageConverter : httpMessageConverters) {
+				System.out.println(messageConverter);
+			}
+			converters.addAll(this.httpMessageConverters.getConverters());
+			
+		}
+	}
 	
 	
 	
