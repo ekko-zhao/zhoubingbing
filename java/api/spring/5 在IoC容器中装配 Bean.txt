@@ -6,19 +6,19 @@
 		xsi:schemaLocation="http://www.springframework.org/schema/beans
 		   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
-		<bean id="carId" class="com.smart.Car" p:brand="红旗CA72" p:maxSpeed="200" p:color="黑色" /> 
-		
+		<bean id="carId" class="com.smart.Car" p:brand="红旗CA72" p:maxSpeed="200" p:color="黑色" />
+
 	</beans>
-	
-	
+
+
 	xmlns="http://www.springframework.org/schema/beans"			默认命名空间
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"		
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		:xsi 标准命名空间，用于指定自定义命名空间的Schema 文件
-	
+
 	xmlns:aop="http://www.springframework.org/schema/aop"
 		:aop 是自定义命名空间的简称
 		http://www.springframework.org/schema/aop	命名空间的全称，必须在xsi 命名空间为其指定空间对应的 Schema 文件
-	
+
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/aop
@@ -28,9 +28,9 @@
 
 
 
-		
+
 . Spring 4.0 的Schema 文件
-	
+
 	spring-beans-4.0.xsd		用于配置Bean
 	spring-aop-4.0.xsd			AOP 的配置定于 Schema
 	spring-tx-4.0.xsd			申明式事务配置定义的 Schema
@@ -39,12 +39,12 @@
 	spring-jee-4.0.xsd			为简化 Java EE 中 EJB JNDI 等功能的配置而提供的 Schema
 	spring-jdbc-4.0.xsd			配置内嵌数据库
 	spring-jms-4.0.xsd			JMS配置的 Schema
-	spring-lang-4.0.xsd	
+	spring-lang-4.0.xsd
 	spring-oxm-4.0.xsd			配置对象 XML 映射的Schema
 	spring-task-4.0.xsd			任务调度的 Schema
 	spring-tool-4.0.xsd
 
-	
+
 # 属性注入配置
 	属性注入要求 Bean 提供一个默认的构造函数， 并为属性提供对应的Setter 方法。
 	public class Car{
@@ -56,14 +56,14 @@
 	<bean id="carid" class="com.smart.Car">
 		<property name="maxSpeed"> <value>200</value>
 	</bean>
-	
-	
+
+
 . 构造函数注入
-	
+
 	public class Car{
 		...
 		public Car(String brand, double price){
-			
+
 		}
 	}
 	<bean id="carid" class="com.smart.Car">
@@ -75,16 +75,16 @@
 			<constructor-arg index="1" type="double" value="20000"/>
 		*/
 	</bean>
-	
-	
+
+
 . 通过自身类型反射匹配入参
 	public Boss(String name, Car car, Office office){
 		this.name = name;
 		this.car = car;
 		this.office = office;
 	}
-	
-	
+
+
 	<bean id="boss" class="com.smart.Boss">
 		<constructor-arg> <value>John</value> </constructor-arg>
 		<constructor-arg> <ref bean="carid"></constructor-arg>
@@ -92,11 +92,11 @@
 	</bean>
 	<bean id="carid" class="com.smart.Car"/>
 	<bean id="officeid" class="com.smart.Office"/>
-	
+
 	/*
 		当启动 Spring IoC 容器时， 因为存在循环依赖的问题，Spring 将无法启动
 	*/
-	
+
 . 工厂方法注入
 
 	非静态工厂方法
@@ -109,8 +109,8 @@
 		 }
 		<bean id="carFactoryid" class="com.smart.CarFactory"/>
 		<bean id="carid" factory-bean="carFactoryid" factory-method="createHongQicar" />
-	
-	
+
+
 	静态工厂方法
 		public class CarFactory{
 			public static Car createHongQicar(){
@@ -120,30 +120,30 @@
 			}
 		}
 		<bean id="carid" class="carFactoryid" factory-method="createHongQicar" />
-	
+
 
 # 注入参数详解-------------------------------------------------------------------------------
 	XML 特殊字符需要用 <![CDATA[奇瑞&lt; 006]]>
-	
-	< &lt;		
+
+	< &lt;
 	> &gt;
 	& &amp;
-	" &quot; '&apos;                                                                                                                                                                                                                                                
-	                                                                                                                                                       
+	" &quot; '&apos;
+
 . 字面值
 	<property name="maxSpeed">
 		<value>200</value>
 	<property>
 
-	
+
 . 通过 ref 引用其它 Bean
-	
+
 	<ref> 元素的属性
 		local 	属性不被允许
 		bean	通过该属性可以引用统一容器或父容器的Bean, 子集容器的Bean 优先级高, 如果同级容器没有找到，继续向父级容器查找 Bean
 		parent	在父级容器中查找 Bean
-	
-	
+
+
 	public class Boss {
 		public void setCar(Car car){
 			this.car = car;
@@ -152,8 +152,8 @@
 			return this.car = car;
 		}
 	}
-	
-	
+
+
 	// bean
 	<bean id="carid" class="com.smart.car">
 	<bean id="boss" class="com.smart.boss">
@@ -161,7 +161,7 @@
 			<ref bean="carid"/>
 		<property>
 	</bean>
-	
+
 	// parent
 	<bean id="carId" class="com.smart.Car" p:brand="奇瑞qq" p:maxSpeed="50" />
 	<bean id="bossId" class="com.smart.Boss" >
@@ -169,26 +169,26 @@
 			<ref bean="carId"/>
 		</property>
 	</bean>
-	
+
 	// 通过 xml 方式指定父级容器
 	ApplicationContext parent = new ClassPathXmlApplicationContext("com/smart/beanfactory/beans.xml");
 	ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[]{"com/smart/beanfactory/beans2.xml"}, parent);
 	Boss boos = ctx.getBean("bossId", Boss.class);
 		// 这里获取的是 beans.xml 中的 carId， 同级容器的 carId 无效
-	
-	
+
+
 . 内部 Bean
 	如果 car Bean 只被 boss Bean 应用，而不被容器中任何其他的 Bean 引用，则可以将 car 以内部 Bean 的方式注入 Boss
-	
+
 	<bean id="bossId" class="com.smart.Boss" >
 		<property name="car">
 			<bean id="carId" class="com.smart.Car" p:brand="奇瑞qq" p:maxSpeed="50" />
 		</property>
 	</bean>
-	
+
 . null 值
 	<property name="car"><null /></property>
-	
+
 . 链接属性
 	public class Boss {
 		private Car car = new Car();
@@ -199,13 +199,13 @@
 			return this.car = car;
 		}
 	}
-	
+
 	<bean id="bossId" class="com.smart.Boss" >
 		<property name="car.brand" value="奇瑞qq" /></property>
 	</bean>
-	
+
 	需要在 Boss 类中 给 car 属性初始化， 按照上面的配置 ，Spring 将调用 Boss.getCar().setBrand("奇瑞qq");
-	
+
 . 集合类型属性
 	// List
 	<bean name="" class="">
@@ -217,8 +217,8 @@
 			</list>
 		</property>
 	</bean>
-	
-	
+
+
 	// Set
 	<bean name="" class="">
 		<property name="property">
@@ -229,8 +229,8 @@
 			</set>
 		</property>
 	</bean>
-	
-	
+
+
 	// Map
 	<bean name="" class="">
 		<property name="property">
@@ -242,29 +242,29 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	如果 键或值 是引用对象
 		<entry>
 			<key> <ref bean="b" /> </key>
 			<ref bean="b" />
 		</entry>
-	
-	
+
+
 	// Properties
 	Properties 类型其实可以看作 Map 类型的特例。Map 元素的键和值可以是任何类型的对象，而Properties 属性的键和值都只能是字符串。
-	
+
 	public class Boss{
 		private Properties mails = new Properties();
-		
+
 		public Properties getMails(){
 			return mails;
 		}
-		
+
 		public void getMails(Properties mails){
 			this.mails = mails;
 		}
 	}
-	
+
 	<bean name="" class="">
 		<property name="mails">
 			<props>
@@ -273,12 +273,12 @@
 			</props>
 		</property>
 	</bean>
-	
-	
+
+
 	// 集合合并
 	Spring 支持集合合并的功能， 允许子 <bean> 继承同名（<property name=""> 相同的属性）属性集合元素，并将子 <bean> 中配置的集合属性值合并起来
 	作为最终 Bean 的属性值
-	
+
 	<bean id="parentBoss" abstract="true" class="">
 		<property name="favorites">
 			<set>
@@ -287,7 +287,7 @@
 			</set>
 		</property>
 	</bean>
-	
+
 	<!-- 通过parent 指定父容器 -->
 	<bean id="childBoss" parent="parentBoss" class="">
 		<property name="favorites">
@@ -297,31 +297,31 @@
 			</set>
 		</property>
 	</bean>
-	
-	
+
+
 	// 通过util 命名空间配置集合类型的 Bean
 	<beans
 		xmlns:util="http://www.springframework.org/schema/util"
-		
+
 		xsi:schemaLocation="
 			http://www.springframework.org/schema/util
 			http://www.springframework.org/schema/util/spring-util-4.0.xsd
 		"
 	>
 	</beans>
-	
+
 	<!-- 支持 value-type -->
 	<util:list id="" list-class="com.smart.class">
 		<value>0</value>
 		<value>1</value>
 	<util:list>
-	
+
 	<util:set id="" set-class="com.smart.class">
 		<value>0</value>
 		<value>1</value>
 	<util:set>
-	
-	
+
+
 	<!-- 支持 value-type key-type -->
 	<util:map id="" map-class="com.smart.class">
 		<entry key="key1" value="1"></entry>
@@ -335,88 +335,88 @@
 
 	字面值属性：
 				<property name="maxSpeed" value="200"/>
-	
+
 	构造函数参数：
 				<constructor-arg type="" value="奇瑞q5"/>
-	
+
 	集合元素：
 				<map>
 					<entry key="AM" value="会见客户">
 					<entry key="PM" value="会见客户">
 				</map>
-	
+
 . 引用对象属性
 	 字面值属性：
 				<property name="maxSpeed" ref="bean"/>
-	
-	
+
+
 	构造函数参数：
 				<constructor-arg ref="bean"/>
-	
+
 	集合元素：
 				<map>
 					<entry key-ref="keybean" value-ref="valuebean">
 				</map>
-		
-	
+
+
 . 使用 p 命名空间
-		
+
 	xmlns:p="http://www.springframework.org/schema/p"
-	
-	<bean id="boss" class="" p:car-ref="car" /> 
-	
-	
-	
+
+	<bean id="boss" class="" p:car-ref="car" />
+
+
+
 . 自动装配
 	<bean> 元素提供了一个指定自动装配类型的属性： autowire="type"
 	在实际开发中，XML 配置方式很少启用自动装配功能， 而基于注解的配置方式默认采用 byType 自动装配策略
-	
-	
+
+
 	自动装配类型：
 	byName		根据名称进行自动匹配。假设 Boss 有一个名为 car 的属性，如果容器中刚好有一个名为 car 的Bean, Spring 就会自动将其
 				装配给 Boss 的 car 属性
-					
+
 	byType		根据类型进行自动匹配。假设 Boss 有一个Car 类型的属性，如果容器中刚好有一个 Car 类型的Bean, Spring 就会自动将其
 				装配给 Boss 的 car 属性
-	
+
 	constructor	与byType 类似，只不过它是针对构造函数注入而言的。如果Boss 有一个构造函数，且含一个 Car 类型的入参，如果容器中
 				有一个 Car 类型的Bean，Spring 就会自动把这个Bean  作为Boss 构造函数的入参，如果没有找到 匹配类型的Bean 则抛出异常
-	
+
 	autodetect	根据Bean 的自省机制决定采用 byType 还是 autodetect。 如果Bean 提供了 默认的构造函数，则采用 byType, 否则采用 constructor
-	
-	
-	
-	
+
+
+
+
 # 方法注入
 	lookup 方法注入
-	
+
 	MagicBoss 接口
 		public interface MagicBoss{
 			Car getCar();
 		}
-		
-	
+
+
 	// applicationContext.xml
 	<bean id="car" class="com.smart.Car"> p:brand="" scope="prototype"/>
 	<bean id="MagicBoss" class="com.smart.MagicBoss">
 		<lookup-method name="getCar" bean="car">
 	</bean>
-	
+
 	@test
 	ApplicationContext app = new ClassPathXmlApplicationContext("classpath:resource/applicationContext.xml");
 	MagicBoss mb1= (FruitPlate)app.getBean("MagicBoss");
 	MagicBoss mb2= (FruitPlate)app.getBean("MagicBoss");
-	
-	
+
+
 	每次调用 MagicBoss 的 getCar 都会返回 car 的实例
-	
-	
+
+
 # 方法替换
 	用于替换他人的 Bean 必须实现 MethodReplacer 接口， Spring 将利用该接口的方法去替换目标 Bean 的方法。
-	
+
 	public class Boss1{
 		public Car getCar(){
-			
+
 		}
 	}
 	public class Boss2 implments MethodReplacer{
@@ -424,27 +424,27 @@
 			return car;
 		}
 	}
-	
-	
-	
+
+
+
 	<bean id="boss1" class="com.smart.Boss1">
 		<replaced-method name="getCar" replacer="boss2">
 	</bean>
 	<bean id="boss2" class="com.smart.Boss2"></bean>
-	
-	
+
+
 # <bean> 之间的关系
 . 继承
 	不但可以通过<ref> 引用另一个 Bean，建立起 Bean 和 Bean 之间的依赖关系，
 	<bean> 元素标签之间也可以建立类似的关系，完成一些特殊的功能
-	
+
 	<!-- abstract="true" 表示 这个<bean> 不实例化一个对应的Bean  -->
 	<bean id="abstractCar" class="com.smart.Car" p:brand="红旗" p:price="2000.00" abstract="true">
 	<bean id="car1"  p:color="red" parent="abstractCar">
 	<bean id="car2"  p:color="yellow" parent="abstractCar">
-	
-	
-	
+
+
+
 # 依赖
 	Spring 允许用户通过 depends-on 属性显示指定 Bean 前置依赖的 Bean，前置依赖的Bean 会在本Bean 实例化之前创建好。
 
@@ -452,7 +452,7 @@
 		public static int SESSION_TIMEOUT = 30;
 		public static int REFRESH_CYCLE = 60;
 	}
-	
+
 	public class SysInit{
 		// 模拟读取数据
 		public SysInit{
@@ -460,7 +460,7 @@
 			SystemSettings.REFRESH_CYCLE = 100;
 		}
 	}
-	
+
 	public class CacheManager{
 		public CacheManager{
 			Timer time = new Timer();
@@ -468,139 +468,139 @@
 			time.schedule(time, 0 , SystemSettings.REFRESH_CYCLE)
 		}
 	}
-	
+
 	<bean id="manager" class="com.sarmt.CacheManager" depends-on="sysInit"/>
 	<bean id="sysInit" class="com.smart.SysInit" />
-	
-	
+
+
 # 引用
 	假设一个<bean> 要引用另一个 <bean> 的id 属性值，则可以直接使用以下配置方式：
 		<bean id="car" class="">
 		<bean id="boss" class="" p:carId="car" scope="prototype" />
-	
+
 	这样的写法不好的地方是 当 p:carId="carnone" 写错时， 知道编译是才能报错
-	
+
 	<bean id="car" class="">
 	<bean id="boss" class="" scope="prototype">
 		<property name="carId" >
 			<idref bean="car"/>	// 这里 bean 属性值被写错时 报错；
 		</property>
 	</bean>
-	
-	
+
+
 # 整合多个配置文件
-	
+
 	<import resource="classpath:com/car.xml" />
 	<bean id="boss1" class="" p:name="John" p:car-ref="car1" />
 	<bean id="boss2" class="" p:name="John" p:car-ref="car2" />
-	
+
 	/*
-		在 car.xml 中已经配置了bean car1、car2 
+		在 car.xml 中已经配置了bean car1、car2
 	*/
-	
-	
+
+
 # bean的作用域
-	1. singleton (scope 默认值) 
+	1. singleton (scope 默认值)
 		当一个bean的作用域设置为singleton,那么SpringIOC容器中只会存在一个共享的bean实例，并且所有对bean的请求，只要id与该bean定义相匹配，则只会返回bean的同一实例。
 		如果不希望在容器启动是提前实例化 singleton 的Bean，则可以通过 lazy-init="true"， 不过在其它Bean 需要的时候会被提前初始化
-			<bean id="role" class="spring.chapter2.maryGame.Role" scope="singleton"/> 
-	
+			<bean id="role" class="spring.chapter2.maryGame.Role" scope="singleton"/>
+
 	2. prototype
 		prototype作用域部署的bean，每一次请求（将其注入到另一个bean中，或者以程序的方式调用容器的getBean()方法）都会产生一个新的bean实例，
 		相当与一个new的操作，对于prototype作用域的bean，有一点非常重要，那就是Spring不能对一个prototypebean的整个生命周期负责，
 		容器在初始化、配置、装饰或者是装配完一个prototype实例后，将它交给客户端，随后就对该prototype实例不闻不问了。
 		不管何种作用域，容器都会调用所有对象的初始化生命周期回调方法，而对prototype而言，任何配置好的析构生命周期回调方法都将不会被调用。
-	
+
 		<bean id="role" class="spring.chapter2.maryGame.Role" scope="prototype"/>
-		
+
 	3. request
 		request表示该针对每一次HTTP请求都会产生一个新的bean，同时该bean仅在当前HTTP request内有效。
-		
+
 		配置实例：request、session、global session使用的时候首先要在初始化web的web.xml中做如下配置：如果你使用的是Servlet 2.4及以上的web容器，那么你仅需要在web应用的XML声明文件web.xml中增加下述ContextListener即可:
 			<listener>
 				<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 			</listener>
-		
+
 		如果是Servlet2.3以前的web容器,那么你要使用一个javax.servlet.Filter的实现：
-		<filter> 
-			<filter-name>requestContextFilter</filter-name> 
+		<filter>
+			<filter-name>requestContextFilter</filter-name>
 			<filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
-		</filter> 
-		<filter-mapping> 
-			<filter-name>requestContextFilter</filter-name> 
+		</filter>
+		<filter-mapping>
+			<filter-name>requestContextFilter</filter-name>
 			<url-pattern>/*</url-pattern>
 		</filter-mapping>
-	
+
 		接着既可以配置bean的作用域了：
 			<bean id="role" class="spring.chapter2.maryGame.Role" scope="request"/>
-			
+
 			/*
 				<bean id="" class="" scope="request">
 					<!-- 创建代理  -->
 					<aop:scope-proxy>
 				</bean>
 			*/
-	
+
 	4. session
 		session作用域表示该针对每一次HTTP请求都会产生一个新的bean，同时该bean仅在当前HTTP session内有效，配置实例：配置实例：和request配置实例的前提一样，配置好web启动文件就可以如下配置：
 
 		<bean id="role" class="spring.chapter2.maryGame.Role" scope="session"/>
-		
-	5. global session 
+
+	5. global session
 		global session作用域类似于标准的HTTP Session作用域，不过它仅仅在基于portlet的web应用中才有意义。
 		在global session作用域中定义的bean被限定于全局portlet Session的生命周期范围内。如果你在web中使用global session作用域来标识bean，那么web会自动当成session类型来使用。
 		配置实例：和request配置实例的前提一样，配置好web启动文件就可以如下配置：
 		<bean id="role" class="spring.chapter2.maryGame.Role" scope="global session"/>
-	
-	
+
+
 # 依赖作用域问题
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	
+
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/aop
 		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
 	">
-	
+
 	<bean name="car" class="" scope="request">
 		<aop:scope-proxy />
 	</bean>
-			
+
 	<bean name="boss" class="">
 		<property name="car" ref="car"/>
 	</bean>
-			
-	
+
+
 	/*
 		car Bean 是 request 作用域，被 singleton 作用域的 boss Bean 引用。
 		为了使Boss 能够从适当作用域中获取 car Bean 的引用，需要使用 Spring AOP 的标签，需要在文档申明头中定义aop 命名空间
 	*/
 
-	
-	
+
+
 # 基于注解的配置 --------------------------------------------------------------------------------
 	@Component("userDao")
 	public class UserDao{
 		// ...
 	}
-	
+
 	// 和一下 配置是等效的：
 	public class UserDao{
 		// ...
 	}
-	
+
 	<baen id="userDao" class="com.smart.userDao" />
-	
-	
+
+
 	除 @Component 外，Spring 还提供了 3 个功能基本和@Component 等效的注解，
 	分别用于 DAO、Service、及 Web 层的 Controller 进行注解
-	
+
 	@Repository:	用于对 DAO 实现类进行标注
 	@Service:		用于对 Service 实现类进行标注
 	@Controller:	用于对 Controller 实现类进行标注
-	
+
 . 扫描注解定义的 Bean
 	xmlns:context="http://www.springframework.org/schema/context"
-	
+
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-4.0.xsd
@@ -608,64 +608,64 @@
 	<context:component-scan base-package="com.smart" />
 		base-package		该属性设置基类包
 		resource-pattern	默认值 "**/*.class", 既 base-package 包内所有的 class,  anno/*.class 指定com.smart.anno内的类
-	
-		use-defualt-filters 
+
+		use-defualt-filters
 							该属性默认值为 use-defualt-filters="true" 标识默认会对标注 @Component @Repository @Service @Controller 的Bean 进行扫描，
 							如果想仅扫描 @Controller 的Bean，则必须将 该属性值设为 false
 							<context:component-scan base-package="com.smart" use-defualt-filters="false">
 								<context:include-filter type="annotation"
 									expression="org.springframework.stereotype.Controller">
 							</context:component-scan>
-	
+
 	<context:component-scan base-package="com.smart">
 		<context:include-filter type="" expression="" />
 		<context:exclude-filter type="" expression="" />
 	</context:component-scan>
-	
+
 	/*
 		include-filter 和 exclude-filter 均支持多种类型的过滤表达式
-		
+
 		type:			示例：
 		annotation		com.smart.XxxAnnotation 所有标注了 XxxAnnotation  注解 的类，该类型采用目标类是否标注了某个注解进行过滤
 		assignable		com.smart.XxxService	所有继承或扩展 XxxService 的类，该类型采用目标类是否继承或扩展了某个特定类进行过滤
 		aspectj			com.smart..*Service+	所有类名以 Service 结束的类以及继承或扩展它们的类，该类型采用 Aspectj 表达式进行过滤
-		
+
 		regex			com\.smart\.anno\..*	所有 com.smart.anno 包下的类。该类型采用正则表达式根据目标类的类名进行过滤
 		custom			com.smart.XxxTypeFilter	采用 XxxTypeFilter 代码方式实现过滤规则，该类必须实现 org.springframework.core.type.TypeFilter 接口
-		
+
 	*/
-	
+
 # 自动装配
 . 使用@Autowired 进行自动注入
-	
+
 	@Service
 	public class LogonService{
 		@Autowired
 		private LogDao logDao;
-		
+
 		@Autowired
 		private UserDao userDao;
 	}
-	
+
 	@Autowired(required=false)	表示找不到匹配的 Bean 时不报错
-	
+
 	@Qualifier("beanName") 多个 Bean 可以匹配时，需要 @Qualifier限定Bean 的名称
-	
-	@Lazy	
+
+	@Lazy
 		对于在Bean 上标注@Lazy 及 @Autowired 注解的属性，不会立即注入属性值，而是延迟到调用此属性的时候才会注入属性值
-	
+
 	@Resource 、@Inject 和 @Autowired 功能类似 @Resource 需要限定Bean 的名称 @Resource("beanName")
-	
+
 . Bean 作用域范围及生命过程方法
 	@Scope("prototype")
 	@Component
 	public class Test{
-	
+
 	}
-	 
-	@PostConstruct和 @PreDestroy 方法注解注解， 相当于 xml文件配置中的 (init-method  destory-method) 属性 
-	
-	
+
+	@PostConstruct和 @PreDestroy 方法注解注解， 相当于 xml文件配置中的 (init-method  destory-method) 属性
+
+
 # 基于 Java 类的配置
 	@Configuration 注解本身已经标注了 @Component 注解，所以任何标注@Configuration的类相当于标注了 @Component
 
@@ -677,42 +677,42 @@
 			Car car = new Car();
 			return car;
 		}
-		
+
 		@Bean
 		public LoginService loginService(){
 			LoginService loginService = new LoginService();
 			loginService.setLogDao(getCar());
 			return loginService;
 		}
-		
+
 	}
-	
+
 . 使用基于 Java 类的配置信息启动 Spring 容器
-	
+
 	AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(CarBeans.class);
 	Car car = ctx.getBean("carId", Car.class);
-	
+
 	/*
 		AnnotationConfigApplicationContext 类还支持注册多个 @Configuration 配置
 			ApplicationContext ctx = new AnnotationConfigApplicationContext();
 			ctx.register(A.class);
 			ctx.register(B.class);
-			ctx.refresh();      
-			
+			ctx.refresh();
+
 		可以通过代码一个一个地注册配置类，也可以通过 @Import 将多个配置类组装到一个配置类中，这样仅需要注册这个配置类就可以启动容器了
-		
+
 		@Configuration
 		@Import(SomeConfig.class)
 		public class ServiceConfig{
-		
+
 		}
-		
+
 	*/
-	
+
 . 通过 XML 配置文件引用 @Configuration 的配置
 	<context:component-scan base-package="com.smart.cof" resource-pattern="Config.class" />
-	
-	
+
+
 . 通过@Configuration 配置类引用 XML 配置信息
 	@Configuration
 	@ImportResource("classpath:*.xml")
@@ -720,14 +720,14 @@
 		@Bean
 		@Autowired
 		public loginService(UserDao userDao){
-			//... 
+			//...
 			return loginService;
 		}
 	}
-	
-	
-	
-# 获取 applicationContext 
+
+
+
+# 获取 applicationContext
 	@Component
 	public class SpringUtil implements ApplicationContextAware {
 		private static ApplicationContext applicationContext;
@@ -762,19 +762,19 @@
 		public static <T> T getBean(String name, Class<T> clazz) {
 			return getApplicationContext().getBean(name, clazz);
 		}
-		
-		
+
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+    // 获取Spring 容器中注册的Bean
+	BookProperties book = SpringUtil.getBean("handler", BookProperties.class);
+
+
+
+
+
+
+
+
+
+

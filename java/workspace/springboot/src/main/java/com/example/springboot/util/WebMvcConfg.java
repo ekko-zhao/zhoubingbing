@@ -26,5 +26,4 @@ public class WebMvcConfg implements WebMvcConfigurer {
 			System.out.println(messageConverter); // 2
 		}
 	}
-	// configureMessageConverters
 }

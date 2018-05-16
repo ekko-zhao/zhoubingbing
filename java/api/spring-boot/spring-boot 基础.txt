@@ -193,23 +193,138 @@
 	}
 	
 	
+# spring-boot 注册 Servlet、Filter、Listener
+	springboot 提供了 ServletRegistrationBean,FilterRegistrationBean,ServletListenerRegistrationBean三个类来注入servlet,filter,listener
+	
+. 注册 Servlet
+
+	@Bean
+	public ServletRegistrationBean servletRegistrationBean() {
+		return new ServletRegistrationBean(new IndexServlet(), "/indexOther");
+		
+		/*
+			ServletRegistrationBean myServlet = new ServletRegistrationBean();  
+			myServlet.addUrlMappings("/indexOther");
+			myServlet.setServlet(new IndexServlet());
+			
+			
+		*/
+		
+		/*
+			IndexServlet indexServlet=new IndexServlet();
+			ServletRegistrationBean registrationBean=new ServletRegistrationBean();
+			
+			// registrationBean.addUrlPatterns("/*");  
+			
+			
+			registrationBean.setServlet(indexServlet);
+			List<String> urlMappings = new ArrayList<String>();
+			urlMappings.add("/index");//访问，可以添加多个
+			registrationBean.setUrlMappings(urlMappings);
+			registrationBean.setLoadOnStartup(1);
+			return registrationBean;
+		*/
+		
+	}
+	
+
+	public class IndexServlet extends HttpServlet {
+		/*
+		@Override
+		public void init(ServletConfig config) throws ServletException {
+			super.init(config);
+		}
+		*/
+		
+		@Override
+		protected void doGet(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
+			response.sendRedirect("/index");
+		}
+	}
+	
+	/*
+		@RequestMapping("/index")
+		String index() {
+			return "index";
+		}
+	*/
 	
 	
+. 注册 Filter
+	可以匹配 pattern 表达式
+	
+	public class DemoFilter implements Filter{
+ 
+		@Override
+		public void init(FilterConfig filterConfig) throws ServletException {
+			System.out.println("==>DemoFilter启动");
+		}
+	 
+		@Override
+		public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+			System.out.println("==>DemoFilter拦截请求");
+			chain.doFilter(request, response);
+		}
+	 
+		@Override
+		public void destroy() {
+			
+		}
+	}
+	
+	                                                                                                                                                                                              
+	@Bean
+	public FilterRegistrationBean getDemoFilter(){
+		DemoFilter demoFilter=new DemoFilter();
+		FilterRegistrationBean registrationBean=new FilterRegistrationBean();
+		registrationBean.setFilter(demoFilter);
+		List<String> urlPatterns=new ArrayList<String>();
+		urlPatterns.add("/*");//拦截路径，可以添加多个
+		registrationBean.setUrlPatterns(urlPatterns);
+		registrationBean.setOrder(1);
+		return registrationBean;
+	}
+	
+	/*
+		@Bean
+		public FilterRegistrationBean filterRegistrationBean() {
+			FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+			filterRegistrationBean.setFilter(new WebStatFilter());
+			filterRegistrationBean.addUrlPatterns("/*");
+			filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
+			return filterRegistrationBean;
+		}
+	*/
+	
+. 注册 Listener
+	在spring-boot 启动的时候会执行
+
+	import javax.servlet.ServletContextEvent;
+	import javax.servlet.ServletContextListener;
+
+	public class DemoListener implements ServletContextListener {
+		@Override
+		public void contextInitialized(ServletContextEvent sce) {
+			System.out.println("==>DemoListener启动");
+
+		}
+
+		@Override
+		public void contextDestroyed(ServletContextEvent sce) {
+
+		}
+	}
+
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Bean
+	public ServletListenerRegistrationBean<EventListener> getDemoListener() {
+		ServletListenerRegistrationBean<EventListener> registrationBean = new ServletListenerRegistrationBean<>();
+		registrationBean.setListener(new DemoListener());
+		// registrationBean.setOrder(1);
+		return registrationBean;
+	}
 	
 	
 	

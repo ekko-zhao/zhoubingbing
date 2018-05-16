@@ -14,7 +14,10 @@ public class IndexController {
 	
 	@RequestMapping(value= {"/","/index"})
 	String indexHandler() {
+		BookProperties book = SpringUtil.getBean("handler", BookProperties.class);
+		System.out.println(book.getId());
 		return "index"; 
 	}
+	
 	
 }
