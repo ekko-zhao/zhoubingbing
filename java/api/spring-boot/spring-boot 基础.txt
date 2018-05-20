@@ -252,7 +252,6 @@
 	
 	
 . 注册 Filter
-	可以匹配 pattern 表达式
 	
 	public class DemoFilter implements Filter{
  
@@ -328,12 +327,100 @@
 	
 	
 	
+# 代码配置 Tomcat
+	如果需要通过代码的方式配置 servlet 容器，则可以注册一个 EmbeddedServletContainerCustomizer 接口的Bean,
+	
+	Tomcat 	注册 EmbeddedServletContainerCustomizer
+	Jetty	注册 JettyEmbeddedServletContainerFactory
+	Undertow	 UndertowEmbeddedServletContainerFactory
+	
+	@Component
+	public class CustomServletContainer implements EmbeddedServletContainerCustomizer{
+		@Override
+		public void customize(ConfigurableEmbeddedServletContainer container){
+			container.setPort(8090);
+			container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND,"/404.html"));
+			container.setSessionTimeout(10,TimeUnit.MINUTES);
+		}
+	}
+	
+	/*
+		如要在 @SpringBootApplication 配置类文件内添加类的 Bean 的话， 注意当前类要声明为 static
+		
+		@SpringBootApplication
+		publi class App{
+			
+			@Component
+			public static class CustomServletContainer implements EmbeddedServletContainerCustomizer{
+				//...
+			}
+		}
+		
+	*/
+	
+# 替换 Tomcat
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web</artifactId>
+		<exclusions>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+		</exclusions>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-jetty</artifactId>
+	</dependency>
+	
+	/*
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-undertow</artifactId>
+		</dependency>
+	*/
 	
 	
 	
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	
 	
 	

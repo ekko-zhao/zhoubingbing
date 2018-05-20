@@ -38,17 +38,17 @@ public class SpringConfig {
 	 * MyServlet()); return myServlet; }
 	 */
 
-	@Bean
+	/*@Bean
 	public ServletRegistrationBean servletRegistrationBean() {
 		return new ServletRegistrationBean(new IndexServlet(), "/signin");
-	}
+	}*/
 
-	@Bean
+	/*@Bean
 	public ServletListenerRegistrationBean<EventListener> getDemoListener() {
 		ServletListenerRegistrationBean<EventListener> registrationBean = new ServletListenerRegistrationBean<>();
 		registrationBean.setListener(new DemoListener());
 		// registrationBean.setOrder(1);
 		return registrationBean;
-	}
+	}*/
 
 }
