@@ -46,31 +46,36 @@ public class UserController {
 	 * @RequestMapping("/index") public @ResponseBody String test() { return
 	 * "hello, world! This com from spring!"; }
 	 */
-	
+
 	@RequestMapping(path = { "login" })
 	public String loginHandler(HttpServletRequest request, ServletRequest servletRequest) {
 		System.out.println("index");
 		return "login";
 	}
-	
+
 	@RequestMapping(path = { "api/logout" })
 	@ResponseBody
 	public Map logout(HttpServletRequest request, ServletRequest servletRequest) {
 		Map map = new HashMap();
-		//map.put("data", user);
+		// map.put("data", user);
 		map.put("code", "000000");
 		map.put("message", "ok");
 		return map;
 	}
-	
-	@RequestMapping(path = {  "", "index", "wel/ch"})
+
+	@RequestMapping(path = { "", "index", "bam/usermanage", "app/usermanage", "app/rolemanage" })
 	public String index(HttpServletRequest request, ServletRequest servletRequest) {
 		System.out.println("index");
 		return "index";
 	}
-	
 
-	@RequestMapping(path = { "api/login" }, method = RequestMethod.POST)
+	@RequestMapping(path = { "register" })
+	public String register(HttpServletRequest request, ServletRequest servletRequest) {
+		System.out.println("register");
+		return "register";
+	}
+
+	@RequestMapping(path = { "api/cmmp/manage/login" }, method = RequestMethod.POST)
 	@ResponseBody
 	public Map register(@RequestBody @Valid User user, BindingResult bindingResult, HttpServletRequest request)
 			throws Exception {
@@ -82,7 +87,7 @@ public class UserController {
 		System.out.println("register");
 
 		Map map = new HashMap();
-		
+
 		user.setLastLoginTime("2018-05-08 9:28:22");
 		map.put("data", user);
 		map.put("code", "000000");
@@ -90,7 +95,7 @@ public class UserController {
 		// throw new Exception("asd");
 
 		// System.out.println(HttpStatus.UNAUTHORIZED);
-		Thread.sleep(1000*1);
+		Thread.sleep(1000 * 1);
 		return map;
 	}
 

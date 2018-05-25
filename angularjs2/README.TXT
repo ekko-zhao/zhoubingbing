@@ -398,7 +398,7 @@ interests:any[] =[
 ]
 
 <select name="interestValue" [(ngModel)]="">
-	<option *ngFor="let interest of interests" value="interest.value of interest">{{ interest.text }}</option>
+	<option *ngFor="let interest of interests" [value]="interest.value">{{ interest.text }}</option>
 </select>
 
 多选时 select 的值为 数组
@@ -676,13 +676,19 @@ export class SexReform implements PipeTransform{
 
 
 //指令-------------------------------------------------------------------------------------------------------------
+
+
+*ngIf=""
+[hidden]=""
+(ngModelChange)
+
+
 <li *ngFor="let item of items; let i = index;"></li>
 <li *ngFor="let item of items; trackBy: trackByfn; let isEven=even; let isFirst=first; let isOdd=odd; let isLast=last;"></li>
 trackByfn(index : number, contact : Hero){
 	return contact.id;
 }
 
-*ngIf=""
 
 //自定义指令------------------
 import { Directive, ElementRef} from '@angular/core';

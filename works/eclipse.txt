@@ -40,7 +40,7 @@ open.lakala.com
 	发票管家注册页面
 	http://127.0.0.1:8111/invoice/addHeader?weixinId=oF5THwUy5R2TMm5frfExmP-ihLKU&merchantId=92200000001455199014552
 	
-	发票管家注册页面
+	发票管家 商户注册
 	http://127.0.0.1:8111/invoice/merchantReg
 	
 	扫码开票
@@ -95,9 +95,20 @@ CPS 外包商服务网站
 	https://s.lakala.com/bmmp4/adminLogin.html
 	admin/2Qaz@bmmp40109
 	
+# 互联网POS+管理控制台
+	
+	测试：
+	测试的open.lakala 地址为 http://10.7.111.139:8083/
+	测试管理控制台http://10.7.111.138:8081/manager/Welcome.htm   
+	帐号posplus----123456
+	
+	生产：
+	https://open.lakala.com/manager/Welcome.htm
+	lizheng----Abc@123456
 	
 	
 收单管理系统
+http://10.7.111.164:8063/Welcome.htm
 	zhangchaoqun	Zcq123456!
 	zhangfeifei	Zhangfeifei@123
 	Welcome.htm
