@@ -50,7 +50,18 @@ git commit -m "" --author=""
 # 添加环境变量
 	set PATH=%PATH%;C:\Program Files\Git\bin
 
-
+# 新建分支
+git branch branchname
+	
+# 切换到指定分支
+git checkout branchname
+	
+# 拉取分支代码 git push origin originbranchname
+	
+# 提交分支
+git push origin localbranchname:originbranchname
+	
+	
 # Mac
 	$ssh-keygen -t rsa -C zhoubbmls@sina.com
 
