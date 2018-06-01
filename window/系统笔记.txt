@@ -4,3 +4,7 @@
 	sfc /scannow
 	Dism /Online /Cleanup-Image /CheckHealth
 	DISM /Online /Cleanup-image /RestoreHealth
+	
+# 杀死进程
+	netstat -ano|findstr 8080
+	taskkill  /f  /pid  4656

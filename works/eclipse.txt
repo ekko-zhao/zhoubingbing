@@ -114,6 +114,11 @@ http://10.7.111.164:8063/Welcome.htm
 	Welcome.htm
 
 
+客户经理后台管理系统
+	admin123
+	lakala123
+
+
 友盟统计平台的官方网站为： www.umeng.com  ------------------------------------------------
 	wangyuzhu@lakala.com 
 	123456a

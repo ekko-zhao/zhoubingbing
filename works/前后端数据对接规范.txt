@@ -7,6 +7,7 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
+	// spring-boot
 	@Bean  
     public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {  
         ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet);
@@ -22,12 +23,12 @@
 # 前端页面以静态资源 html 显示，spring视图解析器后缀配置为 ".html"
 	// spring-boot
 	spring.resources.static-locations= classpath:/static/
+	spring.mvc.static-path-pattern = /**
 	spring.mvc.view.prefix= /dist/
 	spring.mvc.view.suffix= .html
 	
 	@RequestMapping(value={"/", "/index"})
 	String indexHandler() {
-		// 验证登陆状态，没有登陆从定向到登录页面
 		return "index";
 	}
 	
@@ -42,14 +43,15 @@
 	
 	// spring-boot
 	spring.resources.static-locations= classpath:/static/
-	spring.mvc.static-path-pattern=/static/**
+	spring.mvc.static-path-pattern = /**
 	
 	
 # 服务端返回数据规范：	
 	Response: {
 		data:{} | [] | String,
 		message:"成功",
-		code："000000"
+		code："000000",
+		total： number
 	}
 	data 	可以为对象、数组或者是字符串。 依据页面需求而定
 	message 为返回的信息
@@ -57,11 +59,12 @@
 		请求成功为 			"000000"
 		超时、未登陆		"666666"
 		数据验证失败、其它	"999999"
-		
+	total	如果请求的是分页数据，需要返回total字段。
 		
 # Ajax sevlet url 命名规范
 	Ajax 请求的sevlet url部分需要以 "/api/" 开始，作为前后端分离开发规范。
 	Ajax 请求的sevlet url需要登陆权限的，以 "/api/authorize/" 开始，以方便拦截器匹配拦截，检查是否登陆、超时等
+	
 	
 	public class MyInterceptor implements HandlerInterceptor {
 		@Override
@@ -70,14 +73,39 @@
 			return true;
 		}
 	}
-
 	
+	// spring-boot 注册 Servlet 拦截
+		public class IndexServlet extends HttpServlet {
+			@Override
+			protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+				// 处理url拦截
+				response.sendRedirect("/index");
+			}
+		}
+		
+		@Bean
+		public ServletRegistrationBean servletRegistrationBean() {
+			IndexServlet indexServlet = new IndexServlet();
+			ServletRegistrationBean registrationBean = new ServletRegistrationBean();
+			
+			// registrationBean.addUrlPatterns("/*");  
+			
+			registrationBean.setServlet(indexServlet);
+			List<String> urlMappings = new ArrayList<String>();
+			urlMappings.add("/index"); // 添加多个
+			registrationBean.setUrlMappings(urlMappings);
+			
+			registrationBean.setLoadOnStartup(1);
+			return registrationBean;
+		}
+	
+
 # 服务端接受请求规范：
 	所有Ajax POST 请求以 Content-type："application/json; charset=utf-8;" 方式提交
-
+	
 	
 # 服务端响应 Ajax 请求规范：
-	@RequestMapping(value="/api/login")
+	@RequestMapping(value="url")
 	@ResponseBody
 	public Response handler(@RequestBody Response response){
 		//...
