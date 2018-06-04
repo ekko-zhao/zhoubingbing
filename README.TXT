@@ -61,7 +61,19 @@ git checkout branchname
 # 提交分支
 git push origin localbranchname:originbranchname
 	
-	
+# git diff 文件对比
+1.  git diff  filepath 工作区与暂存区比较
+
+2. git diff HEAD filepath 工作区与HEAD ( 当前工作分支) 比较
+
+3. git diff --staged 或 --cached  filepath 暂存区与HEAD比较
+
+4. git diff branchName filepath  当前分支的文件与branchName 分支的文件进行比较
+
+5. git diff commitId filepath 与某一次提交进行比较
+
+
+
 # Mac
 	$ssh-keygen -t rsa -C zhoubbmls@sina.com
 
