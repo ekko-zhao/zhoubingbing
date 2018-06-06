@@ -314,7 +314,7 @@ items: QueryList<ListItem>
 
 
 [ngClass]="fn()" \ ="{class:isBoolean}"
-[ngStyle]
+[ngStyle]="{'background-color':'green'}"
 
 // ngSwitch ----------------------------------------------------------------
 <ul [ngSwitch]="property">

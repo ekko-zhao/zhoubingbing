@@ -79,8 +79,8 @@
 	
 	
 	
-	
-	
+# m2e
+ m2e http://m2eclipse.sonatype.org/site/m2e
 	
 	
 	

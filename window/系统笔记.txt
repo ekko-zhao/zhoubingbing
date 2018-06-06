@@ -8,3 +8,6 @@
 # 杀死进程
 	netstat -ano|findstr 8080
 	taskkill  /f  /pid  4656
+	
+# 关闭 系统占用 80
+win+x,然后选择“计算机管理”,展开“服务和应用程序”,找到“服务”;找到“World Wide Web Publishing Service”,双击打开后,将启动类型改为手动,更改服务状态为“停止”;

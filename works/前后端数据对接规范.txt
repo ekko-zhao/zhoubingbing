@@ -60,7 +60,7 @@
 		超时、未登陆		"666666"
 		数据验证失败、其它	"999999"
 	total	如果请求的是分页数据，需要返回total字段。
-		
+	
 # Ajax sevlet url 命名规范
 	Ajax 请求的sevlet url部分需要以 "/api/" 开始，作为前后端分离开发规范。
 	Ajax 请求的sevlet url需要登陆权限的，以 "/api/authorize/" 开始，以方便拦截器匹配拦截，检查是否登陆、超时等
