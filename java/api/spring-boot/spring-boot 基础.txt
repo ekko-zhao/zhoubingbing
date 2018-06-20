@@ -28,6 +28,20 @@
 		}
 	}
 	
+# 自定义dispatchServlet的访问路径
+	@Configuration
+	public class ServletConfig {
+		// 路由匹配
+		@Bean
+		public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
+			ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet);
+			registration.getUrlMappings().clear();
+			registration.addUrlMappings("/");
+			return registration;
+		}
+	}
+
+
 . 通过 cli 方式启动
 	mvn clean install -Dmaven.test.skip=true		//打包mvn jar
 	java -jar springboot-0.0.1-SNAPSHOT.jar.jar		//在target 目录下
@@ -94,7 +108,7 @@
 	
 	# 修改默认的静态资源存放目录
 	spring.resources.static-locations= classpath:/static/
-	spring.mvc.static-path-pattern=/static/**
+	spring.mvc.static-path-pattern=/**
 		/*
 			默认路径为 /resources/ 下， 优先级别如下
 			"classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/"

@@ -105,7 +105,11 @@ CPS 外包商服务网站
 	生产：
 	https://open.lakala.com/manager/Welcome.htm
 	lizheng----Abc@123456
-	
+
+# 智能设备开放平台登陆
+	tanxiangqing
+	abcd1234
+
 	
 收单管理系统
 http://10.7.111.164:8063/Welcome.htm

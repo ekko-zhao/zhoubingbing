@@ -1264,6 +1264,10 @@ export class AppComponent{
 				
 				// 查询参数 
 				_router.navigate(['/footer',23], {queryParams:{'name':'yxman'}});
+					url?name=yxman
+				
+				_router.navigate(['/footer',{'name':'yxman'}]); 
+					url;name=yxman
 				
 			*/
 
@@ -1657,10 +1661,10 @@ import {CommonModule} from "@angular/common";
 
 
 //和 app.routers.ts 路由一对一
-const delayingRortes: Routes = [
-	{path:'', component: OtherComponent}
-	{path:'id', component: DelayingComponent}
-]
+	const delayingRortes: Routes = [
+		{path:'', component: OtherComponent}
+		{path:'id', component: DelayingComponent}
+	]
 
 	/*
 	在延迟加载模块中需要 imports CommonModule， 解析 ngIf ngFor 等指令
