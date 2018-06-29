@@ -1,0 +1,27 @@
+var xhr = new XMLHttpRequest()
+xhr.open("post","http://10.7.111.138:8082/api/user/v1/queryByPag");  
+ 
+xhr.withCredentials = true;   
+xhr.setRequestHeader("Content-Type","application/json; charset=gb2312");
+
+/*
+POST /bb.asp HTTP/1.1 
+Accept: */* 
+Accept-Language: zh-cn 
+UA-CPU: x86 
+Accept-Encoding: gzip, deflate 
+User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727) 
+Content-Type:application/x-www-form-urlencoded 
+Host: www.e4j.cn:89 
+Content-length: 8 
+Connection: close 
+Cookie: %C3%F7%CC%EC=%B0%CB;ASPSESSIONIDASDBSDRR=BLEDBIBBCGKBJAKJCFEJKGII
+*/
+
+xhr.onreadystatechange= function() {  
+   if(xhr.readyState == 4 && xhr.status == 200) {  
+			alert('ok') 
+   }  
+};
+var data = {id:"0", statusCode:"VALID"}; 
+xhr.send(data);

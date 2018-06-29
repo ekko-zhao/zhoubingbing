@@ -963,6 +963,12 @@ export class ListComponent {
 	}
 }
 
+# 跨域请求 阻止 sessionId 发生改变	设置 withCredentials:true
+
+	let options = new RequestOptions({ 'headers': headers, 'withCredentials': true });
+        return this._http.post(url, body, options)
+		
+
 
 //拦截器 interceptor-----------------------------
 
