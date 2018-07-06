@@ -383,9 +383,9 @@
     </util>
 
 
-	
-	
-	
+
+
+
 
 . @RequestBody
 	将请求的 实体部分转换成字符串，将 POST 请求中的 data 部分转换成字符串
@@ -900,7 +900,25 @@
 			<bean class="com.smart.MyInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
+    /*
+        java 代码配置
+        @Configuration
+        public class AppInterceptorConfig implements WebMvcConfigurer {
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                List<String> urlMappings = new ArrayList<String>();
+                urlMappings.add("/app");
+                urlMappings.add("/org/**");
+                urlMappings.add("/user/**");
+                urlMappings.add("/terminal/**");
+                urlMappings.add("/vbox/**");
+                urlMappings.add("/apply/**");
 
+                InterceptorRegistration registration = registry.addInterceptor(new MyInterceptor());
+                registration.addPathPatterns(urlMappings);
+            }
+        }
+    */
 	// MyInterceptor.class
 	public class MyInterceptor implements HandlerInterceptor {
 		@Override
@@ -937,6 +955,13 @@
 
 	}
 
+
+
+
+
+
+
+
 # 异常处理 ------------------------------------------
 	Spring MVC 通过 HandlerExceptionResolver 处理程序的异常，包括处理器映射、数据绑定及处理器执行异常时发生的异常
 	HandlerExceptionResolver 只有一个接口方法
@@ -966,19 +991,21 @@
 			<location>/404.html</location>
 		</error-page>
 
+
+
 	.AnnotationMethodHandlerExceptionResoler
 	Spring MVC 默认装配了 AnnotationMethodHandlerExceptionResoler, 它允许通过 @ExceptionHandler 注解指定处理特定异常的方法
 
 		@RequestMapping
 		public String throwException(){
 			throw new RuntimeException("add");
-			return "url"
+			return "url";
 		}
 
 		@ExceptionHandler(RuntimeException.class)
 		public String handleException(RuntimeException re, HttpServletRequest request){
 			...
-			return "forward:/error.html"
+			return "forward:/error.html";
 		}
 
 	.ResponseStatusExceptionResoler

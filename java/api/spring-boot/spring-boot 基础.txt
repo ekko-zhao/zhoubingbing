@@ -1,13 +1,13 @@
 # 生成mvn springboot 项目 地址：
 	http://start.spring.io
-	
+
 # 基本配置
 . 入口类 建议放置的位置在 groupId+arctifactId 组合的包下，因为 Spring Boot 会自动扫描@SpringBootApplication 所在类的同级包以及包里的 Bean。(若为 JPA 项目还可以扫描标注 @Entity 的实体类)
-	
+
 	@RestController
 	@SpringBootApplication
 	public class SpringbootApplication {
-		
+
 		// @RequestMapping(value={"/", "/index"})
 		@RequestMapping("/index")
 		String index() {
@@ -15,19 +15,19 @@
 		}
 		public static void main(String[] args) {
 			SpringApplication.run(SpringbootApplication.class, args);
-			
-			/*  
+
+			/*
 				其它启动方式
 				SpringApplication app = new SpringApplication(SpringbootApplication.class);
 				app.run();
-				
+
 				SpringApplicationBuilder app = new SpringApplicationBuilder(SpringbootApplication.class);
 				app.run();
-		
+
 			*/
 		}
 	}
-	
+
 # 自定义dispatchServlet的访问路径
 	@Configuration
 	public class ServletConfig {
@@ -49,42 +49,42 @@
 		命令行参数
 		java -jar springboot-0.0.1-SNAPSHOT.jar.jar --server.prot=9090
 	*/
-	
+
 	mvn spring-boot:run 也可以直接启动项目
-	
+
 . 关闭特定的自动配置应该使用 @SpringBootApplication 注解的exclude 参数
 	@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
-	
-. 定制 Banner	
+
+. 定制 Banner
 	打开网址 http://patorjk.com/software/taag, 复制文本到 resources 文件夹下的 banner.txt 中即可
-	
+
 # Spring Boot 的配置文件
 	Spring Boot 使用 src/main/resources 或 src/main/java 文件夹下的一个全局配置文件 application.properties | application.yml。 在日常开发中推荐使用 .properties 文件名
-	
-	
+
+
 # application.properties 文件
 	server.port= 9090				配置端口号，默认 8080
 	server.session-timeout= 1000 	session 过期时间，单位秒
 	server.context-path= /			配置项目的根路径
-	
+
 	server.comcat.uri-encoding= UTF-8	tomcat 默认端口，默认 UTF-8
 	server.tomcat.compression= off		tomcat 是否开启压缩，默认 off
-	
+
 	# HTTP encoding
 	spring.http.encoding.charset= UTF-8			默认 UTF-8
 	spring.http.encoding.enabled= true
 	spring.http.encoding.force= true			默认 true
-	
+
 		/*
 			如果要自动配置需要满足两个条件
 			@ConfigurationProperties(prefix="spring.http.encoding")
 			public class HttpEncodingProperties{
 				private Charset charset = Charset.forName("UTF-8");
 				private boolean force = true;
-				
+
 				// getter setter
 			}
-			
+
 			@Configuration
 			@EnableConfigurationProperties(HttpEncodingProperties.class)	开启属性注入， 使用@Autowired 注入
 			@ConditionalOnClass(CharacterEncodingFilter.class)				在 CharacterEncodingFilter 类条件下
@@ -93,7 +93,7 @@
 			public class HttpEncodingAutoConfiguration{
 				@Autowired
 				private HttpEncodingProperties httpEncodingProperties;
-				
+
 				@Bean									使用java配置类的方式配置 CharacterEncodingFilter Bean
 				@ConditionalOnMissingBean(HttpEncodingProperties.class)		当容器没有这个Bean 时，新建这个Bean
 				public CharacterEncodingFilter characterEncodingFilter(){
@@ -103,9 +103,9 @@
 					return filter;
 				}
 			}
-			
+
 		*/
-	
+
 	# 修改默认的静态资源存放目录
 	spring.resources.static-locations= classpath:/static/
 	spring.mvc.static-path-pattern=/**
@@ -113,13 +113,13 @@
 			默认路径为 /resources/ 下， 优先级别如下
 			"classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/"
 		*/
-	
-	# Spring MVC 
+
+	# Spring MVC
 	spring.mvc.view.prefix= /dist/
 	spring.mvc.view.suffix= .html
 		/*
-			配置 InternalViewResolver	
-			
+			配置 InternalViewResolver
+
 			@Configuration
 			public class SpringConfig  {
 				@Bean
@@ -132,15 +132,15 @@
 				}
 			}
 		*/
-	
+
 
 	book.author: lisi
 	book.name: spring-boot
-	
+
 . 通过 @Value 注解使用文件属性
 	@Value("${book.author}")
 	private String author;
-	
+
 . 通过 @ConfigurationProperties 注解 使用文件属性, 1.5+取消了 locations 属性
 	@Component
 	@ConfigurationProperties(prefix="book")
@@ -149,88 +149,88 @@
 		private String name;
 		// getter setter
 	}
-	
+
 	在含有@Configuration注解类或入口类中通过 @Autowired 自动注入，此时注入的Bean 的属性从 application.properties 文件中读取
-	
-	
-	
+
+
+
 # profile 配置
 	全局 Profile 配置使用 application-{profile}.properties 格式
 	application.properties
 		spring.profiles.active=prod		使用配置文件， 优先使用指定配置文件的属性
-		
-		
+
+
 	application-dev.properties
 		server.port: 8080
-	
+
 	application-prod.properties
 		server.port: 9090
 
 . xml 文件使用
 	@ImprotResource({"classpath:some-content.xml","classpath:another-content.xml"})
-	
-	
+
+
 # 日志配置
 	logging.file=D:/mylog/log.log			配置日志级别
 	logging.level.org.springframework.web= DEBUG	配置日志文件，格式为 logging.level.包名=级别
-	
+
 # 自动配置Formatter和Converter
 	搜索Formatter，就能够找到addFormatters这个方法里的定义，
 	我们只需要定义Converter、GenericConverter和Formatter接口实现的实现类Bean，就会注册Bean到Spring MVC中了。
-	
-	
-	
+
+
+
 # 自动配置 HttpMessageConverters
 	在 Spring Boot,中如果要更新自定义的 HttpMessageConverter,则只需定义一个 你自己的 HttpMessageConverter 的Bean, 然后在此 Bean 中注册自定义 HttpMessageConverter即可；
-	
-	@Bean 
+
+	@Bean
 	public HttpMessageConverters customConverters(){
 		HttpMessageConverter<?> customConverter1 = new CustomConverter1();
 		HttpMessageConverter<?> customConverter2 = new CustomConverter2();
 		return new HttpMessageConverters(CustomConverter1, CustomConverter2);
 	}
-	
-	
+
+    // WebMvcConfigurerAdapter 过时
 	@Configuration
 	public class WebMvcConfg implements WebMvcConfigurer {
 		@Autowired
 		public HttpMessageConverters httpMessageConverters;
-		
+
 		@Override
 		public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 			for (HttpMessageConverter<?> messageConverter : httpMessageConverters) {
 				System.out.println(messageConverter);
 			}
 			converters.addAll(this.httpMessageConverters.getConverters());
-			
+
 		}
 	}
-	
-	
+
+
 # spring-boot 注册 Servlet、Filter、Listener
 	springboot 提供了 ServletRegistrationBean,FilterRegistrationBean,ServletListenerRegistrationBean三个类来注入servlet,filter,listener
-	
+
 . 注册 Servlet
 
 	@Bean
 	public ServletRegistrationBean servletRegistrationBean() {
 		return new ServletRegistrationBean(new IndexServlet(), "/indexOther");
-		
+
 		/*
-			ServletRegistrationBean myServlet = new ServletRegistrationBean();  
+			ServletRegistrationBean myServlet = new ServletRegistrationBean();
 			myServlet.addUrlMappings("/indexOther");
 			myServlet.setServlet(new IndexServlet());
-			
-			
+
+
 		*/
-		
+
 		/*
 			IndexServlet indexServlet=new IndexServlet();
 			ServletRegistrationBean registrationBean=new ServletRegistrationBean();
-			
-			// registrationBean.addUrlPatterns("/*");  
-			
-			
+
+			// registrationBean.addUrlPatterns("/*");
+
+
 			registrationBean.setServlet(indexServlet);
 			List<String> urlMappings = new ArrayList<String>();
 			urlMappings.add("/index");//访问，可以添加多个
@@ -238,9 +238,9 @@
 			registrationBean.setLoadOnStartup(1);
 			return registrationBean;
 		*/
-		
+
 	}
-	
+
 
 	public class IndexServlet extends HttpServlet {
 		/*
@@ -249,44 +249,44 @@
 			super.init(config);
 		}
 		*/
-		
+
 		@Override
 		protected void doGet(HttpServletRequest request, HttpServletResponse response)
 				throws ServletException, IOException {
 			response.sendRedirect("/index");
 		}
 	}
-	
+
 	/*
 		@RequestMapping("/index")
 		String index() {
 			return "index";
 		}
 	*/
-	
-	
+
+
 . 注册 Filter
-	
+
 	public class DemoFilter implements Filter{
- 
+
 		@Override
 		public void init(FilterConfig filterConfig) throws ServletException {
 			System.out.println("==>DemoFilter启动");
 		}
-	 
+
 		@Override
 		public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 			System.out.println("==>DemoFilter拦截请求");
 			chain.doFilter(request, response);
 		}
-	 
+
 		@Override
 		public void destroy() {
-			
+
 		}
 	}
-	
-	                                                                                                                                                                                              
+
+
 	@Bean
 	public FilterRegistrationBean getDemoFilter(){
 		DemoFilter demoFilter=new DemoFilter();
@@ -298,7 +298,7 @@
 		registrationBean.setOrder(1);
 		return registrationBean;
 	}
-	
+
 	/*
 		@Bean
 		public FilterRegistrationBean filterRegistrationBean() {
@@ -309,7 +309,7 @@
 			return filterRegistrationBean;
 		}
 	*/
-	
+
 . 注册 Listener
 	在spring-boot 启动的时候会执行
 
@@ -329,8 +329,8 @@
 		}
 	}
 
-	
-	
+
+
 	@Bean
 	public ServletListenerRegistrationBean<EventListener> getDemoListener() {
 		ServletListenerRegistrationBean<EventListener> registrationBean = new ServletListenerRegistrationBean<>();
@@ -338,16 +338,16 @@
 		// registrationBean.setOrder(1);
 		return registrationBean;
 	}
-	
-	
-	
+
+
+
 # 代码配置 Tomcat
 	如果需要通过代码的方式配置 servlet 容器，则可以注册一个 EmbeddedServletContainerCustomizer 接口的Bean,
-	
+
 	Tomcat 	注册 EmbeddedServletContainerCustomizer
 	Jetty	注册 JettyEmbeddedServletContainerFactory
 	Undertow	 UndertowEmbeddedServletContainerFactory
-	
+
 	@Component
 	public class CustomServletContainer implements EmbeddedServletContainerCustomizer{
 		@Override
@@ -357,21 +357,35 @@
 			container.setSessionTimeout(10,TimeUnit.MINUTES);
 		}
 	}
-	
+
+    // 配置错误页面
+    @Controller
+    public class NoHandlerFound implements ErrorController {
+        @Override
+        public String getErrorPath() {
+            return "/index";
+        }
+
+        @RequestMapping("/error")
+        public String error() {
+            return getErrorPath();
+        }
+    }
+
 	/*
 		如要在 @SpringBootApplication 配置类文件内添加类的 Bean 的话， 注意当前类要声明为 static
-		
+
 		@SpringBootApplication
 		publi class App{
-			
+
 			@Component
 			public static class CustomServletContainer implements EmbeddedServletContainerCustomizer{
 				//...
 			}
 		}
-		
+
 	*/
-	
+
 # 替换 Tomcat
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
@@ -385,114 +399,113 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-jetty</artifactId>
 	</dependency>
-	
+
 	/*
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-undertow</artifactId>
 		</dependency>
 	*/
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
