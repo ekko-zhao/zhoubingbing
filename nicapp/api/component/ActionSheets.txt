@@ -22,6 +22,7 @@ ActionSheetOptions:{
 	Option			Type			Description
 	title			string			The title for the Action Sheet.
 	subTitle		string			The sub-title for the Action Sheet.
+	message			string			
 	cssClass		string			The title for the Action Sheet.
 	
 	enableBackdropDismiss	string		If the Action Sheet should close when the user taps the backdrop.
@@ -29,7 +30,7 @@ ActionSheetOptions:{
 }
 
 
-ActionSheet button options:{
+ActionSheetOptions.buttons options: [{
 	text		string		The buttons text.
 	
 	//icon: !this.platform.is('ios') ? 'trash' : null,
@@ -37,4 +38,4 @@ ActionSheet button options:{
 	handler		any			An express the button should evaluate.
 	cssClass	string		Additional classes for custom styles, separated by spaces.
 	role		string		How the button should be displayed, destructive or cancel. If not role is provided, it will display the button without any additional styles.
-}
+}]

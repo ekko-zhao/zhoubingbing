@@ -108,7 +108,7 @@ CPS 外包商服务网站
 
 # 智能设备开放平台登陆
 	tanxiangqing
-	abcd1234
+	lakala
 	
 	jacktan:lakala
 	

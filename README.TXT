@@ -77,5 +77,35 @@ git push origin localbranchname:originbranchname
 # Mac
 	$ssh-keygen -t rsa -C zhoubbmls@sina.com
 
-
-
+	
+#	LF：Line Feed 换行
+	CRLF：Carriage Return Line Feed 回车换行键
+	
+	git config --global core.autocrlf false
+	
+	当设置成false时，line endings将不做转换操作。文本文件保持原来的样子。
+	当设置成true时，这意味着你在任何时候添加(add)文件到git仓库时，git都会视为它是一个文本文件(text file)。它将把crlf变成LF。
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

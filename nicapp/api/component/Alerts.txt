@@ -40,6 +40,7 @@ Input options :{
 	checked		boolean			Whether or not the input is checked.
 	id			string			The input's id.
 }
+
 Button options:{
 	Property		Type		Description
 	text			string		The buttons displayed text.

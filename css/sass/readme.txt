@@ -448,15 +448,13 @@ Sass 有两种语法格式
 	
 # 多个参数
 
-	@each $animal, $color, $cursor in (puma, black, default),
-	                                  (sea-slug, blue, pointer),
-	                                  (egret, white, move) {
+	@each $animal, $color, $cursor in (puma, black, default), (sea-slug, blue, pointer), (egret, white, move) {
 	  .#{$animal}-icon {
 	    background-image: url('/images/#{$animal}.png');
 	    border: 2px solid $color;
 	    cursor: $cursor;
 	  }
-	  }
+	}
 	  编译为:
 	  .puma-icon {
 		  background-image: url('/images/puma.png');

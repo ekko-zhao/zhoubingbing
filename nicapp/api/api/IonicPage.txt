@@ -35,7 +35,8 @@ export class MyPage {
 
 @IonicPage({
 	name: 'my-page',   		//  this.navCtrl.push('my-page'); 用于跳转页面
-	segment: 'some-path',	//	http://localhost:8101/#/some-path  // 用于显示 url
+	segment: 'detail/',		//	http://localhost:8101/#/detail  // 用于显示 url
+	
 	
 	/*
 		segment: 'detail/:id'  
