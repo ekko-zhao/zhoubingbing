@@ -14,8 +14,8 @@ git init
 git remote add origin https://github.com/zhoubbmls/zhoubingbing.git
 
 //配置提交作者
-git config user.name "zhoubbmls"
-git config user.email "zhoubbmls@sina.com"
+git config user.name "zhoubingbing"
+git config user.email "zhoubingbing@lakala.com"
 
 [credential] helper = store
 git config --global credential.helper store

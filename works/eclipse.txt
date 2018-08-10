@@ -125,7 +125,14 @@ http://10.7.111.164:8063/Welcome.htm
 客户经理后台管理系统
 	admin123
 	lakala123
+	
+银行支付
+	post：{"chkCode":"495357396883", "orderId":"SHLH134545", "userId":"1212"}	
 
+
+微服务框架：
+C:\Users\zhoub\.m2\repository\com\lakala\sh\payment\standard\standard-parent\1.0.0\standard-parent-1.0.0.pom
+	
 
 友盟统计平台的官方网站为： www.umeng.com  ------------------------------------------------
 	wangyuzhu@lakala.com 
