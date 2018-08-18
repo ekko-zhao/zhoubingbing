@@ -1,0 +1,9 @@
+<div class="layout">
+    <span class="before" [ngStyle]="l"></span>
+    <div class="content-left" [ngStyle]="w">
+        <ng-content select="[name='left']"> </ng-content>
+    </div>
+    <div class="content-right">
+        <ng-content select="[name='right']"> </ng-content>
+    </div>
+</div>

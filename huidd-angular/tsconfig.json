@@ -1,0 +1,36 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "allowUnreachableCode": true,
+        "allowJs": true,
+        "baseUrl": "./",
+        "declaration": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "lib": [
+            "es2016",
+            "dom",
+            "scripthost"
+        ],
+        "moduleResolution": "node",
+        "module": "es2015",
+        "noImplicitAny": false,
+        "outDir": "./dist",
+        "paths": {
+            "src/": [
+                "src/*"
+            ]
+        },
+        "removeComments": true,
+        "sourceMap": false,
+        "target": "es5",
+        "typeRoots": [
+            "node_modules/@types"
+        ]
+    },
+    "exclude": [
+        "**/*.spec.ts",
+        "src/assets/*",
+        "node_modules"
+    ]
+}

@@ -1,0 +1,20 @@
+<div class="layout" *ngIf="visible">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content rounded-0">
+            <form #editForm="ngForm" novalidate>
+                <div class="modal-body text-center pt-4 px-0">
+                    <p class="px-2 break-all text-md">{{obj.text}}</p>
+                    <p *ngIf="obj.note" class="text-left px-2 py-2 text-sm border-top mb-0 break-all">{{obj.note}}</p>
+                    <div *ngIf="obj.textarea!==null" class="px-2">
+                        <textarea class="border w-100 text-sm px-2 py-2" rows="4" placeholder="{{obj.textarea}}" name="textarea" [pattern]="obj.regex"
+                            [(ngModel)]="textarea" (keyup)="textarea=$event.target.value" [required]="obj.required"></textarea>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer text-right">
+                <button class="btn btn-info btn-sm rounded-0 px-3 mr-2" (click)="done()" [disabled]="!editForm.valid">{{obj.doneText}}</button>
+                <button class="btn btn-default btn-sm rounded-0 px-3" (click)="fail()" *ngIf="obj.type!==2">{{obj.failText}}</button>
+            </div>
+        </div>
+    </div>
+</div>

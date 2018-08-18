@@ -1,0 +1,53 @@
+<div class="container-fluid border b-color-base m-t-lg pt-3">
+    <form class="search-form" #searchForm="ngForm">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group">
+                <label class="control-label">操作类别:</label>
+                <select class="form-control rounded-0 text-sm" style="height: 32px;" name="form.key1" [(ngModel)]="form.key1">
+                    <option value=''>---请选择---</option>
+                    <option *ngFor="let option of selectList['key1']" [value]="option.id">{{option.name}}</option>
+                </select>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group">
+                <label class="control-label">操作对象:</label>
+                <select class="form-control rounded-0 text-sm" style="height: 32px;" name="form.key2" [(ngModel)]="form.key2">
+                    <option value=''>---请选择---</option>
+                    <option *ngFor="let option of selectList['key2']" [value]="option.id">{{option.name}}</option>
+                </select>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group">
+                <label class="control-label" for="form.key3">起止时间:</label>
+                <input class="form-control rounded-0 text-sm bg-white" #drp="bsDaterangepicker" bsDaterangepicker id="form.key4" name="form.key4"
+                    [(ngModel)]="form.key4" [bsConfig]="{locale:'zh-cn', containerClass:'theme-dark-blue', dateInputFormat:'YYYY-MM-DD'}"
+                    readonly>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group">
+                <label class="control-label" for="form.key3">操作人:</label>
+                <input type="text" class="form-control rounded-0 text-sm" id="form.key3" name="form.key3" [(ngModel)]="form.key3" (keyup)="form.key3=$event.target.value">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group no-select">
+                <button class="btn btn-info btn-sm p-l p-r m-r-sm rounded-0" (click)="search($event)" type="submit" [disabled]="!searchForm.valid || queryStatus">
+                    <span class="float-left">查询</span>
+                    <bttton-loading class="float-left" [queryStatus]="queryStatus"></bttton-loading>
+                </button>
+                <button class="btn btn-outline-secondary btn-sm rounded-0 p-l p-r" (click)="reset()">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="m-t">
+    <table class="table table-hover mb-0">
+        <tbody>
+            <tr>
+                <th>序号</th>
+                <th *ngFor="let th of table.th;">{{th.text}}</th>
+            </tr>
+            <tr *ngFor="let item of items; let index = index;">
+                <td class="py-2 align-middle" width="6%">{{index+1}}</td>
+                <td class="py-2 align-middle break-all" *ngFor="let td of table.th;" [width]="td.width" domEllipsis [tooltip]="item[td.key]"
+                    [isDisabled]="tip['isDisabled' + index + td.key]" container="body" [tip]='tip' [proName]="'isDisabled' + index + td.key">{{item[td.key]}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<app-pagination #appPagination [paginationData]="paginationData" [queryStatus]="queryStatus"></app-pagination>

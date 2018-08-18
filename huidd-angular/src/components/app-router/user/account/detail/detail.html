@@ -1,0 +1,82 @@
+<go-back name="权限配置" url="app/user/account" #goBack></go-back>
+<left-right [width]="width">
+    <div name="left">
+        <title-info text="用户信息"></title-info>
+        <div [ngClass]="{'d-none':saveFlag}">
+            <table class="table-custom">
+                <tr *ngFor="let tr of table.tr;">
+                    <td width="80">{{tr.name}}：</td>
+                    <td>{{item[tr.key]}}</td>
+                </tr>
+            </table>
+            <div class="px-2 mt-2">
+                <button class="btn btn-sm btn-info rounded-0 px-3" (click)="edit();" [disabled]="queryUserStatus">编辑</button>
+            </div>
+        </div>
+        <div class="m-t-md" [ngClass]="{'d-none':!saveFlag}">
+            <form #editForm="ngForm" novalidate>
+                <div class="row mx-0 m-b-md">
+                    <label class="col-md-4 col-xs-3 pl-0 font-bold p-t-xs text-right">用户名:</label>
+                    <div class="col-md-8 col-xs-9 px-0">
+                        <span class="form-control rounded-0 text-sm">{{form.username}}</span>
+                    </div>
+                </div>
+                <div class="row mx-0 m-b-md">
+                    <label class="col-md-4 col-xs-3 pl-0 font-bold p-t-xs text-right">姓名:</label>
+                    <div class="col-md-8 col-xs-9 px-0">
+                        <span class="form-control rounded-0 text-sm">{{form.key1}}</span>
+                    </div>
+                </div>
+                <div class="row mx-0 m-b-md">
+                    <label class="col-md-4 col-xs-3 pl-0 font-bold p-t-xs text-right">
+                        <span class="text-danger">*</span>角色权限:</label>
+                    <div class="col-md-8 col-xs-9 px-0">
+                        <select class="form-control rounded-0 text-sm" name="form.role" [(ngModel)]="form.role" required>
+                            <option *ngFor="let option of selectList['role_loadAll']" [value]="option.id">{{option.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mx-0 m-b-md">
+                    <label class="col-md-4 col-xs-3 pl-0 font-bold p-t-xs text-right">注册时间:</label>
+                    <div class="col-md-8 col-xs-9 px-0">
+                        <span class="form-control rounded-0 text-sm">{{form.key2}}</span>
+                    </div>
+                </div>
+            </form>
+            <div class="row mx-0 m-b-md">
+                <div class="col-xs-9 col-sm-8 col-xs-push-3 col-sm-push-4 px-0 border-top p-t-md b-t-dashed">
+                    <button type="button" class="btn btn-sm btn-info rounded-0 p-l-md px-3 m-r-sm" (click)="submit()" [disabled]="editForm.invalid || queryStatus">
+                        <span class="float-left">保存</span>
+                        <bttton-loading class="float-left" [queryStatus]="queryStatus"></bttton-loading>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-warning rounded-0 p-l-md px-3 m-r-sm" (click)="reset()">重置</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary rounded-0 p-l-md px-3" (click)="cancel()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div name="right" class="mt-3 mt-lg-0">
+        <table class="table mb-0">
+            <tbody>
+                <tr>
+                    <th>功能</th>
+                    <th>管理员</th>
+                    <th>运营者</th>
+                    <th>开发者</th>
+                </tr>
+                <tr *ngFor="let item of info">
+                    <td class="break-all py-2 align-middle">{{item.name}}</td>
+                    <td class="break-all py-2 align-middle">
+                        <span *ngIf="item.manager" class="text-success" [ngClass]="{'text-success': form.role==='1','font-bold': form.role==='1'}">&radic;</span>
+                    </td>
+                    <td class="break-all py-2 align-middle">
+                        <span *ngIf="item.operator" [ngClass]="{'text-success': form.role==='2','font-bold': form.role==='2'}">&radic;</span>
+                    </td>
+                    <td class="break-all py-2 align-middle">
+                        <span *ngIf="item.developer" [ngClass]="{'text-success': form.role==='3','font-bold': form.role==='3'}">&radic;</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</left-right>

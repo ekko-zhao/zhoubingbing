@@ -1,0 +1,40 @@
+<div class="layout">
+    <div class="lay-content">
+        <a class="no-select navigator-brand" [href]="preurl + 'app'">
+            <img src="../../../assets/svg/logo.svg" width="110">
+        </a>
+        <button type="button" class="navigator-togger" (click)="changeTogger();">
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+        </button>
+        <div class="navigator-wrap" [ngClass]="{togger:togger}">
+            <ul class="navigator-left mb-0">
+                <li *ngFor="let item of items; let a = index;">
+                    <a [href]="preurl + item.url" [ngClass]="{active: a === nav['a']}">{{item.name}}</a>
+                </li>
+            </ul>
+            <ul class="navigator-right mb-0">
+                <li dropdown style="position: relative;">
+                    <a class="cursor-default no-text-decoration" dropdownToggle>
+                        <span>{{myService.userData.username}}</span>
+                        <img class="menu-down" src="../../../assets/svg/menu-down.svg" width="10">
+                    </a>
+                    <ul *dropdownMenu class="dropdown-menu pl-3 pl-lg-0 text-sm shadow-none animated fadeInRight" role="menu">
+                        <li class="border-bottom" role="menuitem">
+                            <a class="d-block text-dark no-text-decoration pl-lg-2 py-lg-2" [href]="preurl + 'app/user/manage'">用户管理</a>
+                        </li>
+                        <li role="menuitem">
+                            <a class="d-block text-dark no-text-decoration pl-lg-2 py-lg-2" [href]="preurl + 'app/user/password'">重置密码</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="logout" (click)="myService.quit()">退出</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<navigator-sub [navigator]="navigator" [nav]="nav"></navigator-sub>
+<navigator-tab [navigator]="navigator" [nav]="nav"></navigator-tab>

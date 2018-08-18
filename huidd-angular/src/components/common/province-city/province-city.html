@@ -1,0 +1,38 @@
+<div class="layout" [ngClass]="{'d-none': !visible}">
+    <form #editForm="ngForm" novalidate>
+        <div class="row mx-0 lay-title">
+            <label class="col-xs-4 mb-0 py-2 text-center" [ngClass]="{active: form.select === 'province'}">
+                <input class="d-none" type="radio" name="provinceCity" value="province" [(ngModel)]="form.select" [disabled]="listLoadingFlag"
+                    (ngModelChange)="selectChange(form.select)">
+                <span class="name">省份</span>
+            </label>
+            <label class="col-xs-4 mb-0 py-2 text-center" [ngClass]="{active: form.select === 'city'}">
+                <input class="d-none" type="radio" name="provinceCity" value="city" [(ngModel)]="form.select" (ngModelChange)="selectChange(form.select)">
+                <span class="name">城市</span>
+            </label>
+            <label class="col-xs-4 mb-0 py-2 text-center" [ngClass]="{active: form.select === 'county'}">
+                <input class="d-none" type="radio" name="provinceCity" value="county" [(ngModel)]="form.select" (ngModelChange)="selectChange(form.select)">
+                <span class="name">县区</span>
+            </label>
+        </div>
+    </form>
+    <div class="m-b" [ngClass]="{'d-none': form.select !== 'province'}">
+        <table [ngClass]="{'d-none': !setProvinceGroupFlag}">
+            <tr *ngFor="let group of provinceGroup;">
+                <td class="align-top pt-2 text-center font-bold" width="56">{{group.title}}</td>
+                <td>
+                    <span class="node-btn" *ngFor="let item of group.items;" [ngClass]="{active:item === transmitform[config['province']]}" (click)="provinceChange(item)">{{item.name}}</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="m-b mx-2" [ngClass]="{'d-none': form.select !== 'city'}">
+        <span class="node-btn" *ngFor="let item of cityList;" [ngClass]="{active:item === transmitform[config['city']]}" (click)="cityChange(item)">{{item.name}}</span>
+    </div>
+    <div class="m-b mx-2" [ngClass]="{'d-none': form.select !== 'county'}">
+        <span class="node-btn" *ngFor="let item of countyList;" [ngClass]="{active:item === transmitform[config['county']]}" (click)="countyChange(item)">{{item.name}}</span>
+    </div>
+    <div class="text-center no-select m-b-lg" [ngClass]="{'d-none':!listLoadingFlag}">
+        <img src="../../../static/images/loading_button.gif" width="16">
+    </div>
+</div>
