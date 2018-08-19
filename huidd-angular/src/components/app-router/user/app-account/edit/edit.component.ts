@@ -67,7 +67,8 @@ export class EditComponent {
                     this.getProvinceList()
                 }
 
-            })
+            },
+            error => { this.queryStatus = false; })
     }
 
     // 重置
