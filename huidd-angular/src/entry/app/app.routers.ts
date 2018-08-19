@@ -11,4 +11,6 @@ export const rootRouterConfig: Routes = [
 
     // 用户管理
     { path: 'app/user/account', loadChildren: 'src/components/app-router/user/account/account.module.ts#AccountModule' },
+    { path: 'app/user/app-account', loadChildren: 'src/components/app-router/user/app-account/app-account.module.ts#AppAccountModule' },
+
 ]
