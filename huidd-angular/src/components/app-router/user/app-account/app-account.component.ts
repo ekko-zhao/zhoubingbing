@@ -75,6 +75,11 @@ export class AppAccountComponent implements OnInit {
         )
     }
 
+    // 新增子机构
+    public addItem() {
+        this.router.navigate(['app/user/app-account/add']);
+    }
+
     // 解禁
     public unforbiddenItem(item) {
         ; (window as any).confirm({

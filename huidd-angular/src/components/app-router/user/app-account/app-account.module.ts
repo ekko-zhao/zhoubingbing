@@ -19,12 +19,12 @@ import { DomEllipsisModule } from 'src/directives/dom-ellipsis/auto-visible.modu
 
 // 页面
 import { AppAccountComponent } from './app-account.component';
-
+import { AddComponent } from './add/add.component';
+import { AddModule } from './add/add.module';
 
 const delayingRortes: Routes = [
     { path: '', component: AppAccountComponent },
-    /* { path: 'add', component: AddComponent },
-    { path: 'config/:id', component: DetailComponent } */
+    { path: 'add', component: AddComponent },
 ]
 
 @NgModule({
@@ -36,7 +36,8 @@ const delayingRortes: Routes = [
         BsDatepickerModule.forRoot(),
         ButtonLoadingModule,
         AppPaginationModule,
-        DomEllipsisModule
+        DomEllipsisModule,
+        AddModule
     ],
     declarations: [
         AppAccountComponent
