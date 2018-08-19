@@ -75,9 +75,13 @@ export class AppAccountComponent implements OnInit {
         )
     }
 
-    // 新增子机构
+    // 新增用户
     public addItem() {
         this.router.navigate(['app/user/app-account/add']);
+    }
+    // 编辑
+    public editItem(item) {
+        this.router.navigate(['app/user/app-account/edit', item.id]);
     }
 
     // 解禁
@@ -122,7 +126,7 @@ export class AppAccountComponent implements OnInit {
         })
     }
 
-    // 禁言
+    // 解封
     public openItem(item) {
         ; (window as any).confirm({
             text: '您确认要解封昵称为“' + item.username + '”的信息吗？',
@@ -143,7 +147,7 @@ export class AppAccountComponent implements OnInit {
         })
     }
 
-    // 禁言
+    // 封号
     public closeItem(item) {
         ; (window as any).confirm({
             text: '您确认要封号昵称为“' + item.username + '”的信息吗？',
@@ -164,7 +168,7 @@ export class AppAccountComponent implements OnInit {
         })
     }
 
-    // 禁言
+    // 删除
     public delItem(item) {
         ; (window as any).confirm({
             text: '您确认要删除昵称为“' + item.username + '”的信息吗？',

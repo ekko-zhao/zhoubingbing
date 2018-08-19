@@ -40,7 +40,7 @@ export class AddComponent {
                 this.queryStatus = false;
                 if (response['code'] !== '000000') return;
                 this.goBack.back();
-                alert('新增机构成功');
+                alert('新增用户成功');
             },
             error => { this.queryStatus = false; }
         )

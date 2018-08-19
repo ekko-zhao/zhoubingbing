@@ -1,0 +1,65 @@
+<go-back name="用户编辑" url="app/user/app-account" #goBack></go-back>
+<wrap-form>
+    <form class="px-3 p-t-lg" #editForm="ngForm" novalidate>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key1">
+                <span class="text-danger">*</span>手机号:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm" type="text" name="form.key1" id="form.key1" [pattern]="regex.cellphone" [(ngModel)]="form.key1"
+                    (keyup)="form.key1=$event.target.value" required>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key2">
+                <span class="text-danger">*</span>昵称:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm" type="text" name="form.key2" id="form.key2" [(ngModel)]="form.key2" (keyup)="form.key2=$event.target.value"
+                    required>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">
+                <span class="text-danger">*</span>性别:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <select class="form-control rounded-0 text-sm" style="height: 32px;" name="form.key3" [(ngModel)]="form.key3">
+                    <option value=''>---请选择---</option>
+                    <option *ngFor="let option of selectList['key3']" [value]="option.id">{{option.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.districtName">
+                <span class="text-danger">*</span>常住地: </label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="form.districtName" id="form.districtName" [ngClass]="{'border-danger': (theinputprovince.invalid || theinputcity.invalid || theinputcounty.invalid) && provinceCity['startFlag'] }"
+                    [(ngModel)]="form.districtName" (keyup)="form.districtName=$event.target.value" (focus)="provinceCity['inputfocus']($event)"
+                    #formDistrictName readonly>
+                <div class="position-relative">
+                    <province-city [transmitinput]="formDistrictName" [transmitform]="form" #provinceCity></province-city>
+                </div>
+                <div class="d-none">
+                    <input type="text" name="form.province" [(ngModel)]="form.province.code" #theinputprovince="ngModel" required>
+                    <input type="text" name="form.city" [(ngModel)]="form.city.code" #theinputcity="ngModel" required>
+                    <input type="text" name="form.county" [(ngModel)]="form.county.code" #theinputcounty="ngModel" required>
+                </div>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key5">
+                <span class="text-danger">*</span>生日:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" #drp="bsDatepicker" bsDatepicker id="form.key5" name="form.key5" [(ngModel)]="form.key5"
+                    [bsConfig]="{locale:'zh-cn', containerClass:'theme-dark-blue', dateInputFormat:'MM/DD/Y'}" readonly>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <div class="col-xs-9 col-sm-8 col-xs-push-3 col-sm-push-4 px-0 border-top p-t-md b-t-dashed">
+                <button type="button" class="btn btn-info rounded-0 p-l-md p-r-md m-r" (click)="submit()" [disabled]="editForm.invalid || queryStatus">
+                    <span class="float-left">新增</span>
+                    <bttton-loading class="float-left" [queryStatus]="queryStatus"></bttton-loading>
+                </button>
+                <button type="button" class="btn btn-outline-secondary rounded-0 p-l-md p-r-md" (click)="goBack.back();">取消</button>
+            </div>
+        </div>
+    </form>
+</wrap-form>

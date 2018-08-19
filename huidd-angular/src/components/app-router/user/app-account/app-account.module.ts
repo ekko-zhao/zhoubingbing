@@ -21,10 +21,13 @@ import { DomEllipsisModule } from 'src/directives/dom-ellipsis/auto-visible.modu
 import { AppAccountComponent } from './app-account.component';
 import { AddComponent } from './add/add.component';
 import { AddModule } from './add/add.module';
+import { EditComponent } from './edit/edit.component';
+import { EditModule } from './edit/edit.module';
 
 const delayingRortes: Routes = [
     { path: '', component: AppAccountComponent },
     { path: 'add', component: AddComponent },
+    { path: 'edit/:id', component: EditComponent }
 ]
 
 @NgModule({
@@ -37,7 +40,8 @@ const delayingRortes: Routes = [
         ButtonLoadingModule,
         AppPaginationModule,
         DomEllipsisModule,
-        AddModule
+        AddModule,
+        EditModule
     ],
     declarations: [
         AppAccountComponent
