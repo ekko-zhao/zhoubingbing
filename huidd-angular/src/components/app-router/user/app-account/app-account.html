@@ -46,7 +46,7 @@
     </form>
 </div>
 <div class="m-t m-b">
-    <button type="button" class="btn btn-outline-info btn-sm rounded-0" (click)="addItem()">新增用户</button>
+    <button type="button" class="btn btn-outline-info btn-sm rounded-0" (click)="unforbiddenItem()">新增用户</button>
 </div>
 <div class="m-t">
     <table class="table table-hover mb-0">
@@ -61,8 +61,12 @@
                 <td class="py-2 align-middle break-all" *ngFor="let td of table.th;" [width]="td.width" domEllipsis [tooltip]="item[td.key]"
                     [isDisabled]="tip['isDisabled' + index + td.key]" container="body" [tip]='tip' [proName]="'isDisabled' + index + td.key">{{item[td.key]}}</td>
                 <td class="py-2">
-                    <button class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm m-r-sm" (click)="config(item)">权限配置</button>
-
+                    <button type="button" class="btn btn-outline-success btn-sm rounded-0 p-l-sm p-r-sm m-r-sm" (click)="unforbiddenItem(item)">解禁</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm m-r-sm" (click)="forbiddenItem(item)">禁言</button>
+                    <button type="button" class="btn btn-outline-success btn-sm rounded-0 p-l-sm p-r-sm m-r-sm" (click)="openItem(item)">解封</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm m-r-sm" (click)="closeItem(item)">封号</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm m-r-sm" (click)="editItem(item)">编辑</button>
+                    <button type="button" class="btn btn-outline-warning btn-sm rounded-0 p-l-sm p-r-sm" (click)="delItem(item)">删除</button>
                 </td>
             </tr>
         </tbody>

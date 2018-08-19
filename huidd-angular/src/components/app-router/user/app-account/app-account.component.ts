@@ -14,7 +14,7 @@ export class AppAccountComponent implements OnInit {
         @Optional() private http: HttpService,
         @Optional() private myService: MyService
     ) {
-        this.form.key2 = '';
+        this.form.key4 = '';
         this.form.key3 = '';
         myService.getSelectList(this, 'selectList', 'role', '/api/url');
     }
@@ -35,11 +35,13 @@ export class AppAccountComponent implements OnInit {
     public items = [];
     public table = {
         th: [
-            { key: 'key', text: '账号', width: '14%' },
-            { key: 'key', text: '姓名', width: '14%' },
-            { key: 'key', text: '状态', width: '12%' },
-            { key: 'key', text: '权限角色', width: '14%' },
-            { key: 'key', text: '注册时间', width: '14%' }
+            { key: 'key', text: '手机号', width: '10%' },
+            { key: 'key', text: '昵称', width: '8%' },
+            { key: 'key', text: '性别', width: '8%' },
+            { key: 'key', text: '常住地', width: '12%' },
+            { key: 'key', text: '生日', width: '12%' },
+            { key: 'key', text: '注册时间', width: '12%' },
+            { key: 'key', text: '状态', width: '8%' }
         ]
     };
 
@@ -73,10 +75,117 @@ export class AppAccountComponent implements OnInit {
         )
     }
 
+    // 解禁
+    public unforbiddenItem(item) {
+        ; (window as any).confirm({
+            text: '您确认要解禁昵称为“' + item.username + '”的信息吗？',
+            done: (data) => {
+                let payload = {
+                    id: item.id,
+                    statusCode: status
+                }
+                this.http.post('/api/user/v1/updateStatus', payload).subscribe(
+                    response => {
+                        if (response['code'] !== '000000') return;
+                        this.search();
+                        alert('解禁成功');
+                    },
+                    error => { }
+                )
+            }
+        })
+    }
+
+    // 禁言
+    public forbiddenItem(item) {
+        ; (window as any).confirm({
+            text: '您确认要禁言昵称为“' + item.username + '”的信息吗？',
+            done: (data) => {
+                let payload = {
+                    id: item.id,
+                    statusCode: status
+                }
+                this.http.post('/api/user/v1/updateStatus', payload).subscribe(
+                    response => {
+                        if (response['code'] !== '000000') return;
+                        this.search();
+                        alert('禁言成功');
+                    },
+                    error => { }
+                )
+            }
+        })
+    }
+
+    // 禁言
+    public openItem(item) {
+        ; (window as any).confirm({
+            text: '您确认要解封昵称为“' + item.username + '”的信息吗？',
+            done: (data) => {
+                let payload = {
+                    id: item.id,
+                    statusCode: status
+                }
+                this.http.post('/api/user/v1/updateStatus', payload).subscribe(
+                    response => {
+                        if (response['code'] !== '000000') return;
+                        this.search();
+                        alert('解封成功');
+                    },
+                    error => { }
+                )
+            }
+        })
+    }
+
+    // 禁言
+    public closeItem(item) {
+        ; (window as any).confirm({
+            text: '您确认要封号昵称为“' + item.username + '”的信息吗？',
+            done: (data) => {
+                let payload = {
+                    id: item.id,
+                    statusCode: status
+                }
+                this.http.post('/api/user/v1/updateStatus', payload).subscribe(
+                    response => {
+                        if (response['code'] !== '000000') return;
+                        this.search();
+                        alert('封号成功');
+                    },
+                    error => { }
+                )
+            }
+        })
+    }
+
+    // 禁言
+    public delItem(item) {
+        ; (window as any).confirm({
+            text: '您确认要删除昵称为“' + item.username + '”的信息吗？',
+            done: (data) => {
+                let payload = {
+                    id: item.id
+                }
+                this.http.post('/api/user/v1/updateStatus', payload).subscribe(
+                    response => {
+                        if (response['code'] !== '000000') return;
+                        this.search();
+                        alert('删除成功');
+                    },
+                    error => { }
+                )
+            }
+        })
+    }
+
+
+
+
     // 重置表单 -----------------------------------------------------------------------
     public reset() {
         this.form = {};
-        this.form.key2 = '';
+        this.form.key4 = '';
         this.form.key3 = '';
     }
 
