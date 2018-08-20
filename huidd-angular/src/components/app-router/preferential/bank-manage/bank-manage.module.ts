@@ -20,7 +20,9 @@ import { AddComponent } from './add/add.component';
 import { AddModule } from './add/add.module';
 import { DetailComponent } from './detail/detail.component';
 import { DetailModule } from './detail/detail.module';
+
 import { ListQueryModule } from './list/list.module';
+import { BankSortModule } from './bank-sort/bank-sort.module';
 
 const delayingRortes: Routes = [
     { path: '', component: BankManageComponent },
@@ -40,7 +42,8 @@ const delayingRortes: Routes = [
         CheckbxAllModule,
         AddModule,
         DetailModule,
-        ListQueryModule
+        ListQueryModule,
+        BankSortModule
     ],
     declarations: [
         BankManageComponent

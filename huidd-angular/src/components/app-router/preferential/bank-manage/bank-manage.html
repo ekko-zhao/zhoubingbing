@@ -47,7 +47,7 @@
                 <td class="py-2">
                     <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm m-r-sm" (click)="detail(item)">详情</button>
                     <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm m-r-sm" (click)="listQueryModalStart(item)">卡列表</button>
-                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm m-r-sm" (click)="sort(item)">排序</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm m-r-sm" (click)="bankSortModalStart(item)">排序</button>
                 </td>
             </tr>
         </tbody>
@@ -56,3 +56,4 @@
 <app-pagination #appPagination [paginationData]="paginationData" [queryStatus]="queryStatus"></app-pagination>
 
 <list-query #listQuery></list-query>
+<bank-sort #bankSort (onListen)="search()"></bank-sort>

@@ -115,6 +115,12 @@ export class BankManageComponent implements OnInit {
         this.listQuery.show(item);
     }
 
+    // 修改权限
+    @ViewChild('bankSort') public bankSort;
+    public bankSortModalStart(item) {
+        this.bankSort.show(item);
+    }
+
     // 重置表单 -----------------------------------------------------------------------
     public reset() {
         this.form = {};

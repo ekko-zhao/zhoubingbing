@@ -9,9 +9,7 @@ import { regex } from 'src/services/regex';
     selector: "list-query",
     templateUrl: "./list.html"
 })
-
 export class ListQueryComponent {
-    @Input() id: string;
     // modal
     @ViewChild(ModalDirective) modal: ModalDirective;
 
@@ -70,7 +68,7 @@ export class ListQueryComponent {
     public queryStatus = false;
     public search = this.myService.search;
     public searchCallback() {
-        this.payload.example['id'] = this.id;
+        this.payload.example['id'] = this.item['id'];
         this['queryStatus'] = true;
         this.http.post('/api/corporation/v1/queryByPager', this.payload).subscribe(
             response => {
