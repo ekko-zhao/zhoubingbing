@@ -7,6 +7,9 @@ import { regex } from 'src/services/regex';
     templateUrl: './app-manage.html'
 })
 export class AppManageComponent implements OnInit {
+    // 复选框
+    @ViewChild('checkboxAll') checkboxAll;
+
     constructor(
         @Optional() private http: HttpService,
         @Optional() private myService: MyService
@@ -46,7 +49,7 @@ export class AppManageComponent implements OnInit {
     public queryStatus = false;
     public search = this.myService.search;
     public searchCallback() {
-        this.items = [{ key: 'test',id:'123' }];
+        this.items = [{ key: 'test', id: '123' }];
         return;
         this['queryStatus'] = true;
         this.http.post('/api/url', this.payload).subscribe(
@@ -58,9 +61,38 @@ export class AppManageComponent implements OnInit {
                     totalItems: response['total'],
                     currentPage: this.payload['page']
                 };
+
+                // 初始化复选框
+                this.checkboxAll['init'](this.items);
             },
             error => { this.queryStatus = false; }
         )
+    }
+
+    // 批量删除
+    public delItems() {
+        var payload = {
+            vBoxes: this.checkboxAll['getData']('corporation')
+        };
+        if (payload.vBoxes.length == 0) {
+            alert('请选择要删除的数据！');
+            return;
+        }
+
+        ; (window as any).confirm({
+            text: '您确认要删除当前选择的信息吗？',
+            done: (data) => {
+                this.http.post('/api/user/v1/updateStatus', payload).subscribe(
+                    response => {
+                        if (response['code'] !== '000000') return;
+                        this.search();
+                        alert('删除信息成功');
+                    },
+                    error => { }
+                )
+            }
+        })
+
     }
 
     // 重置表单 -----------------------------------------------------------------------

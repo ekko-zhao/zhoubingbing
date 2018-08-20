@@ -28,11 +28,20 @@
         <tbody>
             <tr>
                 <th>序号</th>
+                <th>
+                    <checkbox-all #checkboxAll></checkbox-all>
+                </th>
                 <th *ngFor="let th of table.th;">{{th.text}}</th>
                 <th>操作</th>
             </tr>
             <tr *ngFor="let item of items; let index = index;">
                 <td class="py-2 align-middle" width="6%">{{index+1}}</td>
+                <td width="8%">
+                    <label class="i-checks">
+                        <input type="checkbox" [name]="'checkbox'+index" [(ngModel)]="checkboxAll.checkbox[index]" (ngModelChange)="checkboxAll.change()">
+                        <i></i>
+                    </label>
+                </td>
                 <td class="py-2 align-middle break-all" *ngFor="let td of table.th;" [width]="td.width" domEllipsis [tooltip]="item[td.key]"
                     [isDisabled]="tip['isDisabled' + index + td.key]" container="body" [tip]='tip' [proName]="'isDisabled' + index + td.key">{{item[td.key]}}</td>
                 <td class="py-2">

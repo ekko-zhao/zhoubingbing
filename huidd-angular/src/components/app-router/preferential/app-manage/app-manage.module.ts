@@ -9,6 +9,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 // 公共模块
 import { ButtonLoadingModule } from 'src/components/common/button-loading/button-loading.module';
 import { AppPaginationModule } from 'src/components/common/app-pagination/app-pagination.module';
+import { CheckbxAllModule } from 'src/components/common/checkbox-all/checkbox-all.module';
 
 // directive
 import { DomEllipsisModule } from 'src/directives/dom-ellipsis/auto-visible.module';
@@ -28,7 +29,8 @@ const delayingRortes: Routes = [
         TooltipModule.forRoot(),
         ButtonLoadingModule,
         AppPaginationModule,
-        DomEllipsisModule
+        DomEllipsisModule,
+        CheckbxAllModule
     ],
     declarations: [
         AppManageComponent
