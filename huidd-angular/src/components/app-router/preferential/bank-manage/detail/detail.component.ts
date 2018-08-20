@@ -41,7 +41,7 @@ export class DetailComponent {
     }
 
     // 编辑
-    public saveFlag: boolean = true;
+    public saveFlag: boolean = false;
     public edit() {
         this.form = Object.assign({}, this.formInfo);
         this.saveFlag = !this.saveFlag;
