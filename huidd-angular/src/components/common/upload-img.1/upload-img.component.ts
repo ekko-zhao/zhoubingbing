@@ -16,15 +16,11 @@ export class UploadImgComponent implements OnInit {
         src:''
     } */
     @Input('src') src = [];
-    @Input('queueLimit') queueLimit = 5;
-    @Input('maxfilesize') maxfilesize = '300kb';
-    @Input('multiselection') multiselection = true;
-    @Input('note') note = '请添加5张图片，文件格式png\jpg！，文件大小不超过300KB';
 
     constructor(
         public changeDetectorRef: ChangeDetectorRef
     ) {
-        // this.onWindowSize = this.onWindowSize.bind(this);
+        this.onWindowSize = this.onWindowSize.bind(this);
     }
 
     public srcCopy = [];
@@ -40,6 +36,7 @@ export class UploadImgComponent implements OnInit {
         this.uploader.removeFile(file);
     }
 
+    public queueLimit = 5;
     public uploader = <any>{
         files: []
     };
@@ -51,9 +48,9 @@ export class UploadImgComponent implements OnInit {
             url: (process.env.origin ? process.env.origin : '') + '/api/terminal/v1/upload',
             flash_swf_url: '/static/vendor/plupload/Moxie.swf',
             silverlight_xap_url: '/static/vendor/plupload/Moxie.xap',
-            multi_selection: this.multiselection,
+            multi_selection: true,
             filters: {
-                max_file_size: this.maxfilesize,
+                max_file_size: '300kb',
                 mime_types: [
                     { title: "Image files", extensions: "jpeg,jpg,png" }
                 ],
@@ -102,7 +99,7 @@ export class UploadImgComponent implements OnInit {
                 FileUploaded: (uploader, file, responseObject) => {
                     var response = JSON.parse(responseObject.response);
                     if (response.code = '000000') {
-                        file.fid = response.data[0]['fid'];
+                        response.fid = response.data;
                         alert('上传成功');
                     } else {
                         uploader.removeFile(file);
@@ -127,7 +124,7 @@ export class UploadImgComponent implements OnInit {
     }
 
     // 大图预览
-    /* public viewFlag = false;
+    public viewFlag = false;
     @ViewChild('imgView') imgView: ElementRef;
     public imgview(index) {
         this.viewFlag = true;
@@ -153,7 +150,7 @@ export class UploadImgComponent implements OnInit {
 
     ngOnDestroy() {
         this.closeView();
-    } */
+    }
 
     ngOnInit() {
         // this.reset();

@@ -1,7 +1,6 @@
 <div class="border-bottom clearfix m-b" *ngIf="uploader.files.length>0 || srcCopy.length>0">
     <div class="warp-img" *ngFor="let item of srcCopy; let index = index">
-        <img class="img" [src]="item.src">
-        <!-- (click)="imgview(index)" -->
+        <img class="img" [src]="item.src" (click)="imgview(index)">
         <img class="close" src="../../../assets/images/pattern/close.png" (click)="delSrc(index)" *ngIf="edit">
     </div>
     <div class="warp-img" *ngFor="let item of uploader.files">
@@ -19,9 +18,4 @@
         </button>
     </div>
 </div>
-<p class="text-muted text-sm m-t-xs mb-0" [ngClass]="{'d-none':!edit}">{{this.note}}</p>
-
-<!-- <div class="img-view" [ngClass]="{'d-none':!viewFlag}" #imgView>
-    <span class="close" (click)="closeView()">&times;</span>
-</div>
- -->
+<p class="text-muted text-sm m-t-xs mb-0" [ngClass]="{'d-none':!edit}">请添加3-5张图片，文件格式png\jpg！,分辨率建议：960*540，文件大小不超过300KB</p>

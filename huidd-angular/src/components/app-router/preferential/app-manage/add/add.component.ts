@@ -10,12 +10,12 @@ import { regex } from 'src/services/regex';
 
 export class AddComponent {
     @ViewChild('goBack') public goBack;
+    @ViewChild('uploadImg') public uploadImg;
 
     constructor(
         @Optional() private http: HttpService,
         @Optional() private myService: MyService,
     ) { }
-
 
     // 表单
     public form = <any>{};
@@ -24,9 +24,22 @@ export class AddComponent {
     // 提交
     public queryStatus = false;
     public submit() {
-        this.queryStatus = true;
+        let fid = [];
+        if (this.uploadImg['uploader']['files'].length === 0) {
+            alert('请添加APP logo');
+            return;
+        }
+        for (let file of this.uploadImg['uploader']['files']) {
+            if (!file.fid) {
+                alert('正在上传文件，请耐心等待');
+                return;
+            } else {
+                fid.push(file.fid);
+            }
+        }
         let data = Object.assign({}, this.form);
-        data.district = this.form.county.code;
+        data.fid = fid;
+        this.queryStatus = true;
         this.http.post('/api/corporation/v1/create', data).subscribe(
             response => {
                 this.queryStatus = false;

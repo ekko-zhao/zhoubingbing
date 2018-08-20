@@ -11,6 +11,7 @@ defineLocale('zh-cn', zhCn);
 import { ButtonLoadingModule } from 'src/components/common/button-loading/button-loading.module';
 import { GoBackModule } from 'src/components/common/go-back/go-back.module';
 import { WrapFormModule } from 'src/components/common/wrap-form/wrap-form.module';
+import { UploadImgModule } from 'src/components/common/upload-img/upload-img.module';
 
 // directive
 import { ZhnameModule } from 'src/directives/zhname/zhname.validator.module';
@@ -26,7 +27,8 @@ import { AddComponent } from './add.component';
         ButtonLoadingModule,
         GoBackModule,
         ZhnameModule,
-        WrapFormModule
+        WrapFormModule,
+        UploadImgModule
     ],
     declarations: [
         AddComponent

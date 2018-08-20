@@ -5,16 +5,15 @@
             <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key1">
                 <span class="text-danger">*</span>APP名称:</label>
             <div class="col-xs-9 col-sm-8 px-0">
-                <input class="form-control rounded-0 text-sm" type="text" name="form.key1" id="form.key1" [pattern]="regex.cellphone" [(ngModel)]="form.key1"
-                    (keyup)="form.key1=$event.target.value" required>
+                <input class="form-control rounded-0 text-sm" type="text" name="form.key1" id="form.key1" [(ngModel)]="form.key1" (keyup)="form.key1=$event.target.value"
+                    required>
             </div>
         </div>
         <div class="row mx-0 m-b-md">
             <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key2">
                 <span class="text-danger">*</span>logo:</label>
             <div class="col-xs-9 col-sm-8 px-0">
-                <input class="form-control rounded-0 text-sm" type="text" name="form.key2" id="form.key2" [(ngModel)]="form.key2" (keyup)="form.key2=$event.target.value"
-                    required>
+                <upload-img #uploadImg queueLimit="1" [multiselection]="false" note="请添加1张APP logo，文件格式png\jpg！，文件大小不超过300KB"></upload-img>
             </div>
         </div>
         <div class="row mx-0 m-b-md">
