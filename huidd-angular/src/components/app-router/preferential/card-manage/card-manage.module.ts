@@ -16,9 +16,9 @@ import { DomEllipsisModule } from 'src/directives/dom-ellipsis/auto-visible.modu
 
 // 页面
 import { CardManageComponent } from './card-manage.component';
-/* import { AddComponent } from './add/add.component';
+import { AddComponent } from './add/add.component';
 import { AddModule } from './add/add.module';
-import { DetailComponent } from './detail/detail.component';
+/* import { DetailComponent } from './detail/detail.component';
 import { DetailModule } from './detail/detail.module';
 
 import { ListQueryModule } from './list/list.module';
@@ -26,8 +26,8 @@ import { BankSortModule } from './bank-sort/bank-sort.module';
  */
 const delayingRortes: Routes = [
     { path: '', component: CardManageComponent },
-    /* { path: 'add', component: AddComponent },
-    { path: 'detail/:id', component: DetailComponent }, */
+    { path: 'add', component: AddComponent },
+    /* { path: 'detail/:id', component: DetailComponent }, */
 ]
 
 @NgModule({
@@ -40,8 +40,8 @@ const delayingRortes: Routes = [
         AppPaginationModule,
         DomEllipsisModule,
         CheckbxAllModule,
-        /* AddModule,
-        DetailModule,
+        AddModule,
+        /* DetailModule,
         ListQueryModule,
         BankSortModule */
     ],

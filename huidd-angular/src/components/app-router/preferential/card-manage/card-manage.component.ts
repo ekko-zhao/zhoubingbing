@@ -32,11 +32,12 @@ export class CardManageComponent implements OnInit {
     public items = [];
     public table = {
         th: [
+            { key: 'key', text: '银行卡ID', width: '10%' },
+            { key: 'key', text: '银行卡名称', width: '12%' },
             { key: 'key', text: '银行ID', width: '12%' },
-            { key: 'key', text: '银行名称', width: '14%' },
-            { key: 'key', text: '卡数量', width: '10%' },
-            { key: 'key', text: '标签', width: '12%' },
-            { key: 'key', text: '收录时间', width: '14%' }
+            { key: 'key', text: '归属银行', width: '10%' },
+            { key: 'key', text: '优惠信息', width: '10%' },
+            { key: 'key', text: '收录时间', width: '12%' }
         ]
     };
     // 设置存储缓存的键
@@ -70,6 +71,37 @@ export class CardManageComponent implements OnInit {
             },
             error => { this.queryStatus = false; }
         )
+    }
+
+    // 新增银行
+    public addItem() {
+        this.router.navigate(['app/preferential/card-manage/add']);
+    }
+
+    // 批量删除
+    public delItems() {
+        var payload = {
+            vBoxes: this.checkboxAll['getData']('corporation')
+        };
+        if (payload.vBoxes.length == 0) {
+            alert('请选择要删除的数据！');
+            return;
+        }
+
+        ; (window as any).confirm({
+            text: '您确认要删除当前选择的信息吗？',
+            done: (data) => {
+                this.http.post('/api/user/v1/updateStatus', payload).subscribe(
+                    response => {
+                        if (response['code'] !== '000000') return;
+                        this.search();
+                        alert('删除信息成功');
+                    },
+                    error => { }
+                )
+            }
+        })
+
     }
 
     // 重置表单 -----------------------------------------------------------------------
