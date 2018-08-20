@@ -13,6 +13,7 @@ export const rootRouterConfig: Routes = [
 
     // 优惠信息管理
     { path: 'app/preferential/app-manage', loadChildren: 'src/components/app-router/preferential/app-manage/app-manage.module.ts#AppManageModule' },
-    { path: 'app/preferential/bank-manage', loadChildren: 'src/components/app-router/preferential/bank-manage/bank-manage.module.ts#BankManageModule' }
+    { path: 'app/preferential/bank-manage', loadChildren: 'src/components/app-router/preferential/bank-manage/bank-manage.module.ts#BankManageModule' },
+    { path: 'app/preferential/card-manage', loadChildren: 'src/components/app-router/preferential/card-manage/card-manage.module.ts#CardManageModule' },
 
 ]

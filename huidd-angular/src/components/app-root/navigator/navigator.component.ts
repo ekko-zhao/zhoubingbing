@@ -130,7 +130,8 @@ export class NavigatorComponent implements OnInit {
             {
                 name: "优惠信息管理", url: "app/preferential/app-manage", children: [
                     { name: "APP管理", url: "app/preferential/app-manage", children: [] },
-                    { name: "银行管理", url: "app/preferential/bank-manage", children: [] }
+                    { name: "银行管理", url: "app/preferential/bank-manage", children: [] },
+                    { name: "银行卡管理", url: "app/preferential/card-manage", children: [] }
                 ]
             }
             /* {
