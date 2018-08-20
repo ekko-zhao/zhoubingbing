@@ -1,4 +1,5 @@
-import { Component, Optional, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+/* 银行卡列表 */
+import { Component, Optional, ViewChild, Input } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { HttpService } from 'src/services/http-service';
 import { MyService } from 'src/services/my-service';
