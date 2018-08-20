@@ -23,12 +23,12 @@ export class DetailComponent {
 
     // 下拉列表
     public selectList = {};
+    public id = this.activatedRoute.snapshot.params['id'];
 
     // 表单
     public form = <any>{};
     public regex = regex;
 
-    public id = this.activatedRoute.snapshot.params['id']
     public item = <any>{};
     public table = {
         tr: [

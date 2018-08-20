@@ -76,6 +76,11 @@ export class AppManageComponent implements OnInit {
         this.router.navigate(['app/preferential/app-manage/add']);
     }
 
+    // 查看详情
+    public detail(item) {
+        this.router.navigate(['app/preferential/app-manage/detail', item.id]);
+    }
+
     // 批量删除
     public delItems() {
         var payload = {
@@ -101,6 +106,8 @@ export class AppManageComponent implements OnInit {
         })
 
     }
+
+
 
     // 重置表单 -----------------------------------------------------------------------
     public reset() {
