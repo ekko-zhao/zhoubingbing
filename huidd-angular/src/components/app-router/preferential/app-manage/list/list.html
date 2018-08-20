@@ -1,0 +1,63 @@
+<go-back name="关联优惠列表" url="app/preferential/app-manage" #goBack></go-back>
+<div class="container-fluid border b-color-base m-t-lg pt-3">
+    <form class="search-form" #searchForm="ngForm">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group">
+                <label class="control-label" for="form.key1">博文/规则 ID:</label>
+                <input type="text" class="form-control rounded-0 text-sm" id="form.key1" name="form.key1" [(ngModel)]="form.key1" (keyup)="form.key1=$event.target.value">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group">
+                <label class="control-label" for="form.key2">优惠标题:</label>
+                <input type="text" class="form-control rounded-0 text-sm" id="form.key2" name="form.key2" [(ngModel)]="form.key2" (keyup)="form.key2=$event.target.value">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group">
+                <label class="control-label" for="form.key3">门店ID:</label>
+                <input type="text" class="form-control rounded-0 text-sm" id="form.key3" name="form.key3" [(ngModel)]="form.key3" (keyup)="form.key3=$event.target.value">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group">
+                <label class="control-label" for="form.key4">门店名称:</label>
+                <input type="text" class="form-control rounded-0 text-sm" id="form.key4" name="form.key4" [(ngModel)]="form.key4" (keyup)="form.key4=$event.target.value">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group">
+                <label class="control-label" for="form.key4">优惠方:</label>
+                <input type="text" class="form-control rounded-0 text-sm" id="form.key5" name="form.key5" [(ngModel)]="form.key5" (keyup)="form.key5=$event.target.value">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group">
+                <label class="control-label">博文/规则:</label>
+                <select class="form-control rounded-0 text-sm" style="height: 32px;" name="form.key6" [(ngModel)]="form.key6">
+                    <option value=''>---请选择---</option>
+                    <option *ngFor="let option of selectList['key6']" [value]="option.id">{{option.name}}</option>
+                </select>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group">
+                <label class="control-label">地区:</label>
+                <select class="form-control rounded-0 text-sm" style="height: 32px;" name="form.key7" [(ngModel)]="form.key7">
+                    <option value=''>---请选择---</option>
+                    <option *ngFor="let option of selectList['key7']" [value]="option.id">{{option.name}}</option>
+                </select>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group no-select">
+                <button class="btn btn-info btn-sm p-l p-r m-r-sm rounded-0" (click)="search($event)" type="submit" [disabled]="!searchForm.valid || queryStatus">
+                    <span class="float-left">查询</span>
+                    <bttton-loading class="float-left" [queryStatus]="queryStatus"></bttton-loading>
+                </button>
+                <button class="btn btn-outline-secondary btn-sm rounded-0 p-l p-r" (click)="reset()">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="m-t">
+    <table class="table table-hover mb-0">
+        <tbody>
+            <tr>
+                <th>序号</th>
+                <th *ngFor="let th of table.th;">{{th.text}}</th>
+            </tr>
+            <tr *ngFor="let item of items; let index = index;">
+                <td class="py-2 align-middle" width="6%">{{index+1}}</td>
+                <td class="py-2 align-middle break-all" *ngFor="let td of table.th;" [width]="td.width">{{item[td.key]}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<app-pagination #appPagination [paginationData]="paginationData" [queryStatus]="queryStatus"></app-pagination>

@@ -1,3 +1,4 @@
+/* 优惠信息管理 APP管理 */
 import { Component, Optional, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from 'src/services/http-service';
@@ -81,6 +82,11 @@ export class AppManageComponent implements OnInit {
         this.router.navigate(['app/preferential/app-manage/detail', item.id]);
     }
 
+    // 优惠列表
+    public preferentialList(item) {
+        this.router.navigate(['app/preferential/app-manage/list', item.id]);
+    }
+
     // 批量删除
     public delItems() {
         var payload = {
@@ -112,8 +118,6 @@ export class AppManageComponent implements OnInit {
     // 重置表单 -----------------------------------------------------------------------
     public reset() {
         this.form = {};
-        this.form.key1 = '';
-        this.form.key2 = '';
     }
 
     ngOnInit() {
