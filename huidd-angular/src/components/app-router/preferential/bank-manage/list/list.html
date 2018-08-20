@@ -1,0 +1,53 @@
+<div class="modal fade" bsModal #modal="bs-modal" [config]="config" tabindex="-1" role="dialog" aria-labelledby="dialog-events-name"
+    (onShown)="shown()">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <div class="w-100">
+                    <button type="button" class="close float-right" (click)="hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title">银行列表</h5>
+                </div>
+            </div>
+            <div class="modal-body">
+                <!-- <form class="search-form m-b border-bottom b-b-dashed" #searchForm="ngForm">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-4 form-group">
+                            <label class="control-label" for="form.id">机构编码:</label>
+                            <input type="text" class="form-control rounded-0 text-sm" id="form.id" name="form.id" [(ngModel)]="form.id" (keyup)="form.id=$event.target.value">
+                        </div>
+                        <div class="col-sm-6 col-md-4 form-group">
+                            <label class="control-label" for="form.name">机构名称:</label>
+                            <input type="text" class="form-control rounded-0 text-sm" id="form.name" name="form.name" [(ngModel)]="form.name" (keyup)="form.name=$event.target.value">
+                        </div>
+                        <div class="col-sm-6 col-md-4 form-group no-select">
+                            <button class="btn btn-info btn-sm p-l p-r m-r-sm rounded-0" type="submit" (click)="search($event)" [disabled]="!searchForm.valid || queryStatus">
+                                <span class="float-left">查询</span>
+                                <bttton-loading class="float-left" [queryStatus]="queryStatus"></bttton-loading>
+                            </button>
+                            <button class="btn btn-outline-secondary btn-sm rounded-0 p-l p-r" (click)="reset()">重置</button>
+                        </div>
+                    </div>
+                </form> -->
+                <table class="table table-hover mb-0">
+                    <tbody>
+                        <tr>
+                            <th>序号</th>
+                            <th *ngFor="let th of table.th;">{{th.text}}</th>
+                        </tr>
+                        <tr *ngFor="let item of items; let index = index;">
+                            <td class="py-2 align-middle" width="10%">{{index+1}}</td>
+                            <td class="py-2 align-middle break-all" *ngFor="let td of table.th;" [width]="td.width" domEllipsis [tooltip]="item[td.key]"
+                                [isDisabled]="tip['isDisabled' + index + td.key]" container="body" [tip]='tip' [proName]="'isDisabled' + index + td.key">{{item[td.key]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <app-pagination #appPagination [paginationData]="paginationData" [queryStatus]="queryStatus"></app-pagination>
+            </div>
+            <div class="modal-footer text-right">
+                <button class="btn btn-outline-secondary btn-sm rounded-0 p-l p-r" (click)="hide()">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>

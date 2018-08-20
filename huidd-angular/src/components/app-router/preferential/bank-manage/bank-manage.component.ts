@@ -83,11 +83,6 @@ export class BankManageComponent implements OnInit {
         this.router.navigate(['app/preferential/bank-manage/detail', item.id]);
     }
 
-    // 优惠列表
-    public preferentialList(item) {
-        this.router.navigate(['app/preferential/app-manage/list', item.id]);
-    }
-
     // 批量删除
     public delItems() {
         var payload = {
@@ -112,6 +107,12 @@ export class BankManageComponent implements OnInit {
             }
         })
 
+    }
+
+    // 卡列表
+    @ViewChild('listQuery') public listQuery;
+    public listQueryModalStart(item) {
+        this.listQuery.show(item);
     }
 
     // 重置表单 -----------------------------------------------------------------------

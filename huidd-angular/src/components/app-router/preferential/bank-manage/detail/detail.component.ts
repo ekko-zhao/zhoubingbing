@@ -1,4 +1,4 @@
-/* app 用户管理 详情 编辑 */
+/* 银行管理 详情 编辑 */
 import { Component, Optional, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from 'src/services/http-service';
