@@ -126,6 +126,11 @@ export class NavigatorComponent implements OnInit {
                     { name: "用户账号管理", url: "app/user/account", children: [] },
                     { name: "APP用户管理", url: "app/user/app-account", children: [] }
                 ]
+            },
+            {
+                name: "优惠信息管理", url: "app/preferential/app-manage", children: [
+                    { name: "APP管理", url: "app/preferential/app-manage", children: [] }
+                ]
             }
             /* {
                 name: "终端管理", url: "app/terminal/query", children: [

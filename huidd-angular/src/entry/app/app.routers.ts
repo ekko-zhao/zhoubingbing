@@ -1,7 +1,5 @@
 
 import { Routes } from '@angular/router';
-// import { CanActivateTransmitStatus } from 'src/services/can.activate.transmit.status';
-/* , canActivate: [CanActivateTransmitStatus] */
 export const rootRouterConfig: Routes = [
     { path: '', redirectTo: 'app', pathMatch: "full" },
     { path: 'app', loadChildren: 'src/components/app-router/index/index.module.ts#IndexModule' },
@@ -13,4 +11,6 @@ export const rootRouterConfig: Routes = [
     { path: 'app/user/account', loadChildren: 'src/components/app-router/user/account/account.module.ts#AccountModule' },
     { path: 'app/user/app-account', loadChildren: 'src/components/app-router/user/app-account/app-account.module.ts#AppAccountModule' },
 
+    // 优惠信息管理
+    { path: 'app/preferential/app-manage', loadChildren: 'src/components/app-router/preferential/app-manage/app-manage.module.ts#AppManageModule' }
 ]
