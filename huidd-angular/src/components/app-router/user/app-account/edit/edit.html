@@ -55,10 +55,10 @@
         <div class="row mx-0 m-b-md">
             <div class="col-xs-9 col-sm-8 col-xs-push-3 col-sm-push-4 px-0 border-top p-t-md b-t-dashed">
                 <button type="button" class="btn btn-info rounded-0 p-l-md p-r-md m-r" (click)="submit()" [disabled]="editForm.invalid || queryStatus">
-                    <span class="float-left">新增</span>
+                    <span class="float-left">保存</span>
                     <bttton-loading class="float-left" [queryStatus]="queryStatus"></bttton-loading>
                 </button>
-                <button type="button" class="btn btn-outline-secondary rounded-0 p-l-md p-r-md" (click)="goBack.back();">取消</button>
+                <button type="button" class="btn btn-outline-warning rounded-0 p-l-md p-r-md" (click)="reset();">重置</button>
             </div>
         </div>
     </form>

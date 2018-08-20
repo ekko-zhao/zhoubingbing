@@ -1,4 +1,5 @@
 import { Component, Optional, ViewChild, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpService } from 'src/services/http-service';
 import { MyService } from 'src/services/my-service';
 import { regex } from 'src/services/regex';
@@ -11,6 +12,7 @@ export class AppManageComponent implements OnInit {
     @ViewChild('checkboxAll') checkboxAll;
 
     constructor(
+        private router: Router,
         @Optional() private http: HttpService,
         @Optional() private myService: MyService
     ) { }
@@ -67,6 +69,11 @@ export class AppManageComponent implements OnInit {
             },
             error => { this.queryStatus = false; }
         )
+    }
+
+    // 新增用户
+    public addItem() {
+        this.router.navigate(['app/preferential/app-manage/add']);
     }
 
     // 批量删除

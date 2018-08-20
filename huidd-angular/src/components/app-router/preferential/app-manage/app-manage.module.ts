@@ -16,9 +16,12 @@ import { DomEllipsisModule } from 'src/directives/dom-ellipsis/auto-visible.modu
 
 // 页面
 import { AppManageComponent } from './app-manage.component';
+import { AddComponent } from './add/add.component';
+import { AddModule } from './add/add.module';
 
 const delayingRortes: Routes = [
-    { path: '', component: AppManageComponent }
+    { path: '', component: AppManageComponent },
+    { path: 'add', component: AddComponent }
 ]
 
 @NgModule({
@@ -30,7 +33,8 @@ const delayingRortes: Routes = [
         ButtonLoadingModule,
         AppPaginationModule,
         DomEllipsisModule,
-        CheckbxAllModule
+        CheckbxAllModule,
+        AddModule
     ],
     declarations: [
         AppManageComponent
