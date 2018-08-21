@@ -2,15 +2,39 @@
 <wrap-form width="500px">
     <form class="px-3 p-t-lg" [ngClass]="{'d-none':saveFlag}">
         <div class="row mx-0 m-b-md">
-            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">博文优惠标题:</label>
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">规则门店名称:</label>
             <div class="col-xs-9 col-sm-8 px-0">
                 <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key1" [(ngModel)]="formInfo.key1" disabled>
             </div>
         </div>
         <div class="row mx-0 m-b-md">
-            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">经度:</label>
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">规则优惠方:</label>
             <div class="col-xs-9 col-sm-8 px-0">
                 <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key2" [(ngModel)]="formInfo.key2" disabled>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">规则优惠方分类:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key10" [(ngModel)]="formInfo.key10" disabled>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">规则标题:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key11" [(ngModel)]="formInfo.key11" disabled>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">规则银行小分类:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key12" [(ngModel)]="formInfo.key12" disabled>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">经度:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key13" [(ngModel)]="formInfo.key13" disabled>
             </div>
         </div>
         <div class="row mx-0 m-b-md">
@@ -20,17 +44,16 @@
             </div>
         </div>
         <div class="row mx-0 m-b-md">
-            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="formInfo.districtName">地区:</label>
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">地区:</label>
             <div class="col-xs-9 col-sm-8 px-0">
                 <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.districtName" [(ngModel)]="formInfo.districtName"
                     disabled>
             </div>
         </div>
         <div class="row mx-0 m-b-md">
-            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">博文内容:</label>
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">规则内容:</label>
             <div class="col-xs-9 col-sm-8 px-0">
-                <textarea class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key4" rows="4" [(ngModel)]="formInfo.key4"
-                    disabled></textarea>
+                <textarea class="form-control rounded-0 text-sm bg-white" type="text" name="form.key4" rows="4" [(ngModel)]="form.key4" disabled></textarea>
             </div>
         </div>
         <div class="row mx-0 m-b-md">
@@ -40,13 +63,14 @@
             </div>
         </div>
         <div class="row mx-0 m-b-md">
-            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">关联规则:</label>
-            <div class="col-xs-9 col-sm-8 px-0">
-                <input class="form-control rounded-0 text-sm bg-white" type="text" name="form.key5" [(ngModel)]="form.key5" disabled>
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">规则限制条件:</label>
+            <div class="col-xs-9 col-sm-8 px-0 m-t-xs">
+                <textarea class="form-control rounded-0 text-sm bg-white" type="text" name="form.key7" rows="4" [(ngModel)]="form.key7" disabled></textarea>
             </div>
         </div>
+
         <div class="row mx-0 m-b-md">
-            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">博文图片:</label>
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">规则图片:</label>
             <div class="col-xs-9 col-sm-8 px-0">
                 <img [src]="formInfo.src">
             </div>
