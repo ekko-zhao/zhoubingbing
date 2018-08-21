@@ -47,7 +47,6 @@ export class UploadImgComponent {
         files: []
     };
     public uploaderConfig(el) {
-        console.log(document.getElementById(el));
         let config = {
             runtimes: 'html5,flash,silverlight,html4',
             browse_button: this.uploaderID, // you can pass an id...
