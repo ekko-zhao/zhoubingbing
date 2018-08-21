@@ -114,6 +114,12 @@ export class CardManageComponent implements OnInit {
         this.router.navigate(['app/preferential/card-manage/list', item.id]);
     }
 
+    // 排序
+    @ViewChild('bankSort') public bankSort;
+    public bankSortModalStart(item) {
+        this.bankSort.show(item);
+    }
+
     // 重置表单 -----------------------------------------------------------------------
     public reset() {
         this.form = {};

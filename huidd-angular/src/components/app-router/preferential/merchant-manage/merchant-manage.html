@@ -2,20 +2,12 @@
     <form class="search-form" #searchForm="ngForm">
         <div class="row">
             <div class="col-sm-6 col-md-4 col-lg-3 form-group">
-                <label class="control-label" for="form.key1">银行卡ID:</label>
+                <label class="control-label" for="form.key1">商户ID:</label>
                 <input type="text" class="form-control rounded-0 text-sm" id="form.key1" name="form.key1" [(ngModel)]="form.key1" (keyup)="form.key1=$event.target.value">
             </div>
             <div class="col-sm-6 col-md-4 col-lg-3 form-group">
-                <label class="control-label" for="form.key2">银行卡名称:</label>
+                <label class="control-label" for="form.key2">商户名称:</label>
                 <input type="text" class="form-control rounded-0 text-sm" id="form.key2" name="form.key2" [(ngModel)]="form.key2" (keyup)="form.key2=$event.target.value">
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 form-group">
-                <label class="control-label" for="form.key3">银行ID:</label>
-                <input type="text" class="form-control rounded-0 text-sm" id="form.key3" name="form.key3" [(ngModel)]="form.key3" (keyup)="form.key3=$event.target.value">
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 form-group">
-                <label class="control-label" for="form.key3">归属银行:</label>
-                <input type="text" class="form-control rounded-0 text-sm" id="form.key4" name="form.key4" [(ngModel)]="form.key4" (keyup)="form.key4=$event.target.value">
             </div>
             <div class="col-sm-6 col-md-4 col-lg-3 form-group no-select">
                 <button class="btn btn-info btn-sm p-l p-r m-r-sm rounded-0" (click)="search($event)" type="submit" [disabled]="!searchForm.valid || queryStatus">
@@ -28,7 +20,7 @@
     </form>
 </div>
 <div class="m-t m-b">
-    <button type="button" class="btn btn-outline-info btn-sm rounded-0 m-r-sm" (click)="addItem()">新增银行卡</button>
+    <button type="button" class="btn btn-outline-info btn-sm rounded-0 m-r-sm" (click)="addItem()">新增商户</button>
     <button type="button" class="btn btn-outline-danger btn-sm rounded-0" (click)="delItems()">批量删除</button>
 </div>
 <div class="m-t">
@@ -62,4 +54,3 @@
     </table>
 </div>
 <app-pagination #appPagination [paginationData]="paginationData" [queryStatus]="queryStatus"></app-pagination>
-<bank-sort #bankSort (onListen)="search()"></bank-sort>

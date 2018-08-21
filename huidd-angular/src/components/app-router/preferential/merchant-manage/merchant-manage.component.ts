@@ -1,4 +1,4 @@
-/* 优惠信息管理 银行管理 */
+/* 优惠信息管理 商户管理 */
 import { Component, Optional, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from 'src/services/http-service';
@@ -6,12 +6,12 @@ import { MyService } from 'src/services/my-service';
 import { regex } from 'src/services/regex';
 
 @Component({
-    templateUrl: './bank-manage.html'
+    templateUrl: './merchant-manage.html'
 })
-export class BankManageComponent implements OnInit {
+
+export class MerchantManageComponent implements OnInit {
     // 复选框
     @ViewChild('checkboxAll') checkboxAll;
-
     constructor(
         private router: Router,
         @Optional() private http: HttpService,
@@ -32,16 +32,14 @@ export class BankManageComponent implements OnInit {
     public items = [];
     public table = {
         th: [
-            { key: 'key', text: '银行ID', width: '12%' },
-            { key: 'key', text: '银行名称', width: '14%' },
-            { key: 'key', text: '卡数量', width: '10%' },
-            { key: 'key', text: '标签', width: '12%' },
-            { key: 'key', text: '收录时间', width: '14%' }
+            { key: 'key', text: '商户ID', width: '16%' },
+            { key: 'key', text: '商户名称', width: '16%' },
+            { key: 'key', text: '门店数量', width: '14%' },
+            { key: 'key', text: '收录时间', width: '16%' }
         ]
     };
-
     // 设置存储缓存的键
-    public formStorageKey: string = 'preferentialBankManageForm';
+    public formStorageKey: string = 'preferentialMerchantManageForm';
 
     // 初始化分页参数
     @ViewChild('appPagination') public appPagination;
@@ -75,12 +73,12 @@ export class BankManageComponent implements OnInit {
 
     // 新增银行
     public addItem() {
-        this.router.navigate(['app/preferential/bank-manage/add']);
+        this.router.navigate(['app/preferential/merchant-manage/add']);
     }
 
     // 查看详情
     public detail(item) {
-        this.router.navigate(['app/preferential/bank-manage/detail', item.id]);
+        this.router.navigate(['app/preferential/merchant-manage/detail', item.id]);
     }
 
     // 批量删除
@@ -110,15 +108,8 @@ export class BankManageComponent implements OnInit {
     }
 
     // 卡列表
-    @ViewChild('listQuery') public listQuery;
-    public listQueryModalStart(item) {
-        this.listQuery.show(item);
-    }
-
-    // 排序
-    @ViewChild('bankSort') public bankSort;
-    public bankSortModalStart(item) {
-        this.bankSort.show(item);
+    public preferentialList(item) {
+        this.router.navigate(['app/preferential/merchant-manage/list', item.id]);
     }
 
     // 重置表单 -----------------------------------------------------------------------

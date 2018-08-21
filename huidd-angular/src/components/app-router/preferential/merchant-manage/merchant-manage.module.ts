@@ -15,20 +15,20 @@ import { CheckbxAllModule } from 'src/components/common/checkbox-all/checkbox-al
 import { DomEllipsisModule } from 'src/directives/dom-ellipsis/auto-visible.module';
 
 // 页面
-import { CardManageComponent } from './card-manage.component';
+import { MerchantManageComponent } from './merchant-manage.component';
 import { AddComponent } from './add/add.component';
 import { AddModule } from './add/add.module';
 import { DetailComponent } from './detail/detail.component';
 import { DetailModule } from './detail/detail.module';
-import { ListComponent } from './list/list.component';
+/* import { ListComponent } from './list/list.component';
 import { ListModule } from './list/list.module';
-import { BankSortModule } from './bank-sort/bank-sort.module';
+import { BankSortModule } from './bank-sort/bank-sort.module'; */
 
 const delayingRortes: Routes = [
-    { path: '', component: CardManageComponent },
+    { path: '', component: MerchantManageComponent },
     { path: 'add', component: AddComponent },
     { path: 'detail/:id', component: DetailComponent },
-    { path: 'list/:id', component: ListComponent }
+    /*{ path: 'list/:id', component: ListComponent } */
 ]
 
 @NgModule({
@@ -43,11 +43,11 @@ const delayingRortes: Routes = [
         CheckbxAllModule,
         AddModule,
         DetailModule,
-        ListModule,
-        BankSortModule
+        /*   ListModule,
+         BankSortModule */
     ],
     declarations: [
-        CardManageComponent
+        MerchantManageComponent
     ]
 })
-export class CardManageModule { }
+export class MerchantManageModule { }
