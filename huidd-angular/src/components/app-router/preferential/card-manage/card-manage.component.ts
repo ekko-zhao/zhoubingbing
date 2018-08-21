@@ -109,6 +109,11 @@ export class CardManageComponent implements OnInit {
 
     }
 
+    // 卡列表
+    public preferentialList(item) {
+        this.router.navigate(['app/preferential/card-manage/list', item.id]);
+    }
+
     // 重置表单 -----------------------------------------------------------------------
     public reset() {
         this.form = {};
