@@ -18,16 +18,16 @@ import { DomEllipsisModule } from 'src/directives/dom-ellipsis/auto-visible.modu
 import { CardManageComponent } from './card-manage.component';
 import { AddComponent } from './add/add.component';
 import { AddModule } from './add/add.module';
-/* import { DetailComponent } from './detail/detail.component';
+import { DetailComponent } from './detail/detail.component';
 import { DetailModule } from './detail/detail.module';
 
-import { ListQueryModule } from './list/list.module';
+/* import { ListQueryModule } from './list/list.module';
 import { BankSortModule } from './bank-sort/bank-sort.module';
  */
 const delayingRortes: Routes = [
     { path: '', component: CardManageComponent },
     { path: 'add', component: AddComponent },
-    /* { path: 'detail/:id', component: DetailComponent }, */
+    { path: 'detail/:id', component: DetailComponent },
 ]
 
 @NgModule({
@@ -41,8 +41,8 @@ const delayingRortes: Routes = [
         DomEllipsisModule,
         CheckbxAllModule,
         AddModule,
-        /* DetailModule,
-        ListQueryModule,
+        DetailModule,
+        /* ListQueryModule,
         BankSortModule */
     ],
     declarations: [

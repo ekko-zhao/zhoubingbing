@@ -1,0 +1,69 @@
+<go-back name="银行卡详情" url="app/preferential/card-manage" #goBack></go-back>
+<wrap-form width="500px">
+    <form class="px-3 p-t-lg" [ngClass]="{'d-none':saveFlag}">
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">银行卡名称:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key1" [(ngModel)]="formInfo.key1" disabled>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">归属银行:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <select class="form-control rounded-0 text-sm bg-white" style="height: 32px;" name="formInfo.key2" [(ngModel)]="formInfo.key2"
+                    disabled>
+                    <option value=''>---请选择---</option>
+                    <option *ngFor="let option of selectList['key2']" [value]="option.id">{{option.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">卡类型:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <select class="form-control rounded-0 text-sm bg-white" style="height: 32px;" name="formInfo.key3" [(ngModel)]="formInfo.key3"
+                    disabled>
+                    <option value=''>---请选择---</option>
+                    <option *ngFor="let option of selectList['key3']" [value]="option.id">{{option.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">权益:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key4" [(ngModel)]="formInfo.key4" disabled>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">积分:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key5" [(ngModel)]="formInfo.key5" disabled>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">资料:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key6" [(ngModel)]="formInfo.key6" disabled>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">申卡链接:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key7" [(ngModel)]="formInfo.key7" disabled>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">logo:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <img [src]="formInfo.src">
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <div class="col-xs-9 col-sm-8 col-xs-push-3 col-sm-push-4 px-0 border-top p-t-md b-t-dashed">
+                <button type="button" class="btn btn-info rounded-0 p-l-md p-r-md m-r" (click)="edit()" [disabled]="getInfoFlag">
+                    <span class="float-left">编辑</span>
+                    <bttton-loading class="float-left" [queryStatus]="getInfoFlag"></bttton-loading>
+                </button>
+            </div>
+        </div>
+    </form>
+</wrap-form>

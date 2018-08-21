@@ -78,6 +78,11 @@ export class CardManageComponent implements OnInit {
         this.router.navigate(['app/preferential/card-manage/add']);
     }
 
+    // 查看详情
+    public detail(item) {
+        this.router.navigate(['app/preferential/card-manage/detail', item.id]);
+    }
+
     // 批量删除
     public delItems() {
         var payload = {
