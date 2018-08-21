@@ -133,28 +133,10 @@ export class NavigatorComponent implements OnInit {
                     { name: "银行管理", url: "app/preferential/bank-manage", children: [] },
                     { name: "银行卡管理", url: "app/preferential/card-manage", children: [] },
                     { name: "商户管理", url: "app/preferential/merchant-manage", children: [] },
-                    { name: "门店管理", url: "app/preferential/store-manage", children: [] }
+                    { name: "门店管理", url: "app/preferential/store-manage", children: [] },
+                    { name: "用户信息提交管理", url: "app/preferential/user-message", children: [] }
                 ]
             }
-            /* {
-                name: "终端管理", url: "app/terminal/query", children: [
-                    { name: "终端查询", url: "app/terminal/query", children: [] },
-                    {
-                        name: "终端任务管理", url: "app/terminal/task/query", children: [
-                            { name: "终端任务", url: "app/terminal/task/query", children: [] },
-                            { name: "终端监控", url: "app/terminal/task/rmon", children: [] }
-                        ]
-                    },
-                    { name: "终端日志", url: "app/terminal/log", children: [] },
-                    {
-                        name: "终端固件管理", url: "app/terminal/firmware/ask", children: [
-                            { name: "固件申请", url: "app/terminal/firmware/ask", children: [] },
-                            { name: "固件审核", url: "app/terminal/firmware/auditing", children: [] },
-                            { name: "固件发布", url: "app/terminal/firmware/release", children: [] }
-                        ]
-                    }
-                ]
-            }, */
         ]
         let path = this.setPath();
         this.searchPath(path);
