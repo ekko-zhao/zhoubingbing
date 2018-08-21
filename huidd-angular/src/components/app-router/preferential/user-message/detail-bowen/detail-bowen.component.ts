@@ -23,7 +23,11 @@ export class DetailBowenComponent {
 
     // 表单
     public formInfo = <any>{};
-    public form = <any>{};
+    public form = <any>{
+        province: {},
+        city: {},
+        county: {}
+    };
     public regex = regex;
 
     // 获取信息
@@ -71,7 +75,7 @@ export class DetailBowenComponent {
                 this.queryStatus = false;
                 if (response['code'] !== '000000') return;
                 this.goBack.back();
-                alert('新增APP用户成功');
+                alert('保存博文成功');
             },
             error => { this.queryStatus = false; }
         )

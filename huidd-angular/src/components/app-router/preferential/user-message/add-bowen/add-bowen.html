@@ -51,14 +51,6 @@
             </div>
         </div>
         <div class="row mx-0 m-b-md">
-            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key5">
-                <span class="text-danger">*</span>关联规则:</label>
-            <div class="col-xs-9 col-sm-8 px-0">
-                <input class="form-control rounded-0 text-sm" type="text" name="form.key5" id="form.key5" [(ngModel)]="form.key5" (keyup)="form.key5=$event.target.value"
-                    required>
-            </div>
-        </div>
-        <div class="row mx-0 m-b-md">
             <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">
                 <span class="text-danger">*</span>是否热门:</label>
             <div class="col-xs-9 col-sm-8 px-0 m-t-xs">
@@ -72,8 +64,14 @@
                 </label>
             </div>
         </div>
-
-
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key5">
+                <span class="text-danger">*</span>关联规则:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm" type="text" name="form.key5" id="form.key5" [(ngModel)]="form.key5" (keyup)="form.key5=$event.target.value"
+                    required>
+            </div>
+        </div>
         <div class="row mx-0 m-b-md">
             <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">
                 <span class="text-danger">*</span>博文图片:</label>
