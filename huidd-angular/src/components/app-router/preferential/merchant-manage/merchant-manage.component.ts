@@ -71,7 +71,7 @@ export class MerchantManageComponent implements OnInit {
         )
     }
 
-    // 新增银行
+    // 新增商户
     public addItem() {
         this.router.navigate(['app/preferential/merchant-manage/add']);
     }

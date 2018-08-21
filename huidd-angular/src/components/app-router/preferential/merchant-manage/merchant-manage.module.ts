@@ -21,14 +21,11 @@ import { AddModule } from './add/add.module';
 import { DetailComponent } from './detail/detail.component';
 import { DetailModule } from './detail/detail.module';
 import { ListQueryModule } from './list/list.module';
-/*import { ListModule } from './list/list.module';
-import { BankSortModule } from './bank-sort/bank-sort.module'; */
 
 const delayingRortes: Routes = [
     { path: '', component: MerchantManageComponent },
     { path: 'add', component: AddComponent },
     { path: 'detail/:id', component: DetailComponent },
-    /*{ path: 'list/:id', component: ListComponent } */
 ]
 
 @NgModule({
@@ -44,8 +41,6 @@ const delayingRortes: Routes = [
         AddModule,
         DetailModule,
         ListQueryModule
-        /*   ListModule,
-         BankSortModule */
     ],
     declarations: [
         MerchantManageComponent
