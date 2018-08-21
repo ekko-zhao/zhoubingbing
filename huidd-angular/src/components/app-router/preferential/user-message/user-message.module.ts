@@ -22,9 +22,9 @@ import { DomEllipsisModule } from 'src/directives/dom-ellipsis/auto-visible.modu
 import { UserMessageComponent } from './user-message.component';
 import { AddBowenComponent } from './add-bowen/add-bowen.component';
 import { AddBowenModule } from './add-bowen/add-bowen.module';
-/* import { DetailComponent } from './detail/detail.component';
-import { DetailModule } from './detail/detail.module';
-import { ListComponent } from './list/list.component';
+import { DetailBowenComponent } from './detail-bowen/detail-bowen.component';
+import { DetailBowenModule } from './detail-bowen/detail-bowen.module';
+/* import { ListComponent } from './list/list.component';
 import { ListModule } from './list/list.module'; */
 
 import { SortModule } from './sort/sort.module';
@@ -32,8 +32,7 @@ import { SortModule } from './sort/sort.module';
 const delayingRortes: Routes = [
     { path: '', component: UserMessageComponent },
     { path: 'add-bowen', component: AddBowenComponent },
-    /* { path: 'detail/:id', component: DetailComponent },
-    { path: 'list/:id', component: ListComponent }, */
+    { path: 'detail-bowen/:id', component: DetailBowenComponent }
 ]
 
 @NgModule({
@@ -49,9 +48,7 @@ const delayingRortes: Routes = [
         CheckbxAllModule,
         SortModule,
         AddBowenModule,
-        /* AddModule,
-        DetailModule,
-        ListModule */
+        DetailBowenModule,
     ],
     declarations: [
         UserMessageComponent

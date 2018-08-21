@@ -97,9 +97,9 @@ export class UserMessageComponent implements OnInit {
         this.router.navigate(['app/preferential/user-message/add-bowen']);
     }
 
-    // 查看详情
-    public detail(item) {
-        this.router.navigate(['app/preferential/user-message/detail', item.id]);
+    // 博文详情
+    public detailBowen(item) {
+        this.router.navigate(['app/preferential/user-message/detail-bowen', item.id]);
     }
 
     // 批量删除
