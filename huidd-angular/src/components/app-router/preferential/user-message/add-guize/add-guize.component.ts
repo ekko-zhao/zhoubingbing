@@ -1,14 +1,14 @@
-/* 新增博文 */
+/* 新增规则 */
 import { Component, Optional, ViewChild } from '@angular/core';
 import { HttpService } from 'src/services/http-service';
 import { MyService } from 'src/services/my-service';
 import { regex } from 'src/services/regex';
 
 @Component({
-    templateUrl: './add-bowen.html'
+    templateUrl: './add-guize.html'
 })
 
-export class AddBowenComponent {
+export class AddGuizeComponent {
     @ViewChild('goBack') public goBack;
     @ViewChild('uploadImg') public uploadImg;
 

@@ -102,6 +102,11 @@ export class UserMessageComponent implements OnInit {
         this.router.navigate(['app/preferential/user-message/detail-bowen', item.id]);
     }
 
+    // 新增规则
+    public addGuize() {
+        this.router.navigate(['app/preferential/user-message/add-guize']);
+    }
+
     // 批量删除
     public delItems() {
         var payload = {
