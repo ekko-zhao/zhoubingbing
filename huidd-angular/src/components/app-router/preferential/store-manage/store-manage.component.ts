@@ -110,10 +110,9 @@ export class StoreManageComponent implements OnInit {
 
     }
 
-    // 门店列表
-    @ViewChild('listQuery') public listQuery;
-    public listQueryModalStart(item) {
-        this.listQuery.show(item);
+    // 优惠列表
+    public storeList(item) {
+        this.router.navigate(['app/preferential/store-manage/list', item.id]);
     }
 
     // 重置表单 -----------------------------------------------------------------------

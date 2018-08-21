@@ -20,12 +20,14 @@ import { AddComponent } from './add/add.component';
 import { AddModule } from './add/add.module';
 import { DetailComponent } from './detail/detail.component';
 import { DetailModule } from './detail/detail.module';
-/*import { ListQueryModule } from './list/list.module'; */
+import { ListComponent } from './list/list.component';
+import { ListModule } from './list/list.module';
 
 const delayingRortes: Routes = [
     { path: '', component: StoreManageComponent },
     { path: 'add', component: AddComponent },
     { path: 'detail/:id', component: DetailComponent },
+    { path: 'list/:id', component: ListComponent },
 ]
 
 @NgModule({
@@ -40,7 +42,7 @@ const delayingRortes: Routes = [
         CheckbxAllModule,
         AddModule,
         DetailModule,
-        /* ListQueryModule */
+        ListModule
     ],
     declarations: [
         StoreManageComponent
