@@ -5,7 +5,8 @@
         <img class="close" src="../../../assets/images/pattern/close.png" (click)="delSrc(index)" *ngIf="edit">
     </div>
     <div class="warp-img" *ngFor="let item of uploader.files">
-        <img class="img" [src]="item.src" (click)="imgview(index)">
+        <img class="img" [src]="item.src">
+        <!-- (click)="imgview(index)" -->
         <img class="close" src="../../../assets/images/pattern/close.png" (click)="delSelect(item)">
         <div class="progress r">
             <div class="progress-bar progress-bar-striped bg-success" [ngClass]="{'progress-bar-animated':item.progress<100}" [ngStyle]="{width: item.progress +'%'}"></div>
@@ -13,8 +14,8 @@
     </div>
 </div>
 <div [ngClass]="{'d-none':!edit}">
-    <div class="d-inline-block" id="wrap-uploader">
-        <button type="button" class="btn btn-outline-info btn-sm rounded-0" id="uploader">
+    <div class="d-inline-block" [id]="wrapID">
+        <button type="button" class="btn btn-outline-info btn-sm rounded-0" [id]="uploaderID">
             <i class="fa fa-plus"></i> 添加图片
         </button>
     </div>

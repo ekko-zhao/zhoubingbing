@@ -12,6 +12,7 @@ import { ButtonLoadingModule } from 'src/components/common/button-loading/button
 import { GoBackModule } from 'src/components/common/go-back/go-back.module';
 import { WrapFormModule } from 'src/components/common/wrap-form/wrap-form.module';
 import { UploadImgModule } from 'src/components/common/upload-img/upload-img.module';
+import { ProvinceCityModule } from 'src/components/common/province-city/province-city.module';
 
 // directive
 import { ZhnameModule } from 'src/directives/zhname/zhname.validator.module';
@@ -28,7 +29,8 @@ import { AddComponent } from './add.component';
         GoBackModule,
         ZhnameModule,
         WrapFormModule,
-        UploadImgModule
+        UploadImgModule,
+        ProvinceCityModule
     ],
     declarations: [
         AddComponent

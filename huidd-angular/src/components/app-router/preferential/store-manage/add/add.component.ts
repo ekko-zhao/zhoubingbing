@@ -23,7 +23,11 @@ export class AddComponent {
 
     public selectList = <any>{};
     // 表单
-    public form = <any>{};
+    public form = <any>{
+        province: {},
+        city: {},
+        county: {}
+    };
     public regex = regex;
 
     // 提交

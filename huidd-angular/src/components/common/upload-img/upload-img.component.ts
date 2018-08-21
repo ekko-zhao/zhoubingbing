@@ -6,7 +6,10 @@ import { Component, Input, ViewChild, OnInit, ElementRef, ChangeDetectorRef } fr
     templateUrl: './upload-img.html',
     styleUrls: ['./upload-img.css.less']
 })
-export class UploadImgComponent implements OnInit {
+export class UploadImgComponent {
+    @Input('wrapID') 'wrapID' = 'wrap-uploader';
+    @Input('uploaderID') 'uploaderID' = 'uploader';
+
     // 是否可编辑
     @Input('edit') edit: boolean = true;
 
@@ -44,9 +47,10 @@ export class UploadImgComponent implements OnInit {
         files: []
     };
     public uploaderConfig(el) {
+        console.log(document.getElementById(el));
         let config = {
             runtimes: 'html5,flash,silverlight,html4',
-            browse_button: 'uploader', // you can pass an id...
+            browse_button: this.uploaderID, // you can pass an id...
             container: document.getElementById(el), // ... or DOM Element itself
             url: (process.env.origin ? process.env.origin : '') + '/api/terminal/v1/upload',
             flash_swf_url: '/static/vendor/plupload/Moxie.swf',
@@ -155,10 +159,11 @@ export class UploadImgComponent implements OnInit {
         this.closeView();
     } */
 
-    ngOnInit() {
+    ngAfterViewInit() {
         // this.reset();
-        if (this.edit) this.uploaderConfig('wrap-uploader');
-
-        // this.imgview(1)
+        if (this.edit) this.uploaderConfig(this.wrapID);
+        // this.imgview(1);
     }
+
+
 }
