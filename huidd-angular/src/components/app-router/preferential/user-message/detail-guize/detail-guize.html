@@ -1,0 +1,192 @@
+<go-back name="规则详情" url="app/preferential/user-message" #goBack></go-back>
+<wrap-form width="500px">
+    <form class="px-3 p-t-lg" [ngClass]="{'d-none':saveFlag}">
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">博文优惠标题:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key1" [(ngModel)]="formInfo.key1" disabled>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">经度:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key2" [(ngModel)]="formInfo.key2" disabled>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">纬度:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key3" [(ngModel)]="formInfo.key3" disabled>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="formInfo.districtName">地区:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.districtName" [(ngModel)]="formInfo.districtName"
+                    disabled>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">博文内容:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <textarea class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key4" rows="4" [(ngModel)]="formInfo.key4"
+                    disabled></textarea>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">是否热门:</label>
+            <div class="col-xs-9 col-sm-8 px-0 m-t-xs">
+                {{formInfo.key6}}
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">关联规则:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="form.key5" [(ngModel)]="form.key5" disabled>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">博文图片:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <img [src]="formInfo.src">
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <div class="col-xs-9 col-sm-8 col-xs-push-3 col-sm-push-4 px-0 border-top p-t-md b-t-dashed">
+                <button type="button" class="btn btn-info rounded-0 p-l-md p-r-md m-r" (click)="edit()" [disabled]="getInfoFlag">
+                    <span class="float-left">编辑</span>
+                    <bttton-loading class="float-left" [queryStatus]="getInfoFlag"></bttton-loading>
+                </button>
+            </div>
+        </div>
+    </form>
+    <form class="px-3 p-t-lg" #editForm="ngForm" [ngClass]="{'d-none':!saveFlag}" novalidate>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key1">
+                <span class="text-danger">*</span>规则门店名称:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm" type="text" name="form.key1" id="form.key1" [(ngModel)]="form.key1" (keyup)="form.key1=$event.target.value"
+                    required>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key2">
+                <span class="text-danger">*</span>规则优惠方:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm" type="text" name="form.key2" id="form.key2" [(ngModel)]="form.key2" (keyup)="form.key2=$event.target.value"
+                    required>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key10">
+                <span class="text-danger">*</span>规则优惠方分类:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm" type="text" name="form.key10" id="form.key10" [(ngModel)]="form.key10" (keyup)="form.key10=$event.target.value"
+                    required>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key11">
+                <span class="text-danger">*</span>规则标题:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm" type="text" name="form.key11" id="form.key11" [(ngModel)]="form.key11" (keyup)="form.key11=$event.target.value"
+                    required>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key12">
+                <span class="text-danger">*</span>规则银行小分类:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm" type="text" name="form.key12" id="form.key12" [(ngModel)]="form.key12" (keyup)="form.key12=$event.target.value"
+                    required>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key13">
+                <span class="text-danger">*</span>经度:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm" type="text" name="form.key13" id="form.key13" [(ngModel)]="form.key13" (keyup)="form.key13=$event.target.value"
+                    required>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key3">
+                <span class="text-danger">*</span>纬度:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm" type="text" name="form.key3" id="form.key3" [(ngModel)]="form.key3" (keyup)="form.key3=$event.target.value"
+                    required>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.districtName">
+                <span class="text-danger">*</span>地区:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="form.districtName" id="form.districtName" [ngClass]="{'border-danger': (theinputprovince.invalid || theinputcity.invalid || theinputcounty.invalid) && provinceCity['startFlag'] }"
+                    [(ngModel)]="form.districtName" (keyup)="form.districtName=$event.target.value" (focus)="provinceCity['inputfocus']($event)"
+                    #formDistrictName readonly>
+                <div class="position-relative" style="z-index: 10;">
+                    <province-city [transmitinput]="formDistrictName" [transmitform]="form" #provinceCity></province-city>
+                </div>
+                <div class="d-none">
+                    <input type="text" name="form.province" [(ngModel)]="form.province.code" #theinputprovince="ngModel" required>
+                    <input type="text" name="form.city" [(ngModel)]="form.city.code" #theinputcity="ngModel" required>
+                    <input type="text" name="form.county" [(ngModel)]="form.county.code" #theinputcounty="ngModel" required>
+                </div>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key4">
+                <span class="text-danger">*</span>规则内容:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <textarea class="form-control rounded-0 text-sm" type="text" name="form.key4" rows="4" id="form.key4" [(ngModel)]="form.key4"
+                    (keyup)="form.key4=$event.target.value" required></textarea>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">
+                <span class="text-danger">*</span>是否热门:</label>
+            <div class="col-xs-9 col-sm-8 px-0 m-t-xs">
+                <label class="i-checks i-checks-sm">
+                    <input type="radio" name="form.key6" value="1" [(ngModel)]="form.key6">
+                    <i></i>是
+                </label>
+                <label class="i-checks i-checks-sm">
+                    <input type="radio" name="form.key6" value="0" [(ngModel)]="form.key6">
+                    <i></i>否
+                </label>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key5">
+                <span class="text-danger">*</span>规则时间:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <input class="form-control rounded-0 text-sm bg-white" #drp="bsDaterangepicker" bsDaterangepicker id="form.key5" name="form.key5"
+                    [(ngModel)]="form.key5" [bsConfig]="{locale:'zh-cn', containerClass:'theme-dark-blue', dateInputFormat:'MM/DD/Y'}"
+                    readonly>
+            </div>
+        </div>
+
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right" for="form.key5">规则限制条件:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <textarea class="form-control rounded-0 text-sm" type="text" name="form.key5" rows="4" id="form.key5" [(ngModel)]="form.key5"
+                    (keyup)="form.key5=$event.target.value" required></textarea>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">规则图片:</label>
+            <div class="col-xs-9 col-sm-8 px-0">
+                <upload-img #uploadImg queueLimit="10" note="请添张规则图片(最多10张)，文件格式png\jpg！，文件大小不超过300KB"></upload-img>
+            </div>
+        </div>
+        <div class="row mx-0 m-b-md">
+            <div class="col-xs-9 col-sm-8 col-xs-push-3 col-sm-push-4 px-0 border-top p-t-md b-t-dashed">
+                <button type="button" class="btn btn-info rounded-0 p-l-md p-r-md m-r" (click)="submit()" [disabled]="editForm.invalid || queryStatus">
+                    <span class="float-left">保存</span>
+                    <bttton-loading class="float-left" [queryStatus]="queryStatus"></bttton-loading>
+                </button>
+                <button type="button" class="btn btn-outline-secondary rounded-0 p-l-md p-r-md" (click)="saveFlag = !saveFlag">取消</button>
+            </div>
+        </div>
+    </form>
+</wrap-form>

@@ -27,6 +27,8 @@ import { DetailBowenModule } from './detail-bowen/detail-bowen.module';
 
 import { AddGuizeComponent } from './add-guize/add-guize.component';
 import { AddGuizeModule } from './add-guize/add-guize.module';
+import { DetailGuizeComponent } from './detail-guize/detail-guize.component';
+import { DetailGuizeModule } from './detail-guize/detail-guize.module';
 
 import { SortModule } from './sort/sort.module';
 
@@ -35,6 +37,7 @@ const delayingRortes: Routes = [
     { path: 'add-bowen', component: AddBowenComponent },
     { path: 'detail-bowen/:id', component: DetailBowenComponent },
     { path: 'add-guize', component: AddGuizeComponent },
+    { path: 'detail-guize/:id', component: DetailGuizeComponent }
 ]
 
 @NgModule({
@@ -51,7 +54,8 @@ const delayingRortes: Routes = [
         SortModule,
         AddBowenModule,
         DetailBowenModule,
-        AddGuizeModule
+        AddGuizeModule,
+        DetailGuizeModule
     ],
     declarations: [
         UserMessageComponent
