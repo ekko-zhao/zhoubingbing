@@ -132,7 +132,8 @@ export class NavigatorComponent implements OnInit {
                     { name: "APP管理", url: "app/preferential/app-manage", children: [] },
                     { name: "银行管理", url: "app/preferential/bank-manage", children: [] },
                     { name: "银行卡管理", url: "app/preferential/card-manage", children: [] },
-                    { name: "商户管理", url: "app/preferential/merchant-manage", children: [] }
+                    { name: "商户管理", url: "app/preferential/merchant-manage", children: [] },
+                    { name: "门店管理", url: "app/preferential/store-manage", children: [] }
                 ]
             }
             /* {

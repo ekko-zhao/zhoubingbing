@@ -1,4 +1,4 @@
-/* 商户管理 新增 */
+/* 新增门店 */
 import { Component, Optional, ViewChild } from '@angular/core';
 import { HttpService } from 'src/services/http-service';
 import { MyService } from 'src/services/my-service';
@@ -15,8 +15,13 @@ export class AddComponent {
     constructor(
         @Optional() private http: HttpService,
         @Optional() private myService: MyService,
-    ) { }
+    ) {
+        this.form.key2 = '';
+        this.form.key3 = '';
+        myService.getSelectList(this, 'selectList', 'key2', '/api/url');
+    }
 
+    public selectList = <any>{};
     // 表单
     public form = <any>{};
     public regex = regex;
@@ -45,7 +50,7 @@ export class AddComponent {
                 this.queryStatus = false;
                 if (response['code'] !== '000000') return;
                 this.goBack.back();
-                alert('新增APP用户成功');
+                alert('新增银行卡成功');
             },
             error => { this.queryStatus = false; }
         )
