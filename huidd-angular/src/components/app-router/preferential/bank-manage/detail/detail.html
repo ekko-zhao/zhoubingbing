@@ -2,15 +2,13 @@
 <wrap-form>
     <form class="px-3 p-t-lg" [ngClass]="{'d-none':saveFlag}">
         <div class="row mx-0 m-b-md">
-            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">
-                <span class="text-danger">*</span>银行名称:</label>
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">银行名称:</label>
             <div class="col-xs-9 col-sm-8 px-0">
-                <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key1" [(ngModel)]="formInfo.key1" readonly>
+                <input class="form-control rounded-0 text-sm bg-white" type="text" name="formInfo.key1" [(ngModel)]="formInfo.key1" disabled>
             </div>
         </div>
         <div class="row mx-0 m-b-md">
-            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">
-                <span class="text-danger">*</span>logo:</label>
+            <label class="col-xs-3 col-sm-4 pl-0 font-bold p-t-xs text-right">logo:</label>
             <div class="col-xs-9 col-sm-8 px-0">
                 <img [src]="formInfo.src">
             </div>
