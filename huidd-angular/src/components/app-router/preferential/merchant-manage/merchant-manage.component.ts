@@ -107,9 +107,10 @@ export class MerchantManageComponent implements OnInit {
 
     }
 
-    // 卡列表
-    public preferentialList(item) {
-        this.router.navigate(['app/preferential/merchant-manage/list', item.id]);
+    // 门店列表
+    @ViewChild('listQuery') public listQuery;
+    public listQueryModalStart(item) {
+        this.listQuery.show(item);
     }
 
     // 重置表单 -----------------------------------------------------------------------
