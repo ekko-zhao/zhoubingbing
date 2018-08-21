@@ -20,9 +20,9 @@ import { DomEllipsisModule } from 'src/directives/dom-ellipsis/auto-visible.modu
 
 // 页面
 import { UserMessageComponent } from './user-message.component';
-/* import { AddComponent } from './add/add.component';
-import { AddModule } from './add/add.module';
-import { DetailComponent } from './detail/detail.component';
+import { AddBowenComponent } from './add-bowen/add-bowen.component';
+import { AddBowenModule } from './add-bowen/add-bowen.module';
+/* import { DetailComponent } from './detail/detail.component';
 import { DetailModule } from './detail/detail.module';
 import { ListComponent } from './list/list.component';
 import { ListModule } from './list/list.module'; */
@@ -31,8 +31,8 @@ import { SortModule } from './sort/sort.module';
 
 const delayingRortes: Routes = [
     { path: '', component: UserMessageComponent },
-    /* { path: 'add', component: AddComponent },
-    { path: 'detail/:id', component: DetailComponent },
+    { path: 'add-bowen', component: AddBowenComponent },
+    /* { path: 'detail/:id', component: DetailComponent },
     { path: 'list/:id', component: ListComponent }, */
 ]
 
@@ -48,6 +48,7 @@ const delayingRortes: Routes = [
         DomEllipsisModule,
         CheckbxAllModule,
         SortModule,
+        AddBowenModule,
         /* AddModule,
         DetailModule,
         ListModule */

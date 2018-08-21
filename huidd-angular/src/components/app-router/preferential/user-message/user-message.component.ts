@@ -38,12 +38,25 @@ export class UserMessageComponent implements OnInit {
     public items = [];
     public table = {
         th: [
-            { key: 'key', text: '门店ID', width: '10%' },
-            { key: 'key', text: '门店名称', width: '10%' },
-            { key: 'key', text: '归属商户名称', width: '10%' },
-            { key: 'key', text: '地址', width: '12%' },
-            { key: 'key', text: '优惠信息', width: '12%' },
-            { key: 'key', text: '收录时间', width: '12%' }
+            { key: 'key', text: 'ID' },
+            { key: 'key', text: '博文/规则ID' },
+            { key: 'key', text: '用户昵称' },
+            { key: 'key', text: '优惠标题' },
+            { key: 'key', text: '门店ID' },
+            { key: 'key', text: '门店名称' },
+            { key: 'key', text: '经度' },
+            { key: 'key', text: '纬度' },
+            { key: 'key', text: '优惠方' },
+            { key: 'key', text: '有效期' },
+            { key: 'key', text: '上传时间' },
+            { key: 'key', text: '博文规则' },
+            { key: 'key', text: '审核状态' },
+            { key: 'key', text: '点击量' },
+            { key: 'key', text: '点赞数' },
+            { key: 'key', text: '评论数' },
+            { key: 'key', text: '地区' },
+            { key: 'key', text: '编辑人' },
+            { key: 'key', text: '编辑时间' }
         ]
     };
     // 设置存储缓存的键
@@ -79,14 +92,14 @@ export class UserMessageComponent implements OnInit {
         )
     }
 
-    // 新增门店
-    public addItem() {
-        this.router.navigate(['app/preferential/store-manage/add']);
+    // 新增博文
+    public addBowen() {
+        this.router.navigate(['app/preferential/user-message/add-bowen']);
     }
 
     // 查看详情
     public detail(item) {
-        this.router.navigate(['app/preferential/store-manage/detail', item.id]);
+        this.router.navigate(['app/preferential/user-message/detail', item.id]);
     }
 
     // 批量删除
