@@ -1,5 +1,6 @@
 /* 新增规则 */
 import { Component, Optional, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { HttpService } from 'src/services/http-service';
 import { MyService } from 'src/services/my-service';
 import { regex } from 'src/services/regex';
@@ -13,9 +14,15 @@ export class AddGuizeComponent {
     @ViewChild('uploadImg') public uploadImg;
 
     constructor(
+        private activatedRoute: ActivatedRoute,
         @Optional() private http: HttpService,
         @Optional() private myService: MyService,
     ) { }
+
+    public url = 'app/preferential/user-message';
+
+    // 爬虫填充
+    public reptile = this.activatedRoute.snapshot.queryParams['reptile'];
 
     // 表单
     public form = <any>{
@@ -55,5 +62,23 @@ export class AddGuizeComponent {
         )
     }
 
+    // 爬虫填充
+    public fill() {
+        this.queryStatus = true;
+        this.http.post('/api/url', this.reptile).subscribe(
+            response => {
+                this.queryStatus = false;
+                if (response['code'] !== '000000') return;
+                Object.assign(this.form, response.data);
+            },
+            error => { this.queryStatus = false; }
+        )
+    }
 
+    ngOnInit() {
+        if (this.reptile) {
+            this.fill();
+            this.url = 'app/reptile/reptile-manage'
+        }
+    }
 }

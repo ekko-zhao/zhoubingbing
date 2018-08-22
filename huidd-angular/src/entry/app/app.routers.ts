@@ -19,4 +19,7 @@ export const rootRouterConfig: Routes = [
     { path: 'app/preferential/store-manage', loadChildren: 'src/components/app-router/preferential/store-manage/store-manage.module.ts#StoreManageModule' },
     { path: 'app/preferential/user-message', loadChildren: 'src/components/app-router/preferential/user-message/user-message.module.ts#UserMessageModule' },
 
+    // 爬虫管理
+    { path: 'app/reptile/reptile-manage', loadChildren: 'src/components/app-router/reptile/reptile-manage/reptile-manage.module.ts#ReptileManageModule' },
+
 ]

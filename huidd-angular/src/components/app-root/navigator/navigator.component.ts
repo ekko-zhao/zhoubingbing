@@ -136,6 +136,10 @@ export class NavigatorComponent implements OnInit {
                     { name: "门店管理", url: "app/preferential/store-manage", children: [] },
                     { name: "用户信息提交管理", url: "app/preferential/user-message", children: [] }
                 ]
+            }, {
+                name: "爬虫管理", url: "app/reptile/reptile-manage", children: [
+                    { name: "爬虫管理", url: "app/reptile/reptile-manage", children: [] }
+                ]
             }
         ]
         let path = this.setPath();
