@@ -128,7 +128,7 @@ export class NavigatorComponent implements OnInit {
                 ]
             },
             {
-                name: "优惠信息管理", url: "app/preferential/app-manage", children: [
+                name: "优惠信息", url: "app/preferential/app-manage", children: [
                     { name: "APP管理", url: "app/preferential/app-manage", children: [] },
                     { name: "银行管理", url: "app/preferential/bank-manage", children: [] },
                     { name: "银行卡管理", url: "app/preferential/card-manage", children: [] },
@@ -139,6 +139,22 @@ export class NavigatorComponent implements OnInit {
             }, {
                 name: "爬虫管理", url: "app/reptile/reptile-manage", children: [
                     { name: "爬虫管理", url: "app/reptile/reptile-manage", children: [] }
+                ]
+            }, {
+                name: "敏感词汇管理", url: "app/vocabulary/filter", children: [
+                    { name: "敏感词汇", url: "app/vocabulary/filter", children: [] }
+                ]
+            }, {
+                name: "广告管理", url: "app/vocabulary/filter", children: [
+                    { name: "广告管理", url: "app/vocabulary/filter", children: [] }
+                ]
+            }, {
+                name: "推送消息管理", url: "app/vocabulary/filter", children: [
+                    { name: "推送消息", url: "app/vocabulary/filter", children: [] }
+                ]
+            }, {
+                name: "分类管理", url: "app/vocabulary/filter", children: [
+                    { name: "推送消息", url: "app/vocabulary/filter", children: [] }
                 ]
             }
         ]
