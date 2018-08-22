@@ -22,4 +22,7 @@ export const rootRouterConfig: Routes = [
     // 爬虫管理
     { path: 'app/reptile/reptile-manage', loadChildren: 'src/components/app-router/reptile/reptile-manage/reptile-manage.module.ts#ReptileManageModule' },
 
+    // 敏感词汇
+    { path: 'app/vocabulary/manage', loadChildren: 'src/components/app-router/vocabulary/manage/manage.module.ts#ManageModule' },
+
 ]

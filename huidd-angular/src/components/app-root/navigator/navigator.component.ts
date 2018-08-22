@@ -141,8 +141,8 @@ export class NavigatorComponent implements OnInit {
                     { name: "爬虫管理", url: "app/reptile/reptile-manage", children: [] }
                 ]
             }, {
-                name: "敏感词汇管理", url: "app/vocabulary/filter", children: [
-                    { name: "敏感词汇", url: "app/vocabulary/filter", children: [] }
+                name: "敏感词汇管理", url: "app/vocabulary/manage", children: [
+                    { name: "敏感词汇", url: "app/vocabulary/manage", children: [] }
                 ]
             }, {
                 name: "广告管理", url: "app/vocabulary/filter", children: [
