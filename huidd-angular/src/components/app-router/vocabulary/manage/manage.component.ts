@@ -95,6 +95,12 @@ export class ManageComponent implements OnInit {
         })
     }
 
+    // 批量操作
+    @ViewChild('addModal') public addModal;
+    public addModalStart() {
+        this.addModal['show']();
+    }
+
     // 重置表单 -----------------------------------------------------------------------
     public reset() {
         this.form = {};

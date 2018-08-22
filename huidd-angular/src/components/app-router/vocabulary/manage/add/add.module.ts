@@ -1,39 +1,38 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
 
-// bootstrap
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
-// 公共模块
 import { ButtonLoadingModule } from 'src/components/common/button-loading/button-loading.module';
 import { AppPaginationModule } from 'src/components/common/app-pagination/app-pagination.module';
+import { TitleInfoModule } from "src/components/common/title-info/title-info.module";
+import { UploadFileModule } from 'src/components/common/upload-file/upload-file.module';
 
-// directive
+// bootstrap
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { DomEllipsisModule } from 'src/directives/dom-ellipsis/auto-visible.module';
 
-// 页面
-import { ManageComponent } from './manage.component';
-import { AddModule } from './add/add.module';
-
-const delayingRortes: Routes = [
-    { path: '', component: ManageComponent }
-]
+import { AddComponent } from './add.component';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
-        RouterModule.forChild(delayingRortes),
+        ModalModule.forRoot(),
         TooltipModule.forRoot(),
+        DomEllipsisModule,
         ButtonLoadingModule,
         AppPaginationModule,
-        DomEllipsisModule,
-        AddModule
+        TitleInfoModule,
+        UploadFileModule
     ],
     declarations: [
-        ManageComponent
+        AddComponent
+    ],
+    exports: [
+        AddComponent
     ]
 })
-export class ManageModule { }
+export class AddModule { }
+
