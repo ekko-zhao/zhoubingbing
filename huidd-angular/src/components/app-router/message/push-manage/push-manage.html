@@ -61,7 +61,7 @@
                 <td class="py-2 align-middle break-all" *ngFor="let td of table.th;" [width]="td.width" domEllipsis [tooltip]="item[td.key]"
                     [isDisabled]="tip['isDisabled' + index + td.key]" container="body" [tip]='tip' [proName]="'isDisabled' + index + td.key">{{item[td.key]}}</td>
                 <td class="py-2">
-                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm m-r-sm" (click)="toBowen(item.id)">详情</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm m-r-sm" (click)="detail(item.id)">详情</button>
                     <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm" (click)="toGuize(item.id)">处理</button>
                 </td>
             </tr>

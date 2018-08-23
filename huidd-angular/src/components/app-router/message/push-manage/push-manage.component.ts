@@ -82,6 +82,10 @@ export class PushManageComponent implements OnInit {
     public addItem() {
         this.router.navigate(['app/message/push-manage/add']);
     }
+    // 详情
+    public detail(id) {
+        this.router.navigate(['app/message/push-manage/detail', id]);
+    }
 
     // 批量删除
     public delItems() {
