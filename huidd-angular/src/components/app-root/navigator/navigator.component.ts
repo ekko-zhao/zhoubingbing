@@ -149,14 +149,16 @@ export class NavigatorComponent implements OnInit {
                     { name: "广告管理", url: "app/vocabulary/filter", children: [] }
                 ]
             }, {
-                name: "推送消息管理", url: "app/vocabulary/filter", children: [
-                    { name: "推送消息", url: "app/vocabulary/filter", children: [] }
+                name: "消息管理", url: "app/message/push-manage", children: [
+                    { name: "推送消息管理", url: "app/message/push-manage", children: [] },
+                    { name: "反馈消息管理", url: "app/message/feedback-manage", children: [] },
+                    { name: "分类管理", url: "app/message/genre-manage", children: [] },
                 ]
-            }, {
+            }/* , {
                 name: "分类管理", url: "app/vocabulary/filter", children: [
                     { name: "推送消息", url: "app/vocabulary/filter", children: [] }
                 ]
-            }
+            } */
         ]
         let path = this.setPath();
         this.searchPath(path);
