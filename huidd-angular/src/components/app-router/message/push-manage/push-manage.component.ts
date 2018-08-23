@@ -79,8 +79,8 @@ export class PushManageComponent implements OnInit {
     }
 
     // 添加分类
-    public toBowen(id) {
-        this.router.navigate(['app/preferential/user-message/add-bowen'], { queryParams: { reptile: id } });
+    public addItem() {
+        this.router.navigate(['app/message/push-manage/add']);
     }
 
     // 批量删除
