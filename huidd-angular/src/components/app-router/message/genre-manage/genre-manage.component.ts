@@ -80,9 +80,9 @@ export class GenreManageComponent implements OnInit {
         this.router.navigate(['app/message/genre-manage/add']);
     }
 
-    // 详情
-    public detail(id) {
-        this.router.navigate(['app/message/genre-manage/detail', id]);
+    // 编辑
+    public editItem(id) {
+        this.router.navigate(['app/message/genre-manage/edit', id]);
     }
 
     // 批量启用
@@ -178,6 +178,12 @@ export class GenreManageComponent implements OnInit {
                 )
             }
         })
+    }
+
+    // 列表
+    @ViewChild('listQuery') public listQuery;
+    public listQueryModalStart(item) {
+        this.listQuery.show(item);
     }
 
     // 重置表单 -----------------------------------------------------------------------

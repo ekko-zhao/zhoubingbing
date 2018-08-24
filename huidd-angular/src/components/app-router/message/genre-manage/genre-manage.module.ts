@@ -18,13 +18,14 @@ import { DomEllipsisModule } from 'src/directives/dom-ellipsis/auto-visible.modu
 import { GenreManageComponent } from './genre-manage.component';
 import { AddComponent } from './add/add.component';
 import { AddModule } from './add/add.module';
-/* import { DetailComponent } from './detail/detail.component';
-import { DetailModule } from './detail/detail.module'; */
+import { ListQueryModule } from './list/list.module';
+import { EditComponent } from './edit/edit.component';
+import { EditModule } from './edit/edit.module';
 
 const delayingRortes: Routes = [
     { path: '', component: GenreManageComponent },
     { path: 'add', component: AddComponent },
-    /* { path: 'detail/:id', component: DetailComponent } */
+    { path: 'edit/:id', component: EditComponent }
 ]
 
 @NgModule({
@@ -38,7 +39,8 @@ const delayingRortes: Routes = [
         DomEllipsisModule,
         CheckbxAllModule,
         AddModule,
-        /* DetailModule */
+        ListQueryModule,
+        EditModule
     ],
     declarations: [
         GenreManageComponent
