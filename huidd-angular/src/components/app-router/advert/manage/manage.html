@@ -44,11 +44,9 @@
                     [isDisabled]="tip['isDisabled' + index + td.key]" container="body" [tip]='tip' [proName]="'isDisabled' + index + td.key">{{item[td.key]}}</td>
                 <td class="py-2">
                     <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm m-r-sm" (click)="editItem(item.id)">编辑</button>
-                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm" (click)="listQueryModalStart(item)">列表</button>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
 <app-pagination #appPagination [paginationData]="paginationData" [queryStatus]="queryStatus"></app-pagination>
-<list-query #listQuery></list-query>

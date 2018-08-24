@@ -18,7 +18,6 @@ import { DomEllipsisModule } from 'src/directives/dom-ellipsis/auto-visible.modu
 import { ManageComponent } from './manage.component';
 import { AddComponent } from './add/add.component';
 import { AddModule } from './add/add.module';
-import { ListQueryModule } from './list/list.module';
 import { EditComponent } from './edit/edit.component';
 import { EditModule } from './edit/edit.module';
 
@@ -39,7 +38,6 @@ const delayingRortes: Routes = [
         DomEllipsisModule,
         CheckbxAllModule,
         AddModule,
-        ListQueryModule,
         EditModule
     ],
     declarations: [

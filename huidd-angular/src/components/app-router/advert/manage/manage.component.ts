@@ -180,12 +180,6 @@ export class ManageComponent implements OnInit {
         })
     }
 
-    // 列表
-    @ViewChild('listQuery') public listQuery;
-    public listQueryModalStart(item) {
-        this.listQuery.show(item);
-    }
-
     // 重置表单 -----------------------------------------------------------------------
     public reset() {
         this.form = {};
