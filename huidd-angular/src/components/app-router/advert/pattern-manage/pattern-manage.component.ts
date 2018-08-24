@@ -75,11 +75,6 @@ export class PatternManageComponent implements OnInit {
         this.router.navigate(['app/advert/manage/add']);
     }
 
-    // 编辑
-    public editItem(id) {
-        this.router.navigate(['app/advert/manage/edit', id]);
-    }
-
     // 批量删除
     public delItems() {
         var payload = {
@@ -98,6 +93,23 @@ export class PatternManageComponent implements OnInit {
                         if (response['code'] !== '000000') return;
                         this.search();
                         alert('删除信息成功');
+                    },
+                    error => { }
+                )
+            }
+        })
+    }
+
+    // 删除
+    public delItem(item) {
+        ; (window as any).confirm({
+            text: '您确认要删除当前选择的图片吗？',
+            done: (data) => {
+                this.http.post('/api/url', item).subscribe(
+                    response => {
+                        if (response['code'] !== '000000') return;
+                        this.search();
+                        alert('删除图片成功');
                     },
                     error => { }
                 )

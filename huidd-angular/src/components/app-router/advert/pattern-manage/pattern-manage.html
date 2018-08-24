@@ -31,7 +31,8 @@
             <p class="p-t-sm text-center text-ellipsis">{{item.name}}</p>
             <div>
                 <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 m-r-xs" (click)="copylick(item.url)">复制链接</button>
-                <button type="button" class="btn btn-outline-secondary btn-sm rounded-0" (click)="rename(item)">重命名</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 m-r-xs" (click)="rename(item)">重命名</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm rounded-0" (click)="delItem(item)">删除</button>
             </div>
         </div>
     </div>
