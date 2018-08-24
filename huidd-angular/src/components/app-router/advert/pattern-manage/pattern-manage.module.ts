@@ -12,6 +12,8 @@ import { AppPaginationModule } from 'src/components/common/app-pagination/app-pa
 
 // 页面
 import { PatternManageComponent } from './pattern-manage.component';
+import { AddGroupModule } from './add-group/add-group.module';
+
 
 const delayingRortes: Routes = [
     { path: '', component: PatternManageComponent }
@@ -25,6 +27,7 @@ const delayingRortes: Routes = [
         TooltipModule.forRoot(),
         ButtonLoadingModule,
         AppPaginationModule,
+        AddGroupModule
     ],
     declarations: [
         PatternManageComponent

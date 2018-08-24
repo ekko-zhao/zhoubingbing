@@ -94,22 +94,34 @@ export class MyService {
     // 获取下拉列表-----------------------------------------------------------------
     private selectList = {};
     public getSelectList(context, property, type, url) {
-        /* let selectList = sessionStorage.getItem('selectList');
+        let selectList = sessionStorage.getItem('selectList');
         if (selectList) {
             this.selectList = JSON.parse(selectList);
             Object.assign(context[property], this.selectList);
         }
-        if (!this.selectList[type]) { */
+        if (!this.selectList[type]) {
             this.http.get(url).subscribe(
                 response => {
                     if (response['code'] !== '000000') return;
                     this.selectList[type] = response['data'];
                     Object.assign(context[property], this.selectList);
-                    // sessionStorage.setItem('selectList', JSON.stringify(this.selectList));
+                    sessionStorage.setItem('selectList', JSON.stringify(this.selectList));
                 },
                 error => { }
             )
-        // }
+        }
+    }
+
+    // 更新下拉列表
+    public updateSelectList(context, property, type) {
+        let selectList = sessionStorage.getItem('selectList');
+        if (selectList) {
+            this.selectList = JSON.parse(selectList);
+            if (this.selectList[type]) {
+                Reflect.deleteProperty(this.selectList, type);
+                sessionStorage.setItem('selectList', JSON.stringify(this.selectList));
+            }
+        }
     }
 
     // 分页数据查询 ---------------------------------------------------------------------

@@ -1,0 +1,36 @@
+<div class="modal fade" bsModal #modal="bs-modal" [config]="config" tabindex="-1" role="dialog" aria-labelledby="dialog-events-name"
+    (onShown)="shown()">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <div class="w-100">
+                    <button type="button" class="close float-right" (click)="hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title">添加分组</h5>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form #editForm="ngForm">
+                    <div class="row m-b-md">
+                        <label class="control-label col-sm-2 mx-0 px-0 m-t-xs text-right">
+                            <span class="error">*</span> 分组名称:</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control text-sm rounded-0" name="form.key1" [(ngModel)]="form.key1" (keyup)="form.key1=$event.target.value"
+                                    required>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-info btn-sm p-l p-r m-r-sm rounded-0" type="submit" (click)="submit()" [disabled]="!editForm.valid || saveFlag">
+                    <span class="float-left">添加</span>
+                    <bttton-loading class="float-left" [queryStatus]="saveFlag"></bttton-loading>
+                </button>
+                <button class="btn btn-outline-secondary btn-sm rounded-0 p-l p-r" (click)="hide()">取消</button>
+            </div>
+        </div>
+    </div>
+</div>

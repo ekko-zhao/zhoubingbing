@@ -2,7 +2,7 @@
     <form class="search-form" #searchForm="ngForm">
         <div class="row">
             <div class="col-sm-6 col-md-4 col-lg-3 form-group">
-                <label class="control-label">分类:</label>
+                <label class="control-label">分组:</label>
                 <select class="form-control rounded-0 text-sm" style="height: 32px;" name="form.key1" [(ngModel)]="form.key1">
                     <option value=''>---请选择---</option>
                     <option *ngFor="let option of selectList['key4']" [value]="option.id">{{option.name}}</option>
@@ -20,7 +20,7 @@
 </div>
 <div class="m-t m-b">
     <button type="button" class="btn btn-outline-info btn-sm rounded-0 m-r-sm" (click)="addItem()">添加图片</button>
-    <button type="button" class="btn btn-outline-info btn-sm rounded-0 m-r-sm" (click)="startItems()">添加分类</button>
+    <button type="button" class="btn btn-outline-info btn-sm rounded-0 m-r-sm" (click)="addGroupModalStart()">添加分组</button>
 </div>
 <div class="m-t container-fluid">
     <div class="row">
@@ -38,3 +38,4 @@
     </div>
 </div>
 <app-pagination #appPagination [paginationData]="paginationData" [queryStatus]="queryStatus"></app-pagination>
+<add-group #addGroup (onListen)="addGroupDone()"></add-group>

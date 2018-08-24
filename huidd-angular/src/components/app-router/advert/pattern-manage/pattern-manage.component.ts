@@ -75,6 +75,18 @@ export class PatternManageComponent implements OnInit {
         this.router.navigate(['app/advert/manage/add']);
     }
 
+    // 新增分组
+    @ViewChild('addGroup') public addGroup;
+    public addGroupModalStart(item) {
+        this.addGroup.show(item);
+    }
+
+    // 更新分组
+    public addGroupDone() {
+        this.myService.updateSelectList(this, 'selectList', 'role');
+        this.myService.getSelectList(this, 'selectList', 'role', '/api/url');
+    }
+
     // 批量删除
     public delItems() {
         var payload = {
