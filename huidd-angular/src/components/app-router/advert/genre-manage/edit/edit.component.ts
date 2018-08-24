@@ -1,4 +1,4 @@
-/* 广告 编辑 */
+/* 分类 编辑 */
 import { Component, Optional, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from 'src/services/http-service';
@@ -17,14 +17,9 @@ export class EditComponent {
         private activatedRoute: ActivatedRoute,
         @Optional() private http: HttpService,
         @Optional() private myService: MyService,
-    ) {
-        this.form.key1 = '';
-        this.form.key2 = '';
-        myService.getSelectList(this, 'selectList', 'key1', '/api/url');
-    }
+    ) { }
 
     public id = this.activatedRoute.snapshot.params['id'];
-    public selectList = <any>{};
 
     // 表单
     public formInfo = <any>{};

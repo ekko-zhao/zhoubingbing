@@ -7,19 +7,14 @@ import { regex } from 'src/services/regex';
 @Component({
     templateUrl: './add.html'
 })
+
 export class AddComponent {
     @ViewChild('goBack') public goBack;
 
     constructor(
         @Optional() private http: HttpService,
         @Optional() private myService: MyService,
-    ) {
-        this.form.key1 = '';
-        this.form.key2 = '';
-        myService.getSelectList(this, 'selectList', 'key1', '/api/url');
-    }
-
-    public selectList = <any>{};
+    ) { }
 
     // 表单
     public form = <any>{};
@@ -34,7 +29,7 @@ export class AddComponent {
                 this.queryStatus = false;
                 if (response['code'] !== '000000') return;
                 this.goBack.back();
-                alert('新增广告成功');
+                alert('新增分类成功');
             },
             error => { this.queryStatus = false; }
         )

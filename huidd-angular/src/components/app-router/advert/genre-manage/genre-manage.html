@@ -1,0 +1,52 @@
+<div class="container-fluid border b-color-base m-t-lg pt-3">
+    <form class="search-form" #searchForm="ngForm">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group">
+                <label class="control-label" for="form.key2">关键字:</label>
+                <input type="text" class="form-control rounded-0 text-sm" id="form.key2" name="form.key2" [(ngModel)]="form.key2" (keyup)="form.key2=$event.target.value">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 form-group no-select">
+                <button class="btn btn-info btn-sm p-l p-r m-r-sm rounded-0" (click)="search($event)" type="submit" [disabled]="!searchForm.valid || queryStatus">
+                    <span class="float-left">查询</span>
+                    <bttton-loading class="float-left" [queryStatus]="queryStatus"></bttton-loading>
+                </button>
+                <button class="btn btn-outline-secondary btn-sm rounded-0 p-l p-r" (click)="reset()">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="m-t m-b">
+    <button type="button" class="btn btn-outline-info btn-sm rounded-0 m-r-sm" (click)="addItem()">添加分类</button>
+    <button type="button" class="btn btn-outline-info btn-sm rounded-0 m-r-sm" (click)="startItems()">批量启用</button>
+    <button type="button" class="btn btn-outline-warning btn-sm rounded-0 m-r-sm" (click)="bloclupItems()">批量停用</button>
+    <button type="button" class="btn btn-outline-danger btn-sm rounded-0" (click)="delItems()">批量删除</button>
+</div>
+<div class="m-t">
+    <table class="table table-hover mb-0">
+        <tbody>
+            <tr>
+                <th>序号</th>
+                <th>
+                    <checkbox-all #checkboxAll></checkbox-all>
+                </th>
+                <th *ngFor="let th of table.th;">{{th.text}}</th>
+                <th>操作</th>
+            </tr>
+            <tr *ngFor="let item of items; let index = index;">
+                <td class="py-2 align-middle" width="6%">{{index+1}}</td>
+                <td width="6%">
+                    <label class="i-checks">
+                        <input type="checkbox" [name]="'checkbox'+index" [(ngModel)]="checkboxAll.checkbox[index]" (ngModelChange)="checkboxAll.change()">
+                        <i></i>
+                    </label>
+                </td>
+                <td class="py-2 align-middle break-all" *ngFor="let td of table.th;" [width]="td.width" domEllipsis [tooltip]="item[td.key]"
+                    [isDisabled]="tip['isDisabled' + index + td.key]" container="body" [tip]='tip' [proName]="'isDisabled' + index + td.key">{{item[td.key]}}</td>
+                <td class="py-2">
+                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm m-r-sm" (click)="editItem(item.id)">编辑</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<app-pagination #appPagination [paginationData]="paginationData" [queryStatus]="queryStatus"></app-pagination>
