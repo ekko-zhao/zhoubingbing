@@ -28,5 +28,6 @@ export const rootRouterConfig: Routes = [
     // 消息管理
     { path: 'app/message/push-manage', loadChildren: 'src/components/app-router/message/push-manage/push-manage.module.ts#PushManageModule' },
     { path: 'app/message/feedback-manage', loadChildren: 'src/components/app-router/message/feedback-manage/feedback-manage.module.ts#FeedbackManageModule' },
+    { path: 'app/message/genre-manage', loadChildren: 'src/components/app-router/message/genre-manage/genre-manage.module.ts#GenreManageModule' },
 
 ]

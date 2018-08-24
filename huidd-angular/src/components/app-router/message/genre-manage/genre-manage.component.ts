@@ -6,10 +6,10 @@ import { MyService } from 'src/services/my-service';
 import { regex } from 'src/services/regex';
 
 @Component({
-    templateUrl: './feedback-manage.html'
+    templateUrl: './genre-manage.html'
 })
 
-export class FeedbackManageComponent implements OnInit {
+export class GenreManageComponent implements OnInit {
     // 复选框
     @ViewChild('checkboxAll') checkboxAll;
     constructor(
@@ -17,13 +17,10 @@ export class FeedbackManageComponent implements OnInit {
         @Optional() private http: HttpService,
         @Optional() private myService: MyService
     ) {
-        this.form.key1 = '';
-        this.form.key3 = '';
-        myService.getSelectList(this, 'selectList', 'key6', '/api/url');
+
     }
 
     public tip = {};
-    public selectList = <any>{};
 
     // 表单数据
     public regex = regex;
@@ -38,15 +35,15 @@ export class FeedbackManageComponent implements OnInit {
     public items = [];
     public table = {
         th: [
-            { key: 'key', text: 'ID', width: '16%' },
-            { key: 'key', text: '类型', width: '14%' },
-            { key: 'key', text: '时间', width: '14%' },
-            { key: 'key', text: '状态', width: '12%' },
-            { key: 'key', text: '操作者', width: '12%' }
+            { key: 'key', text: '分类', width: '16%' },
+            { key: 'key', text: '数量', width: '14%' },
+            { key: 'key', text: '描述', width: '14%' },
+            { key: 'key', text: '加入时间', width: '12%' },
+            { key: 'key', text: '状态', width: '12%' }
         ]
     };
     // 设置存储缓存的键
-    public formStorageKey: string = 'messageFeedbackManageForm';
+    public formStorageKey: string = 'GenreFeedbackManageForm';
 
     // 初始化分页参数
     @ViewChild('appPagination') public appPagination;
@@ -78,10 +75,64 @@ export class FeedbackManageComponent implements OnInit {
         )
     }
 
+    // 新增分类
+    public addItem() {
+        this.router.navigate(['app/message/genre-manage/add']);
+    }
 
     // 详情
     public detail(id) {
-        this.router.navigate(['app/message/push-manage/detail', id]);
+        this.router.navigate(['app/message/genre-manage/detail', id]);
+    }
+
+    // 批量启用
+    public startItems() {
+        var payload = {
+            vBoxes: this.checkboxAll['getData']('corporation')
+        };
+        if (payload.vBoxes.length == 0) {
+            alert('请选择要启用的数据！');
+            return;
+        }
+
+        ; (window as any).confirm({
+            text: '您确认要启用当前选择的信息吗？',
+            done: (data) => {
+                this.http.post('/api/url', payload).subscribe(
+                    response => {
+                        if (response['code'] !== '000000') return;
+                        this.search();
+                        alert('启用信息成功');
+                    },
+                    error => { }
+                )
+            }
+        })
+    }
+
+    // 批量停用
+    public bloclupItems() {
+        var payload = {
+            vBoxes: this.checkboxAll['getData']('corporation')
+        };
+        if (payload.vBoxes.length == 0) {
+            alert('请选择要停用的数据！');
+            return;
+        }
+
+        ; (window as any).confirm({
+            text: '您确认要停用当前选择的信息吗？',
+            done: (data) => {
+                this.http.post('/api/url', payload).subscribe(
+                    response => {
+                        if (response['code'] !== '000000') return;
+                        this.search();
+                        alert('停用信息成功');
+                    },
+                    error => { }
+                )
+            }
+        })
     }
 
     // 批量删除
@@ -132,8 +183,6 @@ export class FeedbackManageComponent implements OnInit {
     // 重置表单 -----------------------------------------------------------------------
     public reset() {
         this.form = {};
-        this.form.key1 = '';
-        this.form.key3 = '';
     }
 
     ngOnInit() {
