@@ -6,10 +6,10 @@ import { MyService } from 'src/services/my-service';
 import { regex } from 'src/services/regex';
 
 @Component({
-    templateUrl: './push-manage.html'
+    templateUrl: './feedback-manage.html'
 })
 
-export class PushManageComponent implements OnInit {
+export class FeedbackManageComponent implements OnInit {
     // 复选框
     @ViewChild('checkboxAll') checkboxAll;
     constructor(
@@ -50,7 +50,7 @@ export class PushManageComponent implements OnInit {
         ]
     };
     // 设置存储缓存的键
-    public formStorageKey: string = 'messagePushManageForm';
+    public formStorageKey: string = 'messageFeedbackManageForm';
 
     // 初始化分页参数
     @ViewChild('appPagination') public appPagination;
@@ -82,10 +82,7 @@ export class PushManageComponent implements OnInit {
         )
     }
 
-    // 添加推送消息
-    public addItem() {
-        this.router.navigate(['app/message/push-manage/add']);
-    }
+
     // 详情
     public detail(id) {
         this.router.navigate(['app/message/push-manage/detail', id]);
@@ -116,16 +113,20 @@ export class PushManageComponent implements OnInit {
         })
     }
 
-    // 停用
-    public blockup(item) {
+    // 处理
+    public handler(item) {
         ; (window as any).confirm({
-            text: '您确认要停用ID为 ' + item.id + ' 的消息吗？',
+            text: '您确认要处理ID为 ' + item.id + ' 的消息吗？',
             done: (data) => {
                 this.http.post('/api/url', { id: item.id }).subscribe(
                     response => {
                         if (response['code'] !== '000000') return;
                         this.search();
-                        alert('停用消息成功');
+                        /*  alert('处理消息成功'); */
+                        ; (window as any).confirm({
+                            text: ' 您好，您提交的反馈信息已在处理途中，十分感谢您的反馈！',
+                            type: 2
+                        })
                     },
                     error => { }
                 )

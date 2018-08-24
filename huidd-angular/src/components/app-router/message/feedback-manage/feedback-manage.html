@@ -36,7 +36,6 @@
     </form>
 </div>
 <div class="m-t m-b">
-    <button type="button" class="btn btn-outline-info btn-sm rounded-0 m-r-sm" (click)="addItem()">新增推送消息</button>
     <button type="button" class="btn btn-outline-danger btn-sm rounded-0" (click)="delItems()">批量删除</button>
 </div>
 <div class="m-t">
@@ -62,7 +61,7 @@
                     [isDisabled]="tip['isDisabled' + index + td.key]" container="body" [tip]='tip' [proName]="'isDisabled' + index + td.key">{{item[td.key]}}</td>
                 <td class="py-2">
                     <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm m-r-sm" (click)="detail(item.id)">详情</button>
-                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm" (click)="blockup(item)">停用</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-0 p-l-sm p-r-sm" (click)="handler(item)">处理</button>
                 </td>
             </tr>
         </tbody>
