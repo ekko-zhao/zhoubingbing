@@ -1,4 +1,4 @@
-/* 广告管理 */
+/* 素材管理 */
 import { Component, Optional, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from 'src/services/http-service';
@@ -6,10 +6,11 @@ import { MyService } from 'src/services/my-service';
 import { regex } from 'src/services/regex';
 
 @Component({
-    templateUrl: './manage.html'
+    templateUrl: './pattern-manage.html',
+    styleUrls: ['./pattern-manage.css.less']
 })
 
-export class ManageComponent implements OnInit {
+export class PatternManageComponent implements OnInit {
     // 复选框
     @ViewChild('checkboxAll') checkboxAll;
     constructor(
@@ -17,33 +18,23 @@ export class ManageComponent implements OnInit {
         @Optional() private http: HttpService,
         @Optional() private myService: MyService
     ) {
-
+        this.form.key1 = '';
+        myService.getSelectList(this, 'selectList', 'role', '/api/url');
     }
 
     public tip = {};
+    public selectList = <any>{};
 
     // 表单数据
     public regex = regex;
     public form = <any>{};
-    public payload = {
-        example: <any>{},
-        page: null,
-        size: null,
-    };
+    public payload = {};
 
     // 表格数据
     public items = [];
-    public table = {
-        th: [
-            { key: 'key', text: '分类', width: '16%' },
-            { key: 'key', text: '数量', width: '14%' },
-            { key: 'key', text: '描述', width: '14%' },
-            { key: 'key', text: '加入时间', width: '12%' },
-            { key: 'key', text: '状态', width: '12%' }
-        ]
-    };
+
     // 设置存储缓存的键
-    public formStorageKey: string = 'advertManageForm';
+    public formStorageKey: string = 'advertPatternManageForm';
 
     // 初始化分页参数
     @ViewChild('appPagination') public appPagination;
@@ -55,7 +46,11 @@ export class ManageComponent implements OnInit {
     public queryStatus = false;
     public search = this.myService.search;
     public searchCallback() {
-        this.items = [{ key: 'test', id: '123' }];
+        this.items = [{
+            name: '1.png',
+            fid: 'fid111',
+            url: '/static/images/test/1.png'
+        }];
         return;
         this['queryStatus'] = true;
         this.http.post('/api/url', this.payload).subscribe(
@@ -85,56 +80,6 @@ export class ManageComponent implements OnInit {
         this.router.navigate(['app/advert/manage/edit', id]);
     }
 
-    // 批量启用
-    public startItems() {
-        var payload = {
-            vBoxes: this.checkboxAll['getData']('corporation')
-        };
-        if (payload.vBoxes.length == 0) {
-            alert('请选择要启用的数据！');
-            return;
-        }
-
-        ; (window as any).confirm({
-            text: '您确认要启用当前选择的信息吗？',
-            done: (data) => {
-                this.http.post('/api/url', payload).subscribe(
-                    response => {
-                        if (response['code'] !== '000000') return;
-                        this.search();
-                        alert('启用信息成功');
-                    },
-                    error => { }
-                )
-            }
-        })
-    }
-
-    // 批量停用
-    public bloclupItems() {
-        var payload = {
-            vBoxes: this.checkboxAll['getData']('corporation')
-        };
-        if (payload.vBoxes.length == 0) {
-            alert('请选择要停用的数据！');
-            return;
-        }
-
-        ; (window as any).confirm({
-            text: '您确认要停用当前选择的信息吗？',
-            done: (data) => {
-                this.http.post('/api/url', payload).subscribe(
-                    response => {
-                        if (response['code'] !== '000000') return;
-                        this.search();
-                        alert('停用信息成功');
-                    },
-                    error => { }
-                )
-            }
-        })
-    }
-
     // 批量删除
     public delItems() {
         var payload = {
@@ -160,24 +105,32 @@ export class ManageComponent implements OnInit {
         })
     }
 
-    // 处理
-    public handler(item) {
+    // 复制链接
+    public copylick(url) {
+        ; (window as any).clipboard.writeText(url);
+    }
+    // 重命名
+    public rename(item) {
         ; (window as any).confirm({
-            text: '您确认要处理ID为 ' + item.id + ' 的消息吗？',
+            text: '请输入图片名称',
+            note: '图片名称最大长度为32位,大小写字母或数字',
+            textarea: '',
+            fill: item.name,
+            regex: regex.imgname,
             done: (data) => {
-                this.http.post('/api/url', { id: item.id }).subscribe(
+                ; (window as any).loading.open();
+                this.http.post('/api/url', { name: data.reason }).subscribe(
                     response => {
+                        ; (window as any).loading.close();
                         if (response['code'] !== '000000') return;
-                        this.search();
-                        ; (window as any).confirm({
-                            text: ' 您好，您提交的反馈信息已在处理途中，十分感谢您的反馈！',
-                            type: 2
-                        })
+                        item.name = data.reason;
+                        alert('修改名称成功');
                     },
-                    error => { }
+                    error => { ; (window as any).loading.close() }
                 )
+
             }
-        })
+        });
     }
 
     // 重置表单 -----------------------------------------------------------------------

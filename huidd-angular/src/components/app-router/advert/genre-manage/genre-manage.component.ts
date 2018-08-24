@@ -1,4 +1,4 @@
-/* 反馈消息 */
+/* 分类管理 */
 import { Component, Optional, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from 'src/services/http-service';

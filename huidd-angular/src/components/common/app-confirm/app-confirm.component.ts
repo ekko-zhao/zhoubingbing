@@ -40,7 +40,11 @@ export class AppConfirmComponent {
 
     public showModal(obj: any): boolean {
         if (obj.type == 2) document.addEventListener('keydown', this.onkeydown, false);
-        this.textarea = '';
+        if (obj.fill)
+            this.textarea = obj.fill;
+        else
+            this.textarea = '';
+
         this.obj = Object.assign({}, this.defaultObj, obj);
         this.visible = true;
         return false;
@@ -92,5 +96,6 @@ export class AppConfirmComponent {
     doneText:'',// buttonText 默认‘确定’
     failText:''//buttonText 默认‘取消’,
     required: true,
-    regex:/^*$/
+    regex:/^*$/,
+    fill:'这里是要填充文本域的值'
 })*/

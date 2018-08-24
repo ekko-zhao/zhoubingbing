@@ -28,6 +28,7 @@ export const rootRouterConfig: Routes = [
     // 广告管理
     { path: 'app/advert/manage', loadChildren: 'src/components/app-router/advert/manage/manage.module.ts#ManageModule' },
     { path: 'app/advert/genre-manage', loadChildren: 'src/components/app-router/advert/genre-manage/genre-manage.module.ts#GenreManageModule' },
+    { path: 'app/advert/pattern-manage', loadChildren: 'src/components/app-router/advert/pattern-manage/pattern-manage.module.ts#PatternManageModule' },
 
     // 消息管理
     { path: 'app/message/push-manage', loadChildren: 'src/components/app-router/message/push-manage/push-manage.module.ts#PushManageModule' },
