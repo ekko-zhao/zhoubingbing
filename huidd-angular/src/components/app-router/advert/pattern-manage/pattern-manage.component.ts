@@ -71,14 +71,15 @@ export class PatternManageComponent implements OnInit {
     }
 
     // 新增分类
-    public addItem() {
-        this.router.navigate(['app/advert/manage/add']);
+    @ViewChild('addPattern') public addPattern;
+    public addPatternModalStart() {
+        this.addPattern.show();
     }
 
     // 新增分组
     @ViewChild('addGroup') public addGroup;
-    public addGroupModalStart(item) {
-        this.addGroup.show(item);
+    public addGroupModalStart() {
+        this.addGroup.show();
     }
 
     // 更新分组

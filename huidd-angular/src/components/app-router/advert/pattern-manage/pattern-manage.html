@@ -19,7 +19,7 @@
     </form>
 </div>
 <div class="m-t m-b">
-    <button type="button" class="btn btn-outline-info btn-sm rounded-0 m-r-sm" (click)="addItem()">添加图片</button>
+    <button type="button" class="btn btn-outline-info btn-sm rounded-0 m-r-sm" (click)="addPatternModalStart()">添加图片</button>
     <button type="button" class="btn btn-outline-info btn-sm rounded-0 m-r-sm" (click)="addGroupModalStart()">添加分组</button>
 </div>
 <div class="m-t container-fluid">
@@ -39,3 +39,4 @@
 </div>
 <app-pagination #appPagination [paginationData]="paginationData" [queryStatus]="queryStatus"></app-pagination>
 <add-group #addGroup (onListen)="addGroupDone()"></add-group>
+<add-pattern #addPattern (onListen)="search()"></add-pattern>

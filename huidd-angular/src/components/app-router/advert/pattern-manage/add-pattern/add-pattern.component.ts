@@ -1,21 +1,19 @@
 /* 添加分组 */
 import { Component, Optional, ViewChild, EventEmitter, Output } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { NgForm } from '@angular/forms';
 import { HttpService } from 'src/services/http-service';
 import { MyService } from 'src/services/my-service';
 import { regex } from 'src/services/regex';
 
 @Component({
-    selector: "add-group",
-    templateUrl: "./add-group.html"
+    selector: "add-pattern",
+    templateUrl: "./add-pattern.html"
 })
 
-export class AddGroupComponent {
+export class AddPatternComponent {
     @Output() onListen = new EventEmitter<any>();
     // modal
     @ViewChild(ModalDirective) modal: ModalDirective;
-    @ViewChild('editForm') editForm: NgForm;
 
     constructor(
         @Optional() private http: HttpService,
@@ -28,7 +26,7 @@ export class AddGroupComponent {
     };
 
     public show() {
-        this.editForm.reset();
+        this.form['key1'] = '';
         this.modal.show();
     }
 
@@ -41,6 +39,7 @@ export class AddGroupComponent {
     // 表单数据
     public form = <any>{};
     public regex = regex;
+    public selectList = <any>{};
 
     // 提交
     public saveFlag = false;
@@ -52,7 +51,7 @@ export class AddGroupComponent {
                 if (response['code'] !== '000000') return;
                 this.hide();
                 this.onListen.emit();
-                alert('新增分类成功');
+                alert('添加图片成功');
             },
             error => { this.saveFlag = false; }
         )
