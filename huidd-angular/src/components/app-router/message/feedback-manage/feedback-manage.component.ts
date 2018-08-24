@@ -38,15 +38,11 @@ export class FeedbackManageComponent implements OnInit {
     public items = [];
     public table = {
         th: [
-            { key: 'key', text: 'ID', width: '6%' },
-            { key: 'key', text: '标题类容', width: '10%' },
-            { key: 'key', text: '发送范围', width: '8%' },
-            { key: 'key', text: '发送时间', width: '10%' },
-            { key: 'key', text: '发送量', width: '8%' },
-            { key: 'key', text: '打开数量', width: '7%' },
-            { key: 'key', text: '打开率', width: '6%' },
-            { key: 'key', text: '创建时间', width: '10%' },
-            { key: 'key', text: '状态', width: '6%' }
+            { key: 'key', text: 'ID', width: '16%' },
+            { key: 'key', text: '类型', width: '14%' },
+            { key: 'key', text: '时间', width: '14%' },
+            { key: 'key', text: '状态', width: '12%' },
+            { key: 'key', text: '操作者', width: '12%' }
         ]
     };
     // 设置存储缓存的键
@@ -122,7 +118,6 @@ export class FeedbackManageComponent implements OnInit {
                     response => {
                         if (response['code'] !== '000000') return;
                         this.search();
-                        /*  alert('处理消息成功'); */
                         ; (window as any).confirm({
                             text: ' 您好，您提交的反馈信息已在处理途中，十分感谢您的反馈！',
                             type: 2
