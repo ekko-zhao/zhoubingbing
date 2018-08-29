@@ -1,7 +1,0 @@
-<div class="layout" [ngClass]="{'d-none': navigator['c'].length == 0}">
-    <ul class="lay-content">
-        <li *ngFor="let item of navigator['c']; let c = index;">
-            <a [href]="preurl + item.url" [ngClass]="{active: c === nav['c']}">{{item.name}}</a>
-        </li>
-    </ul>
-</div>

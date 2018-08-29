@@ -1,9 +1,13 @@
 
+车架：086248
+发动机：C83584
+
+VPN 账号：zhoubingbing；密码：zbb@Lkl0814
 
 git 地址
 	http://10.7.3.2/gitlab/groups/bu_industry_cooperation
 	zhoubingbing@lakala.com
-	Bing1014!
+	Bing1014!@#
 
 民生银行二类户的git: http://10.7.3.2/gitlab/bu_industry_cooperation/cmbc_second_account.git 
 	
@@ -53,7 +57,8 @@ CPS 外包商服务网站
 	http://10.7.111.52/svn/ocsp2/branches/ocsp-20180426/ocsp
 	zhangfeifei
 	Zhangfeifei@123
-
+	
+	wangdahu  Wangdahu@123
 	zhoubingbing Zhoubb123!
 	wanghuhuwang Wanghu812826!
 	
@@ -79,6 +84,18 @@ CPS 外包商服务网站
 	http://10.7.34.174:8071/bmmp4/index.html
 	测试用户名 : adminbmmp4
 	测试密码: 2Qaz@1wsx
+	
+	
+	adminbmmp4 / 2Qaz@1wsx（主账号）
+	205813_lijunjie/Nk5nc10xVZ （机构账号）
+	ReceiveOrderType1（ 独立收单）
+	ReceiveOrderType2（混合收单直联）
+	ReceiveOrderType3（混合收单专业化）
+	ReceiveOrderType4（混合收单其他）
+	（1-4跟主账号密码一致）
+	test111（一级子账号）2Qaz@1wsx
+	ceshi002（二级子账号）密码：q1w2e3r4@
+
 
 	ReceiveOrderType4   / 2Qaz@1wsx
 	2017.11.01
