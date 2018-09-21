@@ -79,6 +79,8 @@ devServer: {
 			pathRewrite: {"^/api" : ""},
             secure: false,
 			//pathRewrite: {'regExp' : '/path'}
+			// 去除请求url中的 /api
+			pathRewrite: {"^/api": ""}
 		},
 		secure: false
 	}

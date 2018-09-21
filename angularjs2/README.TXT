@@ -751,7 +751,9 @@ export class BeautifulBackgroundDirective{
 		this.el = el.nativeElement;
 		this.setStyle(this._defaultColor);
 	}
-
+	// 获取 event 
+	// @HostListener('click', ['$event','$event.target'])  onClick(event, target){}
+	
 	@HostListener('click') onClick(){
 		this.setStyle(this.backgroundColor || this._defaultColor);
 	}
@@ -1758,7 +1760,7 @@ var md5 = (str:string)=>{
 
 
 ------------------------------------------------------------------------------
-
+import {DomSanitizer} from "@angular/platform-browser";
 import { HttpService } from '@service/http-service';
 constructor(
         private sanitizer: DomSanitizer

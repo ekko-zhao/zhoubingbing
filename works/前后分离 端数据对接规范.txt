@@ -46,6 +46,22 @@
 	spring.mvc.static-path-pattern = /**
 	
 	
+### new
+{
+	success:true,
+	errorContext：{
+	  thirdPartyError:""
+	  errorStack:[{errorCode:}]
+	}
+	resultObj:{
+		example:{}
+		result:[]
+		total:
+		page:
+		size:
+	}
+}
+	
 # 服务端返回数据规范：	
 	Response: {
 		data:{} | [] | String,
@@ -58,7 +74,7 @@
 	code	
 		请求成功为 			"000000"
 		超时、未登陆		"666666"
-		数据验证失败、其它	"999999"
+		数据验证失败、其它	"自定义"
 	total	如果请求的是分页数据，需要返回total字段。
 	
 # Ajax sevlet url 命名规范

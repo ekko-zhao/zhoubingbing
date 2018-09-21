@@ -18,10 +18,64 @@ Connection: close
 Cookie: %C3%F7%CC%EC=%B0%CB;ASPSESSIONIDASDBSDRR=BLEDBIBBCGKBJAKJCFEJKGII
 */
 
+
+// 监听上传进度
+xhr.upload.onprogress = function (ev) {
+	// 事件对象
+	// console.log(ev);
+
+	var percent = (ev.loaded / ev.total) * 100 + '%';
+
+	console.log(percent);
+
+	progress.style.width = percent;
+}
+
+
+var data = {id:"0", statusCode:"VALID"}; 
+xhr.send(data);
+
+
 xhr.onreadystatechange= function() {  
    if(xhr.readyState == 4 && xhr.status == 200) {  
 			alert('ok') 
    }  
 };
-var data = {id:"0", statusCode:"VALID"}; 
-xhr.send(data);
+
+
+#属性
+	onreadystatechange
+	readyState
+	response
+	responseText
+	responseType
+	responseURL
+	responseXML
+	status
+	statusText
+	timeout
+	upload
+	withCredentials
+
+#Events 在onprogress 事件中使用
+	loadstart
+	progress
+	abort
+	error
+	load
+	timeout
+	loadend
+	readystatechange
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+

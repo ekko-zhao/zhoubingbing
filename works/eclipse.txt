@@ -59,7 +59,7 @@ CPS 外包商服务网站
 	Zhangfeifei@123
 	
 	wangdahu  Wangdahu@123
-	zhoubingbing Zhoubb123!
+	zhoubingbing Zhoubingbing@123
 	wanghuhuwang Wanghu812826!
 	
 	110113014195253 北京中金鼎商贸有限公司 谢珍珠
@@ -82,9 +82,9 @@ CPS 外包商服务网站
 ‘商户服务中心网站’，是面向我司特约商户的服务性网站。限于多年前的架构设计，我司商户增长速度快，交易量也成倍增长，且越来越多是中大型商户，商服的问题也越来越突出，2017年5月业务部决定对商服网站进行重构建设，为商户提供更加简洁、方便的对账体验和清晰、直观的操作使用体验。
 	http://10.7.111.164:8071/bmmp4/index.html
 	http://10.7.34.174:8071/bmmp4/index.html
-	测试用户名 : adminbmmp4
-	测试密码: 2Qaz@1wsx
 	
+	admin:2Qaz@1wsx
+	adminbmmp4:2Qaz@1wsx
 	
 	adminbmmp4 / 2Qaz@1wsx（主账号）
 	205813_lijunjie/Nk5nc10xVZ （机构账号）
@@ -124,11 +124,10 @@ CPS 外包商服务网站
 	lizheng----Abc@123456
 
 # 智能设备开放平台登陆
-	tanxiangqing
-	lakala
-	
+	tanxiangqing lakala
 	jacktan:lakala
 	
+	测试：http://10.7.111.228:9090
 	
 	453877018056982528
 	
@@ -143,10 +142,17 @@ http://10.7.111.164:8063/Welcome.htm
 	admin123
 	lakala123
 	
+惠多多 
+	http://10.7.8.214:9091
+	admin 123456
+	。大鸭梨:
+	18702699479  acer123456
+
+	
 银行支付
 	post：{"chkCode":"495357396883", "orderId":"SHLH134545", "userId":"1212"}	
 
-
+	
 微服务框架：
 C:\Users\zhoub\.m2\repository\com\lakala\sh\payment\standard\standard-parent\1.0.0\standard-parent-1.0.0.pom
 	
