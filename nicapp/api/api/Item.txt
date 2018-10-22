@@ -1,4 +1,7 @@
 // Item --------------------------------
+ion-item-group 当用到 ion-item-divider 时需要 使用ion-item-group 替代 ion-list
+
+
 ion-list-header
 ion-item-divider 带有背景颜色的 分频器
 ion-item
@@ -10,6 +13,7 @@ As an Attribute: <a ion-item href="https://www.ionicframework.com"> Anchor Item 
 <ion-item detail-push>  [detail-push] 向ion-item 添加向右剪头
 <ion-item detail-none>  [detail-none] 隐藏 ion-item 向右剪头
 
+# ion-item子元素 位置
 Attribute		Description
 item-start		Placed to the left of all other elements, outside of the inner item.
 item-end		Placed to the right of all other elements, inside of the inner item, outside of the input wrapper.

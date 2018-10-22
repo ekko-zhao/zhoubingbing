@@ -21,7 +21,7 @@ export class RangeComponent {
 
 html:
 
-// 添加 属性 range-left  range-right 放在范围的俩边
+// 子元素属性 range-left  range-right 放在范围的俩边
 
 Input Properties:
 Attr			Type			Details

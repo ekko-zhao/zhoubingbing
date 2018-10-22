@@ -1,49 +1,22 @@
-import { AlertController } from 'ionic-angular';
+<button ion-button>Button</button>
 
-export class MyPage {
-	constructor(private alertCtrl: AlertController){ }
-	
-	presentAlert() {
-		let alert = this.alertCtrl.create( opts: AlertOptions )
-		alert.present();
-	}
-}
+Input Properties:
+Attr		Type		Details
+block		boolean		If true, activates a button style that fills the available width.
+clear		boolean		If true, activates a transparent button style without a border.
+color		string		The color to use from your Sass $colors map. Default options are: "primary", "secondary", "danger", "light", and "dark". 
+default		boolean		If true, activates the default button size. Normally the default, useful for buttons in an item.
+full		boolean		If true, activates a button style that fills the available width without a left and right border.
 
-Instance Members
-config
+large	boolean
+small	boolean
+round	boolean
+outline	boolean
 
-create(opts)		
-Param	Type				Details
-opts	AlertOptions		Alert. See the table below
-
-AlertOptions:{
-	Option			Type			Description
-	title			string			The title for the alert.
-	subTitle		string			The subtitle for the alert.
-	message			string			The message for the alert.
-	
-	cssClass		string			Additional classes for custom styles, separated by spaces.
-	inputs			array			An array of inputs for the alert. See input options.
-	buttons			array			An array of buttons for the alert. See buttons options.
-	enableBackdropDismiss	boolean		Whether the alert should be dismissed by tapping the backdrop. Default true.
-	
-}
+mode		string		The mode determines which platform styles to use. Possible values are: "ios", "md", or "wp". 
+solid		boolean		If true, activates a solid button style. Normally the default, useful for buttons in a toolbar.
+strong		boolean		If true, activates a button with a heavier font weight.
 
 
-Input options :{
-	Property		Type		Description
-	type		string			The type the input should be: text, tel, number, etc.
-	name		string			The name for the input.	
-	placeholder	string			The input's placeholder (for textual/numeric inputs)
-	value		string			The input's value.
-	label		string			The input's label (only for radio/checkbox inputs)
-	checked		boolean			Whether or not the input is checked.
-	id			string			The input's id.
-}
-Button options:{
-	Property		Type		Description
-	text			string		The buttons displayed text.
-	handler			any			Emitted when the button is pressed. // 该方法 参数 data 为表单数据
-	cssClass		string		An additional CSS class for the button.
-	role			string		The buttons role, null or cancel.
-}
+
+

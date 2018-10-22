@@ -1,0 +1,58 @@
+
+ion-header
+	ion-navbar 
+		ion-title
+		
+ion-content
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>Footer</ion-title>
+  </ion-toolbar>
+</ion-footer>
+
+
+
+<ion-range [(ngModel)]="brightness">
+	<ion-icon range-left small name="sunny"></ion-icon>
+	<ion-icon range-right name="sunny"></ion-icon>
+</ion-range>
+
+
+<ion-item>
+    <ion-label>Gaming</ion-label>
+    <ion-select [(ngModel)]="gaming">
+      <ion-option value="nes">NES</ion-option>
+      <ion-option value="n64">Nintendo64</ion-option>
+      <ion-option value="ps">PlayStation</ion-option>
+      <ion-option value="genesis">Sega Genesis</ion-option>
+      <ion-option value="saturn">Sega Saturn</ion-option>
+      <ion-option value="snes">SNES</ion-option>
+    </ion-select>
+  </ion-item>
+  
+ion-avatar 创建圆形图片 需要指定 avatar的 item-start or item-end 指令，来指定图片显示的位置
+ion-chip
+	ion-avatar
+	
+<ion-chip #chip3>
+  <ion-avatar>
+    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==">
+  </ion-avatar>
+</ion-chip>
+  
+
+<ion-grid>
+  <ion-row>
+    <ion-col col-4>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

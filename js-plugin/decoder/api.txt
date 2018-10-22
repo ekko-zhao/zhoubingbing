@@ -1,0 +1,41 @@
+// 解析本地二维码
+this.decoder = new Worker('./decoder.js');
+
+let img = document.createElement('img');
+img.src = this.getObjectURL(file);
+img.onload = () => {
+	let width = img.width;
+	let height = img.height;
+	let canvas = document.createElement('canvas');
+	let ctx = canvas.getContext('2d');
+	canvas.width = width;
+	canvas.height = height;
+	ctx.drawImage(img, 0, 0, width, height);
+
+	// document.getElementsByTagName('body')[0].appendChild(canvas);
+	var imgData = ctx.getImageData(0, 0, width, height);
+	if (imgData.data) {
+		this.decoder.postMessage(imgData);
+	}
+	this.decoder.onmessage = (event) => {
+		if (event.data.length > 0) {
+			var qrid = event.data[0][2];
+			// console.log(qrid)
+		} else {
+			alert('请上传清晰的二维码图片，或把该图片除二维码图片以外的地方剪切掉');
+			return;
+		}
+	};
+}
+
+public getObjectURL(file) {
+	var url = null;
+	if (window['createObjectURL'] != undefined) { // basic
+		url = window['createObjectURL'](file);
+	} else if (window['URL'] != undefined) { // mozilla(firefox)
+		url = window['URL'].createObjectURL(file);
+	} else if (window['webkitURL'] != undefined) { // webkit or chrome
+		url = window['webkitURL'].createObjectURL(file);
+	}
+	return url;
+}
