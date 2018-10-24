@@ -73,7 +73,7 @@ CPS 外包商服务网站
 	svn:http://10.7.111.52/svn/cloudpos/cashier/trunk
 	repertory:<url>http://10.7.111.52:9001/mvn/content/groups/public</url>
 
-	openid=oz867uICkP1sYQFef0VhHMeKCcsM&no=YP610000017484
+	?openid=oz867uICkP1sYQFef0VhHMeKCcsM&no=YP610000017484
 
 	netstat   -ano|findstr 8888
 	taskkill  /pid  7644  /f
