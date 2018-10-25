@@ -50,6 +50,11 @@ git commit -m "" --author=""
 # 添加环境变量
 	set PATH=%PATH%;C:\Program Files\Git\bin
 
+# You have not concluded your merge
+	git merge --abort
+	git reset --merge
+	
+	
 # 新建分支
 git branch branchname
 	

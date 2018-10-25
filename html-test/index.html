@@ -12,7 +12,25 @@
 </head>
 
 <body>
-   <p>asdfsf</p>
+    <p id="div" class="a b c">123
+        as
+    </p>
 </body>
+<script>
+    var div = document.getElementById('div');
+    console.log(div.isConnected)
+
+    var a = document.createElement('div')
+    // document.getElementsByTagName('body')[0].appendChild(a)
+    // console.log(a.getRootNode())
+
+    var d1 = new Date();
+    window.requestAnimationFrame(function(){
+        var d2 = new Date();
+
+        console.log(d2.getTime()-d1.getTime())
+    });
+
+</script>
 
 </html>
