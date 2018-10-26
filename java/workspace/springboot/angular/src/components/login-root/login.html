@@ -1,0 +1,29 @@
+<div class="layout">
+    <div class="lay-content">
+        <p class="text-center text-lg m-t">惠精彩后台管理登录</p>
+        <form class="p-t" #editForm="ngForm">
+            <input type="password" name="password" style="display:none">
+            <div class="form-group p-b-sm">
+                <div class="input-group">
+                    <span class="input-group-addon icon-loginuser text-lg text-muted"></span>
+                    <input class="form-control rounded-0" type="text" name="userAccount" [(ngModel)]="form.userAccount"
+                        (keyup)="form.userAccount=$event.target.value" placeholder="账号" required>
+                </div>
+            </div>
+            <div class="form-group p-b-sm">
+                <div class="input-group">
+                    <span class="input-group-addon icon-loginpsd text-lg text-muted"></span>
+                    <input class="form-control rounded-0" type="password" name="userPassword" autocomplete="off"
+                        [(ngModel)]="form.userPassword" (keyup)="form.userPassword=$event.target.value" placeholder="密码"
+                        required>
+                </div>
+            </div>
+            <div class="form-group p-b-sm">
+                <button type="submit" class="btn btn-info btn-lg w-100 text-center rounded-0" (click)="submit()"
+                    [disabled]="!editForm.valid || queryStatus">
+                    <span>登录</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

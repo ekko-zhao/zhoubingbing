@@ -304,15 +304,6 @@
 		@SuppressWarnings	// 注解用于指定能抑制一个或多个编译器可能会报告的警告， 以字符串的形式来指定要被抑制的警告
 		
 		
-# 类型注解
-	@TypeAnno			ElementType.TYPE_USE
-	@MaxLen				ElementType.TYPE_USE
-	@NotZerLen			ElementType.TYPE_USE
-	@Unique				ElementType.TYPE_USE
-	@What				ElementType.TYPE_PARAMETER
-	@EmptyOk			ElementType.FIELD
-	@Recommended		ElementType.METHOD
-
 # 重复注解
 	在同一元素上重复应用注解，可重复注解必须使用@Repeatable 进行注解，
 	定义在 java.lang.annotation 中

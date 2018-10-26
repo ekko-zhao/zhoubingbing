@@ -107,7 +107,7 @@
 		*/
 
 	# 修改默认的静态资源存放目录
-	spring.resources.static-locations= classpath:/static/
+	spring.resources.static-locations= classpath:/dist
 	spring.mvc.static-path-pattern=/**
 		/*
 			默认路径为 /resources/ 下， 优先级别如下
@@ -115,7 +115,7 @@
 		*/
 
 	# Spring MVC
-	spring.mvc.view.prefix= /dist/
+	spring.mvc.view.prefix= /
 	spring.mvc.view.suffix= .html
 		/*
 			配置 InternalViewResolver
@@ -126,7 +126,7 @@
 				@ConditionalOnMissingBean(InternalResourceViewResolver.class)
 				public InternalResourceViewResolver defaultViewResolver() {
 					InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-					resolver.setPrefix("/dist/");
+					resolver.setPrefix("/");
 					resolver.setSuffix(".html");
 					return resolver;
 				}

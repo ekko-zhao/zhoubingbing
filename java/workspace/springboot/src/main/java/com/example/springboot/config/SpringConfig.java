@@ -31,24 +31,4 @@ public class SpringConfig {
 		return book;
 	}
 
-	/*
-	 * @Bean public ServletRegistrationBean myServlet() { ServletRegistrationBean
-	 * myServlet = new ServletRegistrationBean();
-	 * myServlet.addUrlMappings("/servlet"); // myServlet.setServlet(new
-	 * MyServlet()); return myServlet; }
-	 */
-
-	/*@Bean
-	public ServletRegistrationBean servletRegistrationBean() {
-		return new ServletRegistrationBean(new IndexServlet(), "/signin");
-	}*/
-
-	/*@Bean
-	public ServletListenerRegistrationBean<EventListener> getDemoListener() {
-		ServletListenerRegistrationBean<EventListener> registrationBean = new ServletListenerRegistrationBean<>();
-		registrationBean.setListener(new DemoListener());
-		// registrationBean.setOrder(1);
-		return registrationBean;
-	}*/
-
 }
