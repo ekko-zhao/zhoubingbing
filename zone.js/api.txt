@@ -1,0 +1,121 @@
+
+#上下文传播
+	.子Zone 继承父Zone 的properties属性
+	
+	let rootZone = Zone.current;
+	let zoneA = rootZone.fork({name: 'zoneA', properties: {a: 1, b:1}});
+	
+	zoneA.get('b');
+	
+# 拦截
+
+	class TimingZone extends Zone {
+        constructor(parent) {
+            super(parent, {
+                name: 'timingZone'
+            });
+        }
+        run() {
+            super.run(...arguments);
+        }
+    }
+
+    class LogZone extends Zone {
+        constructor(parent) {
+            super(parent, {
+                name: 'logZone'
+            });
+        }
+
+        run() {
+            // this.parent.run.apply(this, arguments);
+            this.parent.run(...arguments);
+        }
+    }
+
+    let rootZone = Zone.current;
+    let timingZone = new TimingZone(rootZone);
+    let logZone = new LogZone(timingZone);
+
+    logZone.run(() => {
+        console.log(Zone.current.name, 'Hello World!');
+    });
+	
+	
+.通过 Zone.prototype.fork() API 拦截
+
+	let timingZone = Zone.current.fork({
+		name: 'timingZone',
+		onInvoke: function (parentZoneDelegate, currentZone, targetZone, callback, applyThis, applyArgs, source) {
+			// 执行 appZone 的回调函数，最后执行
+			parentZoneDelegate.invoke(targetZone, callback, applyThis, applyArgs, source);
+
+		}
+	});
+
+	let logZone = timingZone.fork({
+		name: 'logZone',
+		onInvoke: function (parentZoneDelegate, currentZone, targetZone, callback, applyThis, applyArgs, source) {
+			// targetZone 	为 	appZone
+			// currentZone 	为当前执行的 Zone -> logZone
+			
+			setTimeout(function () {
+				// parentZoneDelegate 是执行当前Zone 的父级Zone 的Invoke 函数
+				parentZoneDelegate.invoke(targetZone, callback, applyThis, applyArgs, source);
+			}, 2000)
+		}
+	});
+	
+	
+	let appZone = logZone.fork({
+		name: 'appZone'
+	});
+	
+	
+	appZone.run(function () {
+        console.log('Zone:', Zone.current.name, 'Hello World!');
+    });
+	// 可以有多个参数 appZone.run(fn,agrs)
+	
+	/*
+		执行顺序
+		logZone的onInvoke
+		timingZone的onInvoke
+		appZone 的回调函数
+		
+		此时 appZone.fork 参数中不能有 onInvoke 参数，否则run中的回调函数会失效，直接执行 onInvoke 函数
+		
+	*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

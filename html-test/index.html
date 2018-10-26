@@ -9,6 +9,7 @@
 
     </style>
     <script src="https://cdn.bootcss.com/jquery/1.8.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/zone.js/0.8.26/zone.min.js"></script>
 </head>
 
 <body>
@@ -17,18 +18,36 @@
     </p>
 </body>
 <script>
-    var div = document.getElementById('div');
-    console.log(div.isConnected)
+    class TimingZone extends Zone {
+        constructor(parent) {
+            super(parent, {
+                name: 'timingZone'
+            });
+        }
+        run() {
+            super.run(...arguments);
+        }
+    }
 
-    var a = document.createElement('div')
-    // document.getElementsByTagName('body')[0].appendChild(a)
-    // console.log(a.getRootNode())
+    class LogZone extends Zone {
+        constructor(parent) {
+            super(parent, {
+                name: 'logZone'
+            });
+        }
 
-    var d1 = new Date();
-    window.requestAnimationFrame(function(){
-        var d2 = new Date();
+        run() {
+            // this.parent.run.apply(this, arguments);
+            this.parent.run(...arguments);
+        }
+    }
 
-        console.log(d2.getTime()-d1.getTime())
+    let rootZone = Zone.current;
+    let timingZone = new TimingZone(rootZone);
+    let logZone = new LogZone(timingZone);
+
+    logZone.run(() => {
+        console.log(Zone.current.name, 'Hello World!');
     });
 
 </script>
