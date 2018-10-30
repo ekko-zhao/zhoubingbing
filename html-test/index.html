@@ -18,38 +18,52 @@
     </p>
 </body>
 <script>
-    class TimingZone extends Zone {
-        constructor(parent) {
-            super(parent, {
-                name: 'timingZone'
-            });
+    /* class EventReleaseZoneSpec {
+        constructor() {
+            this.name = 'CleanupZone';
+            this.eventTasks = [];
         }
-        run() {
-            super.run(...arguments);
+        onScheduleTask(parentZoneDelegate, currentZone,
+            targetZone, task) {
+            // Whenever new EventTask is scheduled add it to the
+            // outstanding list of tasks.
+            if (task.type == 'eventTask') {
+                this.eventTasks.push(task);
+            }
+            return parentZoneDelegate.scheduleTask(targetZone, task);
+        }
+
+        cleanup() {
+            // Cancel all outstanding
+            while (this.eventTasks.length) {
+                Zone.current.cancelTask(this.eventTasks.pop());
+            }
         }
     }
 
-    class LogZone extends Zone {
-        constructor(parent) {
-            super(parent, {
-                name: 'logZone'
-            });
-        }
-
-        run() {
-            // this.parent.run.apply(this, arguments);
-            this.parent.run(...arguments);
+    function cleanup(fn) {
+        return function (done) {
+            let zoneSpec = new EventReleaseZoneSpec();
+            let args = [() => {
+                console.log(11)
+                zoneSpec.cleanup();
+                done();
+            }];
+            Zone.current.fork(zoneSpec).run(fn, this, args);
         }
     }
 
-    let rootZone = Zone.current;
-    let timingZone = new TimingZone(rootZone);
-    let logZone = new LogZone(timingZone);
+    var body = document.getElementsByTagName('body')[0];
+    var c = cleanup((done) => {
+        console.log(done)
+        body.addEventListener('click', () => console.log('click'));
+        body.click();
+        done();
+    })
+    c(12); */
+    var a = () => 'sad'
 
-    logZone.run(() => {
-        console.log(Zone.current.name, 'Hello World!');
-    });
-
+    console.log(a())
 </script>
 
 </html>

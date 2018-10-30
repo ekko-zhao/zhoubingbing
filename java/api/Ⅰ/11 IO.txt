@@ -1,4 +1,4 @@
-﻿
+
 # I/O 的基础知识
 	输入：外部数据向 CPU 输入
 	输出：CPU 将数据输出到我们可见的地方，例如文件屏幕等。（读取数据）
@@ -135,7 +135,7 @@
 	b
 	q
 
-# 读取字符串 
+# 读取字符输入的行
 	String readLine() throws IOException
 	
 	public class Test {
@@ -272,22 +272,25 @@
 # 自动关闭文件
 	只有对于那些实现了 AutoCloseable 接口的资源，才能使用带资源的try 语句。
 	AutoCloseable 接口由 java.lang 包定义，该接口定义了 close() 方法。
-	java.io 包中的Closeable 接口继承自  AutoCloseable 接口
+	java.io 包中的Closeable 接口继承自  AutoCloseable 接口，所有流类都实现了这俩个接口
 
 
 	public static void main(String[] args){
 		int i;
-		if(agrs.length != 1){
-			return;
-		}
 		
-		try(FileInputStream fin = new FileInputStream(args[0])){
-			do{
-				i = fin.read();
-			}while(i != -1)
-		}
-		catch(FileNotFoundException e){}
-		catch(IOException e3){}
+		try (
+				FileInputStream fina = new FileInputStream("C:\\Users\\Administrator\\Desktop\\a.txt");
+				FileOutputStream finb = new FileOutputStream("C:\\Users\\Administrator\\Desktop\\b.txt")) {
+			do {
+				i = fina.read();
+				if (i != -1)
+				{
+					System.out.println((char) i);
+					finb.write(i);
+				}
+			} while (i != -1);
+		} catch (FileNotFoundException e) {
+		} catch (IOException e3) {}
 		
 	}
 	/*
