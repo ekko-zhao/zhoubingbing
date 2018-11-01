@@ -1255,6 +1255,32 @@ import { APP_BASE_HREF } from '@angular/common';
 })
 export class AppModule{ }
 
+#开启 Hash 模式
+	import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+	@NgModule({
+	  imports: [
+		BrowserModule,
+		RouterModule.forRoot(routes)
+	  ],
+	  ...,
+	  providers: [
+		{ provide: LocationStrategy, useClass: HashLocationStrategy }
+	  ]
+	})
+#HTML 5 模式
+	import { APP_BASE_HREF, LocationStrategy, PathLocationStrategy } from '@angular/common';
+	@NgModule({
+	  imports: [
+		BrowserModule,
+		RouterModule.forRoot(routes)
+	  ],
+	  ..,
+	  providers: [
+		{ provide: LocationStrategy, useClass: PathLocationStrategy },
+		{ provide: APP_BASE_HREF, useValue: '/' }
+	  ]
+	})
+
 
 //代码跳转页面
 import { Router } from '@angular/router';

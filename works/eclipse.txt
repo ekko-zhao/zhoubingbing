@@ -161,3 +161,36 @@ C:\Users\zhoub\.m2\repository\com\lakala\sh\payment\standard\standard-parent\1.0
 	wangyuzhu@lakala.com 
 	123456a
 
+html开发端口
+	保险移动支付 		3000
+	新商服  			3011
+	招财考拉   			3012
+	lkl 云控制台   		3013	9090
+	惠精彩-web 			3014	9091
+	新会员项目-web 		3015	9092
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
