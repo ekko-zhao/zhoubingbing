@@ -1,0 +1,4 @@
+instanceof 操作符
+
+通过 import static  来导入类的静态方法
+	import static java.lang.Math.sqrt

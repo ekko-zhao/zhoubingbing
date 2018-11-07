@@ -11,20 +11,7 @@ import java.io.PrintWriter;
 
 public class run {
 	public static void main(String[] args) {
-		int i;
-		
-		try (
-				FileInputStream fina = new FileInputStream("C:\\Users\\Administrator\\Desktop\\a.txt")) {
-			do {
-				i = fina.read();
-				if (i != -1)
-				{
-					System.out.println((char) i);
-					
-				}
-			} while (i != -1);
-		} catch (FileNotFoundException e) {
-		} catch (IOException e3) {}
-
+		Integer a = 5;
+		Double b = 5.0;
 	}
 }
