@@ -58,7 +58,7 @@ CPS 外包商服务网站
 	zhangfeifei
 	Zhangfeifei@123
 	
-	wangdahu  	
+	wangdahu  	Wangdahu@123
 	zhoubingbing Zhoubingbing@123
 	wanghuhuwang Wanghu812826!
 	
@@ -74,6 +74,8 @@ CPS 外包商服务网站
 	repertory:<url>http://10.7.111.52:9001/mvn/content/groups/public</url>
 
 	?openid=oz867uICkP1sYQFef0VhHMeKCcsM&no=YP610000017484
+	
+	测试环境可用openid : oz867uFNAFkKxd_Tg2ea3PYlzsbM
 
 	netstat   -ano|findstr 8888
 	taskkill  /pid  7644  /f
@@ -142,17 +144,31 @@ http://10.7.111.164:8063/Welcome.htm
 	admin123
 	lakala123
 	
+	当前分支 feature-mina-20181026
 惠多多 
 	http://10.7.8.214:9091
 	admin 123456
+	yangfujun 13184237728
 	。大鸭梨:
 	18702699479  acer123456
-
+	
+	生产
+	http://master.huijingcai.cn/app/user/app-account
+	
+	yangfujun
+	13184237728
 	
 银行支付
 	post：{"chkCode":"495357396883", "orderId":"SHLH134545", "userId":"1212"}	
 
-	
+发票项目
+	管家:http://localhost:3015/index.html?userType=ALIPAY&userId=1234#/invoice-manage/
+		
+
+
+
+
+
 微服务框架：
 C:\Users\zhoub\.m2\repository\com\lakala\sh\payment\standard\standard-parent\1.0.0\standard-parent-1.0.0.pom
 	

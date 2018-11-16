@@ -616,6 +616,22 @@ Sass 有两种语法格式
 	}
 
 
+#HSL函数
+    在Sass中，共有13种HSL函数：
+
+	hsl($hue, $saturation, $lightness) //根据HSL中的三个值计算出一个颜色；
+	hsla($hue, $saturation, $lightness, $alpha) //根据HSL中色调值、饱和度、亮度和透明度计算出一个颜色；
+	hue($color) //获取HSL中的色调值；
+	saturation($color) //获取HSL中的饱和度；
+	lightness($color) //获取HSL中的亮度值；
+	adjust-hue($color, $degree) //改变HSL中的色调值；
+	lighten($color, $amount) //颜色变浅函数；
+	darken($color, $amount) //颜色变深函数；
+	saturate($color, $amount) //增加颜色的饱和度；
+	desaturate($color, $amount) //减少颜色的饱和度；
+	grayscale($color) //将该颜色转换为相对应的灰度颜色；
+	complement($color) //获取该颜色值旋转180度后相对应的颜色；
+	invert($color) //和complement相似，获取该颜色值旋转180度后相对应的颜色，不过不能改变透明度；
 
 
 

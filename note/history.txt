@@ -1,0 +1,82 @@
+Html5使用history对象
+
+	history对象提供了一系列方法，允许在浏览历史之间移动。
+	
+	back()：移动到上一个访问页面，等同于浏览器的后退键。
+	forward()：移动到下一个访问页面，等同于浏览器的前进键。
+	go()：接受一个整数作为参数，移动到该整数指定的页面，比如go(1)相当于forward()，go(-1)相当于back()。
+
+	
+	history.go(0)相当于刷新当前页面。
+	
+#HTML5为history对象添加了两个新方法，history.pushState()和history.replaceState()，用来在浏览历史中添加和修改记录
+	if (!!(window.history && history.pushState)){
+		// 支持History API
+	} else {
+		如果不支持的话，可以考虑使用Polyfill库History.js
+	}
+	
+.history.pushState(stateObj, title, url);
+	state：一个与指定网址相关的状态对象，popstate事件触发时，该对象会传入回调函数。如果不需要这个对象，此处可以填null。
+		history.state 获取 state
+		
+	title：新页面的标题，但是所有浏览器目前都忽略这个值，因此这里可以填null。
+	url：新的网址，必须与当前页面处在同一个域。浏览器的地址栏将显示这个网址
+	
+.history.replaceState();
+	history.replaceState方法的参数与pushState方法一模一样，区别是它修改浏览历史中当前纪录。
+	
+	popstate事件
+		window.onpopstate = function (event) {
+		
+		}
+		或者
+		window.addEventListener('popstate', function(event) {
+		
+		}
+		
+# URLSearchParams API
+	URLSearchParams API用于处理URL之中的查询字符串，即问号之后的部分。没有部署这个API的浏览器，可以用url-search-params这个垫片库。
+
+	var paramsString = 'q=URLUtils.searchParams&topic=api';
+	var searchParams = new URLSearchParams(paramsString);
+	
+	has()：返回一个布尔值，表示是否具有某个参
+	get（）：返回指定参数的第一个值
+	getAll()：返回一个数组，成员是指定参数的所有值
+	set()：设置指定参数
+	delete()：删除指定参数
+	append()：在查询字符串之中，追加一个键值对
+	toString()：返回整个查询字符串
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

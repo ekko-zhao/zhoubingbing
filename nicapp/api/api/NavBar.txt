@@ -1,0 +1,10 @@
+import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
+
+#类里添加注解变量：
+@ViewChild(Navbar) navbar: Navbar;
+
+	ionViewDidLoad() {
+		this.navbar.backButtonClick = (e)=>{
+			console.log(e);
+		};
+	}
