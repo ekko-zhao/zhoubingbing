@@ -83,6 +83,12 @@ CPS 外包商服务网站
 	
 	C:\Users\zhoub\.m2\repository\com\lakala\sh\payment\standard\standard-parent\1.0.0
 	
+	修改 com.lakala.cashier/pom.xml
+	<local.data.path>C:\\home</local.data.path>
+	
+	
+	com.lakala.cashier.common.bootstrap  run java Application 选择 ApplicationStartup-com.lakala.microservice.framework.bootstrap
+	
 	
 新商服网站 ------------------------------------------------
 ‘商户服务中心网站’，是面向我司特约商户的服务性网站。限于多年前的架构设计，我司商户增长速度快，交易量也成倍增长，且越来越多是中大型商户，商服的问题也越来越突出，2017年5月业务部决定对商服网站进行重构建设，为商户提供更加简洁、方便的对账体验和清晰、直观的操作使用体验。
