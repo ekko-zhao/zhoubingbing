@@ -48,3 +48,13 @@ Button options:{
 	cssClass		string		An additional CSS class for the button.
 	role			string		The buttons role, null or cancel.
 }
+
+Sass Variables
+	$alert-min-width	250px
+	$alert-max-height	90%
+	$alert-button-line-height	20px
+	$alert-button-font-size	14px
+	$alert-input-placeholder-color	#999
+
+
+

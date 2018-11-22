@@ -4,7 +4,7 @@ Input Properties:
 Attr		Type		Details
 block		boolean		If true, activates a button style that fills the available width.
 clear		boolean		If true, activates a transparent button style without a border.
-color		string		The color to use from your Sass $colors map. Default options are: "primary", "secondary", "danger", "light", and "dark". 
+color		string		"primary", "secondary", "danger", "light", and "dark". 
 default		boolean		If true, activates the default button size. Normally the default, useful for buttons in an item.
 full		boolean		If true, activates a button style that fills the available width without a left and right border.
 

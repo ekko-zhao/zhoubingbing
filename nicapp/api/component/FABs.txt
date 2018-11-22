@@ -1,17 +1,22 @@
 <ion-fab top right edge>
 	<button ion-fab color="vibrant" mini><ion-icon name="add"></ion-icon></button>
-	<ion-fab-list>
+	<ion-fab-list side="bottom">
 	    <button ion-fab><ion-icon name="logo-facebook"></ion-icon></button>
 	    <button ion-fab><ion-icon name="logo-twitter"></ion-icon></button>
 	    <button ion-fab><ion-icon name="logo-vimeo"></ion-icon></button>
 	    <button ion-fab><ion-icon name="logo-sdfsd"></ion-icon></button>
 	</ion-fab-list>
+	
+	可以放置多个 ion-fab-list
+	<ion-fab-list side="top">
+	<ion-fab-list side="bottom">
+	
 </ion-fab>
 
 
 // ion-fab
-top bottom middle
-left right center
+	left right center
+	top bottom middle
 
 edge	Used to place the container between the content and the header/footer
 
@@ -23,5 +28,15 @@ edge	Used to place the container between the content and the header/footer
 	</ion-content>
 	
 	
+	
 Instance Members
 	close()
+	
+	
+<ion-fab>
+	Attribute	Description
+	mini	Makes a fab button with a reduced size.
+	
+<ion-fab-list>
+	Attribute	Description
+	side	bottom top left right

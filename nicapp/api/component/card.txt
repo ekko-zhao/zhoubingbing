@@ -1,0 +1,11 @@
+<ion-card>
+	<ion-card-header></ion-card-header>
+	<ion-card-title></ion-card-title>
+	<ion-card-content></ion-card-content>
+	
+	/*
+		这里可以放置任何元素
+		<ion-list>
+		<ion-item>
+	*/
+<ion-card>

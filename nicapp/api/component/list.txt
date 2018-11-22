@@ -1,0 +1,17 @@
+<ion-list>
+	<ion-item>
+		 <ion-icon name="leaf" item-start></ion-icon>
+		Herbology
+		<ion-icon name="rose" item-end></ion-icon>
+	</ion-item>
+	
+	<button ion-item>带右箭头</button>
+</ion-list>
+
+
+item-start  item-end  放置位置
+
+
+Input 		Properties
+Attr		Type		Details
+sliding		boolean		If true, the sliding items will be enabled.

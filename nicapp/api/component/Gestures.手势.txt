@@ -6,3 +6,6 @@
 (pan)="panEvent($event)"
 
 (swipe)="swipeEvent($event)"
+
+
+tap, press, pan, swipe, rotate, pinch

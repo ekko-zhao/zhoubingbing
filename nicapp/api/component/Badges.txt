@@ -1,4 +1,4 @@
 <ion-badge color="secondary">260k</ion-badge>
 
 badge Properties:
-color		string		The color to use from your Sass $colors map. Default options are: "primary", "secondary", "danger", "light", and "dark". 
+color		string	 "primary" | "secondary" | "danger" | "light" | "dark" 

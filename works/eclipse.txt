@@ -75,11 +75,15 @@ CPS 外包商服务网站
 
 	?openid=oz867uICkP1sYQFef0VhHMeKCcsM&no=YP610000017484
 	
-	测试环境可用openid : oz867uFNAFkKxd_Tg2ea3PYlzsbM
+	测试环境可用 ?openid=oz867uFNAFkKxd_Tg2ea3PYlzsbM
 
 	netstat   -ano|findstr 8888
 	taskkill  /pid  7644  /f
-
+	
+	
+	C:\Users\zhoub\.m2\repository\com\lakala\sh\payment\standard\standard-parent\1.0.0
+	
+	
 新商服网站 ------------------------------------------------
 ‘商户服务中心网站’，是面向我司特约商户的服务性网站。限于多年前的架构设计，我司商户增长速度快，交易量也成倍增长，且越来越多是中大型商户，商服的问题也越来越突出，2017年5月业务部决定对商服网站进行重构建设，为商户提供更加简洁、方便的对账体验和清晰、直观的操作使用体验。
 	http://10.7.111.164:8071/bmmp4/index.html
@@ -145,6 +149,7 @@ http://10.7.111.164:8063/Welcome.htm
 	lakala123
 	
 	当前分支 feature-mina-20181026
+	
 惠多多 
 	test: http://10.7.8.214:9091
 	admin 88888888

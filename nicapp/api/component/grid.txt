@@ -1,0 +1,26 @@
+<ion-grid>
+  <ion-row>
+    <ion-col col-12></ion-col>
+  </ion-row>
+</ion-grid>
+
+
+Grid size
+	Name	Value	Description
+	xs		auto	Don't set the grid width for xs screens
+	sm		540px	Set grid width to 540px when (min-width: 576px)
+	md		720px	Set grid width to 720px when (min-width: 768px)
+	lg		960px	Set grid width to 960px when (min-width: 992px)
+	xl		1140px	Set grid width to 1140px when (min-width: 1200px)
+	
+	// min-width: 0
+	col-
+	
+	// Set columns when (min-width: 576px)
+	col-sm-
+	offset-sm-
+	push-sm-	
+	pull-sm-	
+	
+	
+	...

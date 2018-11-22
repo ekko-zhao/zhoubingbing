@@ -1,11 +1,14 @@
 Usage
-
+ion-input,ion-textarea
+	
 <ion-list>
 	<ion-item>
 		<ion-label floating color="primary">Inline Label</ion-label>
 	    <ion-input placeholder="Text Input"></ion-input>
 	</ion-item>
 </ion-list>
+
+
 
 
 <ion-label> 可添加 fixed stacked floating 指令 , 用于定位 label 的位置
