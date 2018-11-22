@@ -146,17 +146,12 @@ http://10.7.111.164:8063/Welcome.htm
 	
 	当前分支 feature-mina-20181026
 惠多多 
-	http://10.7.8.214:9091
-	admin 123456
-	yangfujun 13184237728
-	。大鸭梨:
-	18702699479  acer123456
+	test: http://10.7.8.214:9091
+	admin 88888888
 	
 	生产
-	http://master.huijingcai.cn/app/user/app-account
-	
-	yangfujun
-	13184237728
+	http://master.huijingcai.cn
+	yangfujun 13184237728
 	
 银行支付
 	post：{"chkCode":"495357396883", "orderId":"SHLH134545", "userId":"1212"}	
@@ -164,10 +159,6 @@ http://10.7.111.164:8063/Welcome.htm
 发票项目
 	管家:http://localhost:3015/index.html?userType=ALIPAY&userId=1234#/invoice-manage/
 		
-
-
-
-
 
 微服务框架：
 C:\Users\zhoub\.m2\repository\com\lakala\sh\payment\standard\standard-parent\1.0.0\standard-parent-1.0.0.pom
