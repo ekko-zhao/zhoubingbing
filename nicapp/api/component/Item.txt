@@ -15,9 +15,9 @@ As an Attribute: <a ion-item href="https://www.ionicframework.com"> Anchor Item 
 
 # ion-item子元素 位置
 Attribute		Description
-item-start		Placed to the left of all other elements, outside of the inner item.
-item-end		Placed to the right of all other elements, inside of the inner item, outside of the input wrapper.
-item-content	Placed to the right of any ion-label, inside of the input wrapper.
+	item-start		Placed to the left of all other elements, outside of the inner item.
+	item-end		Placed to the right of all other elements, inside of the inner item, outside of the input wrapper.
+	item-content	Placed to the right of any ion-label, inside of the input wrapper.
 
 	.在 <ion-item> </ion-item> 中使用 Checkboxes, Radios and Toggles
 		复选框与 item-start 属性位于相同的位置 <ion-checkbox ></ion-checkbox> 默认添加 item-start
@@ -82,12 +82,12 @@ ion-note 是 ion-item 的成员它创建可以在项目的左侧或右侧的灰�
 
 
 Input 		Properties
-Attr		Type		Details
-side		string		right ｜ left ; Default  right
+	Attr		Type		Details
+	side		string		right ｜ left ; Default  right
 
 Output 		Events
-Attr		Details
-ionSwipe	Emitted when the item has been fully swiped.
+	Attr		Details
+	ionSwipe	Emitted when the item has been fully swiped.
 
 
 // ItemSliding --------------------------------------------------------
@@ -113,15 +113,18 @@ ionSwipe	Emitted when the item has been fully swiped.
 Instance Members
 close()
 
-
 Output 		Events
-Attr		Details
+	Attr		Details
+	ionDrag		Emitted when the sliding position changes. It reports the relative position		 // <ion-item-sliding (ionDrag)="logDrag($event)">
+	ionSwipe
 
-ionDrag		Emitted when the sliding position changes. It reports the relative position		 // <ion-item-sliding (ionDrag)="logDrag($event)">
-ionSwipe
+Output Events
+Attr	Details
+ionDrag	Emitted when the sliding position changes. It reports the relative position.
 
 
-// ItemReorder -----------------------------------------
+
+# 拖动排序 ItemReorder -----------------------------------------
 
 <ion-list reorder="true"> <ion-item-group reorder="true">  
 
@@ -140,17 +143,48 @@ reorderItems(indexes) {
 }
 
 Input 	Properties
-Attr	Type		Details
-side	string		Which side of the view the ion-reorder should be placed. Default "end".
+	Attr	Type		Details
+	side	string		Which side of the view the ion-reorder should be placed. Default "end".
 
 Output Events
-Attr				Details
-ionItemReorder		Emitted when the item is reordered. Emits an object with from and to properties.
+	Attr				Details
+	ionItemReorder		Emitted when the item is reordered. Emits an object with from and to properties.
 
+	
 
+Sass Variables
 
+Property	Default	Description
+$item-ios-body-text-font-size	1.7rem	Font size of the item text
 
+$item-ios-paragraph-margin-top	0	Margin top of the item paragraph
 
+$item-ios-paragraph-margin-end	0	Margin end of the item paragraph
 
+$item-ios-paragraph-margin-bottom	2px	Margin bottom of the item paragraph
 
+$item-ios-paragraph-margin-start	$item-ios-paragraph-margin-end	Margin start of the item paragraph
 
+$item-ios-paragraph-font-size	1.4rem	Font size of the item paragraph
+
+$item-ios-paragraph-text-color	#8e9093	Color of the item paragraph
+
+$item-ios-avatar-size	36px	Size of the avatar in the item
+
+$item-ios-avatar-border-radius	50%	Border radius of the avatar in the item
+
+$item-ios-thumbnail-size	56px	Size of the thumbnail in the item
+
+$item-ios-detail-push-show	true	Shows the detail arrow icon on an item
+
+$item-ios-detail-push-color	$list-ios-border-color	Color of the detail arrow icon
+
+$item-ios-detail-push-svg	"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 20'><path d='M2,20l-2-2l8-8L0,2l2-2l10,10L2,20z' fill='#{$item-ios-detail-push-color}'/></svg>"	
+Icon for the detail arrow
+
+$item-ios-divider-background	#f7f7f7	Background for the divider
+
+$item-ios-divider-color	#222	Color for the divider
+
+$item-ios-sliding-content-background	$list-ios-background-color	Background for the sliding content
+	

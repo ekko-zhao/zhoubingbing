@@ -19,5 +19,4 @@ error: ios-deploy not found
 	npm install -g  ios-deploy --unsafe-perm=true
 
 
-
 	cordova plugin add cordova-plugin-device

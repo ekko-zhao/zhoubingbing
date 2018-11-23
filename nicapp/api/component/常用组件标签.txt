@@ -5,48 +5,90 @@ ion-header
 		
 ion-content
 
-<ion-footer>
-  <ion-toolbar>
-    <ion-title>Footer</ion-title>
-  </ion-toolbar>
-</ion-footer>
+ion-footer
+	ion-toolbar
+		ion-title
 
-
-
-<ion-range [(ngModel)]="brightness">
-	<ion-icon range-left small name="sunny"></ion-icon>
-	<ion-icon range-right name="sunny"></ion-icon>
-</ion-range>
-
-
-<ion-item>
-    <ion-label>Gaming</ion-label>
-    <ion-select [(ngModel)]="gaming">
-      <ion-option value="nes">NES</ion-option>
-      <ion-option value="n64">Nintendo64</ion-option>
-      <ion-option value="ps">PlayStation</ion-option>
-      <ion-option value="genesis">Sega Genesis</ion-option>
-      <ion-option value="saturn">Sega Saturn</ion-option>
-      <ion-option value="snes">SNES</ion-option>
-    </ion-select>
-  </ion-item>
   
 ion-avatar 创建圆形图片 需要指定 avatar的 item-start or item-end 指令，来指定图片显示的位置
+
 ion-chip
 	ion-avatar
 	
-<ion-chip #chip3>
+<ion-chip>
   <ion-avatar>
     <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==">
   </ion-avatar>
 </ion-chip>
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
+// 图像--------------------------------
+<ion-avatar item-start> </ion-avatar>
+<ion-avatar item-end> </ion-avatar>	
+
+
+// hideWhen
+hideWhen="android,ios,portrait,landscape"
+
+// showWhen
+<span ion-text color="primary" showWhen="ios">Cancel</span>
+<ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+
+
+
+
+<ion-scroll scrollX="true" scrollY="true"></ion-scroll>
+	
+Input Properties
+	Attr	Type	Details
+	maxZoom	number	 Set the max zoom amount.
+
+	scrollX	boolean	 If true, scrolling along the X axis is enabled.
+
+	scrollY	boolean	 If true, scrolling along the Y axis is enabled; requires the following CSS declaration: ion-scroll { white-space: nowrap; }
+
+	zoom	boolean	 If true, zooming is enabled.
+
+
+
+
+# svg 动画
+<ion-spinner name="bubbles"></ion-spinner>
+	Input Properties
+	Attr	Type	Details
+	duration	string	 How long it takes it to do one loop.
+
+	name	string	 SVG spinner name.
+
+	paused	boolean	 If true, pause the animation.
+
+
+Sass Variables
+	Property	Default	Description
+	$spinner-ios-ios-color	#69717d	Color of the ios spinner
+
+	$spinner-ios-bubbles-color	#000	Color of the bubbles spinner
+
+	$spinner-ios-circles-color	#69717d	Color of the circles spinner
+
+	$spinner-ios-crescent-color	#000	Color of the crescent spinner
+
+	$spinner-ios-dots-color	#444	Color of the dots spinner
+
+
+
+# 多个视图
+	<ion-split-pane>
+	  <!--  our side menu  -->
+	  <ion-menu [content]="content">
+		<ion-header>
+		  <ion-toolbar>
+			<ion-title>Menu</ion-title>
+		  </ion-toolbar>
+		</ion-header>
+	  </ion-menu>
+
+	  <!-- the main content -->
+	  <ion-nav [root]="root" main #content></ion-nav>
+	</ion-split-pane>
+
+

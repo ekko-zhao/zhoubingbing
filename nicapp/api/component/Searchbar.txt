@@ -3,13 +3,10 @@ Usage:
 
 import { Component } from '@angular/core';
 
-
 @Component({
 	templateUrl: 'searchbar.component.html'
 })
-export class SearchbarComponent {
-
-}
+export class SearchbarComponent { }
 
 html:
 <ion-content padding>
@@ -20,21 +17,21 @@ html:
 // 添加 属性 range-left  range-right 放在范围的俩边
 
 Input Properties:
-Attr			Type			Details
-animated		boolean			If true, enable searchbar animation. Default false.
-autocorrect		string			Set the input's autocorrect property. Values: "on", "off". Default "off".
-debounce		number			How long, in milliseconds, to wait to trigger the ionInput event after each keystroke. Default 250.
-placeholder		string			Set the input's placeholder. Default "Search".
-spellcheck		string|boolean	Set the input's spellcheck property. Values: true, false. Default false.
+	Attr			Type			Details
+	animated		boolean			If true, enable searchbar animation. Default false.
+	autocorrect		string			Set the input's autocorrect property. Values: "on", "off". Default "off".
+	debounce		number			How long, in milliseconds, to wait to trigger the ionInput event after each keystroke. Default 250.
+	placeholder		string			Set the input's placeholder. Default "Search".
+	spellcheck		string|boolean	Set the input's spellcheck property. Values: true, false. Default false.
 
-type			string			Set the type of the input. Values: "text", "password", "email", "number", "search", "tel", "url". Default "search".
+	type			string			Set the type of the input. Values: "text", "password", "email", "number", "search", "tel", "url". Default "search".
 
-showCancelButton	boolean		If true, show the cancel button. Default false.
-cancelButtonText	string		Set the the cancel button text. Default: "Cancel".
+	showCancelButton	boolean		If true, show the cancel button. Default false.
+	cancelButtonText	string		Set the the cancel button text. Default: "Cancel".
 
 
 Output Events:
 Attr			Details
-ionCancel		Emitted when the cancel button is clicked.
-ionClear		Emitted when the clear input button is clicked.
-ionInput		Emitted when the Searchbar input has changed, including when it's cleared.
+	ionCancel		Emitted when the cancel button is clicked.
+	ionClear		Emitted when the clear input button is clicked.
+	ionInput		Emitted when the Searchbar input has changed, including when it's cleared.

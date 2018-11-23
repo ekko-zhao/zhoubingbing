@@ -77,16 +77,14 @@ class PopoverPage {
 生命周期事件
 
 Page Event			Returns			Description
-ionViewDidLoad		void
-ionViewWillEnter	void
-ionViewDidEnter		void
-ionViewWillLeave	void
-ionViewDidLeave		void
-ionViewWillUnload	void
-ionViewCanEnter		boolean/Promise<void>
-ionViewCanLeave		boolean/Promise<void>
-
-
+	ionViewDidLoad		void
+	ionViewWillEnter	void
+	ionViewDidEnter		void
+	ionViewWillLeave	void
+	ionViewDidLeave		void
+	ionViewWillUnload	void
+	ionViewCanEnter		boolean/Promise<void>
+	ionViewCanLeave		boolean/Promise<void>
 
 Instance Members-----------------------------------
 
@@ -136,7 +134,6 @@ ViewController {
 	
 	swipeBackEnabled
 	
-	
 }
 
 
@@ -153,9 +150,9 @@ ViewController {
 <button ion-button [navPush]="pushPage" [navParams]="params">Go</button>
 
 Input Properties
-Attr		Type			Details
-navParams	any				Any NavParams you want to pass along to the next view.
-navPush		Page | string
+	Attr		Type			Details
+	navParams	any				Any NavParams you want to pass along to the next view.
+	navPush		Page | string
 
 
 

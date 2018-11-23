@@ -52,6 +52,8 @@ Instance Members
 	
 	
 	
+Sass Variables
+$cordova-statusbar-padding-modal-max-width	767px
 	
 	
 	

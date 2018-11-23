@@ -69,24 +69,23 @@ html:
 </ion-content>
 
 
-
 // API
 
 SegmentButton--------------------
 
 Instance Members
-isActive
-
+	isActive
 
 Input Properties:
-
-Attr			Type			Details
-disabled		boolean			If true, the user cannot interact with this element.
-value			string			the value of the segment button. Required.
+	Attr			Type			Details
+	disabled		boolean			If true, the user cannot interact with this element.
+	value			string			the value of the segment button. Required.
+	color
 
 Output Events
-Attr			Details
-ionSelect		Emitted when a segment button has been clicked.
+	Attr			Details
+	ionSelect		Emitted when a segment button has been clicked.
+	ionChange
 
 
 

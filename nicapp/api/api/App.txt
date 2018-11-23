@@ -1,0 +1,56 @@
+
+Instance Members
+	NavController: getActiveNav()
+		
+	getActiveNavContainers()
+	
+	NavController[]: getActiveNavs()
+		
+	getNavByIdOrName()
+	
+	getRootNav()
+	
+	NavController: getRootNavById()
+		
+	getRootNavs()
+	
+	boolean: isScrolling()
+	
+	setTitle(val)
+	
+#页面钩子函数
+	Observable: viewDidEnter
+	Observable: viewDidLeave
+	Observable: viewDidLoad	
+	Observable: viewWillEnter
+	Observable: viewWillLeave
+	Observable: viewWillUnload
+	
+Sass Variables
+	$font-size-root	62.5%	Font size of the root html
+
+	$headings-font-weight	500	Font weight of all headings
+
+	$headings-line-height	1.2	Line height of all headings
+
+	$h1-font-size	2.6rem	Font size of heading level 1
+
+	$h2-font-size	2.4rem	Font size of heading level 2
+
+	$h3-font-size	2.2rem	Font size of heading level 3
+
+	$h4-font-size	2rem	Font size of heading level 4
+
+	$h5-font-size	1.8rem	Font size of heading level 5
+
+	$h6-font-size	1.6rem	Font size of heading level 6
+
+	$include-responsive-utilities	true	Whether to include all of the responsive utility attributes
+
+	$include-text-alignment-utilities	$include-responsive-utilities	Whether to include all of the responsive text alignment attributes
+
+	$include-text-transform-utilities	$include-responsive-utilities	Whether to include all of the responsive text transform attributes
+
+	$include-float-element-utilities	$include-responsive-utilities	Whether to include all of the responsive float attributes
+
+	$screen-breakpoints	( xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px )

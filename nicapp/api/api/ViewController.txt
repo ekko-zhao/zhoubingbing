@@ -1,0 +1,37 @@
+
+import { ViewController } from 'ionic-angular';
+
+constructor(public viewCtrl: ViewController) {}
+
+
+Instance Members
+	contentRef()
+	
+	dismiss(data, role , navOptions)
+		data	any	
+		Data that you want to return when the viewController is dismissed.OPTIONAL
+
+		role	any	
+		OPTIONAL
+
+		navOptions	NavOptions	
+		Options for the dismiss navigation.
+		
+	boolean: enableBack()
+	component: getContent()
+	hasNavbar()
+	index
+	
+	isFirst()
+	isLast()
+	onDidDismiss()
+	onWillDismiss()
+	pageRef()
+	setBackButtonText(val)
+	showBackButton(Set)
+	
+	didEnter
+	didLeave
+	willEnter
+	willLeave
+	willUnload

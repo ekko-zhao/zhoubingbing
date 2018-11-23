@@ -1,0 +1,26 @@
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>Footer</ion-title>
+  </ion-toolbar>
+</ion-footer>
+
+Property	Default	Description
+	$toolbar-order-ios	( back-button: 0, menu-toggle-start: 1, buttons-left: 2, buttons-start: 3, content: 4, buttons-end: 5, buttons-right: 6, menu-toggle-end: 7, )	Order of the toolbar elements
+
+	$toolbar-ios-button-font-size	1.7rem	Font size of the toolbar button
+
+	$toolbar-ios-title-font-size	1.7rem	Font size of the toolbar title
+
+	$toolbar-ios-title-font-weight	600	Font weight of the toolbar title
+
+	$toolbar-ios-title-text-align	center	Text alignment of the toolbar title
+
+	$toolbar-ios-title-text-color	color-contrast($colors-ios, $toolbar-ios-background)	Text color of the toolbar title
+
+	$toolbar-ios-button-color	color-contrast($colors-ios, $toolbar-ios-background, ios)	Text color of the toolbar button
+
+	$toolbar-ios-button-border-radius	4px	Border radius of the toolbar button
+
+	$toolbar-ios-button-strong-font-weight	600	Font weight of the strong toolbar button
+
+	$navbar-ios-height	$toolbar-ios-height	Height of the navigation bar

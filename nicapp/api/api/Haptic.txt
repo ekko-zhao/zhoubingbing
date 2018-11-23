@@ -1,0 +1,33 @@
+// Haptic --------------------------------------------------
+
+export class MyClass{
+ constructor(haptic: Haptic){
+   haptic.selection();
+ }
+}
+
+
+	Instance Members
+		available()
+			Check to see if the Haptic Plugin is available
+
+			Returns: boolean
+			Returns true or false if the plugin is available
+		
+		gestureSelectionChanged()
+			Tell the haptic engine that a selection changed during a gesture.
+			
+		gestureSelectionEnd()
+			Tell the haptic engine we are done with a gesture. This needs to be called lest resources are not properly recycled.
+			
+		gestureSelectionStart()
+			Tell the haptic engine that a gesture for a selection change is starting.
+			
+		impact()
+			Use this to indicate success/failure/warning to the user. options should be of the type { style: 'light' } (or medium/heavy)
+
+		notification()
+			Use this to indicate success/failure/warning to the user. options should be of the type { type: 'success' } (or warning/error)
+
+		selection()
+			Trigger a selection changed haptic event. Good for one-time events (not for gestures)

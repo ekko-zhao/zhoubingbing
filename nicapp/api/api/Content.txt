@@ -1,0 +1,114 @@
+ion-content
+
+<ion-content>
+  Add your content here!
+</ion-content>
+
+
+import { Content } from 'ionic-angular';
+@ViewChild(Content) content: Content;
+
+Instance Members
+	
+	addImg()
+	contentBottom
+	contentHeight
+	contentTop
+	contentWidth
+	directionX
+	directionY
+	getContentDimensions()
+		dimensions.contentHeight	number	
+		content offsetHeight
+
+		dimensions.contentTop	number	
+		content offsetTop
+
+		dimensions.contentBottom	number	
+		content offsetTop+offsetHeight
+
+		dimensions.contentWidth	number	
+		content offsetWidth
+
+		dimensions.contentLeft	number	
+		content offsetLeft
+
+		dimensions.contentRight	number	
+		content offsetLeft + offsetWidth
+
+		dimensions.scrollHeight	number	
+		scroll scrollHeight
+
+		dimensions.scrollTop	number	
+		scroll scrollTop
+
+		dimensions.scrollBottom	number	
+		scroll scrollTop + scrollHeight
+
+		dimensions.scrollWidth	number	
+		scroll scrollWidth
+
+		dimensions.scrollLeft	number	
+		scroll scrollLeft
+
+		dimensions.scrollRight	number	
+		scroll scrollLeft + scrollWidth
+		
+		
+	getFixedElement()
+	
+	isScrolling
+	resize()
+	scrollHeight
+	scrollLeft
+	scrollTo(x, y, duration)
+	scrollToBottom(duration)
+	scrollToTop(duration)
+	scrollTop
+	scrollWidth
+	
+	
+Input Properties
+	Attr	Type	Details
+	fullscreen	boolean	
+	If true, the content will scroll behind the headers and footers. This effect can easily be seen by setting the toolbar to transparent.
+
+	scrollDownOnLoad	boolean	
+	If true, the content will scroll down on load.
+	
+Output Events
+	Attr	Details
+	ionScroll	
+	Emitted on every scroll event.
+
+	ionScrollEnd	
+	Emitted when scrolling ends.
+
+	ionScrollStart	
+	Emitted when the scrolling first starts.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

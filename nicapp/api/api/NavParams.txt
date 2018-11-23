@@ -1,0 +1,9 @@
+import {  NavParams } from 'ionic-angular';
+
+constructor( public params: NavParams ){
+	var property = this.params.get('propertyName')
+}
+
+Instance Members
+data
+get(param:string)

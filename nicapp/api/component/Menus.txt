@@ -3,19 +3,19 @@
 
 //菜单
 <ion-menu [content]="mycontent">
-<ion-content>
-	<ion-list>
-	
-		<button ion-item (click)="openPage(homePage)">
-			Home
-		</button>
+	<ion-content>
+		<ion-list>
 		
-		<button ion-item (click)="openPage2(friendsPage)">
-			Friends
-		</button>
-		
-	</ion-list>
-</ion-content>
+			<button ion-item (click)="openPage(homePage)">
+				Home
+			</button>
+			
+			<button ion-item (click)="openPage2(friendsPage)">
+				Friends
+			</button>
+			
+		</ion-list>
+	</ion-content>
 </ion-menu>
 
 //页面
@@ -36,21 +36,21 @@ imports: [
 
 
 Input Properties
-Attr		Type		Details
-content		any			A reference to the content element the menu should use.
-enabled		boolean		If true, the menu is enabled. Default true.
-id			string		An id for the menu.
-persistent	boolean		If true, the menu will persist on child pages.
-side		string		Which side of the view the menu should be placed. Default "left".
-swipeEnabled	boolean	If true, swiping the menu is enabled. Default true.
-type	string	The display type of the menu. Default varies based on the mode, see the menuType in the config. Available options: "overlay", "reveal", "push".
+	Attr		Type		Details
+	content		any			A reference to the content element the menu should use.
+	enabled		boolean		If true, the menu is enabled. Default true.
+	id			string		An id for the menu.
+	persistent	boolean		If true, the menu will persist on child pages.
+	side		string		Which side of the view the menu should be placed. Default "left".
+	swipeEnabled	boolean	If true, swiping the menu is enabled. Default true.
+	type	string	The display type of the menu. Default varies based on the mode, see the menuType in the config. Available options: "overlay", "reveal", "push".
 
 
 Output Events:
-Attr		Details
-ionClose	Emitted when the menu has been closed.
-ionDrag		Emitted when the menu is being dragged open.
-ionOpen		Emitted when the menu has been opened.
+	Attr		Details
+	ionClose	Emitted when the menu has been closed.
+	ionDrag		Emitted when the menu is being dragged open.
+	ionOpen		Emitted when the menu has been opened.
 
 
 // MenuClose
@@ -107,46 +107,16 @@ import { MenuController } from 'ionic-angular';
 	  this.menuCtrl.enable(false, 'unauthenticated');
 	}
 
-
+	
 Instance Members
-
-close(menuId)
-open(menuId)
-enable(menuId)
-get(menuId)
-getMenus()
-getOpen()
-isEnabled(menuId)
-isOpen(menuId)
-swipeEnable(shouldEnable:boolean, menuId)
-toggle(menuId)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	close(menuId)
+	open(menuId)
+	enable(menuId)
+	get(menuId)
+	getMenus()
+	getOpen()
+	isEnabled(menuId)
+	isOpen(menuId)
+	swipeEnable(shouldEnable:boolean, menuId)
+	toggle(menuId)
 

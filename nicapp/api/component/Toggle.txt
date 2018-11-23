@@ -16,12 +16,10 @@ html:
 // API
 ion-toggle
 
-
 Input Properties
-Attr		Type		Details
-
-checked		boolean		If true, the element is selected.
-
+	Attr		Type		Details
+	checked		boolean		If true, the element is selected.
+	color
 
 
 

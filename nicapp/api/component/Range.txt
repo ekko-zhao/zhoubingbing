@@ -17,21 +17,23 @@ export class RangeComponent {
     warmth: number = 1300;
     structure: any = { lower: 33, upper: 60 };
     text: number = 0;
-	}
+}
 
 html:
 
 // 子元素属性 range-left  range-right 放在范围的俩边
 
 Input Properties:
-Attr			Type			Details
-debounce		number			等待在范围值中每次更改后触发ionChange事件的时间（以毫秒为单位）。  Default 0
-dualKnobs		boolean			显示俩个 knobs. Defaults to false.
-max				number			Maximum integer value of the range. Defaults to 100.
-min				number			Minimum integer value of the range. Defaults to 0.
-pin				boolean			If true, a pin with integer value is shown when the knob is pressed. Defaults to false.
-snaps			boolean			显示分割线  Defaults to false.
-step			number			Defaults to 1.
+	Attr			Type			Details
+	debounce		number			等待在范围值中每次更改后触发ionChange事件的时间（以毫秒为单位）。  Default 0
+	dualKnobs		boolean			显示俩个 knobs. Defaults to false.
+	max				number			Maximum integer value of the range. Defaults to 100.
+	min				number			Minimum integer value of the range. Defaults to 0.
+	pin				boolean			If true, a pin with integer value is shown when the knob is pressed. Defaults to false.
+	snaps			boolean			显示分割线  Defaults to false.
+	step			number			Defaults to 1.
+	color
+	
 
 Output Events:
 ionChange

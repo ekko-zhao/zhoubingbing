@@ -1,0 +1,27 @@
+<ion-img>
+
+ 常用于
+	<ion-avatar> and <ion-thumbnail> <ion-item> 中
+
+此标签将图片自动懒加载 ， 依据页面滚动自动加载图片
+
+
+
+Input Properties
+Attr	Type	Details
+alt	string	Set the alt attribute which gets assigned to the inner img element.
+
+bounds	any	Sets the bounding rectangle of the element relative to the viewport. When using VirtualScroll, each virtual item should pass its bounds to each ion-img. The passed in data object should include top and bottom properties.
+
+cache	boolean	After an image has been successfully downloaded, it can be cached in-memory. This is useful for VirtualScroll by allowing image responses to be cached, and not rendered, until after scrolling has completed, which allows for smoother scrolling.
+
+height	string	Image height. If this property is not set it's important that the dimensions are still set using CSS. If the dimension is just a number it will assume the px unit.
+
+src	string	The source of the image.
+
+width	string	Image width. If this property is not set it's important that the dimensions are still set using CSS. If the dimension is just a number it will assume the px unit.
+
+
+
+Sass Variables
+	$img-placeholder-background	#eee

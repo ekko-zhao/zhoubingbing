@@ -44,51 +44,40 @@ validate()
 
 
 Input Properties:
-Attr			Type			Details
-cancelText		string
-doneText		string
+	Attr			Type			Details
+	cancelText		string
+	doneText		string
 
-dayNames		array
-dayShortNames	array
-monthNames		array
-monthShortNames	array
-yearValues		array | string	
-
-
-displayFormat	string
-pickerFormat	string
+	dayNames		array
+	dayShortNames	array
+	monthNames		array
+	monthShortNames	array
+	yearValues		array | string	
 
 
-dayValues		array | string
-hourValues		array | string
-minuteValues	array | string
-monthValues		array | string
+	displayFormat	string
+	pickerFormat	string
 
 
-max				string
-min				string
+	dayValues		array | string
+	hourValues		array | string
+	minuteValues	array | string
+	monthValues		array | string
 
 
-pickerOptions	any
+	max				string
+	min				string
 
-placeholder		string
+
+	pickerOptions	any
+
+	placeholder		string
 
 
 
 Output Events:
-Attr			Details
-ionCancel		Emitted when the datetime selection was cancelled.
-
-
-
-
-
-
-
-
-
-
-
+	Attr			Details
+	ionCancel		Emitted when the datetime selection was cancelled.
 
 
 

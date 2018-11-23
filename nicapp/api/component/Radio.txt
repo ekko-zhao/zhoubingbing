@@ -31,16 +31,16 @@ export class RadioComponent {
 
 html:
 Input Properties
-Attr		Type		Details
-checked		boolean		If true, the element is selected, and other buttons in the group are unselected.
-color		string		The color to use from your Sass $colors map. Default options are: "primary", "secondary", "danger", "light", and "dark".
-disabled	boolean		If true, the user cannot interact with this element.
-value		any			The value of the radio button. Defaults to the generated id.
+	Attr		Type		Details
+	checked		boolean		If true, the element is selected, and other buttons in the group are unselected.
+	color		string		The color to use from your Sass $colors map. Default options are: "primary", "secondary", "danger", "light", and "dark".
+	disabled	boolean		If true, the user cannot interact with this element.
+	value		any			The value of the radio button. Defaults to the generated id.
 
 
 Output Events
 Attr			Details
-ionSelect		Emitted when the radio button is selected.
+	ionSelect		Emitted when the radio button is selected.	
 
 //添加 radio-group 属性 to group  
 

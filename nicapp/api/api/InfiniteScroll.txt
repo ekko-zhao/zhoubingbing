@@ -66,20 +66,46 @@ export class NewsFeedPage {
 
 
 Instance Members:
+	loadingSpinner
+	loadingText
+	
 	complete()
 	enable(shouldEnable: boolean) // 没有更多可以添加的数据，并且不再需要无限滚动时，
 	waitFor()
 
 Input Properties:
-Attr		Type		Details
-enabled		boolean
-position	string		top or bottom. Default is bottom. 加载更多发生在底部 还是顶部
-threshold	string		下拉的距离 发生 100px or 10%
+	Attr		Type		Details
+	enabled		boolean
+	position	string		top or bottom. Default is bottom. 加载更多发生在底部 还是顶部
+	threshold	string		下拉的距离 发生 100px or 10%
 
 Output Events:
-Attr		Details		ionInfinite
-ionInfinite
+	Attr		Details		ionInfinite
+	ionInfinite
 
+	
+Sass Variables
+	Property	Default	Description
+	$infinite-scroll-loading-margin-top	0	Margin top of the infinite scroll loading icon
 
+	$infinite-scroll-loading-margin-end	0	 Margin end of the infinite scroll loading icon
 
+	$infinite-scroll-loading-margin-bottom	32px	Margin bottom of the infinite scroll loading icon
 
+	$infinite-scroll-loading-margin-start	0	Margin start of the infinite scroll loading icon
+
+	$infinite-scroll-loading-color	#666	Color of the infinite scroll loading indicator
+
+	$infinite-scroll-loading-text-color	$infinite-scroll-loading-color	Text color of the infinite scroll loading indicator
+
+	$infinite-scroll-loading-text-margin-top	4px	Margin top of the infinite scroll loading text
+
+	$infinite-scroll-loading-text-margin-end	32px	Margin end of the infinite scroll loading text
+
+	$infinite-scroll-loading-text-margin-bottom	0	Margin bottom of the infinite scroll loading text
+
+	$infinite-scroll-loading-text-margin-start	32px	Margin start of the infinite scroll loading text	
+	
+	
+	
+	

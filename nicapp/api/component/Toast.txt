@@ -30,7 +30,7 @@ export class RangeComponent {
 
         toast.present();
     }
-	}
+}
 
 	
 

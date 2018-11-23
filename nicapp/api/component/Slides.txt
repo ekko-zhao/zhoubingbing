@@ -85,73 +85,48 @@ isActive
 
 
 Input Properties:
+	Attr			Type		Details
+	autoplay		number			
+	loop			boolean		If true, continuously loop from the last slide to the first slide.
 
-Attr			Type		Details
-autoplay		number			
-loop			boolean		If true, continuously loop from the last slide to the first slide.
+	centeredSlides	boolean
+	control			Slides		传递另一个Slides实例或数组的Slides实例，该实例应该由此幻灯片实例控制
+	dir				string		If dir attribute is equal to rtl, set interal _rtl to true;
+	direction		string		Swipe direction: 'horizontal' or 'vertical'. Default: horizontal.
+	effect			string		The animation effect of the slides. Possible values are: slide, fade, cube, coverflow or flip. Default: slide.
+	initialSlide	number		Index number of initial slide. Default: 0.
 
-centeredSlides	boolean
-control			Slides		传递另一个Slides实例或数组的Slides实例，该实例应该由此幻灯片实例控制
-dir				string		If dir attribute is equal to rtl, set interal _rtl to true;
-direction		string		Swipe direction: 'horizontal' or 'vertical'. Default: horizontal.
-effect			string		The animation effect of the slides. Possible values are: slide, fade, cube, coverflow or flip. Default: slide.
-initialSlide	number		Index number of initial slide. Default: 0.
-
-
-pager			boolean		If true, show the pager.
-paginationType	string		Type of pagination. Possible values are: bullets, fraction, progress. Default: bullets. (Note that the pager will not show unless pager input is set to true).
-parallax		boolean		If true, allows you to use "parallaxed" elements inside of slider.
-slidesPerView	number		Slides per view. Slides visible at the same time. Default: 1.
-spaceBetween	number		Distance between slides in px. Default: 0.
-speed			number		Duration of transition between slides (in milliseconds). Default: 300.
-zoom			boolean		If true, enables zooming functionality.
+	pager			boolean		If true, show the pager.
+	paginationType	string		Type of pagination. Possible values are: bullets, fraction, progress. Default: bullets. (Note that the pager will not show unless pager input is set to true).
+	parallax		boolean		If true, allows you to use "parallaxed" elements inside of slider.
+	slidesPerView	number		Slides per view. Slides visible at the same time. Default: 1.
+	spaceBetween	number		Distance between slides in px. Default: 0.
+	speed			number		Duration of transition between slides (in milliseconds). Default: 300.
+	zoom			boolean		If true, enables zooming functionality.
 
 
 
 
 Output Events
-Attr					Details
+	Attr					Details
 
-ionSlideAutoplay		Emitted when a slide moves.
-ionSlideAutoplayStart	Emitted when a autoplay starts.
-ionSlideAutoplayStop	Emitted when a autoplay stops.
+	ionSlideAutoplay		Emitted when a slide moves.
+	ionSlideAutoplayStart	Emitted when a autoplay starts.
+	ionSlideAutoplayStop	Emitted when a autoplay stops.
 
-ionSlideDidChange		Emitted when a slide change ends.
-ionSlideDoubleTap		Emitted when the user double taps on the slide's container.
-ionSlideDrag			Emitted when a slide moves.
+	ionSlideDidChange		Emitted when a slide change ends.
+	ionSlideDoubleTap		Emitted when the user double taps on the slide's container.
+	ionSlideDrag			Emitted when a slide moves.
 
-ionSlideNextEnd			当幻灯片更改以“向前”方向结束时发出
-ionSlideNextStart		当幻灯片更改以“向前”方向开始时发出
-ionSlidePrevEnd
-ionSlidePrevStart
+	ionSlideNextEnd			当幻灯片更改以“向前”方向结束时发出
+	ionSlideNextStart		当幻灯片更改以“向前”方向开始时发出
+	ionSlidePrevEnd
+	ionSlidePrevStart
 
-ionSlideReachEnd		幻灯片到达最后一张幻灯片时。
-ionSlideReachStart
+	ionSlideReachEnd		幻灯片到达最后一张幻灯片时。
+	ionSlideReachStart
 
-ionSlideReachStart		
-ionSlideTap				Emitted when the user taps/clicks on the slide's container.
-ionSlideWillChange
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	ionSlideReachStart		
+	ionSlideTap				Emitted when the user taps/clicks on the slide's container.
+	ionSlideWillChange
 
