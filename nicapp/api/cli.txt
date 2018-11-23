@@ -1,0 +1,127 @@
+
+
+Command			Description
+build
+	Option	Description
+	--prod	Build the application for production
+	--aot	Perform ahead-of-time compilation for this build
+	--minifyjs	Minify JS for this build
+	--minifycss	Minify CSS for this build
+	--optimizejs	Perform JS optimizations for this build
+docs
+	Option	Description
+	--browser, -w	Specifies the browser to use (safari, firefox, google chrome)
+	
+generate Generate pipes, components, pages, directives, providers, and tabs (ionic-angular >= 3.0.0)
+	Input	Description
+	type	The type of generator (e.g. component, directive, page, pipe, provider, tabs)
+	name	The name of the component being generated
+	
+link	Connect your local app to Ionic
+	
+	Input	Description
+	app_id	The ID of the app to link (e.g. a1b2c3d4)
+	
+	Option	Description
+	--name	The app name to use during the linking of a new app
+	
+serve	Start a local dev server for app dev/testing
+	--consolelogs, -c	Print app console logs to Ionic CLI
+	--address	Use specific address for the dev server
+	--port, -p	Use specific port for HTTP
+	--livereload-port, -r	Use specific port for live-reload
+	--dev-logger-port	Use specific port for dev server communication
+	--no-devapp	Do not publish DevApp service
+	--no-open	Do not open a browser window
+	--local	Disable external network usage
+	--no-proxy	Do not add proxies
+	--browser, -w	Specifies the browser to use (safari, firefox, google chrome)
+	--browseroption, -o	Specifies a path to open to (/#/tab/dash)
+	--lab, -l	Test your apps on multiple platform types in the browser
+	--platform, -t	Start serve with a specific platform (android, ios)
+
+	
+start	Create a new project
+	$ ionic start [<name>] [<template>]
+	
+	Input	Description
+	name	The name of your project directory
+	template	The starter template to use (e.g. blank, tabs; use --list to see all)
+	
+	
+	Option	Description
+	--list, -l	List starter templates available
+	--type	Type of project to start (e.g. ionic-angular, ionic1)
+	--display-name, -n	Human-readable name (use quotes around the name)
+	--cordova	Include Cordova integration
+	--no-deps	Do not install npm/yarn dependencies
+	--no-git	Do not initialize a git repo
+	--no-link	Do not ask to connect the app with the Ionic Dashboard
+	--pro-id	Specify an app ID from the Ionic Dashboard to link
+	--bundle-id	Specify the bundle ID/application ID for your app (reverse-DNS notation)
+	
+	
+	
+telemetry	(deprecated) Opt in and out of telemetry
+	$ ionic telemetry [<status>]
+	Input	Description
+	status	on or off
+	
+	
+	
+	
+config get	Print config values
+
+config set	Set config values
+
+cordova build	Build (prepare + compile) an Ionic project for a given platform
+
+cordova compile	Compile native platform code
+
+cordova emulate	Emulate an Ionic project on a simulator or emulator
+
+cordova platform	Manage Cordova platform targets
+
+cordova plugin	Manage Cordova plugins
+
+cordova prepare	Copies assets to Cordova platforms, preparing them for native builds
+
+cordova requirements	Checks and print out all the requirements for platforms
+
+cordova resources	Automatically create icon and splash screen resources
+
+cordova run	Run an Ionic project on a connected device
+
+doctor check	Check the health of your Ionic project
+
+doctor ignore	Ignore a particular issue
+
+doctor list	List all issue identifiers
+git remote	Adds/updates the Ionic git remote to your local Ionic app repository
+integrations disable	Disable an integration
+integrations enable	Add various integrations to your app
+monitoring syncmaps	Sync Source Maps to Ionic Pro Error Monitoring service
+package build	(deprecated) Start a package build
+package download	(deprecated) Download your packaged app
+package info	(deprecated) Get info about a build
+package list	(deprecated) List your cloud builds
+ssh add	Add an SSH public key to Ionic
+ssh delete	Delete an SSH public key from Ionic
+ssh generate	Generates a private and public SSH key pair
+ssh list	List your SSH public keys on Ionic
+ssh setup	Setup your Ionic SSH keys automatically
+ssh use	Set your active Ionic SSH key
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

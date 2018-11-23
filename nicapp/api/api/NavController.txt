@@ -1,0 +1,86 @@
+
+
+
+import { NavController } from 'ionic-angular';
+
+class MyComponent {
+  constructor(public navCtrl: NavController) {
+
+  }
+}
+
+NavOptions
+	Property	Value	Description
+	animate	boolean	Whether or not the transition should animate.
+	animation	string	What kind of animation should be used.
+	direction	string	The conceptual direction the user is navigating. For example, is the user navigating forward, or back?
+	duration	number	The length in milliseconds the animation should take.
+	easing	string	The easing for the animation.
+	
+	
+Instance Members
+	canGoBack()
+	canSwipeBack()
+	first()
+	getActive()
+	getActiveChildNav()
+	getActiveChildNavs()
+	getAllChildNavs()
+	getByIndex(index)
+	getPrevious(view)
+	getSecondaryIdentifier()
+	getType()
+	getViews()
+	goToRoot()
+	indexOf(view)
+	insert(insertIndex, page, params, opts)
+	insertPages(insertIndex, insertPages, opts)
+		Param	Type	Details
+		insertIndex	number	
+		The index where you want to insert the page.
+
+		insertPages	array	
+		An array of objects, each with a page and optionally params property.
+
+		opts	object	
+		Nav options to go with this transition.OPTIONAL	
+	
+	isActive(view)
+	isTransitioning()
+	last()
+	length()
+	parent
+	pop(opts)
+	popToRoot(opts)
+	push(page, params, opts)
+	remove(startIndex, removeCount, opts)
+	removeView(viewController, opts)
+	setPages(pages, opts)
+	setRoot(pageOrViewCtrl, params, opts, done)
+	
+	
+	swipeBackEnabled
+	viewDidEnter
+	viewDidLeave
+	viewDidLoad
+	viewWillEnter
+	viewWillLeave
+	viewWillUnload
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
