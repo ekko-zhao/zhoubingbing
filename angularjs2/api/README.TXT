@@ -234,11 +234,17 @@ ngOnDestroy(){
 }
 
 
-//变化监测类---------------
+//变化监测类 手动更新---------------
 constructor(private cd:ChangeDetectorRef){
 	cd.detach();//断开
 	cd.reatdach();//链接
 	cd.detachChanges();//手动监测
+	/*
+		更新数据无响应时，手动更新 数据
+		cd.markForCheck();
+		cd.detectChanges();
+	*/
+	
 }
 
 
@@ -640,10 +646,15 @@ percent 将小数转化为 百分比
 
 
 自定义管道
+import { NgModule } from '@angular/core';
 import { SexReform } from './pipe/sexreform.pipe';
 @NgModule({
-	declarations: [SexReform]
+	declarations: [SexReform],
+	exports: [
+        SexReform
+    ]
 })
+export class SexReformPipeModule { }
 
 import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({ name: 'sexReform'})

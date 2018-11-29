@@ -2,9 +2,11 @@ import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
 
 #类里添加注解变量：
 @ViewChild(Navbar) navbar: Navbar;
-
+	
+	// 监听返回按钮事件
 	ionViewDidLoad() {
 		this.navbar.backButtonClick = (e)=>{
 			console.log(e);
+			return true;
 		};
 	}

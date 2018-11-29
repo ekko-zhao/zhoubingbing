@@ -70,18 +70,37 @@ text() 接受一个 应用模式的字符串 作为参数， 返回Boolean ,
 
 
 
+stringObject.replace(regexp/substr,replacement);
 
+	regexp/substr 	必需。规定子字符串或要替换的模式的 RegExp 对象。
 
+	replacement:	必需。一个字符串值。规定了替换文本或生成替换文本的函数。
+		如果 replacement 是一个函数，则它的参数是 正则的捕获
+		
+	例如：
+	
+		var reg = /(?:[?&]+)([^&]+)=([^&]+)/g;
+		
+		// ?: 表示 非获取匹配,匹配pattern但不获取匹配结果，不进行存储供以后使用
+		function fn(str, pro, value: string) {
+			console.log(str)
+			console.log(pro)
+			console.log(value)
+			console.log('end')
+		}
+		let str = '?name=zhou&age=23&sex=m';
+		str.url.replace(reg, fn);
+		
+		此处 第一个 pattern 有?: , 所以fn 参数中没有该匹配
+		fn 的第一个参数str表示 匹配到的完整字符串,相当于 $0
+		fn 的第二个参数pro表示 第二个pattern ([^&]+) 匹配到的字符串,相当于 $1
+		fn 的第二个参数pro表示 第三个pattern ([^&]+) 匹配到的字符串,相当于 $2
 
-
-
-
-
-
-
-
-
-
+		reg 表达式一共匹配有三处匹配， ?name=zhou &age=23 &sex=m， 所以 fn 函数执行三次；
+		第一次执行： 
+			str > ?name=zhou
+			pro > name
+			value > zhou
 
 
 

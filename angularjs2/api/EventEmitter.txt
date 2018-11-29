@@ -1,0 +1,61 @@
+1、创建服务，new一个EventEmitter
+
+	import {Injectable, EventEmitter, OnInit} from "@angular/core";
+	@Injectable()
+	export class EmitService implements OnInit {
+		public eventEmit: any;
+		constructor() {
+			// 定义发射事件
+			this.eventEmit = new EventEmitter();
+		}
+	}
+	
+2、配置module.ts
+
+	@NgModule({
+		providers: [
+			EmitService
+			...
+		],
+	})
+	
+3、定义组件，发射消息
+	import {EmitService} from "./emit.service"
+	export class AppComponent {
+		constructor(public emitService: EmitService) {}
+		emitFun() {
+			this.emitService.eventEmit.emit("userList");
+		}
+	}
+	
+4、定义接收组件
+	import {EmitService} from "./emit.service"
+	export class EmitComonent implements OnInit {
+		constructor(public emitService: EmitService) {}
+		ngOnInit() {
+			// 接收发射过来的数据
+			this.emitService.eventEmit.subscribe((value: any) => {
+			   if(value == "userList") {
+				   ...
+			   }
+			});
+		}
+	}
+
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
