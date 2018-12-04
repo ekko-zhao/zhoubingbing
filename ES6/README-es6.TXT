@@ -13,19 +13,21 @@
 	只要某种数据结构具有 Iterator 接口， 都可以采用数组形式的结构赋值
 	function* fibs(){
 		var a = 0;
-		var b= 0;
+		var b= 1;
 		while(true){
 			yield a;
 			[a,b] = [b, a+b]
 		}
 	}
-	var [a, b, c, d, e, f] = fibs(); //f = 5
+	
+	var [a, b, c, d, e, f] = fibs(); //f = 5 (0,1,1,2,3,5)
 
 	默认值 严格等于 undefined时才会等于 默认值
 	var [a=1,b=2,c] = [null,2,3]; // a=null
 
 	var [a=1] = [undefined]; // a=1
 	var [a=b, b=2] = [1,2]; // 报错 b 在 a 后申明
+
 
 # 对象
 	var {foo:foo, bar:bar} = {foo:'aaa', bar:'bbb'}
@@ -37,7 +39,7 @@
 	let foo;
 	({ foo } = { foo: 1 });
 	// foo=1 ;
-	// 如果没有 () 报错, { foo } = { foo: 1 }， JavaScripr 理解成一个代码块， 从而发生语法错误， 只有不降大括号写在首行
+	// 如果没有 () 会报错, { foo } = { foo: 1 }， JavaScripr 理解成一个代码块， 从而发生语法错误， 只有不将大括号写在首行
 
 
 	var obj={
@@ -116,8 +118,8 @@
 //函数的扩展 ---------------------------------------------------------------------------------------------------
 
 #函数length 的属性
-	...rest 参数不会计入 length 属性。 length 包括有默认值的参数
-	var a = function (a, b, c=2, ...d) {} // a.length = 3;
+	参数的默认值 和 ...rest 参数不会计入 length 属性
+	var a = function (a, b, c=2, ...d) {} // a.length = 2;
 
 #rest参数
 	function(a, b, ...rest){} // rest是多余参数的集合， rest后面不能再有其它参数
@@ -141,9 +143,9 @@
 	cosnt [first, ..rest] = [1,2,3,4]
 
 # 代替数组apply 方法
-	es5: function f(x,y,z)(){}
-		var agrs = [0,1,2]
-		f.apply(null, agrs);
+	function f(x,y,z)(){}
+	es5: var agrs = [0,1,2]
+		 f.apply(null, agrs);
 	es6: f(...agrs);
 
 # 把类似数组的对象转换成 真正的数组；
