@@ -1,0 +1,30 @@
+// Spinner --------------------------------
+ion-spinner
+
+// 提供 svg 动画
+
+<ion-spinner name="bubbles"></ion-spinner>
+
+Styling SVG with CSS
+ion-spinner * {
+  width: 28px;
+  height: 28px;
+  stroke: #444;
+  fill: #222;
+}
+
+
+
+
+Input Properties
+Attr		Type		Details
+duration	string		How long it takes it to do one loop.
+name		string		SVG spinner name.
+paused		boolean		If true, pause the animation.
+
+
+
+
+
+
+

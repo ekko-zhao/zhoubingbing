@@ -24,16 +24,18 @@ Html5使用history对象
 	url：新的网址，必须与当前页面处在同一个域。浏览器的地址栏将显示这个网址
 	
 .history.replaceState();
-	history.replaceState方法的参数与pushState方法一模一样，区别是它修改浏览历史中当前纪录。
+	history.replaceState方法的参数与pushState方法一模一样，区别是 它不会加入到历史记录里面
 	
+	
+	// 监听前进后退
 	popstate事件
-		window.onpopstate = function (event) {
-		
-		}
+		window.onpopstate = function (event) {}
 		或者
-		window.addEventListener('popstate', function(event) {
+		window.addEventListener('popstate', function(event) {}
 		
-		}
+		window.addEventListener('hashchange', function(){
+			console.log('锚点已改变')；
+		})
 		
 # URLSearchParams API
 	URLSearchParams API用于处理URL之中的查询字符串，即问号之后的部分。没有部署这个API的浏览器，可以用url-search-params这个垫片库。

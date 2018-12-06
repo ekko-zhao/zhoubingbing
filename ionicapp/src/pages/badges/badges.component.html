@@ -1,0 +1,15 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>badges</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+    <ion-item *ngFor="let item of items">
+        <ion-icon name="logo-twitter" item-start></ion-icon>
+        Followers
+        <ion-badge item-end color="danger">260k</ion-badge>
+    </ion-item>
+
+</ion-content>
