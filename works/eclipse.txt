@@ -1,15 +1,15 @@
 
-³µ¼Ü£º086248
-·¢¶¯»ú£ºC83584
+è½¦æ¶ï¼š086248
+å‘åŠ¨æœºï¼šC83584
 
-VPN ÕËºÅ£ºzhoubingbing£»ÃÜÂë£ºzbb@Lkl0814
+VPN è´¦å·ï¼šzhoubingbingï¼›å¯†ç ï¼šzbb@Lkl0814
 
-git µØÖ·
+git åœ°å€
 	http://10.7.3.2/gitlab/groups/bu_industry_cooperation
 	zhoubingbing@lakala.com
 	Bing1014!@#
 
-ÃñÉúÒøĞĞ¶şÀà»§µÄgit: http://10.7.3.2/gitlab/bu_industry_cooperation/cmbc_second_account.git 
+æ°‘ç”Ÿé“¶è¡ŒäºŒç±»æˆ·çš„git: http://10.7.3.2/gitlab/bu_industry_cooperation/cmbc_second_account.git 
 	
 	
 mvn clean install -Dmaven.test.skip=true
@@ -22,60 +22,60 @@ http://10.7.111.52/svn/cloudpos/clouddoor/trunk
 
 <app.home>C:/mainPart/workspaces2.0/cpweb-11-28/assembly</app.home>
 
-svn: ÕËºÅºÍÃÜÂë
+svn: è´¦å·å’Œå¯†ç 
 zhoubingbing@lakala.com BcKtArsObi5H
 
 wifi guest: Da4Yebushuo123
 
 open.lakala.com
-	svnµØÖ·: http://10.7.111.52/svn/cloudpos/clouddoor/trunk
+	svnåœ°å€: http://10.7.111.52/svn/cloudpos/clouddoor/trunk
 
-»áÔ± ------------------------------------------------
+ä¼šå‘˜ ------------------------------------------------
 	svn://10.7.111.46/Project/nodejs/trunk/mobile
 	http://localhost:8111/lakala/center?storeId=4de4367a-c3c2-43e4-a592-053bc698ca5f&loginWeixin=oF5THwfC8MJJTAp5FoQE6rzFwMlY&loginExpire=1494480727615&loginToken=a4045c250d75c29064d15109b96fc76c
 
 	node index.js
-	ÏÈ»áÔ±µÇÂ½
+	å…ˆä¼šå‘˜ç™»é™†
 	http://127.0.0.1:8111/lakala/center?storeId=4de4367a-c3c2-43e4-a592-053bc698ca5f&loginWeixin=oF5THwUy5R2TMm5frfExmP-ihLKU&loginExpire=1513736478261&loginToken=ae9046dc598e003000dd6b5bd4a4d215
 	
-	ÔÙ´ò¿ªÒ³Ãæ
+	å†æ‰“å¼€é¡µé¢
 	http://127.0.0.1:8111/lakala/invoicHead?storeId=4de4367a-c3c2-43e4-a592-053bc698ca5f
 	
-	·¢Æ±¹Ü¼Ò×¢²áÒ³Ãæ
+	å‘ç¥¨ç®¡å®¶æ³¨å†Œé¡µé¢
 	http://127.0.0.1:8111/invoice/addHeader?weixinId=oF5THwUy5R2TMm5frfExmP-ihLKU&merchantId=92200000001455199014552
 	
-	·¢Æ±¹Ü¼Ò ÉÌ»§×¢²á
+	å‘ç¥¨ç®¡å®¶ å•†æˆ·æ³¨å†Œ
 	http://127.0.0.1:8111/invoice/merchantReg
 	
-	É¨Âë¿ªÆ±
+	æ‰«ç å¼€ç¥¨
 	http://127.0.0.1:8111/invoice/addHeader?weixinId=oF5THwUy5R2TMm5frfExmP-ihLKU&merchantId=92200000001455199014552
 	
 	
 	
-CPS Íâ°üÉÌ·şÎñÍøÕ¾
-	CPSÊÇÒ»¸ö×ÛºÏ·şÎñÓë´úÀíÉÌµÄÆ½Ì¨£¬´úÀíÉÌÖ»ĞèÍ¨¹ı´ËÆ½Ì¨¼´¿É²éÑ¯ÉÌ»§ÔÚÀ­¿¨À­²úÉúµÄËùÓĞĞÅÏ¢£¬Ö÷Òª°üÀ¨½ø¼ş£¬½»Ò×£¬D0 ±¨±íµÈÖ÷Òª¹¦ÄÜ¡£
+CPS å¤–åŒ…å•†æœåŠ¡ç½‘ç«™
+	CPSæ˜¯ä¸€ä¸ªç»¼åˆæœåŠ¡ä¸ä»£ç†å•†çš„å¹³å°ï¼Œä»£ç†å•†åªéœ€é€šè¿‡æ­¤å¹³å°å³å¯æŸ¥è¯¢å•†æˆ·åœ¨æ‹‰å¡æ‹‰äº§ç”Ÿçš„æ‰€æœ‰ä¿¡æ¯ï¼Œä¸»è¦åŒ…æ‹¬è¿›ä»¶ï¼Œäº¤æ˜“ï¼ŒD0 æŠ¥è¡¨ç­‰ä¸»è¦åŠŸèƒ½ã€‚
 	http://10.7.111.52/svn/ocsp2/branches/ocsp-20180426/ocsp
 	zhangfeifei
 	Zhangfeifei@123
-	
+	wangxiaohu  	Wangxiaohu@123
 	wangdahu  	Wangdahu@123
 	zhoubingbing Zhoubingbing@123
 	wanghuhuwang Wanghu812826!
 	
-	110113014195253 ±±¾©ÖĞ½ğ¶¦ÉÌÃ³ÓĞÏŞ¹«Ë¾ Ğ»ÕäÖé
-	6222020200114580364 ñÒ¹ú¹ú 420923197908204913
+	110113014195253 åŒ—äº¬ä¸­é‡‘é¼å•†è´¸æœ‰é™å…¬å¸ è°¢çç 
+	6222020200114580364 è¤šå›½å›½ 420923197908204913
 	
 	http://10.7.111.205:8090/ocsp/
 	yanjianxing 19933635iiu
 	
 
-ÊÕÒøÔ± ------------------------------------------------
+æ”¶é“¶å‘˜ ------------------------------------------------
 	svn:http://10.7.111.52/svn/cloudpos/cashier/trunk
 	repertory:<url>http://10.7.111.52:9001/mvn/content/groups/public</url>
 
 	?openid=oz867uICkP1sYQFef0VhHMeKCcsM&no=YP610000017484
 	
-	²âÊÔ»·¾³¿ÉÓÃ ?openid=oz867uFNAFkKxd_Tg2ea3PYlzsbM
+	æµ‹è¯•ç¯å¢ƒå¯ç”¨ ?openid=oz867uFNAFkKxd_Tg2ea3PYlzsbM
 
 	netstat   -ano|findstr 8888
 	taskkill  /pid  7644  /f
@@ -83,110 +83,110 @@ CPS Íâ°üÉÌ·şÎñÍøÕ¾
 	
 	C:\Users\zhoub\.m2\repository\com\lakala\sh\payment\standard\standard-parent\1.0.0
 	
-	ĞŞ¸Ä com.lakala.cashier/pom.xml
+	ä¿®æ”¹ com.lakala.cashier/pom.xml
 	<local.data.path>C:\\home</local.data.path>
 	
 	
-	com.lakala.cashier.common.bootstrap  run java Application Ñ¡Ôñ ApplicationStartup-com.lakala.microservice.framework.bootstrap
+	com.lakala.cashier.common.bootstrap  run java Application é€‰æ‹© ApplicationStartup-com.lakala.microservice.framework.bootstrap
 	
 	
-ĞÂÉÌ·şÍøÕ¾ ------------------------------------------------
-¡®ÉÌ»§·şÎñÖĞĞÄÍøÕ¾¡¯£¬ÊÇÃæÏòÎÒË¾ÌØÔ¼ÉÌ»§µÄ·şÎñĞÔÍøÕ¾¡£ÏŞÓÚ¶àÄêÇ°µÄ¼Ü¹¹Éè¼Æ£¬ÎÒË¾ÉÌ»§Ôö³¤ËÙ¶È¿ì£¬½»Ò×Á¿Ò²³É±¶Ôö³¤£¬ÇÒÔ½À´Ô½¶àÊÇÖĞ´óĞÍÉÌ»§£¬ÉÌ·şµÄÎÊÌâÒ²Ô½À´Ô½Í»³ö£¬2017Äê5ÔÂÒµÎñ²¿¾ö¶¨¶ÔÉÌ·şÍøÕ¾½øĞĞÖØ¹¹½¨Éè£¬ÎªÉÌ»§Ìá¹©¸ü¼Ó¼ò½à¡¢·½±ãµÄ¶ÔÕËÌåÑéºÍÇåÎú¡¢Ö±¹ÛµÄ²Ù×÷Ê¹ÓÃÌåÑé¡£
+æ–°å•†æœç½‘ç«™ ------------------------------------------------
+â€˜å•†æˆ·æœåŠ¡ä¸­å¿ƒç½‘ç«™â€™ï¼Œæ˜¯é¢å‘æˆ‘å¸ç‰¹çº¦å•†æˆ·çš„æœåŠ¡æ€§ç½‘ç«™ã€‚é™äºå¤šå¹´å‰çš„æ¶æ„è®¾è®¡ï¼Œæˆ‘å¸å•†æˆ·å¢é•¿é€Ÿåº¦å¿«ï¼Œäº¤æ˜“é‡ä¹Ÿæˆå€å¢é•¿ï¼Œä¸”è¶Šæ¥è¶Šå¤šæ˜¯ä¸­å¤§å‹å•†æˆ·ï¼Œå•†æœçš„é—®é¢˜ä¹Ÿè¶Šæ¥è¶Šçªå‡ºï¼Œ2017å¹´5æœˆä¸šåŠ¡éƒ¨å†³å®šå¯¹å•†æœç½‘ç«™è¿›è¡Œé‡æ„å»ºè®¾ï¼Œä¸ºå•†æˆ·æä¾›æ›´åŠ ç®€æ´ã€æ–¹ä¾¿çš„å¯¹è´¦ä½“éªŒå’Œæ¸…æ™°ã€ç›´è§‚çš„æ“ä½œä½¿ç”¨ä½“éªŒã€‚
 	http://10.7.111.164:8071/bmmp4/index.html
 	http://10.7.34.174:8071/bmmp4/index.html
 	
 	admin:2Qaz@1wsx
 	adminbmmp4:2Qaz@1wsx
 	
-	adminbmmp4 / 2Qaz@1wsx£¨Ö÷ÕËºÅ£©
-	205813_lijunjie/Nk5nc10xVZ £¨»ú¹¹ÕËºÅ£©
-	ReceiveOrderType1£¨ ¶ÀÁ¢ÊÕµ¥£©
-	ReceiveOrderType2£¨»ìºÏÊÕµ¥Ö±Áª£©
-	ReceiveOrderType3£¨»ìºÏÊÕµ¥×¨Òµ»¯£©
-	ReceiveOrderType4£¨»ìºÏÊÕµ¥ÆäËû£©
-	£¨1-4¸úÖ÷ÕËºÅÃÜÂëÒ»ÖÂ£©
-	test111£¨Ò»¼¶×ÓÕËºÅ£©2Qaz@1wsx
-	ceshi002£¨¶ş¼¶×ÓÕËºÅ£©ÃÜÂë£ºq1w2e3r4@
+	adminbmmp4 / 2Qaz@1wsxï¼ˆä¸»è´¦å·ï¼‰
+	205813_lijunjie/Nk5nc10xVZ ï¼ˆæœºæ„è´¦å·ï¼‰
+	ReceiveOrderType1ï¼ˆ ç‹¬ç«‹æ”¶å•ï¼‰
+	ReceiveOrderType2ï¼ˆæ··åˆæ”¶å•ç›´è”ï¼‰
+	ReceiveOrderType3ï¼ˆæ··åˆæ”¶å•ä¸“ä¸šåŒ–ï¼‰
+	ReceiveOrderType4ï¼ˆæ··åˆæ”¶å•å…¶ä»–ï¼‰
+	ï¼ˆ1-4è·Ÿä¸»è´¦å·å¯†ç ä¸€è‡´ï¼‰
+	test111ï¼ˆä¸€çº§å­è´¦å·ï¼‰2Qaz@1wsx
+	ceshi002ï¼ˆäºŒçº§å­è´¦å·ï¼‰å¯†ç ï¼šq1w2e3r4@
 
 
 	ReceiveOrderType4   / 2Qaz@1wsx
 	2017.11.01
 
-	// 1¼¶
-	zhuangyiceshi001/1829170zy£¡
+	// 1çº§
+	zhuangyiceshi001/1829170zyï¼
 	
 	java -jar bmmp4-0.0.1-SNAPSHO.jar
 	http://localhosdt:8071/
 	
-	Éú²ú»·¾³
+	ç”Ÿäº§ç¯å¢ƒ
 	https://s.lakala.com/bmmp4/index.html#/login 
 	bmmp40110/2Qaz@1wsx
 	https://s.lakala.com/bmmp4/adminLogin.html
 	admin/2Qaz@bmmp40109
 	
-# »¥ÁªÍøPOS+¹ÜÀí¿ØÖÆÌ¨
+# äº’è”ç½‘POS+ç®¡ç†æ§åˆ¶å°
 	
-	²âÊÔ£º
-	²âÊÔµÄopen.lakala µØÖ·Îª http://10.7.111.139:8083/
-	²âÊÔ¹ÜÀí¿ØÖÆÌ¨http://10.7.111.138:8081/manager/Welcome.htm   
-	ÕÊºÅposplus----123456
+	æµ‹è¯•ï¼š
+	æµ‹è¯•çš„open.lakala åœ°å€ä¸º http://10.7.111.139:8083/
+	æµ‹è¯•ç®¡ç†æ§åˆ¶å°http://10.7.111.138:8081/manager/Welcome.htm   
+	å¸å·posplus----123456
 	
-	Éú²ú£º
+	ç”Ÿäº§ï¼š
 	https://open.lakala.com/manager/Welcome.htm
 	lizheng----Abc@123456
 
-# ÖÇÄÜÉè±¸¿ª·ÅÆ½Ì¨µÇÂ½
+# æ™ºèƒ½è®¾å¤‡å¼€æ”¾å¹³å°ç™»é™†
 	tanxiangqing lakala
 	jacktan:lakala
 	
-	²âÊÔ£ºhttp://10.7.111.228:9090
+	æµ‹è¯•ï¼šhttp://10.7.111.228:9090
 	
 	453877018056982528
 	
-ÊÕµ¥¹ÜÀíÏµÍ³
+æ”¶å•ç®¡ç†ç³»ç»Ÿ
 http://10.7.111.164:8063/Welcome.htm
 	zhangchaoqun	Zcq123456!
 	zhangfeifei	Zhangfeifei@123
 	Welcome.htm
 
 
-¿Í»§¾­ÀíºóÌ¨¹ÜÀíÏµÍ³
+å®¢æˆ·ç»ç†åå°ç®¡ç†ç³»ç»Ÿ
 	admin123
 	lakala123
 	
-	µ±Ç°·ÖÖ§ feature-mina-20181026
+	å½“å‰åˆ†æ”¯ feature-mina-20181026
 	
-»İ¶à¶à 
+æƒ å¤šå¤š 
 	test: http://10.7.8.214:9091
 	admin 88888888
 	
-	Éú²ú
+	ç”Ÿäº§
 	http://master.huijingcai.cn
 	yangfujun 13184237728
 	diaowentao  Dwt8573919
 	
-ÒøĞĞÖ§¸¶
-	post£º{"chkCode":"495357396883", "orderId":"SHLH134545", "userId":"1212"}	
+é“¶è¡Œæ”¯ä»˜
+	postï¼š{"chkCode":"495357396883", "orderId":"SHLH134545", "userId":"1212"}	
 
-·¢Æ±ÏîÄ¿
-	¹Ü¼Ò:http://localhost:3015/index.html?userType=ALIPAY&userId=1234#/invoice-manage/
+å‘ç¥¨é¡¹ç›®
+	ç®¡å®¶:http://localhost:3015/index.html?userType=ALIPAY&userId=1234#/invoice-manage/
 		
 
-Î¢·şÎñ¿ò¼Ü£º
+å¾®æœåŠ¡æ¡†æ¶ï¼š
 C:\Users\zhoub\.m2\repository\com\lakala\sh\payment\standard\standard-parent\1.0.0\standard-parent-1.0.0.pom
 	
 
-ÓÑÃËÍ³¼ÆÆ½Ì¨µÄ¹Ù·½ÍøÕ¾Îª£º www.umeng.com  ------------------------------------------------
+å‹ç›Ÿç»Ÿè®¡å¹³å°çš„å®˜æ–¹ç½‘ç«™ä¸ºï¼š www.umeng.com  ------------------------------------------------
 	wangyuzhu@lakala.com 
 	123456a
 
-html¿ª·¢¶Ë¿Ú
-	±£ÏÕÒÆ¶¯Ö§¸¶ 		3000
-	ĞÂÉÌ·ş  			3011
-	ÕĞ²Æ¿¼À­   			3012
-	lkl ÔÆ¿ØÖÆÌ¨   		3013	9090
-	»İ¾«²Ê-web 			3014	9091
-	ĞÂ»áÔ±ÏîÄ¿-web 		3015	9092
+htmlå¼€å‘ç«¯å£
+	ä¿é™©ç§»åŠ¨æ”¯ä»˜ 		3000
+	æ–°å•†æœ  			3011
+	æ‹›è´¢è€ƒæ‹‰   			3012
+	lkl äº‘æ§åˆ¶å°   		3013	9090
+	æƒ ç²¾å½©-web 			3014	9091
+	æ–°ä¼šå‘˜é¡¹ç›®-web 		3015	3015
 	
 	
 	
