@@ -1,0 +1,162 @@
+
+
+. 查询所有字段
+	select * 
+		from table_name;
+	
+	或者手动列出所有字段
+	select field1,field2,field3,field4
+		from table_name
+		
+. 去除重复数据
+	select distinct field1,field2
+		from table_name     
+		
+#实现数学四则运算数据查询
+	+ - * / %(余数)
+	
+	select field1*12,field2
+		from table_name;
+	
+# as 设置字段的别名
+	select field1*12 [as] alias_name,field2
+		from table_name;
+		
+# as 设置表的别名
+	select e.field1
+		from table_name [as] e;		
+		
+		
+# 设置显示格式数据查询
+	select concat(ename,'雇员的年薪为：'，sal*12) yearsalary
+		from table_name;
+		
+	这里把查询到的信息显示为 yearsalary 字段（james雇员的年薪为：120000）
+	
+	
+# 条件数据记录查询
+	select field1,field2
+		from table_name
+		where condition;
+		
+	condition 参数为条件查询，可以为以下几种形式：
+		带关系运算符和逻辑运算符的条件数据查询
+		带 between and 关键字的条件数据查询
+		带 is null (is not null)关键字的条件数据查询
+		带 in (not in)关键字的条件数据查询
+		带 like (not like) 关键字的条件数据查询
+		
+	
+	MySql 支持的比较运算符: > < = != >= <=
+	MySql 支持的逻辑运算符 and(&&) or(||) xor not(!) 
+	
+	
+. 单条数据查询
+	where field1='clerk'
+	
+. 多条数据查询
+	where field1='clerk'&&field2='value'
+	
+. between and
+	where sal between 1000 and 2000
+	
+. 不符合范围的数据记录查询
+	where not between 1000 and 2000  // 逻辑非
+	
+. 带 is null 关键字的控制查询
+	where field is null;
+	
+. 非null值查询
+	where field is not null; // is not null
+	where not field is null; // 逻辑非
+	
+. 带 or 关键字的集合查询
+	where  field=1 or field=2 or field=3;
+	
+. 带 in 关键字的集合查询
+	where  field in (value1,value2,value3,value4);	
+	
+. 不在集合中的查询
+	where field not in (value1,value2,value3,value4); // not in
+	where not field in (value1,value2,value3,value4); // 逻辑非
+	
+. like 模糊查询
+	where field like 'value'
+	where field not like 'value'	// not like
+	where not field like 'value'	// 逻辑非
+	
+	like 关键字支持通配符如下：
+		"_" 下划线，表示匹配任意单个字符
+		"%" 下划线，表示匹配任意长度字符， {0,}
+
+	
+# 排序数据记录查询, 
+	order by 关键字 支持单字段排序和多字段排序
+	order by 默认排序为 asc (升序) 即 order by field1
+	select field1,field2
+		from table_name
+		where condition
+		order by field1 asc|desc[,field2 asc|desc]
+	
+# 限制数据记录查询数量
+	select field1,field2
+		from table_name
+		where condition
+		limit [offset_start,]row_count
+	
+	offset_start  初始位置，默认 0，  从 offset_start+1 条数据开始查询
+	row_count 	表示查询的行数
+	
+		
+# 统计函数 aliasName 可选， 表示该字段的别名设置
+	select count(field) [aliasName] | avg(field) | sum(field)  | max(field)  | min(field) 
+		from table_name
+		[where condition]
+	
+	count(*) 		显示数据的总条数
+	count(field)	排除 值为null 的数据
+	
+	avg 为平均值
+	
+# 分组数据记录查询
+	分组查询时通过 group by 查询实现的， 
+	如果只实现简单的分组查询时没有意义的，因为 group by 单独使用时，默认查询出每个分组中随机的一条记录，具有很大的不确定性
+	建议与“统计函数”一起使用
+	
+	
+.group_concat 显示该分组中所有该字段的值
+	select deptno,group_concat(dname) [dnames]
+		from t_dept
+		group by deptno;
+	
+	+--------+-------------------------+
+	| deptno | dnames                  |
+	+--------+-------------------------+
+	|      1 | cj                      |
+	|      2 | cjgongdept2             |
+	|      3 | cjgongdept3             |
+	|      4 | cjgongdept4,cjgongdept5 |
+	+--------+-------------------------+
+	
+.多个字段分组查询
+	select deptno,group_concat(dname) dnames,count(dname)
+	from t_dept
+	group by deptno,field2;
+	
+	先依据 deptno 对数据进行分组， 然后在对 field2 对每一组数据进行在分组
+	
+	
+# having 对分组进行筛选
+	select deptno,group_concat(dname) dnames, count(dname)
+	from t_dept
+	[where ...]
+	group by deptno
+	having avg(sal)>2000;
+	
+	过滤出分组结果大于2000 的组
+	
+	
+	
+	
+	
+	

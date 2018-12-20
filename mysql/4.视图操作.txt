@@ -1,0 +1,118 @@
+
+# 创建视图--------------------------------------------------------
+	create view 视图 as select 属性名,属性名 from 表名
+
+.查看视图 
+	select * from 视图
+
+.封装实现常量查询的视图
+	create view view_test4
+		as 3.1415926;
+	
+.封装了使用聚合函数创建视图
+	sum求和、 min 、max 、count总条数、order_by排序
+	
+	create view 视图 as sum(属性名) from 表名
+	create view 视图 as 属性名	from 表名 order_by 属性名 asc|desc
+
+	
+/*
+	t_student
+		+----------+-------------+------+-----+---------+-------+
+		| Field    | Type        | Null | Key | Default | Extra |
+		+----------+-------------+------+-----+---------+-------+
+		| id       | int(11)     | YES  |     | NULL    |       |
+		| name     | varchar(12) | YES  |     | NULL    |       |
+		| sex      | char(12)    | YES  |     | NULL    |       |
+		| group_id | int(11)     | YES  |     | NULL    |       |
+		+----------+-------------+------+-----+---------+-------+
+	t_group
+		+-------+-------------+------+-----+---------+-------+
+		| Field | Type        | Null | Key | Default | Extra |
+		+-------+-------------+------+-----+---------+-------+
+		| id    | int(11)     | YES  |     | NULL    |       |
+		| name  | varchar(12) | YES  |     | NULL    |       |
+*/
+.封装了多表连接查询
+	create view view_test4
+	as 
+	select s.name from t_student as s,t_group as g 
+	where s.group_id = g.id and g.id=2;
+
+.封装了表外连接查询语句视图（left join 和 right join）
+	create view view_test4
+	as
+	select s.name from t_student as s left jion t_group 
+	as g on s.group_id=g.id
+	where g.id=2;
+
+.封装了实现子查询相关查询语句的视图
+	create view view_test4
+	as
+	select s.name
+	from t_student as s
+	where s.group_id in (select id from t_group);
+
+.封装了记录联合（union 和 union all）
+	create view view_test4
+	as
+	select s.name from t_student
+	union all
+	select id,name from t_group;
+	
+	
+# 查看视图 
+.显示数据库
+	use 数据库名
+
+.显示该数据库中所有的表、视图
+	show tables;
+
+.查看该数据库所有表、视图的详细信息
+	show table status form 数据库\G
+
+.查看该数据库指定表、视图的详细信息
+	show table status form 数据库 like 视图名\G
+	
+.查看视图定义信息
+	show create view 视图名\G
+	
+.describe | desc 语句查看视图设计信息
+	describe 视图名;
+	desc	 视图名;
+	
+.通过系统表查看视图信息
+	select * from views where table_name='视图名' \G
+	
+	
+# 删除视图 
+	drop view 视图名 [,视图名]
+	
+	
+# 修改视图 create or replace view
+	create or replace view 视图名 as select 属性名,属性名 from 表名
+	
+	alter view 视图名 as select 属性名,属性名 from 表名
+	
+
+#利用视图操作基本表数据
+	对视图数据进行添加、删除和删除操作直接影响基本表
+	视图来自多个基本表时，不允许添加和删除数据
+	
+	insert into 视图 (id,name,price,order_id) values(11,'pear4',12.3,2);
+	
+	// 由于values 后的数据常量与视图中的列一一对应，所以可以省略视图后的列名
+	insert into 视图 values(11,'pear4',12.3,2);
+	
+. 删除数据操作
+	delete from 视图 where name="apple1"
+	
+. 更新数据操作
+	update 视图 set price=3.5 where name='pear1'
+	
+	
+	
+	
+	
+	
+	

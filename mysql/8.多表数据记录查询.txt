@@ -1,0 +1,16 @@
+
+# 内链接查询
+	select *
+		from table_name1 inner jion table_name2;
+		
+	查询到的数据 字段为 table_name2的字段 + table_name1的字段，
+	
+	数据条数为 table_name2中的数据总数 * table_name1中的数据总数
+	
+. 自连接 inner jion ... on ...
+	所谓自连接就是指表与其自身进行连接
+	select e.field1 [as other_name1],e.field2 [as other_name2],f.field3 [as other_name3]
+	from table_name1 [as] e inner jion table_name1 [as] f
+		[on e.field1 = f.field2];
+		
+	

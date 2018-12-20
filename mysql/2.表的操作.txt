@@ -1,0 +1,115 @@
+# 表的操作---------------------------------------------
+
+# 查看视图 
+	.显示数据库
+	use 数据库名
+	
+	.显示该数据库中所有的表、视图
+	show tables;
+	
+	.查看该数据库所有表、视图的详细信息
+		show table status form 数据库\G
+
+	.查看该数据库指定表、视图的详细信息
+		show table status form 数据库 like 视图名\G
+
+	
+.创建表
+	选择数据库
+	create table table_name(
+		属性名 数据类型,
+		属性名 数据类型
+	);
+	
+.删除表
+	drop table table_name
+	
+.更改表名
+	alter table old_name rename new_name;
+
+.查看表
+	select * from table_name
+	describe table_name
+	desc	 table_name
+	
+	
+	+-----------------+--------------+------+-----+---------+----------------+
+	| Field           | Type         | Null | Key | Default | Extra          |
+	+-----------------+--------------+------+-----+---------+----------------+
+	| id              | int(11)      | NO   | PRI | NULL    | auto_increment |
+	| user_name       | varchar(255) | YES  |     | NULL    |                |
+	| password        | varchar(255) | YES  |     | NULL    |                |
+	| score           | int(11)      | YES  |     | NULL    |                |
+	| last_logon_time | bigint(20)   | YES  |     | NULL    |                |
+	+-----------------+--------------+------+-----+---------+----------------+
+
+.查看表详细定义
+	show create table table_name
+
+	CREATE TABLE `table_name` (
+	  `id` int(11) NOT NULL AUTO_INCREMENT,
+	  `user_name` varchar(255) DEFAULT NULL,
+	  `password` varchar(255) DEFAULT NULL,
+	  `score` int(11) DEFAULT NULL,
+	  `last_logon_time` bigint(20) DEFAULT NULL,
+	  PRIMARY KEY (`id`)
+	) ENGINE=InnoDB AUTO_INCREMENT=1351 DEFAULT CHARSET=utf8
+
+
+.添加 删除  表字段
+	// 表的最后处添加字段
+	alter table table_name add 属性名 数据类型
+	// 表的第一个位置添加字段
+	alter table table_name add 属性名 数据类型 first
+	// 表的指定位置添加字段
+	alter table table_name add 属性名 数据类型 after sit_属性名
+	// 删除表的字段
+	alter table table_name drop 属性名
+
+.修改字段数据类型
+	alter table table_name modify 属性名 数据类型
+
+.修改字段名和属性
+	alter table table_name change old_属性名 new_属性名 数据类型
+
+.修改字段排序
+	alter table  table_name modify 属性名 数据类型 first | after 属性名 2 
+		2表示将字段调整到属性名2个字段位置之后
+
+# 操作表的约束---------------------------
+	create table table_name(
+	
+		.不为空
+		属性名 数据类型 not null, 
+		
+		.指定默认值
+		属性名 数据类型 default null | '' | any,
+		
+		.设置唯一约束（unique, uk）
+		属性名 数据类型 unique,
+		/*
+			uk_loc 为属性loc自定义的别名
+			
+			loc int,
+			constraint [uk_loc] unique(loc)
+		*/
+		
+		.设置主键(primary key, pk)
+		属性名 数据类型 primary key,
+		/*
+			pk_id 为属性 id 自定义的别名
+			
+			id int,
+			constraint [pk_id] primary key(id)
+		*/
+		
+		.多字段主键
+		constraint [pk_id_loc] primary key(id,loc)
+		
+		.设置字段值自动增加 - auto_increment
+		id int primary key auto_increment
+		
+		.设置键外约束（foreign key, fk）
+		constraint fk_deptno foreign key(deptno) references 父表名（字段名）
+		
+	);

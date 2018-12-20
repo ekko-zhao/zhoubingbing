@@ -1,0 +1,33 @@
+
+# 创建触发器
+create trigger trigger_name 
+	before|after trigger_event
+	on table_name for each row trigger_stmt
+	
+	trigger_event: delete uptate insert
+	trigger_stmt:	表示激活触发器后被执行的语句
+	
+# 创建多个触发器
+	delimiter $$
+	create trigger trigger_name
+		after insert
+		on t_dept for each row
+		begin
+			insert into t_diary values(null,'d_dept',now());
+			insert into t_diary values(null,'d_dept2',now());
+		end
+		$$
+	delimiter ;
+	/*
+		多个执行语句需要用 ; 分割，所以要用 delimiter改变默认的结束符号
+	*/
+
+# 查看触发器
+	show triggers \G
+	
+. 通过查看系统表triggers 实现查看触发器
+	select * from trggers \G
+	select * from trggers where trigger_name='tri_diarytime1' \G
+	
+# 删除视图
+	drop trigger trigger_name

@@ -1,0 +1,78 @@
+
+# 插入数据记录
+	insert into table_name(field1,field2.field3) values('value1','value2','value3');
+	
+	当插入完整数据的时候 field 部分可以省略， values 部分必须要和表中的属性一一对应
+	insert into table_name values('value1','value2','value3');
+
+.插入数据记录一部分
+	insert into table_name(field2,field3) values('value2','value3');
+	
+.插入多条记录
+	insert into table_name(field1,field2.field3) 
+		values 
+			('value1','value2','value3'),
+			('value1','value2','value3'),
+			('value1','value2','value3'),
+			('value1','value2','value3');
+			
+.插入查询结果
+	将查询到的结果插入 table_name表， where查区指定数据，没有where时获取全部数据
+	select 部分没有 括号；
+	*星号表示所有字段
+	
+	insert into table_name(field1,field2.field3)
+		select field1,field2.field3
+		from table_name2
+		[where ...]
+	
+	insert into table_name
+		select *
+		from table_name2
+		[where ...]
+
+# 更新数据
+	condition 指定满足条件的特定数据记录， 没有where语句时将更新所有数据
+	update table_name
+		set field1='value1',
+			field2='value2',
+			field3='value3'
+		[where condition];
+
+# 删除数据记录
+	delete from table_name
+		[where condition];'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
