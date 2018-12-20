@@ -210,4 +210,59 @@ CORS需要浏览器和服务器同时支持。目前，所有浏览器都支持�
 			该字段可选，用来指定本次预检请求的有效期，单位为秒。上面结果中，有效期是20天（1728000秒），即允许缓存该条回应1728000秒（即20天），在此期间，不用发出另一条预检请求。
 		
 
+# js对url进行编码和解码		
+
+1、escape 和 unescape
+	原理：对除ASCII字母、数字、标点符号 @  *  _  +  -  .  / 以外的其他字符进行编码。
+	
+编码：escape('http://www.baidu.com?name=zhang@xiao@jie&order=1')
+结果："http%3A//www.baidu.com%3Fname%3Dzhang@xiao@jie%26order%3D1"
+
+escape('张')
+结果："%u5F20"
+
+解码：unescape("http%3A//www.baidu.com%3Fname%3Dzhang@xiao@jie%26order%3D1")
+结果："http://www.baidu.com?name=zhang@xiao@jie&order=1"
+
+unescape("%u5F20")
+结果："张"
+
+
+2、encodeURI 和 decodeURI
+原理：返回编码为有效的统一资源标识符 (URI) 的字符串，不会被编码的字符：! @ # $ & * ( ) = : / ; ? + '
+encodeURI()是Javascript中真正用来对URL编码的函数。
+
+
+编码：encodeURI('http://www.baidu.com?name=zhang@xiao@jie&order=1')
+结果："http://www.baidu.com?name=zhang@xiao@jie&order=1"
+
+解码：decodeURI("http%3A//www.baidu.com%3Fname%3Dzhang@xiao@jie%26order%3D1")
+结果："http%3A//www.baidu.com%3Fname%3Dzhang@xiao@jie%26order%3D1"
+
+
+
+3、encodeURIComponent 和 decodeURIComponent
+原理：对URL的组成部分进行个别编码，而不用于对整个URL进行编码
+
+编码：encodeURIComponent('http://www.baidu.com?name=zhang@xiao@jie&order=1')
+结果："http%3A%2F%2Fwww.baidu.com%3Fname%3Dzhang%40xiao%40jie%26order%3D1"
+
+解码：decodeURIComponent("http%3A%2F%2Fwww.baidu.com%3Fname%3Dzhang%40xiao%40jie%26order%3D1")
+"http://www.baidu.com?name=zhang@xiao@jie&order=1"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		

@@ -67,6 +67,7 @@ Input Properties:
 
 	max				string
 	min				string
+	min="2016" max="2020-10-31"
 
 
 	pickerOptions	any
