@@ -1,7 +1,14 @@
 
-# 内链接查询
+# 笛卡尔积
+	在sql 语言中存在一种关系数据操作，就是没有连接条件表的关系返回的结果
+	俩张表连接后返回的数据条数为 俩张表数目的积
+
+	
+# 内链接查询 inner join
+	所谓连接就是在表关系的笛卡尔积数据记录中，按照响应字段值的比较条件进行选择生成一个新的关系
 	select *
-		from table_name1 inner jion table_name2;
+		from table_name1 inner jion table_name2
+		[on contidion];
 		
 	查询到的数据 字段为 table_name2的字段 + table_name1的字段，
 	
@@ -13,4 +20,78 @@
 	from table_name1 [as] e inner jion table_name1 [as] f
 		[on e.field1 = f.field2];
 		
+	采用ANSI 连接语法形式，通过 “select from where” 关键字也可以实现
 	
+	select e.field1 [as other_name1],e.field2 [as other_name2],f.field3 [as other_name3]
+	from table_name1 [as] e , table_name1 [as] f
+		[where contidion];
+		
+. 等值连接
+	就是在关键字 on 后的匹配条件中通过 = 等于关键运算符（=）来实现等值条件
+	
+. 不等值连接
+	就是在关键字 on 后的匹配条件中使用处 = 运算符外的其他关系运算符， >  >=  < <= != 等运算符号；
+	
+. 三张表连接查询
+	select e.field1 [as other_name1],e.field2 [as other_name2],f.field3 [as other_name3]
+		from table_name1 [as] e inner jion table_name2 [as] f on e.field=f.field
+			inner join table_name3 g on f.field=f.field;
+			
+# 外链接查询 outer join...on
+	外链接就是在表关系的笛卡尔积数据记录中，不仅保留关系中所有匹配的数据记录，而且还会保留部分不匹配的数据记录。
+	
+	select field1, field2, field3
+		from table_name1 left|right|full [outer] join table_name2
+		on join_condition;
+	
+.左外连接	保留 左边 	表中不匹配的数据记录
+.右外连接	保留 右边 	表中不匹配的数据记录
+.全外连接	保留 左右两边 边表中不匹配的数据记录
+
+
+# 合并查询
+	
+
+.关键字 union all, 把查询到的数据直接合并
+	select * from table_name1
+	union all
+	select * from table_name2
+
+.带有关键字 union 的合并操作, 删除重复重复数据
+	select * from table_name1
+	union
+	select * from table_name2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
