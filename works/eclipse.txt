@@ -166,7 +166,10 @@ http://10.7.111.164:8063/Welcome.htm
 	diaowentao  Dwt8573919
 	
 银行支付
-	post：{"chkCode":"495357396883", "orderId":"SHLH134545", "userId":"1212"}	
+	post：{"chkCode":"495357396883", "orderId":"SHLH134545", "userId":"1212"}
+	
+	http://localhost:3000/?userId=1212#/home
+	
 
 发票项目
 	管家:http://localhost:3015/index.html?userType=ALIPAY&userId=1234#/invoice-manage/

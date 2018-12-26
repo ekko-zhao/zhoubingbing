@@ -14,10 +14,9 @@ $ tsc
 	数组泛型
 		Array<number>
 	
-	元组 Tuple
-		[string, number]
+	元组 Tuple， 元组类型允许表示一个已知元素数量和类型的数组，各元素的类型不必相同
+		let x:[string, number]
 	
- 	
 # string	
 	模版字符串 ` `，它可以定义多行文本和内嵌表达式
 	`
@@ -31,6 +30,7 @@ $ tsc
 		
 	默认情况下，从0开始为元素编号。 你也可以手动的指定成员的数值。
 	enum Color {Red = 1, Green = 2, Blue = 4}
+	let c: Color = Color.Green;
 	Color.Green === 2
 	
 	let colorName: string = Color[2];
@@ -50,7 +50,7 @@ $ tsc
 	就是说你可以把 null和undefined赋值给number类型的变量。
 	
 	当指定了--strictNullChecks标记，null和undefined只能赋值给void和它们各自
-	也许在某处你想传入一个 string或null或undefined，你可以使用联合类型string | null | undefined。
+	也许在某处你想传入一个 string或null或undefined，你可以使用联合类型 string | null | undefined。
 	
 # never
 	never类型表示的是那些永不存在的值的类型。
