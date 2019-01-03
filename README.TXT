@@ -54,7 +54,7 @@ git remote add origin https://github.com/zhoubbmls/zhoubingbing.git
 	
 	
 # 如果想放弃本地的文件修改，可以使用
-	git reset --hard FETCH_HEAD
+	git reset --hard logId
 	
 # 放弃本次 add commit
 	git rm -r --cache . 
