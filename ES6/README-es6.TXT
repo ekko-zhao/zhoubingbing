@@ -655,7 +655,7 @@ Map 和 Set 结构Generator 函数
 	Reflect.set(target, propertyKey, value[, receiver])		// receiver 为 set函数中的 上下文(this),  如果 propertyKey 属性设置了赋值函数
 	Reflect.get(target, propertyKey, value[, receiver])		// receiver 为 get函数中的 上下文(this),
 	
-	Reflect.apply(target, thisArgument, argumentsList)		// target函数调用时绑定的this对象。
+	Reflect.apply(target, thisArgument, argumentsList)		// targetw:目标函数, thisArgumen:target函数调用时绑定的this对象
 	Reflect.apply(Math.floor, undefined, [1.75]); // 1
 	Reflect.apply(String.fromCharCode, undefined, [104, 101, 108, 108, 111]); // "hello"
 	
