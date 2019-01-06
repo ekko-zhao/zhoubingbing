@@ -217,7 +217,7 @@ Map 和 Set 结构Generator 函数
 		Array.from(spans, x => x*textContent); 取出所有span中的值
 
 		将数组中为空的值转换为 0 或其它值
-		Array.from([1, ,2,3, 4], x > x ||0);
+		Array.from([1, ,2,3, 4], x => x ||0);
 
 	Array.of();
 		可以代替 new Array();
@@ -458,14 +458,14 @@ Map 和 Set 结构Generator 函数
 					return agr instanceof Array;
 				}
 			}
-			var foo: any = new MyClass();
-			[] instanceof foo // true
+			var Foo = new MyClass();
+			[] instanceof Foo // true
 			
 		*/
 		
 	
 	Symbol.species
-		ymbol.species属性指向用来创建派生类对象的构造函数
+		Symbol.species属性指向用来创建派生类对象的构造函数
 		即：this.constructor[Symbol.species]属性存在就会使用这个属性创建对象实例。
 		
 		class Foo {
@@ -517,23 +517,40 @@ Map 和 Set 结构Generator 函数
 			
 		*/
 	
-	Symbol.split
+	Symbol.split 
 		对象的 Symbol.split 属性指向一个方法， 当对象被 String.prototype.split() 方法调用时会返回该方法的返回值
 		String.prototype.split(separator, limit);
 		// 同等于
 		separator[Symbol.split](this, limit)
-		/a/[Symbol.split]('abc'); // ["","b",""]
+		/a/[Symbol.split]('abc'); // ["","bc"]
+		
+		
+		// 用法
+		class split1{
+			constructor(separator){
+				this.separator = separator
+			}
+			[Symbol.split](value){
+				// 自定义返回值
+				return value.split(this.separator);
+			}
+		}
+		'fooabc'.split(new split1('a'))  // ["foo","bc"]
+	
 	
 	
 	Symbol.replace
 		String.prototype.replace(searchValue, replaceValue);
 		// 同等于
 		searchValue[Symbol.replace](this, replaceValue);
+		
+		// 自定义返回值 写法同上
 	
 	Symbol.match
 		regexp[Symbol.match](this);
 
-	
+		// 自定义返回值 写法同上
+		
 	Symbol.iterator
 		对象的 Symbol.iterator 属性指向其默认的遍历器方法， 即对象在进行 for...of 循环时会调用这个方法， 返回该对象的默认遍历器
 		
@@ -638,7 +655,7 @@ Map 和 Set 结构Generator 函数
 	Reflect.set(target, propertyKey, value[, receiver])		// receiver 为 set函数中的 上下文(this),  如果 propertyKey 属性设置了赋值函数
 	Reflect.get(target, propertyKey, value[, receiver])		// receiver 为 get函数中的 上下文(this),
 	
-	Reflect.apply(target, thisArgument, argumentsList)		// target函数调用时绑定的this对象。
+	Reflect.apply(target, thisArgument, argumentsList)		// targetw:目标函数, thisArgumen:target函数调用时绑定的this对象
 	Reflect.apply(Math.floor, undefined, [1.75]); // 1
 	Reflect.apply(String.fromCharCode, undefined, [104, 101, 108, 108, 111]); // "hello"
 	
