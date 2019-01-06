@@ -1,0 +1,74 @@
+
+# 字符串函数：该函数主要用于处理字符串
+	
+.合并字符串
+	concat() 
+		当与null值合并时结果为null
+		concat('str1','str2',...)
+	
+	concat_ws()
+		分隔符 为null值时，结果为null； 忽略null值的合并；
+		concat_ws('分隔符', 'str1', 'str2')
+	
+.比较字符串大小
+	strcmp(str1,str2); 
+		str1 > str2，返回1； 相等返回0； 小于返回-1
+		
+.获取字符串长度
+	length(str)
+		返回字符长度
+	char_length(str)
+		返回字节长度， 一个中文占俩个字节
+		
+.字母大小写转换
+	upper(str)
+	ucase(str)
+		将字母转换为大写
+	
+	lower(str)
+	lcase(str)
+		将字母转换为小写
+		
+.查找字符串
+	find_in_set(targetStr, 'str1,str2,...')
+		返回匹配targetStr的位置
+		
+	field(targetStr,str1,str2,...)
+		返回匹配targetStr的位置，str1 位置为1
+		
+.返回字符串相匹配的开始位置
+	select locate('sql','mysql')
+	select position('sql' in 'mysql')
+	select instr('mysql','sql')
+	
+	
+.返回指定位置的字符串
+	select elt(2,'str1', 'str2', 'str3')
+	
+.二进制选择字符串
+	make_set(num,'str1', 'str2', 'str3')
+		将num转换为二进制， 如果值为1则选择该字符串
+	
+	
+.从指定字符串截取字符串
+	left(str,length)
+	right(str,length)
+	substring(str,start,length)
+	
+.去除空格
+	ltrim(str)
+	rtrim(str)
+	trim(str)
+
+.替换字符串
+	insert(str,start,length,newstr)
+	replace(str,substr,newstr) 替换str中全部的 substr为newstr
+	
+	
+# 数值函数：该函数主要用于处理数字
+
+# 日期函数：该函数主要用于处理日期和事件
+
+# 系统信息函数：主要用于 mysql 软件的系统信息
+
+

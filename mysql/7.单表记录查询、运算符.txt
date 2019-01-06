@@ -12,11 +12,7 @@
 	select distinct field1,field2
 		from table_name     
 		
-#实现数学四则运算数据查询
-	+ - * / %(余数)
-	
-	select field1*12,field2
-		from table_name;
+
 	
 # as 设置字段的别名
 	select field1*12 [as] alias_name,field2
@@ -32,9 +28,14 @@
 		from table_name;
 		
 	这里把查询到的信息显示为 yearsalary 字段（james雇员的年薪为：120000）
+
+# 四则运算
+	+ - * / %(余数)， 除以乘以0或字符串时结果为null， +- 字符串时等于原来数
 	
+	select field1*12,field2
+		from table_name;	
 	
-# 条件数据记录查询
+# 比较运算符 
 	select field1,field2
 		from table_name
 		where condition;
@@ -47,9 +48,44 @@
 		带 like (not like) 关键字的条件数据查询
 		
 	
-	MySql 支持的比较运算符: > < = != >= <=
-	MySql 支持的逻辑运算符 and(&&) or(||) xor not(!) 
+	MySql 支持的比较运算符: = !=   > < >= <=
+	MySql 支持的逻辑运算符 and(&&) or(||)  异或xor not(!) ，
+		&& 任何一个操作数为 0 时，结果为0；任何一个操作数为null时（且不为0时），结果为null；否则为1
+		|| 存在不为0的操作数时， 结果为1； 操作数包含null时（且不包含0时）结果为 null
+		xor 操作数中包含 null 时（空值）结果为null；操作数都为0或多为非0数字是 结果为0；一个操作数为0另一个不为0时，结果为1
 	
+***
+	在select 语句中 比较成功 返回1 否则为0；
+	select 1=1 数值比较， 'str'='str' 字符串比较， 'str'!='str2' 字符串不等于比较;
+	返回记录：
+		数值比较		字符串比较	字符串不等于比较
+		1				1			1
+		
+	= 和 <=> 都可表示等于， 其中 = 比较运算符前面不能操作 空值或者null值，<=>比较运算符 可以； null=null 为0；null<=>null 为1；
+		可以用于数值、字符串、表达式
+		
+	!= 和 <> 都表示不等于，
+		可以用于数值、字符串、表达式
+		!= 和 <> 运算符不能操作 空值和null值
+		
+	 > < >= <= 	运算符不能操作 空值和null值
+	 
+***
+
+# 位运算符
+	&	按位与
+	|	按位或
+	~	按位取反
+	^	按位异或
+	<<	按位左移
+	>>	按位右移
+
+	
+	
+# 正则表达式， regexp
+	使用 和js 正则一致
+	select 'str' regexp '^st'; 
+
 	
 . 单条数据查询
 	where field1='clerk'

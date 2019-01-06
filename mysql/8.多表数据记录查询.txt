@@ -62,34 +62,89 @@
 	union
 	select * from table_name2
 
+# 子查询
+	所谓子查询就是指在一个查询之中嵌套其它的若干查询，即在一个select 查询语句的 where 或 from 字句中包另一个select查询语句。
+	
+	.where 子句中的子查询： 该位置处的子查询一般返回 单行单列 单行多列 多行单列 数据记录
+	.from 字句中的子查询： 该位置的子查询一般返回多行多列数据记录，以当作一张临时表。
+	
+.单行单列
+	通常会包含比较运算符（> < = !=）
+	select *
+		from table_name1
+		where sal>(
+			select sal from table_name2 
+				where field='str'
+			);
 
+.单行多列
+	select ename,sal,job
+		from table_name1
+		where (sal,job)=(
+			select sal,job from table_name2
+			where field='str'
+			);
+	
+.多行单列
+	该子查询一般会出现在主查询语句的 where字句中， 通常会包含 in、any、all、exists
+	
+	关键字 in、not in
+		当主查询的条件是子查询的查询结果中时
+		select *
+			from table_name1
+			where deptno in(
+				select deptno
+				from table_name2
+				);
+		
+	关键字 any
+			=any 			其功能与关键字 in 一样
+			>any、>=any		比查询语句中返回数据记录中最小的还要大（大于等于）记录数据
+			<any、<=any		比查询语句中返回数据记录中最大的还要小（小于等于）记录数据
+			
+			>all、>=all		比返回的最大值还要大的（大于等于）记录数据
+			<all、<=all		比返回的最小值还要小的（小于等于）记录数据
+		select *
+			from table_name1
+			where sal>any(
+				select sal from table_name2 
+					where field='str'
+				);
+	
+. 带有关键字 exists、 not exists 的子查询
+	关键字 exists 是一个布尔类型，
+	查询时 主表的记录 对外表采用遍历方式逐条查询，每次都会比较 子查询的条件语句，直到子查询条件为true，返回当前主表的记录。
+	
+	select *
+		from table_name1 c
+		where exists(
+			select * from table_name2
+			where deptno=c.deptno
+		);
+	table_name1 的每条记录 都会和 table_name2 所有的记录 deptno 字段比较，如果相等 则返回table_name1 的该条记录；
+	
+	// 相当于
+	let result = [];
+	for(let itema of table_name1){
+		for(let itemb of table_name2){
+			if(itema.deptno = itemb.deptno){
+				result.push(itema);
+				break;
+			}
+		}
+	}
+	
+	
+. 多行多列
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	// 把子查询的 number 字段相加
+	select count(*) number
+		from t_dept d,(
+			select deptno dno, count(empno) number,AVG(sal) average
+			from t_employee
+			group by deptno
+		) c;
+	
 
 
 
