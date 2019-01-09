@@ -733,7 +733,7 @@ Map 和 Set 结构Generator 函数
 	可以接受 [[key1,value1],[key2,value2]] 作为参数
 	
 	如果Map 的键是一个简单类型的值（数字 字符串 布尔值）。则只要俩个值严格相等， Map就将其视为一个键， 包括 0和-0 ，NaN;
-	如果是键为对象， 则只要是统一应引用，Map就将其视为一个键
+	如果是键为对象， 则只要是同一引用，Map就将其视为一个键
  
 
 	size() 返回长度
@@ -915,7 +915,7 @@ Map 和 Set 结构Generator 函数
 	
 
 // Generator---------------------------------------------------------------------------------------------------
-	Generator函数 的 Symbol.iterator 属性是一个 遍历器对象生成函数， 所以Generator函数 可用于 for ...of 循环
+	Generator函数的 Symbol.iterator 属性是一个 遍历器对象生成函数， 所以Generator函数 可用于 for ...of 循环
 	在普通函数中不能使用 Generator函数， 比如在 array.forEach(function(){  })
 	
 	
@@ -1023,9 +1023,9 @@ Map 和 Set 结构Generator 函数
 		yield 3;
 	}
 	var a = g();
-	a.return(‘value’) //{value:’value’, done:true}
+	a.return('value') //{value:'value', done:true}
 
-	.如果函数内部署了try...finally代码块，那么return 方法会推迟到finally代码块中在执行
+	.如果函数内部署了 try ... finally 代码块，那么return 方法会推迟到finally代码块中在执行
 
 	function* g(){
 		try{
@@ -1040,7 +1040,6 @@ Map 和 Set 结构Generator 函数
 	a.return(5) //{value:3, done:false}
 	a.next(); //{value:4, done:false}
 	a.next(); //{value:5, done:true}
-
 
 //yield* 语句
 	function* foo(){
@@ -1110,7 +1109,7 @@ Map 和 Set 结构Generator 函数
 		}
 	}
 	var o = {
-		g:function*() {
+		g:function *() {
 
 		}
 	}
@@ -1153,7 +1152,7 @@ Map 和 Set 结构Generator 函数
 
 	
 	function* f(){
-		let [text1, text2] = yield [task()1,task2()];
+		let [text1, text2] = yield [task1(),task2()];
 		// done , do anything
 	}
 	
@@ -1199,9 +1198,11 @@ Map 和 Set 结构Generator 函数
 #Promise构造函数接受一个函数作为参数 该函数接受俩个参数 resolve 和 reject , resolve 和 reject 有JavaScript引擎提供，不用用户自己部署
 	var promise = new Promise((resolve,reject)=>{
 		 if(false){
-			 resolve('ok')
+			 resolve('ok');
+			 console.log('resolve');
 		 }else{
-			 reject('cansle')
+			 reject('cansle');
+			 console.log('reject');
 		 }
 	 })
 	promise.then(function(data){
@@ -1297,9 +1298,12 @@ Map 和 Set 结构Generator 函数
 	
 	
 #Promise.resolve()———————
-	Promise.reject() 返回一个 Promise实例 状态为 resolve,
+	Promise.resolve() 返回一个 Promise实例 状态为 resolve,
+		Promise.resolve('resolve').then(
+			success =>{},
+			error =>{}
+		)
 
-	Promise.resolve('resolve')
 	同等于
 	new Promise(
 		function(resolve, reject){  resolve('resolve') }
@@ -1378,7 +1382,6 @@ Map 和 Set 结构Generator 函数
 	Generator 函数直接传入 co, 该函数就会自动执行
 	
 	
-	
 	var promise1 = new Promise(function (resolve, reject) {
 		resolve('resolve1');
 	})
@@ -1452,9 +1455,9 @@ Map 和 Set 结构Generator 函数
 #async 函数
 	属于es7。 目前处于提案阶段 支持转码器的有Babel 和 regenerator
 	var asyncReadfile = async function (){
-		var f1 = await readFile('file1')
-		var f2 = await readFile('file2')
-		return [f1, f2]
+		var f1 = await readFile('file1');
+		var f2 = await readFile('file2');
+		return [f1, f2];
 	}
 	var result = asyncReadfile(); 
 	// 	async 自带函数执行体， 不需要通过 co 来执行， 它的执行与普通函数一模一样， asyncReadfile()
@@ -1665,53 +1668,5 @@ Map 和 Set 结构Generator 函数
 			console.log(this)
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	

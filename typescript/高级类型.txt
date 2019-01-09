@@ -1,0 +1,73 @@
+
+.交叉类型 并集
+	T & U
+	
+.联合类型 
+	T | U
+	
+	number | string 二者类型其一都可以满足
+	Fish | Bird		只能访问此联合类型的所有类型里共有的成员
+	/*
+		interface Bird {
+			fly();
+			layEggs();
+		}
+
+		interface Fish {
+			swim();
+			layEggs();
+		}
+	*/
+	
+.类型别名
+	类型别名不能被 extends和 implements（自己也不能 extends和 implements其它类型）
+	
+	type Name = string;
+	type NameResolver = () => string;
+	type NameOrResolver = Name | NameResolver;
+	function getName(n: NameOrResolver): Name {
+	}
+	
+	
+.字符串字面量类型
+	type Easing = "ease-in" | "ease-out" | "ease-in-out";
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
