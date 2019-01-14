@@ -1,23 +1,28 @@
 ﻿
-/* obj.js */
-export var a = {
-    name:'is a'
-}
+# 导出 obj.js
+	export var a = {
+		name:'is a'
+	}
 
-export var b = {
-    name:'is b'
-}
+	export var b = {
+		name:'is b'
+	}
 
-/* main.js */
-import { a } from 'obj.js'
-import * as o from 'obj.js'
-o => {
-    a
-    b
-}
-
-// defualt
-export defualt  {
-    name:'is b'
-}
-import any from 'obj.js'
+# 导入 main.js
+	import { a as aliasName } from 'obj.js'
+	import { a } from 'obj.js'
+	import * as o from 'obj.js'
+	/*
+		o => {
+			a
+			b
+		}
+	*/
+	
+	
+// 默认导出 defualt
+	export defualt  {
+		name:'is b'
+	}
+.导入
+	import anyName from 'obj.js'
