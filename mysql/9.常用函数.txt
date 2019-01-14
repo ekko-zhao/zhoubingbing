@@ -66,9 +66,142 @@
 	
 	
 # 数值函数：该函数主要用于处理数字
+	abs(x)
+	ceil(x)
+	floor(x)
+	round(x[,y])	x四舍五入，y为保留的小数位数
+	rand()		返回0-1的随机数， rand(3)、rand(3) 带参数俩次的随机数相等
+	mod(x,y)
+	truncate(20.13213,y)	y 为截取小数位，
 
+	
+	
+	
 # 日期函数：该函数主要用于处理日期和事件
+	
+.获取当前时间
+	返回时间格式一致，推荐使用 now();
+	now() 				2019-01-08 16:19:16
+	current_timestamp()
+	localtime()
+	sysdate()
+	
+.获取当前日期，data
+	推荐使用 curdate()
+	curdate()		2019-01-08	
+	current_date()
+	
+.获取当前时间，time
+	curtime()		16:19:16
+	current_time()
 
+.获取日期和时间各部分的值
+	select 
+		year(now()) 		年,
+		quarter(now()) 		季度,
+		mouth(now()) 		月,
+		mouthname(now()) 	月,		// may
+		week(now()) 		周,		// 一年中第几个星期
+		dayofmonth(now())	天,
+		hour(now())			时,
+		minute(now()) 		分,
+		second(now())		秒；
+
+.星期的函数
+	weekofyear(now())	// 一年中第几个星期, 同 week(now()) 
+	dayofweek(now())	// 1-7 1表示星期天
+	weekday(now())		// 0-6 0表示星期天
+	
+	dayname(now())		// 返回星期几的 英文， Thursday
+
+.天数的函数
+	dayofyear(now())	
+	dayofmonth(now())
+
+.获取指定值的 extract() 函数, 上述各种函数比较麻烦，下面介绍简单易用的函数
+	extract(year from now())
+	extract(mouth from now())
+	extract(day from now())
+	extract(hour from now())
+	extract(minute from now())
+	extract(second from now())
+	
+.通过时间戳显示时间，即 1970-1-1 时间开始进过的秒数；
+	unix_timestramp([data])	// 返回时间戳, 默认date为 当前日期
+	from_unixtime(unix_timestramp(data))	// 把时间戳转换为普通的时间格式
+	
+.通过 UTC 方式显示日期和时间
+	utc_date()
+	utc_time()
+	
+	
+	
+.计算日期和时间的函数
+	to_days(date)		// 返回 date 与默认日期(0000年1月1日) 之间的相隔的天数
+	from_days(number)	// 返回默认日期(0000年1月1日)经过 number 天后的日期和时间
+	datediff(date,date)	// 返回俩个日期相差的天数
+
+	
+.设置日期和时间	
+	adddate(date,5)	5天后的日期
+	subdate(date,5)	5天前的日期
+	
+	
+	addtime(curtime(),5)	5秒后的时间
+	subtime(curtime(),5)	5秒前的时间
+	
+	
+	adddate(date,interval expr type)
+	subdate(date,interval expr type)
+	
+	adddate(curdate(),interval '2,3' day_hour)  表示2天3小时后的时间
+		
+		type 的值 		含义						expr 表达式
+		year			年							yy
+		mouth			月							MM
+		day											hh
+		hour										mm
+		minute										ss
+		second
+		year_mouth		yy 与 MM 之间用任意符号隔开
+		
+		day_hour
+		day_minute
+		day_second
+		
+		hour_minute
+		hour_second
+		
+		minute_second
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 # 系统信息函数：主要用于 mysql 软件的系统信息
 
 
