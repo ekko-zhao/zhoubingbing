@@ -175,33 +175,88 @@
 		minute_second
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 # 系统信息函数：主要用于 mysql 软件的系统信息
-
+	version()			返回系统信息函数
+	database()			返回当前数据库名
+	user()				返回当前用户
+	last()_insert_id	返回最近生成的 auto_increment 值
+	
+	if(value, r1,r2)	如果 value 为真返回 r1, value 可以是任何值
+	ifnull(value1,value2) 如果value1 不为空，返回value1， 否则返回value2
+	
+	case when [value] then [result1] ...else [default] end 
+		如果 value 为真 返回 result1， 否则返回 default
+		
+	case [expr] when [value] then [result1] ...else [default] end
+		如果 expr等于value 为真 返回 result1， 否则返回 default
+	
+	
+.实现特殊功能的函数
+	password(str)			实现对字符串 str 进行加密
+	format(x,n)				实现将数字x进行格式化，保留n位小数
+	inet_aton(ip)			将ip 转化为数字
+	inet_ntoa(x)			将数字转换为IP
+	get_loct(name,time)		创建一个持续时间为time的 名为name 锁
+	release_loct(name)		为名为name锁进行解锁
+	benchmark(count,expr)	将表达式重复执行 count 次
+	convert(str using cs)	将字符串 str 的字符集变成 cs
+	convert(x,type)			实现将x变成type类型	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 

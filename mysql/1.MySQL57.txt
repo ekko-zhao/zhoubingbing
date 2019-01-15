@@ -20,30 +20,30 @@ mysql57 安装。
 
 # 使用 mysql command line client
 	输入密码即可
-	
+
 # 命名规则
 	不允许有空格
 	首字母不能使数字和&符号
 	长度小于128位
-	
+
 # command line client 命令
 	; \g \G 结束命名行
-	
+
 	.创建删除数据库
 		create database base_name
 		drop database base_name
-		
+
 	.查看数据库
-		show databases	
-		
+		show databases
+
 	.选择数据库
-		use base_name	
-		
+		use base_name
+
 	.查看储存引擎
 		show engines
-		
+
 	查看支持的数据引擎
-		show variables		
+		show variables
 			show variables like 'hava%'  显示所有以have开通的数据引擎
 
 	.查看储存字段
@@ -61,7 +61,7 @@ mysql57 安装。
 	.浮点数类型
 		FLOAT
 		DOUBLE
-		
+
 	.日期和时间类型
 		DATE
 		DATETIME
@@ -72,23 +72,23 @@ mysql57 安装。
 	.字符串类型
 		CHAR(M)			M 为0-255之间的整数
 		VARCHAR(M)		M 为0-65535之间的整数
-		
+
 		// 可以储存二进制数据
-		BINARY(M)		长度为 0-M 
-		VARBINARY(M)	长度为 0-M 
-		
-		
+		BINARY(M)		长度为 0-M
+		VARBINARY(M)	长度为 0-M
+
+
 		TINYTEXT
 		TEXT
 		MEDIUMTEXT
 		LONGTEXT
-		
+
 		// 可以储存二进制数据
 		TINYBLOB
 		BLOB
 		MEDIUMBLOB
 		LONGBLOB
-		
+
 
 
 
