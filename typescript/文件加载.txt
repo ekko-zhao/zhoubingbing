@@ -1,0 +1,60 @@
+
+
+1 demo.d.ts
+	export declare class TestFn {
+		method1(): void;
+		method2(str: string): string;
+	}
+	
+2 demo.ts
+	export class TestFn {
+		method1() {
+			console.log('method1 ts');
+		}
+		method2(str) {
+			console.log('method2 ts');
+			return str
+		}
+	}
+
+3 使用
+	import { TestFn } from './demo'
+	
+	let test = new TestFn();
+    test.method2('zhou')
+	
+	/*
+		文件加载顺序， 首先查找 .d.ts 文件， 编译脚本时会把 .ts 文件中的 代码加载到该脚本，
+		如果没有 .ts 文件，在继续查找 .js 文件
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

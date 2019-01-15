@@ -1,28 +1,67 @@
 ﻿
+
+#es6 导出、导入
+.导出 obj.js
+	export var a = { name:'is a' }
+	export var b = { name:'is b' }
+	
+
+.导入 main.js
+	import { a as aliasName } from 'obj.js'
+	import { a } from 'obj.js'
+	import * as o from 'obj.js' // o => {a,b}
+	
+	
+.默认导出 defualt
+	export defualt  { name:'is b' }
+	// 导入
+	import anyName from 'obj.js'
+
+# import * 的用法
+	child.d.js
+		export { Component, ComponentDecorator, Directive, DirectiveDecorator } from './metadata/directives';
+		
+	top.d.js
+	import *  from 'child.d.js'
+	export {name1, name2,...} form 'child.d.js'
+	
+	/*
+		import *  相当于把外部文件所有代码 复制在当前位置
+	*/
+	
 # export = 和 import = require()
 	TypeScript模块支持 export =语法以支持传统的CommonJS和AMD的工作流模型。
 	它可以是类，接口，命名空间，函数或枚举。
+
+/*
+	CommonJS和AMD的环境里都有一个exports 变量,包含了一个模块的所有导出内容。作用相似与es6 "export default" 语法，但是 export default 语法并不能兼容CommonJS和AMD的exports
 	
+	TypeScript提供了export = 语法, 支持 CommonJS和AMD的exports
+	若使用 export = 导出一个模块，则必须使用TypeScript的特定语法import module = require("module")来导入此模块。
+*/
+
 	class ZipCodeValidator {}
 	export = ZipCodeValidator;
 	
-	当文件已 export = ; 形式导出的时候需要用一下形式 import
+	// 当文件以 export =  形式导出的时候需要用以下形式 import
 	import zip = require("./ZipCodeValidator");
 	
-	
+# 生成模块代码
+.原文件
 	SimpleModule.ts
 		import m = require("mod");
 		export let t = m.something + 1;
 		
-	
+.导出文件
 	AMD / RequireJS SimpleModule.js
 		define(["require", "exports", "./mod"], function (require, exports, mod_1) {
 			exports.t = mod_1.something + 1;
 		});
 	
 	CommonJS / Node SimpleModule.js
-	let mod_1 = require("./mod");
-	exports.t = mod_1.something + 1;
+		let mod_1 = require("./mod");
+		exports.t = mod_1.something + 1;
+	
 	
 	System SimpleModule.js
 		System.register(["./mod"], function(exports_1) {
@@ -42,3 +81,26 @@
 	Native ECMAScript 2015 modules SimpleModule.js
 		import { something } from "./mod";
 		export let t = something + 1;
+		
+
+		
+# 
+.使用重新导出进行扩展
+	Calculator.ts
+		export class Calculator {}
+	
+	TestCalculator.ts
+		import { Calculator } from "./Calculator";
+		class ProgrammerCalculator extends Calculator {
+			// ...
+		}
+		export { ProgrammerCalculator as Calculator };
+	
+	// 使用扩展后的 class
+		import { Calculator } from "./ProgrammerCalculator";
+	
+	
+	
+	
+	
+	

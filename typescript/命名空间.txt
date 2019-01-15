@@ -1,0 +1,70 @@
+
+#命名空间
+.Validation.ts
+	namespace Validation {
+		export interface StringValidator1 { }
+		export clsss StringValidator2 { }
+	}
+
+.引入命名空间
+	import * from "SomeModule";
+		Validation.StringValidator2();
+		
+		
+#分离到多文件
+	当应用变得越来越大时，我们需要将代码分离到不同的文件中以便于维护。
+	
+.Validation1.ts
+	namespace Validation {
+		export interface StringValidator1 { }
+	}
+	
+.Validation2.ts
+	namespace Validation {
+		export clsss StringValidator2 { }
+	}
+
+.引入命名空间
+	import * from "Validation1";
+	import * from "Validation2";
+	/*
+	不推荐使用该方式引入
+		/// <reference path="Validation1.ts" />
+		/// <reference path="Validation2.ts" />
+	*/
+	
+	
+	
+#别名
+	
+	namespace Shapes {
+		export namespace Polygons {
+			export class Triangle { }
+			export class Square { }
+		}
+	}
+
+	import polygons = Shapes.Polygons;
+	let sq = new polygons.Square();
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

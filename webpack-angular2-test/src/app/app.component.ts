@@ -1,6 +1,7 @@
 
 import { Component } from '@angular/core';
 import * as Rx from 'rxjs';
+import { TestFn } from '../dts/demo'
 
 @Component({
     selector: 'app-root',
@@ -10,6 +11,10 @@ import * as Rx from 'rxjs';
     `
 })
 export class AppComponent {
-    constructor() {
+    constructor() { }
+    ngOnInit() {
+        console.log(1)
+        let test = new TestFn();
+        test.method2('zhou')
     }
 }
