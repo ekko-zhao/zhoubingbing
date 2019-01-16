@@ -48,18 +48,22 @@ tsconfig.json 配置如下：
 		[1] 这些选项是试验性的。
 		[2] 这些选项只能在tsconfig.json里使用，不能在命令行使用。
 		
+		
+		
+		/*
+			如没有指定typeRoots,types 属性默认所有可见的"@types"包会在编译过程中被包含进来，
+			node_modules/@types文件夹下以及它们子文件夹下的所有包都是可见的；
+			./node_modules/@types/，../node_modules/@types/ 和 ../../node_modules/@types/等等。
+		*/
 		typeRoots: ["node_modules/@types"] 
 			需要 npm install @types/node --save-dev
-			默认所有可见的"@types"包会在编译过程中被包含进来，node_modules/@types文件夹下以及它们子文件夹下的所有包都是可见的；
-			./node_modules/@types/，../node_modules/@types/ 和 ../../node_modules/@types/等等。
-			
-		types : ["node", "lodash", "express"]
-			如果指定了types，只有被列出来的( typeRoots 指定的目录 )包才会被包含进来。
-			这个tsconfig.json文件将仅会包含 node_modules/@types/*里面的其它包不会被引入进来。
-			./node_modules/@types/node，./node_modules/@types/lodash 和 ./node_modules/@types/express。/@types/。 
-			
-			"types": []来禁用自动引入@types包。
+			如果指定了typeRoots，typeRoots下面所有的包才会被包含进来，不会向父级目录查找
 		
+		types : ["node", "lodash", "express"]
+			如果指定了types，则只包含在typeRoots列表的特定包( "node", "lodash", "express" )， 其它包不会被引入进来
+			./node_modules/@types/node，./node_modules/@types/lodash 和 ./node_modules/@types/express。
+		
+			"types": []来禁用自动引入@types包。
 		
 		allowJs: boolean
 			default: false, 允许编译javascript文件。

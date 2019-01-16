@@ -1,7 +1,8 @@
 
 import { Component } from '@angular/core';
-import * as Rx from 'rxjs';
-import { TestFn } from '../dts/demo'
+// import * as Rx from 'rxjs';
+// import { TestFn } from '../dts/demo'
+import { Http } from '@angular/http';
 
 @Component({
     selector: 'app-root',
@@ -11,10 +12,11 @@ import { TestFn } from '../dts/demo'
     `
 })
 export class AppComponent {
-    constructor() { }
+
+    constructor(private http: Http) {
+        console.log(http)
+    }
     ngOnInit() {
-        console.log(1)
-        let test = new TestFn();
-        test.method2('zhou')
+        let log: Log
     }
 }
