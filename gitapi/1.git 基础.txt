@@ -25,12 +25,17 @@ git 别名
 	git clone url [folderName]		
 		folderName 	可选, 表示新建改文件夹，在该文件夹内初始化git. 否则在当前文件夹下初始化git
 	
+#记录每次更新到仓库 --------------------------
+	git status
 	
+	/*	
+		修改未提交的文件，状态是 not staged
+		如果是新建的文件，未提交 状态是 Untracked
+		
+		git commit -m 'message' 后所有的文件状态变为 committed（已提交）
+	*/
 	
-	
-	
-	
-	
+
 	
 	
 	
