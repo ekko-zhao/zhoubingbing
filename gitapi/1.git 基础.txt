@@ -21,6 +21,7 @@ git 别名
 		git remote add origin url
 	*/
 	
+	
 .克隆现有的仓库
 	git clone url [folderName]		
 		folderName 	可选, 表示新建改文件夹，在该文件夹内初始化git. 否则在当前文件夹下初始化git
@@ -35,6 +36,7 @@ git 别名
 		git commit -m 'message' 后所有的文件状态变为 committed（已提交）
 	*/
 	
+. diff
 
 	
 	
