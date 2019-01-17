@@ -8,6 +8,13 @@
 git 别名
 
 
+未暂存-以暂存
+
+
+git config --global core.editor
+	core.editor 为 git 指定使用的编辑器，默认是 vim
+
+	
 #获取 git 仓库 --------------------------
 
 .从现有目录中初始化仓库
@@ -37,7 +44,7 @@ git 别名
 	*/
 
 
-	
+		
 	
 	
 	

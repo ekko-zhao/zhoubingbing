@@ -1,2 +1,28 @@
 
-diff2
+
+# diff
+	git diff			查看未暂存区的修改记录
+
+	git diff --staged	查看以暂存区的修改记录
+		--cached 和 --staged 效果相同
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
