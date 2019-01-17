@@ -35,8 +35,7 @@ git 别名
 		
 		git commit -m 'message' 后所有的文件状态变为 committed（已提交）
 	*/
-	
-. diff
+
 
 	
 	
