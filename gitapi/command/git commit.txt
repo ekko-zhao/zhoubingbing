@@ -1,0 +1,5 @@
+
+git commit 将文件提交
+	
+git commit -m 'message'		将已暂存的文件提交
+git commit -a -m 'message'	-a 表示跳过 git add， 把未暂存的文件 和已经暂存的文件都提交
