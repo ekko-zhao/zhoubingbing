@@ -15,11 +15,11 @@ create trigger trigger_name
 		begin
 			insert into t_diary values(null,'d_dept',now());
 			insert into t_diary values(null,'d_dept2',now());
-		end
-		$$
+		end$$
 	delimiter ;
 	/*
-		多个执行语句需要用 ; 分割，所以要用 delimiter改变默认的结束符号
+		多个执行语句需要用 ; 分割，所以要用 delimiter改变默认的结束符号，
+        在最后将结束符号 修改成 ;
 	*/
 
 # 查看触发器
