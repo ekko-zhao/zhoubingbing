@@ -1,0 +1,17 @@
+
+#删除文件
+git rm log/\*.log
+git rm \*~	删除以 ~ 结尾的所有文件
+
+如果要删除之前修改过并且已经放到暂存区域的话，则必须要强制删除选项 -f 
+git rm -f file
+
+排除被跟踪的文件（不删除文件），比如说 log 文件
+git rm --cached log.log
+
+git rm log/\*.log	删除 log/ 目录下扩展名为 .log 的所有文件。
+git rm \*~			删除以 ~ 结尾的所有文件
+
+
+#移动文件
+	git mv name1.md name2.md	将name1.md 文件修改为 name2.md
