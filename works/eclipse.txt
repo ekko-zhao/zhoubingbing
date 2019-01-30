@@ -8,6 +8,7 @@
 门禁卡：000731(3|5)(9|8)01 11141405
 
 VPN 账号：zhoubingbing；密码：zbb@Lkl0814
+	https://124.74.143.162:4433 下载客户端，登录服务器124.74.143.162、端口4433
 
 git 地址
 	http://10.7.3.2/gitlab/groups/bu_industry_cooperation

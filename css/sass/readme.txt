@@ -31,11 +31,11 @@
 	    line-height: 30px; }
 	
 	
---style expanded // 标准排版格式
---style compact	// 完全换行
---style compressed // 完全压缩
+--style=expanded // 标准排版格式
+--style=compact	// 完全换行
+--style=compressed // 完全压缩
 
---sourcemap=none
+--[no-]source-map
 
 
 Sass 有两种语法格式
@@ -299,19 +299,19 @@ Sass 有两种语法格式
 
 
 # 延伸复杂的选择器
-
-	.hoverlink {
-	  @extend a:hover;
-	}
 	.comment a.user:hover {
 	  font-weight: bold;
 	}
+	.hoverlink {
+	  @extend .comment;
+	}
 	
 	// 编译为:
-	.comment a.user:hover, .comment .user.hoverlink {
+	.comment a.user:hover, .hoverlink a.user:hover {
 		font-weight: bold;
 	}
-
+	
+	
 # @extend-Only 选择器 
 	// Sass 引入了“占位符选择器” (placeholder selectors)，看起来很像普通的 id 或 class 选择器，只是 # 或 . 被替换成了 %。
 	// 可以像 class 或者 id 选择器那样使用，当它们单独使用时，不会被编译到 CSS 文件中。
@@ -342,6 +342,7 @@ Sass 有两种语法格式
 	}
 
 # @at-root
+
 	.parent {
 	  ...
 	  @at-root .child { ... }
@@ -463,9 +464,9 @@ Sass 有两种语法格式
 		...
 		...
 		
-	@each $header, $size in (h1: 2em, h2: 1.5em, h3: 1.2em) {
-	  #{$header} {
-	    font-size: $size;
+	@each $key, $value in (h1: 2em, h2: 1.5em, h3: 1.2em) {
+	  #{$key} {
+	    font-size: $value;
 	  }
 	}
 

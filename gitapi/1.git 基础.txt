@@ -31,7 +31,7 @@ git config --global core.editor
 	
 .克隆现有的仓库
 	git clone url [folderName]		
-		folderName 	可选, 表示新建文件夹，在该文件夹内初始化git. 否则在当前文件夹下初始化git
+		folderName 	可选, 表示新建文件夹，在该文件夹内初始化git. 否则在当前文件夹下新建默认文件夹初始化git
 	
 #记录每次更新到仓库 --------------------------
 	git status
@@ -43,7 +43,8 @@ git config --global core.editor
 		git commit -m 'message' 后所有的文件状态变为 committed（已提交）
 	*/
 
-
+#查看git 远程地址目录
+git remote -v
 	
 	
 	

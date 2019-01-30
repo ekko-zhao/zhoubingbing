@@ -60,7 +60,6 @@ git remote add origin https://github.com/zhoubbmls/zhoubingbing.git
 	git merge --abort
 	git reset --merge
 	
-	
 #分支
 . 新建分支
 	git branch branchname

@@ -1,5 +1,11 @@
-a {
-  color: blue;
-  background-color: red; }
+.item-6 {
+  width: 12em;
+}
 
-/*# sourceMappingURL=style.css.map */
+.item-4 {
+  width: 8em;
+}
+
+.item-2 {
+  width: 4em;
+}
