@@ -1,0 +1,38 @@
+
+git commit 将文件提交
+
+	git commit -m 'message'			将已暂存的文件提交
+	git commit -a -m 'message'		-a 表示跳过 git add， 把未暂存的文件 和已经暂存的文件都提交
+	
+# 撤销操作
+	/*
+		当你在 commit 文件以后，有遗漏的文件未提交，但又不想分俩次提交；
+		此时就可以使用该命令和之前一次的提交记录合并,第二次提交将合并上一次提交
+		git commit -m 'initial commit'
+		git add forgotten_file
+		git commit --amend
+	*/
+	git commit --amend
+	
+	
+.取消暂存的文件
+	/*
+		取消指定的暂存的文件
+	*/
+	git reset HEAD filename
+	
+. 还原到某次提交的代码
+	git reset --hard logId
+	
+	
+.撤销对文件的修改
+	git checkout -- [file]
+	
+	
+	
+	
+	
+	
+	
+	
+	
