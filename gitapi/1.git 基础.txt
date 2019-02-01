@@ -7,9 +7,7 @@
 打标签
 git 别名
 
-
-未暂存-以暂存
-
+未暂存-已暂存
 
 git config --global core.editor
 	core.editor 为 git 指定使用的编辑器，默认是 vim
@@ -81,7 +79,19 @@ git remote -v
 	
 	git remote rm paul
 	
-	
+#git 别名
+
+
+
+
+
+
+#git 别名
+	/*
+		当要输入 git commit 时，只需要输入 git ci
+	*/
+	git config --global alias.ci commit
+	git config --global alias.last 'log -1 HEAD'
 	
 	
 	
