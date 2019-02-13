@@ -15,7 +15,7 @@ create trigger trigger_name
 		begin
 			insert into t_diary values(null,'d_dept',now());
 			insert into t_diary values(null,'d_dept2',now());
-		end$$
+		end $$
 	delimiter ;
 	/*
 		多个执行语句需要用 ; 分割，所以要用 delimiter改变默认的结束符号，
@@ -29,5 +29,5 @@ create trigger trigger_name
 	select * from trggers \G
 	select * from trggers where trigger_name='tri_diarytime1' \G
 
-# 删除视图
+# 删除触发器
 	drop trigger trigger_name

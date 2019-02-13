@@ -1,0 +1,275 @@
+
+.创建存储过程语法形式
+	create procedure 
+		procedure_name([ procedure_parameter[,...] ])
+		[characteristic...]
+		routine_body
+		
+	procedure_parameter 参数语法形式为 [in|out|inout] parameter_name type
+	
+	characteristic 		
+		多个值 用 “,” 号分割
+		参数表示存储过程的特性，取值如下：
+		language sql
+			表示存储过程的  routine_body 部分由 sql 语言的语句组成， 为mysql 软件所有默认的语句；
+		| [not] deterministic
+			默认 deterministic
+			表示存储过程的执行结果是否确定； 值为 deterministic 时，输入相同的参数将得到相同的输出
+			
+		| {contains sql | no sql | reads sql data | modifies sql data}
+			contains sql 		表示可以包含 sql 语句
+			no sql
+			reads sql data		表示包含读数据的语句
+			modifies sql data	表示包含写数据的语句
+		
+		| sql security definer|invoker
+			设置谁有权限来执行，definer 表示只有定义者才能执行；invoker 表示调用者可以执行
+			
+		|comment 'string'
+			表示注释语句
+			
+		
+			
+	routine_body 参数表示存储过程的 sql 表达式语句代码， 可以用 begin...end 来标志 sql 语句的开始和结束
+	
+.创建函数语法形式
+	create function 
+		function_name([function_parameter[,...] ])
+		[characteristic...]
+		routine_body
+		
+	function_parameter 参数语法形式为 parameter_name type
+	characteristic		同上
+	routine_body		同上
+	
+	delimiter &&
+		create function  func_employee_sal(empno int(11))
+			returns double(10,2)
+			comment '查询某个雇员的工资'
+		begin
+			return(
+				select sal
+				from t_employee
+				where t_employee.empno=empno
+			)
+		end&&
+	delimiter ;
+	
+	该函数的返回值类型为 double(10,2)
+	
+	
+	
+#存储过程和函数（routine_body 部分）的表达式	
+	
+操作变量
+
+.声明变量：
+	declare var_name[,...]	type [default value]
+	
+.赋值变量
+	set var_name=expr[,...]
+	
+.将查询结果赋值给变量时,返回结果只能是单行
+	select field_name[,...] into var var_name[,...]
+		from table_name
+		where condition;
+	
+
+异常处理用的 操作条件；
+.定义条件
+	declare condition_name condition for condition_value;
+	
+	condition_value ： sqlstate [VALUE] sqlstate_value | mysql_error_code
+	
+	//使用SQLSTATE
+	DECLARE cond_error CONDITION FOR SQLSTATE '42000';
+		
+	//使用mysql_error_code
+	DECLARE cond_error CONDITION FOR 1148;
+	
+	
+	
+.定义处理程序	
+	declare handler_type handler for condition_value(,...) sp_statement;
+	
+	handler_type：指定错误处理方式
+		CONTINUE：遇到错误不处理，继续执行
+		EXIT：遇到错误立即退出
+		UNDO：遇到错误撤回之前的操作
+		
+	condition_value：表示错误类型
+		| SQLSTATE [VALUE] sqlstate_value：包含5个字符的字符串错误值
+		| mysql_error_code：数值类型的错误代码
+		| condition_name：定义条件的名称，见第一节
+		| SQLWARNING：匹配所有以01开头的SQLSTATE错误代码
+		| NOT FOUND：匹配所有以02开头的SQLSTATE错误代码
+		| SQLEXCEPTION：匹配所有没有被SQLWARNING或NOT FOUND捕获的SQLSTATE错误代码
+	
+	
+	// 捕获SQLSTATE
+	DECLARE CONTINUE HANDLER FOR SQLSTATE '42S02' SET @info='NO_SUCH_TABLE';
+	
+	// 捕获mysql_error_code
+	DECLARE CONTINUE HANDLER FOR SQLSTATE '1146' SET @info='NO_SUCH_TABLE' ;
+	
+	// 捕获定义条件
+	DECLARE no_such_table CONDITION FOR 1146;
+	DECLARE CONTINUE HANDLER FOR no_such_table SET @info='NO_SUCH_TABLE';
+	
+	// 捕获SQLWARNING
+	DECLARE EXIT HANDLER FOR SQLWARNING set @info='ERROR';
+
+	// 捕获NOT FOUND
+	DECLARE EXIT HANDLER FOR NOT FOUND set @info='NO_SUCH_TABLE';
+
+	// 捕获SQLEXCEPTION
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION set @info='ERROR';
+	
+	// 捕获所有异常
+	DECLARE EXIT HANDLER FOR SQLWARNING, NOT FOUND,SQLEXCEPTION BEGIN ... END;
+	
+	
+# 使用游标
+.声明游标
+	declare cursor_name cursor for select_statement;	
+		select_statement 为select 语句
+	
+.打开游标
+	open cursor_name;
+	
+.使用游标
+	fetch cursor_name into var_name [,var_name2] ...
+
+.关闭游标
+	close cursor_name;
+	
+	
+	
+	
+# 示例如下：
+
+delimiter $
+	
+	#创建存储过程
+	create procedure employee_count(out num interge)
+	begin
+	
+	#变量
+	declare employee_sal interge;
+	declare flag interge;
+	
+	#游标
+	declare cursor_employee cursor for
+		select sal from t_employee;
+	
+	#错误处理程序
+	declare continue handler for
+		not found
+		set flag=1;
+		
+	#设置结束标志
+	set flag=0;
+	set num=0;
+	
+	#打开游标
+	open cursor_employee;
+	
+	#遍历游标， 给employee_sal 设置值
+	fetch cursor_employee info employee_sal;
+	
+	while flag<> 1 do
+		if employee_sal > 999 then
+		set num=num+1;
+		end if;
+		fetch cursor_employee info employee_sal;
+	end while;
+	
+	#关闭游标
+	close cursor_employee;
+	
+end $
+delimiter ;
+	
+.调用存储过程, 输出参数前缀为 @ 符号
+	call employee_count(@count);
+	select @count;
+	
+
+# 使用控制流程
+	if ... then
+		...
+		[elseif then ... ]
+		[else ...]
+	end if;
+	
+	case case_value
+		when value then ...
+		[when value then ...]
+		[else ...]
+	end case;
+	
+// 除了 while...end while 遍历循环以外， 游标的遍历还有以下几种方式
+	while...end while
+	[while_name:]while search_condition do
+		...
+	end while[while_name]
+	
+	
+	loop ... end loop
+		[loop_name:]loop
+			...
+			if(flag=1) then
+				leave loop_name;
+			end if;
+		end loop [loop_name];	
+		
+	repeat ... end repeat
+		[repeat_name:]repeat
+			...
+			until flag=1;
+		end repeat[repeat_name];
+	
+	
+	
+# 查看存储过程和函数
+	show procedure status like 'procedure_name'\G
+	show function status like 'function_name'\G
+	
+.查看创建信息	
+	show create procedure 'procedure_name'\G
+	show create function 'function_name'\G
+	
+.修改
+	alter procedure 'procedure_name' ...
+	alter function 'function_name' ...
+.删除
+	drop procedure 'procedure_name';
+	drop function 'function_name';
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
