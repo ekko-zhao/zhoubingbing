@@ -60,42 +60,6 @@ git remote add origin https://github.com/zhoubbmls/zhoubingbing.git
 	git merge --abort
 	git reset --merge
 	
-#分支
-. 新建分支
-	git branch branchname
-	
-. 切换到指定分支
-	git checkout branchname
-	
-	// 需切换到服务器的远程分支
-	git checkout remote branch
-	
-. 本地创建分支，同时切换到该分支
-	git chechout -b branchname
-
-. 查看分支
-	git branch -l		// 本地分支
-	git branch -r 		// 远程分支
-	git branch -a		// 全部分支
-	
-	
-# 分支比对
-	git diff branch1 branch2 --stat   		// 显示出所有有差异的文件列表
-	git diff branch1 branch2 filepath   	// 显示指定文件的详细差异
-	git diff branchName filepath  			// 当前分支的文件与 branchName 分支的文件进行比较
-	git diff branch1 branch2                // 显示出所有有差异的文件的详细差异
-	
-	git diff 								// --staged 或 --cached  filepath 暂存区与HEAD比较
-	git diff filepath 						// 当前分支与暂存区比较
-	git diff HEAD filepath 					// 当前分支与HEAD比较
-	git diff commitId filepath 				// 与某一次提交进行比较
-	
-# 合并分支
-	git merge master1			// 合并本地分支master1到当前分支
-
-# 删除分支
-	git branch -D branchName
-
 # git log
 	git log dev ^master 		// 查看 dev 有，而 master 中没有的
 	git log master ^dev			// 查看 master 中有，而 dev 中没有的内容
