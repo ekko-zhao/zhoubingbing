@@ -125,11 +125,12 @@ CPS 外包商服务网站
 	http://localhosdt:8071/
 	
 	生产环境
-	https://s.lakala.com/bmmp4/index.html#/login 
+	https://s.lakala.com/#/login
 	bmmp40110/2Qaz@1wsx
+	15502100166
 	https://s.lakala.com/bmmp4/adminLogin.html
 	admin/2Qaz@bmmp40109
-	
+	2p48jeCW
 # 互联网POS+管理控制台
 	
 	测试：

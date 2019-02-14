@@ -134,7 +134,7 @@
 		where condition
 		order by field1 asc|desc[,field2 asc|desc]
 	
-# 限制数据记录查询数量
+# limit 限制数据记录查询数量
 	select field1,field2
 		from table_name
 		where condition
