@@ -11,10 +11,10 @@ var leak = function () {
 
 
 
-http.createServer(function (require, response) {
+http.createServer(function (request, response) {
     leak();
 
-    require.setEncoding('utf8');
+    request.setEncoding('utf8');
 
     response.writeHead(200, {
         'Content-Type': 'text/html'
