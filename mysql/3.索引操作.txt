@@ -26,7 +26,7 @@
 		deptno int,
 		dname varchar(20),
 		loc varchar(40),
-		nuique index|key [索引名] (字段名 [(长度)] [asc|desc])
+		unique index|key [索引名] (字段名 [(长度)] [asc|desc])
     );
 	
 	
@@ -39,13 +39,13 @@
 	create index 索引名 on 表名 (属性名 [(长度)] [asc|desc])
 	
 	// 唯一索引
-	create nuique index 索引名 on 表名 (属性名 [(长度)] [asc|desc])
+	create unique index 索引名 on 表名 (属性名 [(长度)] [asc|desc])
 	
 .通过 SQL 语句 alter table 创建普通索引
 	alter table 表名 add index|key [索引名] (字段名 [(长度)] [asc|desc])
 	
 	// 唯一索引
-	alter table 表名 add nuique index|key [索引名] (字段名 [(长度)] [asc|desc])
+	alter table 表名 add unique index|key [索引名] (字段名 [(长度)] [asc|desc])
 
 
 .创建全文索引， 只能在存储引擎为 MyISAM 的数据库表上创建全文索引

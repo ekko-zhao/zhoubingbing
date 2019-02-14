@@ -39,7 +39,7 @@
 	select s.name from t_student as s,t_group as g 
 	where s.group_id = g.id and g.id=2;
 
-.封装了表外连接查询语句视图（left join 和 right join）
+.封装了表外连接查询语句视图（left join 、right join 和 full join）
 	create view view_test4
 	as
 	select s.name from t_student as s left jion t_group 
